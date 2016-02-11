@@ -30,6 +30,11 @@ const cameraOptions = {
 };
 
 describe('Multiple node-realsense addons test suite', function() {
+  let gSlam;
+  afterEach(function() {
+    return gSlam.reset();
+  });
+
   function runSLAM(slam) {
     // console.log('run SLAM');
     return slam.setCameraOptions(cameraOptions).then(function() {
@@ -57,6 +62,7 @@ describe('Multiple node-realsense addons test suite', function() {
     return new Promise(function(resolve, reject) {
       let counter = 0;
       slamModule.createInstance().then(function(slam) {
+        gSlam = slam;
         slam.on('tracking', function(eventData) {
           if (counter >= 0) {
             ++ counter;
@@ -138,7 +144,7 @@ describe('Multiple node-realsense addons test suite', function() {
   it('Make sure SLAM + OR can be run/stop at (almost) the same time', function() {
     // eslint-disable-next-line
     this.timeout(60 * 1000);
-    return Promise.all([verifySLAM(100), verifyOR(100)]);
+    return Promise.all([verifySLAM(100), verifyOR(20)]);
   });
 
   it('Make sure SLAM can be still working after OR is stopped', function() {
@@ -150,18 +156,18 @@ describe('Multiple node-realsense addons test suite', function() {
   it('Make sure OR can be still working after SLAM is stopped', function() {
     // eslint-disable-next-line
     this.timeout(30 * 1000);
-    return Promise.all([verifySLAM(50), verifyOR(100)]);
+    return Promise.all([verifySLAM(50), verifyOR(20)]);
   });
 
   it('Make sure OR can be started while SLAM is running', function() {
     // eslint-disable-next-line
     this.timeout(90 * 1000);
-    return Promise.all([delayRunSLAM(240, 0), delayRunOR(120, 5000)]);
+    return Promise.all([delayRunSLAM(240, 0), delayRunOR(20, 5000)]);
   });
 
   it('Make sure SLAM can be started while OR is running', function() {
     // eslint-disable-next-line
     this.timeout(60 * 1000);
-    return Promise.all([delayRunSLAM(120, 5000), delayRunOR(120, 0)]);
+    return Promise.all([delayRunSLAM(120, 5000), delayRunOR(20, 0)]);
   });
 });

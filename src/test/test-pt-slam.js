@@ -30,6 +30,12 @@ const cameraOptions = {
 };
 
 describe('Multiple node-realsense addons test suite', function() {
+  let gPt;
+  let gSlam;
+  afterEach(function() {
+    return Promise.all([gSlam.reset(), gPt.reset()]);
+  });
+
   function runSLAM(slam) {
     // console.log('run SLAM');
     return slam.setCameraOptions(cameraOptions).then(function() {
@@ -48,6 +54,7 @@ describe('Multiple node-realsense addons test suite', function() {
     return new Promise(function(resolve, reject) {
       let counter = 0;
       slamModule.createInstance().then(function(slam) {
+        gSlam=slam;
         slam.on('tracking', function(eventData) {
           if (counter >= 0) {
             ++ counter;
@@ -78,6 +85,7 @@ describe('Multiple node-realsense addons test suite', function() {
     return new Promise(function(resolve, reject) {
       let counter = 0;
       ptModule.createPersonTracker().then(function(pt) {
+        gPt=pt;
         pt.on('frameprocessed', function(result) {
           if (counter >= 0) {
             ++ counter;
