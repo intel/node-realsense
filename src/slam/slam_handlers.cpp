@@ -40,9 +40,11 @@ void SlamEventHandlerDev::module_output_ready(
   auto frame_data_assembler = std::make_shared<FrameDataAssembler>();
   frame_data_assembler->SetData(
       sample->images[static_cast<int>(rs::core::stream_type::fisheye)]);
-  // TODO(Donna): depth image seems can't been accessed.
-  // frame_data_assembler->SetData(
-  //    sample->images[static_cast<int>(rs::core::stream_type::depth)]);
+  // Depth image is not always available.
+  auto depth_index = static_cast<int>(rs::core::stream_type::depth);
+  if (sample->images[depth_index]) {
+    frame_data_assembler->SetData(sample->images[depth_index]);
+  }
   auto motion_type = rs::core::motion_type::gyro;
   auto gyro_sample = sample->motion_samples[static_cast<int>(motion_type)];
   // We need to set type back as type value got from sampleset is 0.
