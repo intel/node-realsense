@@ -1,0 +1,18 @@
+{
+  "name": "geometry",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "postinstall": "node scripts/build.js"
+  },
+  "author": "",
+  "license": "TBD",
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "bindings": "^1.2.1",
+    "path": "^0.12.7",
+    "widl-nan": "^0.1.3"
+  }
+}

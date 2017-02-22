@@ -1,0 +1,99 @@
+// Copyright (c) 2016 Intel Corporation. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
+enum PixelFormat {
+  "any",
+  "z16",
+  "disparity16",  // 16 bit linear depth values. The depth is meters is equal to depth scale * pixel value
+  "xyz32f",       // 32 bit floating point 3D coordinates.
+  "yuyv",
+  "rgb8",
+  "bgr8",
+  "rgba8",
+  "bgra8",
+  "y8",
+  "y16",
+  "raw8",
+  "raw10",        // Four 10-bit luminance values encoded into a 5-byte macropixel
+  "raw16"
+};
+
+interface MotionDeviceIntrinsic {
+  // Array indices for attribute data
+  /* Scale X        cross axis        cross axis      Bias X */
+  /* cross axis     Scale Y           cross axis      Bias Y */
+  /* cross axis     cross axis        Scale Z         Bias Z */
+  attribute Float32Array  data;            // length === 12
+
+  attribute Float32Array  noiseVariances;  // length === 3
+  attribute Float32Array  biasVariances;   // length === 3
+};
+
+// TODO: Find a better prefix name.
+interface Intrinsics
+{
+  attribute long     width;          // width of the image in pixels
+  attribute long     height;         // height of the image in pixels
+  attribute Point2D  principalPoint; // coordinate of the principal point of the image, as a pixel offset from the top/left edge
+  attribute Point2D  focalLength;    // focal length of the image plane, as a multiple of pixel width
+};
+
+// TODO: add usage cases
+interface Extrinsics {
+  attribute Float32Array rotation;      // length === 3
+  attribute Float32Array translation;   // length === 3
+};
+
+interface Image {
+  readonly attribute long           width;
+  readonly attribute long           height;
+  readonly attribute PixelFormat    format;
+
+  readonly attribute unsigned long  timeStamp;
+  readonly attribute long           frameNumber;
+  readonly attribute ArrayBuffer    data;
+};
+
+interface MotionSample {
+  readonly attribute unsigned long  timeStamp;
+  readonly attribute long           frameNumber;
+  readonly attribute Float32Array   data; // length === 3 
+};
+
+interface FrameData {
+  readonly attribute Image? fisheye;
+  readonly attribute Image? color;
+  readonly attribute Image? depth;
+
+  readonly attribute MotionSample? gyro;
+  readonly attribute MotionSample? accel;
+};
+
+dictionary ImageStreamOptions {
+  long        width;
+  long        height;
+  float       frameRate;
+  Intrinsics  intrinsics;
+  Extrinsics  extrinsics;
+  boolean     isEnabled;
+};
+
+dictionary MotionSensorOptions {
+  float                  frameRate;
+  boolean                isEnabled;
+  MotionDeviceIntrinsic  intrinsics;
+  Extrinsics             extrinsics;
+};
+
+dictionary CameraOptions {
+  ImageStreamOptions   color;
+  ImageStreamOptions   depth;
+  ImageStreamOptions   fisheye;
+
+  MotionSensorOptions  accel;
+  MotionSensorOptions  gyro;
+
+  // Only for testing purpose
+  DOMString playbackPathForTesting;
+};

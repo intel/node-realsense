@@ -1,0 +1,28 @@
+digraph G {
+  "ready" -> "running" [label="start()"];
+
+  "running" -> "detecting" [label=""];
+  "running" -> "ready" [label="stop()"];
+  "running" -> "ready" [label="reset()"];
+  "running" -> "paused" [label="pause()"];
+  "running" -> "errored" [label="Oops"];
+
+  "detecting" -> "tracking" [label="start tracking person"];
+  "detecting" -> "ready" [label="stop()"];
+  "detecting" -> "ready" [label="reset()"];
+  "detecting" -> "paused" [label="pause()"];
+  "detecting" -> "errored" [label="Oops"];
+
+  "tracking" -> "ready" [label="stop()"];
+  "tracking" -> "ready" [label="reset()"];
+  "tracking" -> "paused" [label="pause()"];
+  "tracking" -> "errored" [label="Oops"];
+
+  "paused" -> "ready" [label="stop()"];
+  "paused" -> "ready" [label="reset()"];
+  "paused" -> "running" [label="resume()"];
+  "paused" -> "errored" [label="Oops"];
+
+  "errored" -> "ready" [label="reset()"];
+  "errored" -> "errored" [label="Oops"];
+}

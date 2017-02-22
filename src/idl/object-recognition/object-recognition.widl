@@ -1,0 +1,75 @@
+enum RecognitionMode {
+  "tracking",
+  "single-recognition",
+  "localization"
+};
+
+enum ComputeEngine {
+  "CPU",
+  "GPU"
+};
+
+dictionary ObjectRecognitionOptions {
+  RecognitionMode   mode;
+  long              framesSkipping;
+  float             confidenceThreshold;
+  ComputeEngine     computeEngine;
+  boolean           enableSegmentation;
+  long              maxReturnObjectCount;
+  boolean           enableObjectCenterEstimation;
+  String            activeClassifier;
+  Rect2D            roi;
+  Rect2D[]          trackingRois;
+};
+
+// Data object used in "recognition" event
+interface RecognitionInfo {
+  readonly attribute String       label;
+  readonly attribute float        probability;
+};
+
+// Data object used in "localization" event
+interface LocalizationInfo {
+  readonly attribute String       label;
+  readonly attribute float        probability;
+  readonly attribute Rect2D       roi;
+  readonly attribute Point3D      objectCenter;
+};
+
+// Data object used in "tracking" event (new struct)
+interface TrackingInfo {
+  readonly attribute Rect2D       roi;
+  readonly attribute Point3D      objectCenter;
+};
+
+partial interface Module {
+  static Promise<ObjectRecognizer> createObjectRecognizer(optional ObjectRecognitionOptions options, optional CameraOptions cameraOptions);
+};
+
+enum ObjectRecognitionState {
+  "ready",
+  "running",
+  "paused",
+  "errored",
+};
+
+interface ObjectRecognizer {
+  readonly attribute ObjectRecognitionState state;
+
+  Promise<CameraOptions> getCameraOptions();
+  Promise<ObjectRecognitionOptions> getObjectRecognitionOptions();
+
+  Promise<void> setObjectRecognitionOptions(ObjectRecognitionOptions options);
+  Promise<void> setCameraOptions(CameraOptions options);
+
+  Promise<FrameData> getFrameData();
+
+  Promise<Sequence<String>> getRecognizableObjectNames();
+
+  Promise<void> start();
+  Promise<void> pause();
+  Promise<void> resume();
+  Promise<void> stop();
+  Promise<void> reset();
+  Promise<void> restart();
+};

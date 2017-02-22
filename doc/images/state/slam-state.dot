@@ -1,0 +1,11 @@
+digraph G {
+  "ready" -> "tracking" [label="start()"];
+  "ready" -> "ready" [label="stop(), reset()"];
+
+  "tracking" -> "tracking" [label="restartTracking()"];
+  "tracking" -> "ready" [label="stop(), reset()"];
+  "tracking" -> "paused" [label="pause()"];
+
+  "paused" -> "ready" [label="stop(), reset()"];
+  "paused" -> "tracking" [label="resume()"];
+}

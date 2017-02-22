@@ -1,0 +1,202 @@
+[
+Constructor,
+Constructor(float x, float y),
+Constructor(sequence<float> coords)
+]
+interface Point2D {
+  attribute float x;
+  attribute float y;
+
+  void setCoords(sequence<float> coords);
+  void setCoords(float x, float y);
+  sequence<float> getCoords();
+
+  bool equal(Point2D point);
+  bool equal(float x, float y);
+
+  static float distance(Point2D p1, Point2D p2);
+};
+
+// interface Line2D?
+
+[
+Constructor,
+Constructor(float x, float y, float z),
+Constructor(sequence<float> coords)
+]
+interface Point3D {
+  attribute float x;
+  attribute float y;
+  attribute float z;
+
+  void setCoords(sequence<float> coords);
+  void setCoords(float x, float y, float z);
+  sequence<float> getCoords();
+
+  bool equal(Point3D point);
+  bool equal(float x, float y, float z);
+
+  static float distance(Point3D p1, Point3D p2);
+};
+
+[
+Constructor,
+Constructor(float begin, float end)
+]
+interface Range {
+  attribute float begin;
+  attribute float end;
+
+  attribute float min; // Alias to begin
+  attribute float max; // Alias to end
+
+  readonly attribute float length;
+
+  bool contains(float value);
+  bool properlyContains(float value);
+
+  bool equal(Range range);
+  bool equal(float begin, float end);
+
+  bool isEmpty();
+  bool isValid();
+
+  stringifier;
+};
+
+[
+Constructor,
+Constructor(float width, float height)
+]
+interface Size2D {
+  attribute float width;
+  attribute float height;
+
+  attribute float cx; // Alias to width
+  attribute float cy; // Alias to height
+
+  bool equal(Size2D size);
+  bool equal(float width, float height);
+
+  bool isEmpty();
+  bool isValid();
+
+  stringifier;
+};
+
+[
+Constructor,
+Constructor(float x, float y, float width, float height),
+Constructor(Point2D topLeft, Size2D size),
+Constructor(sequence<float> coords)
+]
+interface Rect2D {
+  attribute float x;
+  attribute float y;
+  attribute float width;
+  attribute float height;
+  readonly attribute float diagonalLength;
+  attribute Size2D size;
+
+  attribute Point2D topLeft;
+  attribute Point2D topRight;
+  attribute Point2D bottomLeft;
+  attribute Point2D bottomRight;
+
+  attribute Point2D center;
+  attribute Point2D topCenter;
+  attribute Point2D bottomCenter;
+  attribute Point2D leftCenter;
+  attribute Point2D rightCenter;
+
+  attribute float top;
+  attribute float left;
+  attribute float bottom;
+  attribute float right;
+
+  attribute Range horzRange;
+  attribute Range vertRange;
+
+  bool equal(Rect2D rect);
+  bool equal(Point2D topLeft, Size2D size);
+  bool equal(Point2D topLeft, Point2D bottomRight);
+  bool equal(float x, float y, float width, float height);
+  bool equalCoord(float left, float top, float right, float bottom);
+
+  bool isEmpty();
+  bool isValid();
+
+  void adjust(float leftNudge, float topNudge, float rightNudge, float bottomNudge);
+
+  void expand(float leftNudge, float topNudge, float rightNudge, float bottomNudge);
+  void expand(Size2D size);
+  void expand(float x, float y);
+  void expand(float value);
+
+  void shrink(float leftNudge, float topNudge, float rightNudge, float bottomNudge);
+  void shrink(Size2D size);
+  void shrink(float x, float y);
+  void shrink(float value);
+
+  void move(float x, float y);
+
+  void moveTopTo(float coord);
+  void moveLeftTo(float coord);
+  void moveRightTo(float coord);
+  void moveBottomTo(float coord);
+
+  void moveTopLeftTo(Point2D point);
+  void moveTopRightTo(Point2D point);
+  void moveBottomRightTo(Point2D point);
+  void moveBottomLeftTo(Point2D point);
+  void moveCenterTo(Point2D point);
+  void moveLeftCenterTo(Point2D point);
+  void moveTopCenterTo(Point2D point);
+  void moveRightCenterTo(Point2D point);
+  void moveBottomCenterTo(Point2D point);
+
+  void normalize();
+
+  void setCoords(float left, float top, float right, float bottom);
+  void setCoords(sequence<float> coords);
+
+  sequence<Float> getCoords();
+
+  bool onEdge(float x, float y);
+  bool onEdge(Point2D point);
+
+  bool contains(Point2D point);
+  bool contains(float x, float y);
+  bool contains(Rect2D rect);
+  bool contains(float x, float y, float width, float height);
+  bool containsCoord(float left, float top, float right, float bottom);
+
+  bool properlyContains(Point2D point);
+  bool properlyContains(float x, float y);
+  bool properlyContains(Rect2D rect);
+  bool properlyContains(float x, float y, float width, float height);
+  bool properlyContainsCoord(float left, float top, float right, float bottom);
+
+  bool intersects(Rect2D rect);
+  bool intersects(float x, float y, float width, float height);
+  bool intersectsCoord(float left, float top, float right, float bottom);
+
+  void unite(Rect2D rect);
+  void unite(float x, float y, float width, float height);
+  void uniteCoord(float left, float top, float right, float bottom);
+
+  sequence<Rect2D> split(float x, float y);
+  sequence<Rect2D> split(Point2D point);
+  sequence<Rect2D> splitX(float x);
+  sequence<Rect2D> splitY(float y);
+
+  Rect2D united(Rect2D rect);
+  Rect2D united(float x, float y, float width, float height);
+  Rect2D unitedCoord(float left, float top, float right, float bottom);
+
+  Rect2D intersected(Rect2D rect);
+  Rect2D intersected(float x, float y, float width, float height);
+  Rect2D intersectedCoord(float left, float top, float right, float bottom);
+
+  stringifier;
+};

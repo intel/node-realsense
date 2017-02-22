@@ -1,0 +1,13 @@
+{
+  "archive_server": {
+    "host": "",
+    "nightly_dir": "",
+    "official_dir": "",
+    "usergroup": "",
+    "username": ""
+  },
+  "build_type": "nightly",
+  "bump_version": true,
+  "tarball_only": false,
+  "upload_build": true
+}

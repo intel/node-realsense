@@ -1,0 +1,391 @@
+<pre class='metadata'>
+Title: Simultaneous Localization and Mapping
+Shortname: SLAM 
+Level: 1
+Status: LS
+URL: https://github.com/otcshare/node-realsense
+Editor: Lisha Guo
+Repository: https://github.com/otcshare/node-realsense
+Abstract: This specification describes the JavaScript API of the Simultaneous Localization And Mapping module based on Intel® and RealSense™ technology.
+Markup Shorthands: css no, markdown yes
+Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
+</pre>
+
+<pre class=link-defaults>
+spec:html; type:element;
+    text:a
+    text:script
+    text:style
+</pre>
+
+<style>
+table {
+  text-indent: 20px;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: manual;
+  border-collapse: collapse;
+  border-left-style: hidden;
+  border-right-style: hidden;
+  text-align: left;
+}
+table caption {
+  padding: 3px;
+  text-align: left;
+}
+table td, table th {
+  border: 1px solid black;
+  padding: 3px;
+}
+
+li {list-style-type: none;}
+</style>
+
+Introduction {#introduction}
+========================
+
+The JavaScript API of the SLAM module is based on Intel® and RealSense™ technology.
+
+Interface {#interface}
+========================
+
+<dfn>Instance</dfn> {#instance}
+----------------------------
+
+<pre class="idl">
+interface Instance {
+  readonly attribute SlamState state;
+  Promise&lt;CameraOptions&gt; getCameraOptions();
+  Promise&lt;InstanceOptions&gt; getInstanceOptions();
+  Promise&lt;void&gt; setCameraOptions(CameraOptions options);
+  Promise&lt;void&gt; setInstanceOptions(optional InstanceOptions options);
+  Promise&lt;void&gt; reset();
+  Promise&lt;void&gt; start();
+  Promise&lt;void&gt; stop();
+  Promise&lt;void&gt; pause();
+  Promise&lt;void&gt; resume();
+  Promise&lt;void> restartTracking();
+  Promise&lt;sequence&lt;long>> getOccupancyMap(optional Point2D maxPoint, optional Point2D minPoint);
+  Promise&lt;sequence&lt;long>> getOccupancyMapUpdate(optional Point2D maxPoint, optional  Point2D minPoint);
+  Promise&lt;TrackingResult&gt; getTrackingResult();
+  Promise&lt;void&gt; loadOccupancyMap(String mapFileName);
+  Promise&lt;String&gt; saveOccupancyMap(optional String mapFileName);
+  Promise&lt;String&gt; saveOccupancyMapAsPpm(optional String mapFileName, optional bool drawCameraTrajectory);
+  Promise&lt;void> loadRelocalizationMap(String mapFileName);
+  Promise&lt;String> saveRelocalizationMap(optional String mapFileName);
+  Promise&lt;sequence&lt;float>> getRelocalizationPose();
+
+  attribute EventHandler ontracking;
+  attribute EventHandler onerror;
+};
+</pre>
+
+### Attributes ### {#attributes-1}
+* {{state}} of type [=SlamState=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Current working state of slam module.
+
+### Methods ### {#methods-1}
+: {{restartTracking}}
+:: Restarts SLAM with pose aligned to gravity. Camera and module configurations will not be changed.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+:: *Return type*:Promise&lt;[=CameraOptions=]&gt;
+
+: {{GetCameraOptions}}
+:: Get the camera configure. 
+:: This method returns a promise. The promise will be fulfilled with current [=CameraOptions=] containing ImageStreamConfig and MotionSensorConfig if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*:Promise&lt;[=CameraOptions=]&gt;
+
+: {{setCameraOptions}}
+:: Set the camera configure.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/setCameraOptions(CameraOptions options)">
+    options: The camera configure containing the image stream configure for color, depth, fisheye and the motion sensor configure for accelerator, gyroscope.
+</pre>
+      
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{GetInstanceOptions}}
+:: Get the module configure.
+:: This method returns a promise. The promise will be fulfilled with current          [=InstanceOptions=] if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*:Promise&lt;[=InstanceOptions=]&gt;
+
+: {{setInstanceOptions}}
+:: Set the module configure.
+:: This method returns a promise. The promise will be fulfilled if there are no errors.The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/setInstanceOptions(CameraOptions options)">
+    options: The InstanceOptions is used to config whether enableOccupancyMapBuilding, enableRelocalizationMapping, enbleForceRelocalozationPose. Besides, it also can set the HeightofInterest and Resolution for occupancy map.  
+</pre>
+      
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{saveOccupancyMap}}
+:: Saves the occupancy map to a specified file. Saved occupancy map can be loaded later by calling loadOccupancyMap(...).
+:: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/saveOccupancyMap(optional String mapFileName)">
+    mapFileName: The full or relative path name of a file for sorting values of the current occupancy grid that can be later restored.
+</pre>
+
+:: *Return type*:Promise&lt;<a>String</a>&gt;
+
+: {{saveOccupancyMapAsPpm}}
+:: Saves the occpuancy map as a PPM file with following color codes. Unknown cells are colored white and 100% occupied cells are colored red. Black(0,0,0) pixels represent traversed but 0% occupied(unoccupied) cells. All values are scaled linearly between 0 to 255.
+:: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/saveOccupancyMapAsPpm(optional String mapFileName)">
+  mapFileName: The full or relative path name of a file for sorting values of the current occupancy grid that can be later restored.
+  drawCameraTrajectory: A flag to specify whether to include camera trajectory in the occpuancy map image. If enabled, camera trajectory will be drawn in green(0,255,0) color.
+</pre>
+
+:: *Return type*:Promise&lt;<a>String</a>&gt;
+
+: {{loadOccupancyMap}}
+:: To load occpuancy map from specified occupancy map file which was created using saveOccupancyMap(...).
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/loadOccupancyMap(String mapFileName)">
+  mapFileName: This is the full path name of a file from which to load and retore the occupancy map.
+</pre>
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{getOccupancyMap}}
+:: get_occupancy_map returns ALL the tiles in the occupancy map construction that have occupancy values within specified region of interest.
+:: This method returns a promise.The promise will be fulfilled with an array of float which containing all tiles in the occupancy map construction that have occpuancy values if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/getOccupancyMap(optional Point2D maxPoint, optional Point2D minPoint)">
+  maxPoint: maximum of x and y co-ordinate of region of interest.
+  minPoint: minimum of x and y co-ordinate of region of interest.
+</pre>
+
+:: *Return type*:Promise&lt;sequence&lt;<a>long</a>>>
+
+: {{getOccupancyMapUpdate}}
+:: To obtain the occupancy map data that have been modified since the last successful call to getOccupancymapUpdate() when [=enableOccpuancymapBuilding=] is true.
+:: This method returns a promise.The promise will be fulfilled with an array of float which containing all tiles in the occupancy map construction that have occpuancy valuesif there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/getOccupancyMapUpdate(optional Point2D maxPoint, optional Point2D minPoint)">
+  maxPoint: maximum of x and y co-ordinate of region of interest.
+  minPoint: minimum of x and y co-ordinate of region of interest.
+</pre>
+
+::*Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{saveRelocalizationMap}}
+:: Saves the current re-localization map data to a given file. Saved re-localization map can be loaded later by calling loadRelocalizationMap(...).
+:: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the           Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/saveRelocalizationMap(optional String mapFileName)">
+  mapFileName: The full or relative path name of a file where to save current re-localization map.
+</pre>
+
+:: *Return type*:Promise&lt;<a>String</a>&gt;
+
+: {{loadRelocalizationMap}}
+:: To load re-localization map from a given file which was created using saveRelocalizationMap(...).
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="Instance/loadRelocalizationMap(String mapFileName)">
+  mapFileName: This is the full path name of a file from which to load and retore the re-localization map.
+</pre>
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{getRelocalizationPose}}
+:: To get the relocalizer pose for the last tracked frame.
+:: This method returns a promise.The promise will be fulfilled with the relocalization pose if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*:Promise&lt;sequence&lt;<a>float</a>>>
+
+
+### Events ### {#events-1}
+
+: {{ontracking}}
+:: This event will be fired when a frame has been successfully processed and a new camera pose has been tracked. A registered callback will get a [=TrackingEvent=] object as argument.
+:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('tracking', function(e) { ... })` to handle the event
+
+: {{onerror}}
+:: This event will be fired when there is a unexpected error happened. A registered callback will get a <a>string</a> type error message.
+:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('localization', function(e) { ... })` to handle the event
+
+
+
+### <dfn>HeightOfInterest</dfn> Interface ### {#heightOfInterest}
+
+<pre class='idl'>
+[Constructor,
+ Constructor(float minHeight, float maxHeight)]
+interface HeightOfInterest {
+  attribute float minHeight;
+  attribute float maxHeight;
+};
+</pre>
+
+#### Attributes 
+* {{minHeight}} of type <a>float</a>
+* &nbsp;&nbsp;&nbsp;&nbsp;Minimum height of interest
+
+* {{maxHeight}} of type <a>float</a>
+* &nbsp;&nbsp;&nbsp;&nbsp;Maximum height of interest
+
+### <dfn>TrackingResult</dfn> Interface ### {#trackingResult}
+<pre class='idl'>
+interface TrackingResult {
+  readonly attribute TrackingAccuracy accuracy;
+  readonly attribute float[] cameraPose;
+  readonly attribute FrameData frameData;
+};
+</pre>
+
+#### Attributes 
+* {{accuracy}} of type [=TrackingAccuracy=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Current state of confidence in camera pose estimation
+* {{cameraPose}} of type <a>float</a> array, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Current camera pose
+
+#### Methods
+
+: {{getFrameData}}
+:: To obtain the latest frame of data, including image stream and motion samples.
+:: This method returns a promise.The promise will be fulfilled with the latest frame of data if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+### <dfn>EventInfo</dfn> Interface ### {#eventInfo}
+<pre class='idl'>
+interface EventInfo {
+  readonly attribute TrackingAccuracy accuracy;
+  readonly attribute float[] cameraPose;
+};
+</pre>
+
+#### Attributes
+* {{accuracy}} of type [=TrackingAccuracy=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Current state of confidence in camera pose estimation
+* {{cameraPose}} of type <a>float</a> array, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Current camera pose
+
+### <dfn>TrackingEvent</dfn> Interface ### {#trackingEvent}
+<pre class='idl'>
+interface TrackingEvent {
+  readonly attribute String eventName;
+  readonly attribute EventInfo data;
+};
+</pre>
+
+#### Attributes
+* {{eventName}} of type <a>String</a>, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The name of the tracking event.
+* {{data}} of type [=EventInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The data carried by the tracking event.
+
+Dictionaries {#dictionaries}
+========================
+
+<dfn>InstanceOptions</dfn> {#instanceOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary InstanceOptions {
+  boolean enableOccupancyMapBuilding;
+  HeightOfInterest occupancyMapHeightOfInterest;
+  float occupancyMapResolution;
+  boolean enableRelocalizationMapping;
+  boolean enableForceRelocalizationPose;
+};
+</pre>
+
+### Dictionary [=InstanceOptions=] Members### {#instanceOptions} 
+
+* {{enableOccupancyMapBuilding}} of type <a>boolean</a>
+* &nbsp;&nbsp;&nbsp;&nbsp;Enable or disable the automatic oocpuancy map building. By default, automatic map building is enbled. When it is enabled, new coming frame data will also update the occpuancy map. To manually build occupancy map with updateOccupancyMap, enableOccpuancyMapBuilding should be set to false.
+
+* {{occupancyMapHeightOfInterest}} of type [=HeightOfInterest=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Set the vertical range of interest for the occpuancy map. Regions outside this vertical range are ignored.
+
+* {{occupancyMapResolution}} of type <a>float</a>
+* &nbsp;&nbsp;&nbsp;&nbsp;Set the grid resolution of occupancy map construction. The resolution defines the size of each square grid cell in the map.
+
+* {{enableRelocalizationMapping}} of type <a>boolean</a>
+* &nbsp;&nbsp;&nbsp;&nbsp;Enable to start the re-localization mapping process.
+
+* {{enableForceRelocalizationPose}} of type <a>boolean</a>
+* &nbsp;&nbsp;&nbsp;&nbsp;Set whether to use relocalization pose in tracking or not when relocalization mapping is running. By default, relocalization will overwrite the tracker pose. 
+
+<xmp class='note'>
+ Note: All members except occupancyMapHeightOfInterest listed above can not be modified after invoking start().
+</xmp>
+
+Enumerators {#enumerators}
+========================
+
+<dfn>TrackingAccuracy</dfn> enum {#trackingAccuary}
+----------------------------
+
+<pre class='idl'>
+enum TrackingAccuracy {
+  "low",
+  "med",
+  "high",
+  "failed"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"low"}}
+       <td>Low confidence in camera pose estimation.
+    <tr>
+       <td>{{"med"}}
+       <td>Medium confidence in camera pose estimation.
+    <tr>
+       <td>{{"high"}}
+       <td>High confidence in camera pose estimation.
+    <tr>
+       <td>{{"failed"}}
+       <td>No confidence in camera pose estimation.
+</table>
+
+<dfn>SlamState</dfn> enum {#slamState}
+----------------------------
+<pre class='idl'>
+enum SlamState {
+  "ready",
+  "tracking",
+  "paused",
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"ready"}}
+       <td>The slam module has been configured and start.
+    <tr>
+       <td>{{"tracking"}}
+       <td>The slam module is under the tracking work.
+    <tr>
+       <td>{{"paused"}}
+       <td>The tracking work is paused.
+</table>
+
+Examples {#examples}
+========================
+
+<pre class='example'>
+  var slamAddon = require('bindings')('slam.js');
+  var EventEmitter = require('events').EventEmitter;
+  function inherits(target, source) {
+    for (var k in source.prototype) {
+      target.prototype[k] = source.prototype[k];
+    }
+  }
+</pre>

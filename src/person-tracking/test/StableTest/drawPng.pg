@@ -1,0 +1,25 @@
+#!/usr/bin/gnuplot
+#
+# Copyright (c) 2016 Intel Corporation. All rights reserved.
+# Use of this source code is governed by a MIT-style license that can be
+# found in the LICENSE file.
+#
+
+reset
+set terminal png
+
+set timefmt "%H:%M:%S"
+set xlabel "time"
+
+set ylabel "resource usage (%)"
+
+set title "Joule Performance(CPU,GPU and Memory)"
+set key reverse Left outside
+set grid
+
+set style data linespoints
+
+plot "mem_info.dat" using 1:6 title "mem usage",\
+"cpu_used.dat" using 1:2 title "cpu usage",\
+"gpu.dat" using 1:2 title "gpu usage"
+#

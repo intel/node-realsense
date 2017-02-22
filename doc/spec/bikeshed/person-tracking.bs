@@ -1,0 +1,866 @@
+<pre class='metadata'>
+Title: Person Tracking
+Shortname:
+Level: 1
+Status: LS
+URL: https://github.com/otcshare/node-realsense/
+Editor: Ting Shao
+Repository: https://github.com/otcshare/node-realsense/src/person-tracking
+Abstract: This specification describes the JavaScript API of the Person Tracking module based on Intel® and RealSense™ technology.
+Markup Shorthands: css no, markdown yes
+Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
+</pre>
+
+<pre class=link-defaults>
+spec:html; type:element;
+	text:a
+	text:script
+	text:style
+</pre>
+
+<style>
+table {
+  text-indent: 20px;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: manual;
+  border-collapse: collapse;
+  border-left-style: hidden;
+  border-right-style: hidden;
+  text-align: left;
+}
+table caption {
+//  font-weight: bold;
+  padding: 3px;
+  text-align: left;
+}
+table td, table th {
+  border: 1px solid black;
+  padding: 3px;
+}
+
+li {list-style-type: none;}
+</style>
+
+Introduction {#introduction}
+========================
+
+The JavaScript API of the Person Tracking module is based on Intel® and RealSense™ technology, and provide Person
+Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functionalities.
+
+Interface {#interface}
+========================
+
+<dfn>Module</dfn> {#module}
+----------------------------
+
+<pre class="idl">
+partial interface Module {
+  Promise&lt;PersonTracker> createPersonTracker(optional PersonTrackerOptions personTrackerOptions, optional CameraOptions cameraOptions);
+};
+</pre>
+:: Note: The Module interface is just what is exported in Javascript.
+
+### Methods ### {#methods-module}
+
+: {{createPersonTracker}}
+:: Create a PersonTracker instance using the provided options.
+
+<pre class='argumentdef' for="Module/createPersonTracker(optional PersonTrackerOptions personTrackerOptions, optional CameraOptions cameraOptions)">
+  personTrackerOptions: The user provided options to configure the PersonTracker.
+  cameraOptions: The user provided options to configure the camera.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled with the created PersonTracker instance if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>PersonTracker</a>&gt;
+
+<dfn>PersonTracker</dfn> {#tracker}
+----------------------------
+
+<pre class="idl">
+interface PersonTracker {
+  Promise&lt;void&gt; start();
+  Promise&lt;void&gt; stop();
+  Promise&lt;void&gt; pause();
+  Promise&lt;void&gt; resume();
+  Promise&lt;void&gt; reset();
+  Promise&lt;void&gt; setPersonTrackerOptions(optional PersonTrackerOptions personTrackerOptions);
+  Promise&lt;PersonTrackerOptions&gt; getPersonTrackerOptions();
+  Promise&lt;void&gt; setCameraOptions(CameraOptions cameraOptions);
+  Promise&lt;CameraOptions&gt; getCameraOptions();
+  Promise&lt;FrameData&gt; getFrameData();
+  Promise&lt;PersonInfo&gt; getPersonInfo(long trackID);
+
+  readonly attribute TrackingState state;
+  readonly attribute PersonTracking personTracking;
+
+  attribute EventHandler onpersontracked;
+  attribute EventHandler onframeprocessed;
+};
+</pre>
+
+### Attributes ### {#attrs-tracker}
+* {{state}} of type [=TrackingState=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Current working state of the person tracking module.
+* {{personTracking}} of type [=PersonTracking=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The person tracking controller.
+* {{onpersontracked}} of type [=EventHandler=]
+* &nbsp;&nbsp;&nbsp;&nbsp;The event handler for 'persontracked' event, the event data is of type [=PersonTrackingResult=]. This event is only triggerd when there is a person actually tracked.
+* {{onframeprocessed}} of type [=EventHandler=]
+* &nbsp;&nbsp;&nbsp;&nbsp;The event handler of 'frameprocessed' event, the event data is of type [=PersonTrackingResult=]. This event is triggered for each processed frame.
+
+### Methods ### {#methods-tracker}
+: {{start}}
+:: Start the person tracking module.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{stop}}
+:: Stop the person tracking module.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{pause}}
+:: Pause the person tracking module.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{resume}}
+:: Resume the person tracking module if paused.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{reset}}
+:: Reset the person tracking module. After reset, the module needs to be reconfigured before working which is just like a fresh newly created instance.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{setPersonTrackerOptions}}
+:: Set the person tracking module options.
+:: This method can only be called before start() is called. If the options need to be changed, please call reset() first.
+
+<pre class='argumentdef' for="PersonTracker/setPersonTrackerOptions(optional PersonTrackerOptions personTrackerOptions)">
+  personTrackerOptions: The options to configure the module. Note: this parameter is not optional.
+</pre>
+
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{getPersonTrackerOptions}}
+:: Get the previously set module options.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>PersonTrackerOptions</a>&gt;
+
+: {{setCameraOptions}}
+:: Set the camera options.
+:: This method can only be called before start() is called. If the options need to be changed, please call reset() first.
+
+<pre class='argumentdef' for="PersonTracker/setCameraOptions(optional CameraOptions cameraOptions)">
+  cameraOptions: The options to configure the camera. Note: this parameter is not optional.
+</pre>
+
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{getCameraOptions}}
+:: Get the previously set camera options.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>CameraOptions</a>&gt;
+
+: {{getFrameData}}
+:: Get the latest depth and color frame data.
+:: *Return type*:[=FrameData=];
+
+: {{getPersonInfo}}
+:: Get the PersonInfo of a specific person.
+
+<pre class='argumentdef' for="PersonTracker/getPersonInfo(long trackID)">
+  trackID: The tracking ID of the person.
+</pre>
+
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+
+:: *Return type*:Promise&lt;<a>PersonInfo</a>&gt;
+
+
+### <dfn>PersonTracking</dfn> Interface ### {#tracking-interface}
+
+<pre class='idl'>
+interface PersonTracking {
+  Promise&lt;void> startTrackingPerson(long trackID);
+  Promise&lt;void> stopTrackingPerson(long trackID);
+};
+</pre>
+
+#### Methods #### {#methods-person-tracking}
+
+: {{startTrackingPerson}}
+:: Adds the person to the list of tracked person starting from the next frame.
+
+<pre class='argumentdef' for="PersonTracking/startTrackingPerson(long trackID)">
+  trackID: The tracking ID of the person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{stopTrackingPerson}}
+:: Removes the person from tracking.
+
+<pre class='argumentdef' for="PersonTracking/stopTrackingPerson(long trackID)">
+  trackID: The tracking ID of the person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+<dfn>PersonTrackingResult</dfn> Interface {#tracking-result}
+----------------------------
+
+<pre class='idl'>
+interface PersonTrackingResult {
+  readonly attribute PersonInfo[] persons;
+};
+</pre>
+
+### Attributes ### {#attrs-result}
+* {{persons}} of type [=PersonInfo=][], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Result of the tracked persons.
+
+### <dfn>PersonInfo</dfn> Interface ### {#personinfo}
+
+<pre class='idl'>
+interface PersonInfo {
+  readonly attribute SkeletonInfo? skeletonInfo;
+  readonly attribute TrackingInfo? trackInfo;
+  readonly attribute GestureInfo? gestureInfo;
+  readonly attribute PersonFaceInfo faceInfo;
+};
+</pre>
+
+#### Attributes #### {#attrs-personinfo}
+* {{skeletonInfo}} of type [=SkeletonInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Skeleton recognition result of the person.
+* {{trackInfo}} of type [=TrackingInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Tracking result of the person.
+* {{gestureInfo}} of type [=GestureInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Gesture recognition result of the person.
+* {{faceInfo}} of type [=PersonFaceInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Face related recognition result.
+
+### <dfn>SkeletonInfo</dfn> Interface ### {#skeletoninfo}
+
+<pre class='idl'>
+interface SkeletonInfo {
+  readonly attribute SkeletonPointInfo[] skeletonJoints;
+};
+</pre>
+
+#### Attributes #### {#attrs-skeletoninfo}
+* {{skeletonJoints}} of type [=SkeletonPointInfo=][], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Skeleton joints of the tracked person.
+
+#### <dfn>SkeletonPointInfo</dfn> Interface #### {#skeleton-pt-info}
+
+<pre class='idl'>
+interface SkeletonPointInfo {
+  readonly attribute JointType jointType;
+  readonly attribute Point3D worldCoordinate;
+  readonly attribute Point2D imageCoordinate;
+  readonly attribute long worldConfidence;
+  readonly attribute long imageConfidence;
+};
+</pre>
+
+##### Attributes ##### {#attrs-skeleton-pt-info}
+* {{jointType}} of type [=JointType=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Type of the joint.
+* {{worldCoordinate}} of type [=Point3D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;World coordinate of the joint.
+* {{imageCoordinate}} of type [=Point2D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Image coordinate of the joint.
+* {{worldConfidence}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Confidence of the world coordinate.
+* {{imageConfidence}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Confidence of the image coordinate.
+
+
+### <dfn>TrackingInfo</dfn> Interface ### {#trackinginfo}
+
+<pre class='idl'>
+interface TrackingInfo {
+  readonly attribute long id;
+  readonly attribute BoundingBox2DInfo boundingBox;
+  readonly attribute PointCombinedInfo center;
+  readonly attribute BoundingBox2DInfo? headBoundingBox;
+};
+</pre>
+
+#### Attributes #### {#attrs-trackinginfo}
+* {{id}} of type [=long=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Tracking ID of the person.
+* {{boundingBox}} of type [=BoundingBox2DInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The location and dimensions of the tracked person, represented by a 2D bounding box (defined in pixels).
+* {{center}} of type [=PointCombinedInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The center of mass of the person.
+* {{headBoundingBox}} of type [=BoundingBox2DInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The location and dimensions of the tracked person's head, represented by a 2D bounding box (defined in pixels).
+
+#### <dfn>BoundingBox2DInfo</dfn> Interface #### {#bound-box-2d}
+
+<pre class='idl'>
+interface BoundingBox2DInfo {
+  readonly attribute Rect2D rect;
+  readonly attribute long confidence;
+};
+</pre>
+
+##### Attributes ##### {#attrs-boud-box-info}
+* {{rect}} of type [=Rect2D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The rectangular bounding box of the person.
+* {{confidence}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Confidence of the result.
+
+#### <dfn>PointCombinedInfo</dfn> Interface #### {#pt-combined}
+
+<pre class='idl'>
+interface PointCombinedInfo {
+  readonly attribute Point3D worldCoordinate;
+  readonly attribute Point2D imageCoordinate;
+  readonly attribute long worldConfidence;
+  readonly attribute long imageConfidence;
+};
+</pre>
+
+##### Attributes ##### {#attrs-pt-combined-info}
+* {{rect}} of type [=Rect2D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The rectangular bounding box of the person.
+* {{confidence}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Confidence of the result.
+
+#### <dfn>MaskInfo</dfn> Interface #### {#mask-info}
+
+<pre class='idl'>
+interface MaskInfo {
+  readonly attribute long width;
+  readonly attribute long height;
+  readonly attribute ArrayBuffer maskData;
+};
+</pre>
+
+##### Attributes ##### {#attrs-mask-info}
+* {{width}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The width of the mask info data.
+* {{height}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The height of the mask info data.
+* {{maskData}} of type [=ArrayBuffer=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The mask info data. A non-zero value identifies that point is occupied.
+
+### <dfn>GestureInfo</dfn> Interface ### {#gestureinfo}
+
+<pre class='idl'>
+interface GestureInfo {
+  readonly attribute boolean isPointing;
+  readonly attribute PointingInfo? pointingInfo;
+};
+</pre>
+
+#### Attributes #### {#attrs-gestureinfo}
+* {{isPointing}} of type boolean, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Indicates whether a pointing gesture is occurring.
+* {{pointingInfo}} of type [=PointingInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The details of the pointing gesture, contains information about a person pointing their hand, in the form of a point of origin and a vector for the direction in both world and color coordination.
+
+#### <dfn>PointingInfo</dfn> Interface #### {#pointing-info}
+
+<pre class='idl'>
+interface PointingInfo {
+  readonly attribute PointingData3D worldPointingData;
+  readonly attribute PointingData2D colorPointingData;
+  readonly attribute long confidence;
+  readonly attribute long long gestureStartTimeStamp;
+};
+</pre>
+
+##### Attributes ##### {#attrs-pointing-info}
+* {{worldPointingData}} of type [=PointingData3D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The pointing detail in world coordinate.
+* {{colorPointingData}} of type [=PointingData2D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The pointing detail in color coordinate
+* {{confidence}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Confidence of the result.
+* {{gestureStartTimeStamp}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The time stamp for when the gesture started.
+
+#### <dfn>PointingData3D</dfn> Interface #### {#pointing-data-3d}
+
+<pre class='idl'>
+interface PointingData3D {
+  readonly attribute Point3D origin;
+  readonly attribute Point3D direction;
+};
+</pre>
+
+##### Attributes ##### {#attrs-pointing-data-3d}
+* {{origin}} of type [=Point3D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The origin of the pointing gesture.
+* {{direction}} of type [=Point3D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The direction of the pointing gesture.
+
+#### <dfn>PointingData2D</dfn> Interface #### {#pointing-data-2d}
+
+<pre class='idl'>
+interface PointingData2D {
+  readonly attribute Point2D origin;
+  readonly attribute Point2D direction;
+};
+</pre>
+
+##### Attributes ##### {#attrs-pointing-data-2d}
+* {{origin}} of type [=Point2D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The origin of the pointing gesture.
+* {{direction}} of type [=Point2D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The direction of the pointing gesture.
+
+### <dfn>PersonFaceInfo</dfn> Interface ### {#faceinfo}
+
+<pre class='idl'>
+interface PersonFaceInfo {
+  readonly attribute FaceLandmarkInfo? landmarkInfo;
+  readonly attribute PoseEulerAngles? headPose;
+};
+</pre>
+
+#### Attributes #### {#attrs-faceinfo}
+* {{landmarkInfo}} of type [=FaceLandmarkInfo=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The landmarks of the face.
+* {{headPose}} of type [=PoseEulerAngles=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The orientation of the tracked person's head, represented by Euler angles.
+
+#### <dfn>FaceLandmarkInfo</dfn> Interface #### {#landmarkinfo}
+
+<pre class='idl'>
+interface FaceLandmarkInfo {
+  readonly attribute FaceLandmark[] landmarks;
+  readonly attribute long confidence;
+};
+</pre>
+
+##### Attributes ##### {#attrs-landmarkinfo}
+* {{landmarks}} of type [=FaceLandmark=][], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The landmarks of the persone face.
+* {{confidence}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The confidence of the face landmark recognition result.
+
+#### <dfn>FaceLandmark</dfn> Interface #### {#landmark}
+
+<pre class='idl'>
+interface FaceLandmark {
+  readonly attribute Point3D imageCoordinate;
+  readonly attribute Point3D worldCoordinate;
+};
+</pre>
+
+##### Attributes ##### {#attrs-landmark}
+* {{imageCoordinate}} of type [=Point3D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Image coordinate of the landmark.
+* {{worldCoordinate}} of type [=Point3D=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;World coordinate of the landmark.
+
+#### <dfn>PoseEulerAngles</dfn> Interface #### {#pose-euler-angle}
+
+<pre class='idl'>
+interface PoseEulerAngles {
+  readonly attribute float yaw;
+  readonly attribute float pitch;
+  readonly attribute float roll;
+};
+</pre>
+
+##### Attributes ##### {#attrs-pose-euler-angle}
+* {{yaw}} of type float readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The yaw angle.
+* {{pitch}} of type float readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The pitch angle.
+* {{roll}} of type float, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The roll angle.
+
+Dictionaries {#dictionaries}
+========================
+
+<dfn>PersonTrackerOptions</dfn> {#tracker-options}
+----------------------------
+
+<pre class='idl'>
+dictionary PersonTrackerOptions {
+  GestureRecognitionOptions gesture;
+  PersonFaceOptions personFace;
+  SkeletonRecognitionOptions skeleton;
+  TrackingOptions tracking;
+};
+</pre>
+
+### Dictionary [=PersonTrackerOptions=] Members ### {#members-tracker-options}
+
+* {{gesture}} of type [=GestureRecognitionOptions=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Gesture recognition related options.
+
+* {{personFace}} of type [=PersonFaceOptions=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Face recognition related options.
+
+* {{skeleton}} of type [=SkeletonRecognitionOptions=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Skeleton recognition related options.
+
+* {{tracking}} of type [=TrackingOptions=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Tracking related options.
+
+#### <dfn>GestureRecognitionOptions</dfn> #### {#gesture-options}
+
+<pre class='idl'>
+dictionary GestureRecognitionOptions {
+  boolean enable;
+  boolean enableAllGestures;
+  boolean enablePointing;
+  boolean disableAllGestures;
+};
+</pre>
+
+##### Dictionary [=GestureRecognitionOptions=] Members ##### {#members-gesture-options}
+
+* {{enable}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether enable gesture recognition or not.
+
+* {{enableAllGestures}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether all supported gestures are enabled.
+
+* {{enablePointing}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether pointing gesture recognition is enabled.
+
+* {{disableAllGestures}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether all supported gestures are disabled.
+
+#### <dfn>PersonFaceOptions</dfn> #### {#personface-options}
+<pre class='idl'>
+dictionary PersonFaceOptions {
+  boolean enableFaceLandmarks;
+  boolean enableHeadPose;
+};
+</pre>
+
+##### Dictionary [=PersonFaceOptions=] Members ##### {#members-personface-options}
+
+* {{enableFaceLandmarks}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether face landmark recognition is enabled.
+
+* {{enableHeadPose}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether head pos recognition is enabled.
+
+#### <dfn>SkeletonRecognitionOptions</dfn> #### {#skeleton-options}
+
+<pre class='idl'>
+dictionary SkeletonRecognitionOptions {
+  boolean enable;
+};
+</pre>
+
+##### Dictionary [=SkeletonRecognitionOptions=] Members ##### {#members-skeleton-options}
+
+* {{enable}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether enable skeleton recognition or not.
+
+#### <dfn>TrackingOptions</dfn> #### {#tracking-options}
+
+<pre class='idl'>
+dictionary TrackingOptions {
+  boolean enable;
+  boolean enableDetectionFromFar;
+  boolean enableHeadBoundingBox;
+  DetectionMode detectionMode;
+  TrackingMode trackingMode;
+};
+</pre>
+
+##### Dictionary [=TrackingOptions=] Members ##### {#members-tracking-options}
+
+* {{enable}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether enables person tracking feature and subfeatures(blob, head bounding box...).
+* {{enableDetectionFromFar}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether enables detection from far  > 3m.
+* {{enableHeadBoundingBox}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether head bounding box tracking is enabled.
+* {{detectionMode}} of type [=DetectionMode=]
+* &nbsp;&nbsp;&nbsp;&nbsp;The range related detection mode.
+* {{trackingMode}} of type [=TrackingMode=]
+* &nbsp;&nbsp;&nbsp;&nbsp;The tracking mode.
+
+Enumerators {#enumerators}
+========================
+
+<dfn>SkeletonArea</dfn> enum {#skeleton-area}
+----------------------------
+
+<pre class='idl'>
+enum SkeletonArea {
+  "upper-body",
+  "upper-body-rough",
+  "full-body"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"upper-body"}}
+       <td>This includes all joints of the upper body.
+    <tr>
+       <td>{{"upper-body-rough"}}
+       <td>This includes only 4 points: head, chest, and hands.
+    <tr>
+       <td>{{"full-body"}}
+       <td>The full body.
+</table>
+
+<dfn>TrackingMode</dfn> enum {#tracking-mode}
+----------------------------
+
+<pre class='idl'>
+enum TrackingMode {
+  "following"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"following"}}
+       <td>Tracking is not started automatically.
+</table>
+
+<dfn>DetectionMode</dfn> enum {#detection-mode}
+----------------------------
+
+<pre class='idl'>
+enum DetectionMode {
+  "auto",
+  "close-range",
+  "mid-range",
+  "far-range",
+  "full-range"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"auto"}}
+       <td>Auto-detection using load-balancing, recommended to use when activated every frame, default mode.
+    <tr>
+       <td>{{"close-range"}}
+       <td>Detect all person in close range currently using face detection in single frame.
+    <tr>
+       <td>{{"mid-range"}}
+       <td>Regular detection withing 0.7-3 meters based on depth and rgb in single frame.
+    <tr>
+       <td>{{"far-range"}}
+       <td>Far range detection using rgb only in single frame.
+    <tr>
+       <td>{{"full-range"}}
+       <td>Activate all detectors together in single frame.
+</table>
+
+<dfn>GestureType</dfn> enum {#gesture-type}
+----------------------------
+
+<pre class='idl'>
+enum GestureType {
+  "pointing"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"pointing"}}
+       <td>The pointing gesture.
+</table>
+
+<dfn>TrackingState</dfn> enum {#tracking-state}
+----------------------------
+
+<pre class='idl'>
+enum TrackingState {
+  "ready",
+  "running",
+  "detecting",
+  "tracking",
+  "paused",
+  "errored"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"ready"}}
+       <td>The module is ready to start.
+    <tr>
+       <td>{{"running"}}
+       <td>The module is running.
+    <tr>
+       <td>{{"detecting"}}
+       <td>The module is detecting person.
+    <tr>
+       <td>{{"tracking"}}
+       <td>The module has detected person and is tracking the person.
+    <tr>
+       <td>{{"paused"}}
+       <td>The module has been paused.
+    <tr>
+       <td>{{"errored"}}
+       <td>Some error happened.
+</table>
+
+<dfn>AccessOrder</dfn> enum {#access-order}
+----------------------------
+
+<pre class='idl'>
+enum AccessOrder {
+  "access-order-by-index"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"access-order-by-index"}}
+       <td>The tracked person is ordered by index.
+</table>
+
+<dfn>JointType</dfn> enum {#joint-type}
+----------------------------
+
+<pre class='idl'>
+enum JointType {
+  "ankle-left",
+  "ankle-right",
+  "elbow-left",
+  "elbow-right",
+  "foot-left",
+  "foot-right",
+  "hand-left",
+  "hand-right",
+  "hand-tip-left",
+  "hand-tip-right",
+  "head",
+  "hip-left",
+  "hip-right",
+  "knee-left",
+  "knee-right",
+  "neck",
+  "shoulder-left",
+  "shoulder-right",
+  "spine-base",
+  "spine-mid",
+  "spine-shoulder",
+  "thumb-left",
+  "thumb-right",
+  "wrist-left",
+  "wrist-right"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"ankle-left"}}
+       <td>Left ankle.
+    <tr>
+       <td>{{"ankle-right"}}
+       <td>Right ankle.
+    <tr>
+       <td>{{"elbow-left"}}
+       <td>Left elbow.
+    <tr>
+       <td>{{"elbow-right"}}
+       <td>Right elbow.
+    <tr>
+       <td>{{"foot-left"}}
+       <td>Left foot.
+    <tr>
+       <td>{{"foot-right"}}
+       <td>Right foot.
+    <tr>
+       <td>{{"hand-left"}}
+       <td>Left hand.
+    <tr>
+       <td>{{"hand-right"}}
+       <td>Right hand.
+    <tr>
+       <td>{{"hand-tip-left"}}
+       <td>Left hand tip.
+    <tr>
+       <td>{{"hand-tip-right"}}
+       <td>Right hand tip.
+    <tr>
+       <td>{{"head"}}
+       <td>Head.
+    <tr>
+       <td>{{"hip-left"}}
+       <td>Left hip.
+    <tr>
+       <td>{{"hip-right"}}
+       <td>Right hip.
+    <tr>
+       <td>{{"knee-left"}}
+       <td>Left knee.
+    <tr>
+       <td>{{"knee-right"}}
+       <td>Right knee.
+    <tr>
+       <td>{{"neck"}}
+       <td>Neck.
+    <tr>
+       <td>{{"shoulder-left"}}
+       <td>Left shoulder.
+    <tr>
+       <td>{{"shoulder-right"}}
+       <td>Right shoulder.
+    <tr>
+       <td>{{"spine-base"}}
+       <td>Base of the spine.
+    <tr>
+       <td>{{"spine-mid"}}
+       <td>Middle of the spine.
+    <tr>
+       <td>{{"spine-shoulder"}}
+       <td>Spine near shoulder.
+    <tr>
+       <td>{{"thumb-left"}}
+       <td>Left thumb.
+    <tr>
+       <td>{{"thumb-right"}}
+       <td>Right thumb.
+    <tr>
+       <td>{{"wrist-left"}}
+       <td>Left wrist.
+    <tr>
+       <td>{{"wrist-right"}}
+       <td>Right wrist.
+</table>
+

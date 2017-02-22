@@ -1,0 +1,18 @@
+digraph G {
+  "ready" -> "running" [label="start(), restart()"];
+  "ready" -> "errored" [label="Oops"];
+  "ready" -> "ready" [label="reset()"];
+
+  "running" -> "running" [label="restart()"];
+  "running" -> "ready" [label="reset()"];
+  "running" -> "paused" [label="pause()"];
+  "running" -> "errored" [label="Oops"];
+
+  "paused" -> "ready" [label="reset()"];
+  "paused" -> "running" [label="resume(), restart()"];
+  "paused" -> "errored" [label="Oops"];
+
+  "errored" -> "ready" [label="reset()"];
+  "errored" -> "errored" [label="Oops"];
+  "errored" -> "running" [label="restart()"];
+}

@@ -1,0 +1,24 @@
+{
+  "name": "person-tracking",
+  "version": "0.8.7",
+  "description": "Person Tracking Node.js module based on Intel® RealSense™ technology",
+  "main": "index.js",
+  "scripts": {
+    "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
+    "maketarball": "bash ./common/scripts/make_tarball.sh person-tracking",
+    "test": "mocha"
+  },
+  "author": "Ting Shao <ting.shao@intel.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bindings": "^1.2.1",
+    "nan": "^2.4.0",
+    "widl-nan": "^0.1.21"
+  },
+  "devDependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.5.1",
+    "spawn-npm-install": "^1.2.0",
+    "tmp": "0.0.31"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "object-recognition",
+  "version": "0.8.7",
+  "description": "Object Recognition Node.js module based on Intel® RealSense™ technology",
+  "main": "",
+  "scripts": {
+    "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
+    "maketarball": "bash ./common/scripts/make_tarball.sh object-recognition",
+    "test": "mocha"
+  },
+  "author": "Kenny Yuan <kaining.yuan@intel.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bindings": "^1.2.1",
+    "nan": "^2.4.0",
+    "widl-nan": "^0.1.12"
+  },
+  "devDependencies": {
+    "spawn-npm-install": "^1.2.0",
+    "tmp": "0.0.31"
+  }
+}

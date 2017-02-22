@@ -1,0 +1,486 @@
+<pre class='metadata'>
+Title: Object Recognition JavaScript API
+Shortname: OR
+Level: 1
+Status: LS
+URL: https://github.com/otcshare/node-realsense
+Editor: Kenny Yuan
+Repository: https://github.com/otcshare/node-realsense
+Abstract: This specification describes the Object Recognition JavaScript API for Intel® RealSense™ camera.
+Markup Shorthands: css no, markdown yes
+Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
+</pre>
+
+<pre class=link-defaults>
+spec:html; type:element;
+	text:a
+	text:script
+	text:style
+</pre>
+
+<style>
+table {
+  text-indent: 20px;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: manual;
+  border-collapse: collapse;
+  border-left-style: hidden;
+  border-right-style: hidden;
+  text-align: left;
+}
+table caption {
+//  font-weight: bold;
+  padding: 3px;
+  text-align: left;
+}
+table td, table th {
+  border: 1px solid black;
+  padding: 3px;
+}
+
+li {list-style-type: none;}
+</style>
+
+Introduction {#introduction}
+========================
+
+The APIs described in this document are exposed through <code>realsense-object-recognition</code> module.
+
+Interface {#interface}
+========================
+
+
+
+<dfn>Module</dfn> {#moduleInterface}
+----------------------------
+
+<pre class="idl">
+partial interface Module {
+  static Promise&lt;ObjectRecognizer&gt; createObjectRecognizer(optional ObjectRecognitionOptions options, optional CameraOptions cameraOptions);
+};
+</pre>
+
+### Methods ### {#methods-moduleInterface}
+: {{createObjectRecognizer}}
+:: Use this static method to create an Object Recognition instance. An object recognizer is a running unit that can connect to an Intel® RealSense™ camera and perform object recognition algorithm.
+
+:: *Return type*: <code>Promise&lt;[=ObjectRecognizer=]&gt;</code>
+
+
+
+<dfn>ObjectRecognizer</dfn> {#objectRecognizerInterface}
+----------------------------
+
+<pre class="idl">
+interface ObjectRecognizer {
+  readonly attribute ObjectRecognitionState state;
+
+  Promise&lt;CameraOptions&gt; getCameraOptions();
+  Promise&lt;ObjectRecognitionOptions&gt; getObjectRecognitionOptions();
+  Promise&lt;void&gt; setCameraOptions(CameraOptions options);
+  Promise&lt;void&gt; setObjectRecognitionOptions(optional ObjectRecognitionOptions options);
+
+  Promise&lt;void&gt; start();
+  Promise&lt;void&gt; stop();
+  Promise&lt;void&gt; pause();
+  Promise&lt;void&gt; resume();
+  Promise&lt;void&gt; restart();
+  Promise&lt;void&gt; reset();
+
+  Promise&lt;FrameData&gt; getFrameData();
+
+  Promise&lt;String[]&gt; getRecognizableObjectNames();
+
+  attribute EventHandler onrecognition;
+  attribute EventHandler onlocalization;
+  attribute EventHandler ontracking;
+};
+</pre>
+
+### Attributes ### {#attributes-1}
+: {{state}} of type [=ObjectRecognitionState=], readonly
+::  The current state of the Object Recognition instance.
+
+
+### Methods ### {#methods-1}
+
+: {{GetCameraOptions}}
+:: Get the current options of Intel® RealSense™ camera. 
+:: This method returns a promise. The promise will be fulfilled with current [=CameraOptions=] containing ImageStreamConfig and MotionSensorConfig if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*: <code>Promise&lt;[=CameraOptions=]&gt;</code>
+
+
+: {{setCameraOptions}}
+:: Setup the Intel® RealSense™ camera. Providing the items that you want to override the default ones.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+<pre class='argumentdef' for="ObjectRecognizer/setCameraOptions(CameraOptions options)">
+    options: The camera configure containing the image stream configure for color, depth, fisheye and the motion sensor configure for accelerator, gyroscope.
+</pre>
+
+
+The following options for <code>color</code> and <code>depth</code> stream in camera options are supported by Object Recognition module.
+
+Other options that are supported by Intel® RealSense™ camera won't be supported in Object Recognition module.
+
+
+<table class="data">
+  <thead><tr><th>Index<th>Color Stream<th>Depth Stream<th>FPS
+  <tbody>
+    <tr>
+       <td>1
+       <td>1920x1080
+       <td>628x468
+       <td>30
+    <tr>
+    <tr>
+       <td>2
+       <td>1920x1080
+       <td>320x240
+       <td>30
+    <tr>
+    <tr>
+       <td>3
+       <td>1920x1080
+       <td>480x360
+       <td>30
+    <tr>
+    <tr>
+       <td>4
+       <td>640x480
+       <td>628x468
+       <td>30
+    <tr>
+    <tr>
+       <td>5
+       <td>640x480
+       <td>640x480
+       <td>30
+    <tr>
+    <tr>
+       <td>6
+       <td>640x480
+       <td>320x240
+       <td>30
+    <tr>
+</table>
+
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+: {{getObjectRecognitionOptions}}
+:: Get the current options of object recognition algorithm. 
+:: This method returns a promise. The promise will be fulfilled with current [=ObjectRecognitionOptions=] if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*: <code>Promise&lt;[=ObjectRecognitionOptions=]&gt;</code>
+
+
+: {{setObjectRecognitionOptions}}
+:: Setup the object recognition algorithm. Providing the items that you want to override the default ones.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{start}}
+:: Start the Intel® RealSense™ camera capture, and then perform object recognition algorithm
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{stop}}
+:: Stop the Intel® RealSense™ camera and object recognition algorithm
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{pause}}
+:: Pause the Intel® RealSense™ camera and object recognition algorithm
+:: Unlike stop(), this won't free any internal resources, e.g. the Intel® RealSense™ camera will be still working.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{resume}}
+:: Resume the Intel® RealSense™ camera and object recognition algorithm
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{restart}}
+:: Restart the Intel® RealSense™ camera and object recognition algorithm
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{reset}}
+:: Reset the instance state to default as if it were just created, release as much resource as possible
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;void&gt;</code>
+
+
+: {{getRecognizableObjectNames}}
+:: Get a list of all the names of objects that can be recognized.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *Return type*: <code>Promise&lt;String[]&gt;</code>
+
+
+### Events ### {#events-1}
+
+: {{onrecognition}}
+:: This event will be fired when there is a new recognition result
+:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `objectRecognizer.on('recognition', function(e) { ... })` to handle the event
+
+: {{onlocalization}}
+:: This event will be fired when there is a new localization result
+:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `objectRecognizer.on('localization', function(e) { ... })` to handle the event
+
+: {{ontracking}}
+:: This event will be fired when there is a new tracking result
+:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `objectRecognizer.on('tracking', function(e) { ... })` to handle the event
+
+
+
+<dfn>RecognitionInfo</dfn> {#RecognitionInfo}
+----------------------------
+<pre class='idl'>
+interface RecognitionInfo {
+  readonly attribute String       label;
+  readonly attribute float        probability;
+};
+</pre>
+
+
+<dfn>LocalizationInfo</dfn> {#LocalizationInfo}
+----------------------------
+<pre class='idl'>
+interface LocalizationInfo {
+  readonly attribute String       label;
+  readonly attribute float        probability;
+  readonly attribute Rect2D       roi;
+  readonly attribute Point3D      objectCenter;
+};
+</pre>
+
+
+Dictionaries {#dictionaries}
+========================
+
+<dfn>ObjectRecognitionOptions</dfn> {#objectRecognitionOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary ObjectRecognitionOptions {
+  RecognitionMode   mode;
+  float             confidenceThreshold;
+  ComputeEngine     computeEngine;
+  boolean           enableSegmentation;
+  long              maxReturnObjectCount;
+  boolean           enableObjectCenterEstimation;
+  String            activeClassifier;
+  Rect2D            roi;
+  Rect2D[]          trackingRoi;
+};
+
+</pre>
+
+### Dictionary [=ObjectRecognitionOptions=] Members### {#objectRecognitionOptionsMembers}
+
+: {{mode}} of type <code>[=RecognitionMode=]</a>
+:: Set the working mode of object recognition algorithm.
+
+
+: {{confidenceThreshold}} of type <code>float</code>
+:: Set the "confidence" threshold. All recognition with confidence/probability less than the threshold won not be sent out as recognition result.
+
+
+: {{computeEngine}} of type [=ComputeEngine=]
+:: Setup the Object Recognition algorithm to use CPU or GPU
+
+
+: {{enableSegmentation}} of type <code>boolean</code>
+:: Set to enable segmentation or not
+
+
+: {{maxReturnObjectCount}} of type <code>long</code>
+:: Set the maximum number of recognized objects for the object recognition algorithm
+
+
+: {{enableObjectCenterEstimation}} of type <code>boolean</code>
+:: Set to enable center estimation of not.
+
+
+: {{activeClassifier}} of type <code>String</code>
+:: Set the active classier. TODO: figure out the available values for this.
+
+
+: {{roi}} of type <code>Rect2D</code>
+:: Set the ROI (region of interest) of the Object Recognition algorithm
+
+
+: {{trackingRoi}} of type <code>Rect2D[]</code>
+:: Set the series of ROI (region of interest) of the Object Recognition tracking algorithm
+
+
+
+<xmp class='note'>
+ Note: all member of ObjectRecognitionOptions are optional. Absense means do-not-change the previous or default settings.
+</xmp>
+
+Enumerators {#enumerators}
+========================
+
+<dfn>RecognitionMode</dfn> enum {#RecognitionMode}
+----------------------------
+
+<pre class='idl'>
+enum RecognitionMode {
+  "tracking",
+  "single-recognition",
+  "localization"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"tracking"}}
+       <td>Set the object recognition algorithm in tracking mode
+    <tr>
+       <td>{{"single-recognition"}}
+       <td>Set the object recognition algorithm in single-recognition mode
+    <tr>
+       <td>{{"localization"}}
+       <td>Set the object recognition algorithm in localization mode
+</table>
+
+
+<dfn>ComputeEngine</dfn> enum {#ComputeEngine}
+----------------------------
+
+<pre class='idl'>
+enum ComputeEngine {
+  "CPU",
+  "GPU"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"CPU"}}
+       <td>Use CPU to perform algorithm calculation
+    <tr>
+       <td>{{"GPU"}}
+       <td>Use GPU to perform algorithm calculation
+</table>
+
+
+
+<dfn>ObjectRecognitionState</dfn> enum {#ObjectRecognitionState}
+----------------------------
+<pre class='idl'>
+enum ObjectRecognitionState {
+  "ready",
+  "running",
+  "paused",
+  "errored"
+};
+</pre>
+
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"ready"}}
+       <td>Ready to use
+    <tr>
+       <td>{{"running"}}
+       <td>The Intel® RealSense™ camera & algorithm are working.
+    <tr>
+       <td>{{"paused"}}
+       <td>The Intel® RealSense™ camera & algorithm are paused.
+    <tr>
+       <td>{{"errored"}}
+       <td>The instance is currently in a wrong state, this might happen after an error that is uncoverable
+</table>
+
+
+
+
+Examples {#examples}
+========================
+
+<pre class='example'>
+  var options = {
+    mode: 'single-recognition',
+    confidenceThreshold: 0.75,
+    computeEngine: 'CPU',
+    enableSegmentation: true,
+    maxReturnObjectCount: 3,
+    enableObjectCenterEstimation: false
+  };
+  var or = undefined;
+
+  addon.createObjectRecognizer().then(inst => {
+    or = inst;
+
+    console.log('1. Creating or');
+    console.log(or);
+
+    console.log('2. Setup event listeners');
+    or.on('recognition', function (evt) {
+      console.log('New event: ', evt);
+    });
+
+    return or.setObjectRecognitionOptions(options);
+  }).then(function () {
+    console.log('3. Start RealSense™ camera');
+    return or.start();
+  }).then(function() {
+    console.log('Camera started...');
+  }).catch(e => {
+    console.log(`Something was wrong ${e}`);
+  });
+</pre>
+
+
+<pre class='example'>
+  var options = {
+    mode: 'localization',
+    confidenceThreshold: 0.75,
+    computeEngine: 'CPU',
+    enableSegmentation: true,
+    maxReturnObjectCount: 3,
+    enableObjectCenterEstimation: true
+  };
+  var or = undefined;
+
+  addon.createObjectRecognizer().then(objectRecognizer => {
+    or = objectRecognizer;
+
+    console.log('1. Creating or');
+    // console.log(or);
+
+    console.log('2. Setup event listeners');
+    or.on('localization', function (evt) {
+      console.log('New event: ', evt.label, evt.probability, evt.objectCenter, evt.roi.toString());
+      or.getFrameData().then(function (info) {
+        console.log(info);
+      });
+    });
+
+    return or.setObjectRecognitionOptions(options);
+  }).then(function () {
+    console.log('3. Start RealSense™ camera');
+    return or.start();
+  }).then(function() {
+    console.log('Camera started...');
+  }).catch(e => {
+    console.log(`Something was wrong ${e}`);
+  });
+</pre>
+

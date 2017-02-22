@@ -1,0 +1,144 @@
+// #ifdef finaldoc
+
+/**
+ * This doc include all interfaces to the developers, exposed by SLAM module,
+ * no matter where the interface was implemented, by native addon's or JS wrapper.
+ * It will have some difference with the slam.widl file, that is for development.
+ */
+// #endif
+
+// include <common-types.widl>
+enum TrackingAccuracy {
+  "low",
+  "med",
+  "high",
+  "failed"
+};
+
+interface OccupancyMapBounds {
+  readonly attribute long minX; // Stored the minimum tile seen on the X-axis
+  readonly attribute long minZ; // Stored the minimum tile seen on the Z-axis
+  readonly attribute long maxX; // Stored the maximum tile seen on the X-axis
+  readonly attribute long maxZ; // Stored the maximum tile seen on the Z-axis
+};
+
+dictionary RegionOfInterest {
+  long minX;
+  long minY;
+  long maxX;
+  long maxY;
+};
+
+interface OccupancyMapData {
+  readonly attribute boolean isDataPending;
+  readonly attribute long tileCount;
+  // Sequence of occupancy tile <x, y, occupancy>
+  readonly attribute Int32Array data;
+};
+
+interface MapImage {
+  readonly attribute long width;
+  readonly attribute long height;
+  readonly attribute Uint8Array data;
+};
+
+dictionary RangeOfInterest {
+  float min;
+  float max;
+};
+
+interface TrackingResult {
+  readonly attribute TrackingAccuracy accuracy;
+  readonly attribute float[] cameraPose;
+  readonly attribute FrameData frameData;
+};
+
+interface EventInfo {
+  readonly attribute TrackingAccuracy accuracy;
+  readonly attribute float[] cameraPose;
+};
+
+interface TrackingEvent {
+  readonly attribute String eventName;
+  readonly attribute EventInfo data;
+};
+
+enum SlamState {
+  "ready",
+  "tracking",
+  "paused",
+};
+
+//TODO: check if start/stop Occupancy/Relocalization can be called
+//while pipleline is running.
+dictionary InstanceOptions {
+  boolean enableOccupancyMapBuilding;
+  RangeOfInterest occupancyMapHeightOfInterest;
+  RangeOfInterest occupancyMapDepthOfInterest;
+  float occupancyMapResolution;
+
+  boolean enableRelocalizationMapping;
+  boolean enableForceRelocalizationPose;
+};
+
+// #ifdef finaldoc
+// This will be direct addon entry.
+//      Promise<Instance> createInstance();
+// #endif
+interface Instance {
+  // Note: the enablePersonTrackedEvent and enableFrameProcessedEvent events
+  // will not be exposed to user, they are for internal use.
+  attribute bool _enableTrackingEvent;
+  attribute bool _enableErrorEvent;
+  readonly attribute SlamState state;
+
+  // TODO: Documents should show out all the avalible config values.
+  // Or an extra interface querySupportedConfig()?
+  // Can be used to check actual module config.
+  Promise<CameraOptions> getCameraOptions();
+  Promise<InstanceOptions> getInstanceOptions();
+
+  // Configs should be set before start at the begining or after reset.
+  Promise<void> setCameraOptions(CameraOptions options);
+  Promise<void> setInstanceOptions(InstanceOptions options);
+
+  Promise<void> start();
+  Promise<void> stop();
+  Promise<void> pause();
+  Promise<void> resume();
+  // Rsets SLAM module back to unconfigured state.
+  Promise<void> reset();
+
+  // Restarts SLAM with pose aligned to gravity.
+  Promise<void> restartTracking();
+
+  Promise<TrackingResult> getTrackingResult();
+  Promise<OccupancyMapData> getOccupancyMap(optional RegionOfInterest roi);
+  Promise<MapImage> getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap);
+  // TODO(Donna): there is a bug on optional argument from WIDL-NAN
+  //              we will fix the bug and support the parameter next step.
+  // Promise<OccupancyMapData> getOccupancyMapUpdate(optional RegionOfInterest roi);
+  Promise<OccupancyMapData> getOccupancyMapUpdate();
+  Promise<OccupancyMapBounds> getOccupancyMapBounds();
+
+  //OPEN: Replace file name to file blob, for following 4 APIs.
+  Promise<void> loadOccupancyMap(String mapFileName);
+
+  //OPEN: no file I/O
+  Promise<String> saveOccupancyMap(optional String mapFileName);
+  Promise<String> saveOccupancyMapAsPpm(optional String mapFileName, optional boolean drawCameraTrajectory);
+
+  Promise<void> loadRelocalizationMap(String mapFileName);
+  //@return the full path of the saved map file.
+  Promise<String> saveRelocalizationMap(optional String mapFileName);
+
+  //TODO: float32Array
+  Promise<sequence<float>> getRelocalizationPose();
+
+  // #ifdef finaldoc
+  //Events
+  //TODO: support these in the future.
+  //attribute EventHandler ontracking;
+  //attribute EventHandler onerror;
+  // #endif
+};

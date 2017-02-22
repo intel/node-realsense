@@ -1,0 +1,33 @@
+language: node_js
+
+node_js:
+  - "4"
+
+sudo: required
+
+services:
+  # Travis CI does not support Ubuntu 16.04, so we use docker to match RealSense requirement.
+  - docker
+
+branches:
+  only:
+  - master
+
+before_install:
+  # Run linter
+  - git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git && export PATH=$PATH:$(pwd)/depot_tools
+  - cd tools && npm install && cd ..
+  - python ./tools/node_modules/widl-nan/tools/lint.py
+
+  # Pull container
+  - sudo docker pull ubuntu:16.04
+
+  # Install dependencies described as Dockerfile
+  - sudo mkdir ./tools/.docker
+  - sudo cat ./tools/Dockerfile.template | sed 's/<your_username>/mrbuild/g' | sed 's/<your_git_name>/Mr. Build/g' | sed 's/<your_git_email>/node-realsense@github.com/g' > /tmp/Dockerfile
+  - sudo cp /tmp/Dockerfile ./tools/.docker/Dockerfile
+  - sudo cp ./tools/install_realsense_pkgs.sh ./tools/.docker/
+  - sudo docker build -t realsense ./tools/.docker
+
+script:
+  - sudo docker run -v $(pwd):/home/mrbuild/node-realsense --rm realsense bash -c "sudo -H -u mrbuild /home/mrbuild/node-realsense/tools/try_build_realsense_js.sh"
