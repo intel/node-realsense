@@ -1,0 +1,899 @@
+<pre class='metadata'>
+Title: Common JavaScript API in OR/PT/SLAM
+Shortname: Common
+Level: 1
+Status: LS
+URL: https://github.com/01org/node-realsense
+Editor: Kenny Yuan
+Repository: https://github.com/01org/node-realsense
+Abstract: This specification describes the common JavaScript API in OR/PT/SLAM module for Intel® RealSense™ camera.
+Markup Shorthands: css no, markdown yes
+Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
+</pre>
+
+<pre class=link-defaults>
+spec:html; type:element;
+	text:a
+	text:script
+	text:style
+</pre>
+
+<style>
+table {
+  text-indent: 20px;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: manual;
+  border-collapse: collapse;
+  border-left-style: hidden;
+  border-right-style: hidden;
+  text-align: left;
+}
+table caption {
+//  font-weight: bold;
+  padding: 3px;
+  text-align: left;
+}
+table td, table th {
+  border: 1px solid black;
+  padding: 3px;
+}
+
+li {list-style-type: none;}
+</style>
+
+Introduction {#introduction}
+========================
+
+The APIs described in this document are exposed in <code>realsense-object-recognition</code>, <code>realsense_person_tracking</code> and <code>realsense_slam</code> module.
+
+Interface {#interface}
+========================
+
+
+
+<dfn>Point2D</dfn> {#point2DInterface}
+----------------------------
+
+<pre class="idl">
+[
+Constructor,
+Constructor(float x, float y),
+Constructor(sequence&lt;float&gt; coords)
+]
+interface Point2D {
+  attribute float x;
+  attribute float y;
+
+  void setCoords(sequence&lt;float&gt; coords);
+  void setCoords(float x, float y);
+  sequence&lt;float&gt; getCoords();
+
+  boolean equal(Point2D point);
+  boolean equal(float x, float y);
+
+  static float distance(Point2D p1, Point2D p2);
+};
+</pre>
+
+### Attributes ### {#point2d-attributes-1}
+: {{x}} of type <code>float</code>
+::  The current x value of the point
+
+: {{y}} of type <code>float</code>
+::  The current y value of the point
+
+### Methods ### {#methods-point2DInterface}
+: {{setCoords}}
+:: Use this method to change the (x, y) value of the point.
+:: *Return type*: <code>void</code>
+
+: {{getCoords}}
+:: Use this method to get the (x, y) value of the point.
+:: *Return type*: <code>sequence&lt;float&gt;</code>
+
+: {{equal}}
+:: Use this method to compare to another point.
+:: *Return type*: <code>booleanean</code>
+
+: {{distance}}
+:: Use this method to calculate the distance between 2 points.
+:: *Return type*: <code>float</code>
+
+
+
+<dfn>Point3D</dfn> {#point3DInterface}
+----------------------------
+
+<pre class="idl">
+[
+Constructor,
+Constructor(float x, float y, float z),
+Constructor(sequence&lt;float&gt; coords)
+]
+interface Point3D {
+  attribute float x;
+  attribute float y;
+  attribute float z;
+
+  void setCoords(sequence&lt;float&gt; coords);
+  void setCoords(float x, float y, float z);
+  sequence&lt;float&gt; getCoords();
+
+  boolean equal(Point3D point);
+  boolean equal(float x, float y, float z);
+
+  static float distance(Point3D p1, Point3D p2);
+};
+</pre>
+
+### Attributes ### {#point3d-attributes-1}
+: {{x}} of type <code>float</code>
+::  The current x value of the point
+
+: {{y}} of type <code>float</code>
+::  The current y value of the point
+
+: {{z}} of type <code>float</code>
+::  The current z value of the point
+
+### Methods ### {#methods-point3DInterface}
+: {{setCoords}}
+:: Use this method to change the (x, y, z) value of the point.
+:: *Return type*: <code>void</code>
+
+: {{getCoords}}
+:: Use this method to get the (x, y, z) value of the point.
+:: *Return type*: <code>sequence&lt;float&gt;</code>
+
+: {{equal}}
+:: Use this method to compare to another point.
+:: *Return type*: <code>booleanean</code>
+
+: {{distance}}
+:: Use this method to calculate the distance between 2 points.
+:: *Return type*: <code>float</code>
+
+
+
+<dfn>Range</dfn> {#rangeInterface}
+----------------------------
+
+<pre class="idl">
+[
+Constructor,
+Constructor(float begin, float end)
+]
+interface Range {
+  attribute float begin;
+  attribute float end;
+
+  attribute float min; // Alias to begin
+  attribute float max; // Alias to end
+
+  readonly attribute float length;
+
+  boolean contains(float value);
+  boolean properlyContains(float value);
+
+  boolean equal(Range range);
+  boolean equal(float begin, float end);
+
+  boolean isEmpty();
+  boolean isValid();
+
+  stringifier;
+};
+</pre>
+
+### Attributes ### {#range-attributes-1}
+: {{begin}} of type <code>float</code>
+::  The first value of the range
+
+: {{end}} of type <code>float</code>
+::  The last value of the range
+
+: {{min}} of type <code>float</code>
+::  The alias to the first value of the range
+
+: {{max}} of type <code>float</code>
+::  The alias to the last value of the range
+
+### Methods ### {#methods-rangeInterface}
+: {{contains}}
+:: Use this method to determine if a value is in a specified range [begin, end]
+:: *Return type*: <code>booleanean</code>
+
+: {{properlyContains}}
+:: Use this method to determine if a value is in a specified range (begin, end)
+:: *Return type*: <code>booleanean</code>
+
+: {{equal}}
+:: Use this method to compare to another range.
+:: *Return type*: <code>booleanean</code>
+
+: {{isEmpty}}
+:: Use this method to determine if a range is empty.
+:: *Return type*: <code>booleanean</code>
+
+: {{isValid}}
+:: Use this method to determine if a range is valid (first &lt;= last).
+:: *Return type*: <code>booleanean</code>
+
+
+
+
+<dfn>Size2D</dfn> {#size2DInterface}
+----------------------------
+
+<pre class="idl">
+[
+Constructor,
+Constructor(float width, float height)
+]
+interface Size2D {
+  attribute float width;
+  attribute float height;
+
+  attribute float cx; // Alias to width
+  attribute float cy; // Alias to height
+
+  boolean equal(Size2D size);
+  boolean equal(float width, float height);
+
+  boolean isEmpty();
+  boolean isValid();
+
+  stringifier;
+};
+</pre>
+
+### Attributes ### {#size2d-attributes-1}
+: {{width}} of type <code>float</code>
+::  The width of the size
+
+: {{height}} of type <code>float</code>
+::  The height of the size
+
+: {{cx}} of type <code>float</code>
+::  The alais to the width of the size
+
+: {{cy}} of type <code>float</code>
+::  The alais to the height of the size
+
+### Methods ### {#size2d-methods}
+: {{equal}}
+:: Use this method to compare to another size.
+:: *Return type*: <code>booleanean</code>
+
+: {{isEmpty}}
+:: Use this method to determine if a size is empty.
+:: *Return type*: <code>booleanean</code>
+
+: {{isValid}}
+:: Use this method to determine if a size is valid (width &gt;= 0 and height &gt;= 0).
+:: *Return type*: <code>booleanean</code>
+
+
+<dfn>Rect2D</dfn> {#rect2DInterface}
+----------------------------
+
+<pre class="idl">
+[
+Constructor,
+Constructor(float x, float y, float width, float height),
+Constructor(Point2D topLeft, Size2D size),
+Constructor(sequence&lt;float&gt; coords)
+]
+interface Rect2D {
+  attribute float x;
+  attribute float y;
+  attribute float width;
+  attribute float height;
+  readonly attribute float diagonalLength;
+  attribute Size2D size;
+
+  attribute Point2D topLeft;
+  attribute Point2D topRight;
+  attribute Point2D bottomLeft;
+  attribute Point2D bottomRight;
+
+  attribute Point2D center;
+  attribute Point2D topCenter;
+  attribute Point2D bottomCenter;
+  attribute Point2D leftCenter;
+  attribute Point2D rightCenter;
+
+  attribute float top;
+  attribute float left;
+  attribute float bottom;
+  attribute float right;
+
+  attribute Range horzRange;
+  attribute Range vertRange;
+
+  boolean equal(Rect2D rect);
+  boolean equal(Point2D topLeft, Size2D size);
+  boolean equal(Point2D topLeft, Point2D bottomRight);
+  boolean equal(float x, float y, float width, float height);
+  boolean equalCoord(float left, float top, float right, float bottom);
+
+  boolean isEmpty();
+  boolean isValid();
+
+  void adjust(float leftNudge, float topNudge, float rightNudge, float bottomNudge);
+
+  void expand(float leftNudge, float topNudge, float rightNudge, float bottomNudge);
+  void expand(Size2D size);
+  void expand(float x, float y);
+  void expand(float value);
+
+  void shrink(float leftNudge, float topNudge, float rightNudge, float bottomNudge);
+  void shrink(Size2D size);
+  void shrink(float x, float y);
+  void shrink(float value);
+
+  void move(float x, float y);
+
+  void moveTopTo(float coord);
+  void moveLeftTo(float coord);
+  void moveRightTo(float coord);
+  void moveBottomTo(float coord);
+
+  void moveTopLeftTo(Point2D point);
+  void moveTopRightTo(Point2D point);
+  void moveBottomRightTo(Point2D point);
+  void moveBottomLeftTo(Point2D point);
+  void moveCenterTo(Point2D point);
+  void moveLeftCenterTo(Point2D point);
+  void moveTopCenterTo(Point2D point);
+  void moveRightCenterTo(Point2D point);
+  void moveBottomCenterTo(Point2D point);
+
+  void normalize();
+
+  void setCoords(float left, float top, float right, float bottom);
+  void setCoords(sequence&lt;float&gt; coords);
+
+  sequence&lt;Float&gt; getCoords();
+
+  boolean onEdge(float x, float y);
+  boolean onEdge(Point2D point);
+
+  boolean contains(Point2D point);
+  boolean contains(float x, float y);
+  boolean contains(Rect2D rect);
+  boolean contains(float x, float y, float width, float height);
+  boolean containsCoord(float left, float top, float right, float bottom);
+
+  boolean properlyContains(Point2D point);
+  boolean properlyContains(float x, float y);
+  boolean properlyContains(Rect2D rect);
+  boolean properlyContains(float x, float y, float width, float height);
+  boolean properlyContainsCoord(float left, float top, float right, float bottom);
+
+  stringifier;
+};
+</pre>
+
+### Attributes ### {#rect2d-attributes-1}
+: {{x}} of type <code>float</code>
+:: the x of the rectangle
+
+: {{y}} of type <code>float</code>
+:: the y of the rectangle
+
+: {{width}} of type <code>float</code>
+:: the width of the rectangle
+
+: {{height}} of type <code>float</code>
+:: the height of the rectangle
+
+: {{diagonalLength}} of type <code>float</code>
+:: the diagonal length of the rectangle
+
+: {{size}} of type [=Size2D=]
+:: the size of the rectangle
+
+: {{topLeft}} of type [=Point2D=]
+:: the top-left of the rectangle
+
+: {{topRight}} of type [=Point2D=]
+:: the top-right of the rectangle
+
+: {{bottomLeft}} of type [=Point2D=]
+:: the bottomLeft of the rectangle
+
+: {{bottomRight}} of type [=Point2D=]
+:: the bottom-right of the rectangle
+
+: {{center}} of type [=Point2D=]
+:: the center of the rectangle
+
+: {{topCenter}} of type [=Point2D=]
+:: the top-center of the rectangle
+
+: {{bottomCenter}} of type [=Point2D=]
+:: the bottom-center of the rectangle
+
+: {{leftCenter}} of type [=Point2D=]
+:: the left-center of the rectangle
+
+: {{rightCenter}} of type [=Point2D=]
+:: the right-center of the rectangle
+
+: {{top}} of type <code>float</code>
+:: the top of the rectangle
+
+: {{left}} of type <code>float</code>
+:: the left of the rectangle
+
+: {{bottom}} of type <code>float</code>
+:: the bottom of the rectangle
+
+: {{right}} of type <code>float</code>
+:: the right of the rectangle
+
+: {{horzRange}} of type [=Range=]
+:: the horz-range of the rectangle
+
+: {{vertRange}} of type [=Range=]
+:: the vert-range of the rectangle
+
+### Methods ### {#rect2d-methods}
+: {{equal}}
+:: Use this method to compare to another rectangle.
+:: *Return type*: <code>booleanean</code>
+
+: {{equalCoord}}
+:: Use this method to compare to another rectangle.
+:: *Return type*: <code>booleanean</code>
+
+: {{isEmpty}}
+:: Use this method to determine if a rectangle is empty.
+:: *Return type*: <code>booleanean</code>
+
+: {{isValid}}
+:: Use this method to determine if a rectangle is valid (width &gt;= 0 and height &gt;= 0).
+:: *Return type*: <code>booleanean</code>
+
+: {{adjust}}
+:: Use this method to change the rectangle
+:: *Return type*: <code>void</code>
+
+: {{expand}}
+:: Use this method to increase size of the rectangle
+:: *Return type*: <code>void</code>
+
+: {{shrink}}
+:: Use this method to decrease size of the rectangle
+:: *Return type*: <code>void</code>
+
+: {{move}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveTopTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveLeftTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveRightTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveBottomTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveTopLeftTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveTopRightTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveBottomRightTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveBottomLeftTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveCenterTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveLeftCenterTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveTopCenterTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveRightCenterTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{moveBottomCenterTo}}
+:: Use this method to move the rectangle
+:: *Return type*: <code>void</code>
+
+: {{normalize}}
+:: Use this method to normalize the rectangle
+:: *Return type*: <code>void</code>
+
+: {{setCoords}}
+:: Use this method to change the rectangle
+:: *Return type*: <code>void</code>
+
+: {{getCoords}}
+:: Use this method to get the (left, top, right, bottom) of the rectangle
+:: *Return type*: <code>sequence&lt;float&gt;</code>
+
+: {{onEdge}}
+:: Use this method to determine if the specified point is on the edge of the rectangle
+:: *Return type*: <code>booleanean</code>
+
+: {{contains}}
+:: Use this method to determine if the specified point or a rectangle is in the rectangle
+:: *Return type*: <code>booleanean</code>
+
+: {{containsCoord}}
+:: Use this method to determine if the specified point or a rectangle is in the rectangle
+:: *Return type*: <code>booleanean</code>
+
+: {{properlyContains}}
+:: Use this method to determine if the specified point or a rectangle is in the rectangle (but not on any edge of the rectangle)
+:: *Return type*: <code>booleanean</code>
+
+: {{properlyContainsCoord}}
+:: Use this method to determine if the specified point or a rectangle is in the rectangle (but not on any edge of the rectangle)
+:: *Return type*: <code>booleanean</code>
+
+
+<dfn>MotionDeviceIntrinsic</dfn> {#motionDeviceIntrinsicInterface}
+----------------------------
+
+<pre class="idl">
+interface MotionDeviceIntrinsic {
+  // Array indices for attribute data
+  /* Scale X        cross axis        cross axis      Bias X */
+  /* cross axis     Scale Y           cross axis      Bias Y */
+  /* cross axis     cross axis        Scale Z         Bias Z */
+  attribute Float32Array  data;            // length === 12
+
+  attribute Float32Array  noiseVariances;  // length === 3
+  attribute Float32Array  biasVariances;   // length === 3
+};
+</pre>
+
+### Attributes ### {#motionDeviceIntrinsic-attributes-1}
+: {{data}} of type <code>Float32Array</code>
+::  A TypedArray, representing intrinsic of the momtion device
+
+: {{noiseVariances}} of type <code>Float32Array</code>
+::  A TypedArray, representing noise variances of the momtion device
+
+: {{biasVariances}} of type <code>Float32Array</code>
+::  A TypedArray, representing bias variances of the momtion device
+
+
+
+<dfn>Intrinsics</dfn> {#intrinsicsInterface}
+----------------------------
+
+<pre class="idl">
+interface Intrinsics
+{
+  attribute long     width;          // width of the image in pixels
+  attribute long     height;         // height of the image in pixels
+  attribute Point2D  principalPoint; // coordinate of the principal point of the image, as a pixel offset from the top/left edge
+  attribute Point2D  focalLength;    // focal length of the image plane, as a multiple of pixel width
+};
+</pre>
+
+### Attributes ### {#intrinsics-attributes-1}
+: {{width}} of type <code>long</code>
+::  The width of the image
+
+: {{height}} of type <code>long</code>
+::  The height of the image
+
+: {{principalPoint}} of type [=Point2D=]
+::  The principal point, as a pixel offset from the top/left edge
+
+: {{focalLength}} of type [=Point2D=]
+::  The focal length
+
+
+
+
+<dfn>Extrinsics</dfn> {#extrinsicsInterface}
+----------------------------
+
+<pre class="idl">
+interface Extrinsics {
+  attribute Float32Array rotation;      // length === 3
+  attribute Float32Array translation;   // length === 3
+};
+</pre>
+
+### Attributes ### {#intrinsics-attributes-1}
+: {{rotation}} of type <code>Float32Array</code>
+::  A TypedArray, representing the rotation
+
+: {{translation}} of type <code>Float32Array</code>
+::  A TypedArray, representing the translation
+
+
+
+<dfn>Image</dfn> {#imageInterface}
+----------------------------
+
+<pre class="idl">
+interface Image {
+  readonly attribute long           width;
+  readonly attribute long           height;
+  readonly attribute PixelFormat    format;
+  readonly attribute double         timeStamp;
+
+  readonly attribute unsigned long  frameNumber;
+  readonly attribute ArrayBuffer    data;
+};
+</pre>
+
+### Attributes ### {#intrinsics-attributes-1}
+: {{width}} of type <code>long</code>
+::  The width of the image
+
+: {{height}} of type <code>long</code>
+::  The height of the image
+
+: {{format}} of type [=PixelFormat=]
+::  The format of the image
+
+: {{timeStamp}} of type <code>double</code>
+::  The time stamp of the image
+
+: {{frameNumber}} of type <code>unsigned long</code>
+::  The frame number of the image
+
+: {{data}} of type <code>double</code>
+::  An ArrayBuffer object, representing the image data
+
+
+
+<dfn>MotionSample</dfn> {#motionSampleInterface}
+----------------------------
+
+<pre class="idl">
+interface MotionSample {
+  readonly attribute double         timeStamp;
+  readonly attribute unsigned long  frameNumber;
+  readonly attribute Float32Array   data; // length === 3 
+};
+</pre>
+
+### Attributes ### {#motionSample-attributes-1}
+: {{timeStamp}} of type <code>double</code>
+::  The time stamp
+
+: {{frameNumber}} of type <code>unsigned long</code>
+::  The frame number
+
+: {{data}} of type <code>Float32Array</code>
+::  A TypedArray, representing the motion data
+
+
+<dfn>FrameData</dfn> {#frameDataInterface}
+----------------------------
+
+<pre class="idl">
+interface FrameData {
+  readonly attribute Image? fisheye;
+  readonly attribute Image? color;
+  readonly attribute Image? depth;
+
+  readonly attribute MotionSample? gyro;
+  readonly attribute MotionSample? accel;
+};
+</pre>
+
+### Attributes ### {#motionSample-attributes-1}
+: {{fisheye}} of type [=Image=]
+::  The fisheye image stream of the camera
+
+: {{color}} of type [=Image=]
+::  The color image stream of the camera
+
+: {{depth}} of type [=Image=]
+::  The depth image stream of the camera
+
+: {{gyro}} of type [=MotionSample=]
+::  The gyro sensor of the camera
+
+: {{accel}} of type [=MotionSample=]
+::  The accel sensor of the camera
+
+
+Dictionaries {#dictionaries}
+========================
+
+<dfn>ImageStreamOptions</dfn> {#imageStreamOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary ImageStreamOptions {
+  long        width;
+  long        height;
+  float       frameRate;
+  Intrinsics  intrinsics;
+  Extrinsics  extrinsics;
+  boolean     isEnabled;
+};
+</pre>
+
+### Dictionary [=ImageStreamOptions=] Members### {#imageStreamOptionsMembers}
+
+: {{width}} of type <code>long</a>
+:: the width of the image stream
+
+: {{height}} of type <code>long</a>
+:: the height of the image stream
+
+: {{frameRate}} of type <code>long</a>
+:: the frame rate of the stream
+
+: {{isEnabled}} of type <code>boolean</a>
+:: if this stream is enabled
+
+: {{intrinsics}} of type [=Intrinsics=]</a>
+:: the intrinsics of the stream
+
+: {{extrinsics}} of type [=Extrinsics=]</a>
+:: the extrinsics of the stream
+
+<dfn>MotionSensorOptions</dfn> {#motionSensorOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary MotionSensorOptions {
+  float                  frameRate;
+  boolean                isEnabled;
+  MotionDeviceIntrinsic  intrinsics;
+  Extrinsics             extrinsics;
+};
+</pre>
+
+### Dictionary [=MotionSensorOptions=] Members### {#motionSensorOptionsMembers}
+
+: {{frameRate}} of type <code>long</a>
+:: the frame rate of the sensor
+
+: {{isEnabled}} of type <code>boolean</a>
+:: if this sensor is enabled
+
+: {{intrinsics}} of type [=MotionDeviceIntrinsic=]</a>
+:: the intrinsics of the sensor
+
+: {{extrinsics}} of type [=Extrinsics=]</a>
+:: the extrinsics of the sensor
+
+
+<dfn>CameraOptions</dfn> {#cameraOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary CameraOptions {
+  ImageStreamOptions   color;
+  ImageStreamOptions   depth;
+  ImageStreamOptions   fisheye;
+
+  MotionSensorOptions  accel;
+  MotionSensorOptions  gyro;
+
+  // Only for testing purpose
+  DOMString playbackPathForTesting;
+};
+</pre>
+
+
+### Dictionary [=CameraOptions=] Members### {#cameraOptionsMembers}
+
+: {{color}} of type [=ImageStreamOptions=]</a>
+:: the frame rate of the sensor
+
+: {{depth}} of type [=ImageStreamOptions=]</a>
+:: the frame rate of the sensor
+
+: {{fisheye}} of type [=ImageStreamOptions=]</a>
+:: the frame rate of the sensor
+
+: {{accel}} of type [=MotionSensorOptions=]</a>
+:: the frame rate of the sensor
+
+: {{gyro}} of type [=MotionSensorOptions=]</a>
+:: the frame rate of the sensor
+
+: {{playbackPathForTesting}} of type <code>String</a>
+:: the frame rate of the sensor
+
+
+Enumerators {#enumerators}
+========================
+
+<dfn>PixelFormat</dfn> enum {#RecognitionMode}
+----------------------------
+
+<pre class='idl'>
+enum PixelFormat {
+  "any",
+  "z16",
+  "disparity16",  // 16 bit linear depth values. The depth is meters is equal to depth scale * pixel value
+  "xyz32f",       // 32 bit floating point 3D coordinates.
+  "yuyv",
+  "rgb8",
+  "bgr8",
+  "rgba8",
+  "bgra8",
+  "y8",
+  "y16",
+  "raw8",
+  "raw10",        // Four 10-bit luminance values encoded into a 5-byte macropixel
+  "raw16"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"any"}}
+       <td>
+    <tr>
+       <td>{{"z16"}}
+       <td>
+    <tr>
+       <td>{{"disparity16"}}
+       <td>
+    <tr>
+       <td>{{"xyz32f"}}
+       <td>
+    <tr>
+       <td>{{"yuyv"}}
+       <td>
+    <tr>
+       <td>{{"rgb8"}}
+       <td>
+    <tr>
+       <td>{{"bgr8"}}
+       <td>
+    <tr>
+       <td>{{"rgba8"}}
+       <td>
+    <tr>
+       <td>{{"bgra8"}}
+       <td>
+    <tr>
+       <td>{{"y8"}}
+       <td>
+    <tr>
+       <td>{{"y16"}}
+       <td>
+    <tr>
+       <td>{{"raw8"}}
+       <td>
+    <tr>
+       <td>{{"raw10"}}
+       <td>
+    <tr>
+       <td>{{"raw16"}}
+       <td>
+</table>
