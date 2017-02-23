@@ -90,8 +90,9 @@ function registerTestWork() {
     });
   });
   tracker.on('frameprocessed', function(result) {
-    let frame = tracker.getFrameData();
-    console.log(frame);
+    tracker.getFrameData().then((frame) => {
+      console.log(frame);
+    });
   });
 }
 // eslint-disable-next-line

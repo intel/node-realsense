@@ -469,7 +469,6 @@ utils::Status SlamModuleDev::Init() {
   // 5. get default module config
   QueryCurrentModuleConfig();
 
-
   // 6. register MW event handlers
   process_handler_ = new SlamEventHandlerDev();
   result.set_id(slam_->register_event_handler(process_handler_));
@@ -505,6 +504,16 @@ utils::Status SlamModuleDev::Start() {
     result.set_id(SLAM_ADDON_ERROR);
     result.set_message(
         "wrong state: try to start without initialization");
+    return result;
+  }
+  // set_module_config actually apply configurations for streams and motion,
+  // so it applys to the camera_config_.
+  // TODO(Donna): we need to change module_config_ to a better name, such as
+  // instance_options_, etc.
+  result.set_id(slam_->set_module_config(actual_config_));
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message(
+        "error : failed to set the enabled configuration");
     return result;
   }
   // 2. start the device
@@ -558,16 +567,23 @@ utils::Status SlamModuleDev::GetOccupancyMapAsRgba(
   utils::Status result;
   unsigned char *image;
   unsigned int width, height;
+  width = 0;
+  height = 0;
   result.set_id(slam_->get_occupancy_map_as_rgba(&image, &width, &height,
       draw_pose_trajectory, draw_occupancy_map));
 
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message("Failed to get occpuancy map as rgba.");
+    return result;
+  }
+  if (image == nullptr || width < 0 || height < 0) {
+    result.set_id(SLAM_ADDON_ERROR);
+    result.set_message("Invalid RGBA occupancy map data.");
+    return result;
+  }
   map_image->set_data_store(image, width, height);
   map_image->set_width(width);
   map_image->set_height(height);
-
-  if (result.id() < rs::core::status_no_error) {
-    result.set_message("Failed to get occpuancy map as rgba.");
-  }
   return result;
 }
 

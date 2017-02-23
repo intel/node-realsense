@@ -125,13 +125,15 @@ void PersonTrackerAdapter::PartiallyFillInCameraData(
   // TODO(shaoting) implement when used.
 }
 
-void PersonTrackerAdapter::SetConfig(const PersonTrackerOptions& cfg) {
-  SetConfig(std::make_shared<DictionaryPersonTrackerOptions>(cfg));
+bool PersonTrackerAdapter::SetConfig(
+    const PersonTrackerOptions& cfg, std::string* error) {
+  return SetConfig(
+      std::make_shared<DictionaryPersonTrackerOptions>(cfg), error);
 }
 
-void PersonTrackerAdapter::SetConfig(
-    std::shared_ptr<DictionaryPersonTrackerOptions> cfg) {
-  config_.option_helper_.SetOptions(cfg);
+bool PersonTrackerAdapter::SetConfig(
+    std::shared_ptr<DictionaryPersonTrackerOptions> cfg, std::string* error) {
+  return config_.option_helper_.SetOptions(cfg, error);
 }
 
 bool PersonTrackerAdapter::GetConfig(PersonTrackerOptions* options) {

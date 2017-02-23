@@ -26,7 +26,7 @@ class MotionSample {
   static const uint32_t DATA_SIZE = 3;
 
  public:
-  uint32_t get_timeStamp() const {
+  double get_timeStamp() const {
     return this->timestamp_;
   }
 
@@ -34,11 +34,11 @@ class MotionSample {
     this->timestamp_ = timestamp;
   }
 
-  int32_t get_frameNumber() const {
+  uint32_t get_frameNumber() const {
     return this->frame_number_;
   }
 
-  void set_frame_number(uint64_t frameNumber) {
+  void set_frame_number(uint32_t frameNumber) {
     this->frame_number_ = frameNumber;
   }
 
@@ -71,9 +71,9 @@ class MotionSample {
   void CopyFrom(const MotionSample& rhs);
 
  private:
-  uint32_t timestamp_;
+  double timestamp_;
 
-  int32_t frame_number_;
+  uint32_t frame_number_;
 
   Float32ArrayHelper data_;
   float data_store_[DATA_SIZE];

@@ -82,7 +82,8 @@ v8::Handle<v8::Promise> Instance::reset() {
 }
 
 v8::Handle<v8::Promise> Instance::restartTracking() {
-  // TODO(widl-nan): fill your code here
+  if (REPLACE_ASYNC)
+    return SlamRunnerDev::GetSlamRunner()->restartTracking();
 }
 
 v8::Handle<v8::Promise> Instance::getTrackingResult() {
@@ -99,7 +100,12 @@ v8::Handle<v8::Promise> Instance::getOccupancyMap(
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapAsRgba(
     const bool& drawPoseTrajectory, const bool& drawOccupancyMap) {
-  return runner_->getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap);
+  if (REPLACE_ASYNC) {
+    return SlamRunnerDev::GetSlamRunner()->getOccupancyMapAsRgba(
+        drawPoseTrajectory, drawOccupancyMap);
+  } else {
+    return runner_->getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap);
+  }
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate(
@@ -115,7 +121,10 @@ v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate() {
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapBounds() {
-  return runner_->getOccupancyMapBounds();
+  if (REPLACE_ASYNC)
+    return SlamRunnerDev::GetSlamRunner()->getOccupancyMapBounds();
+  else
+    return runner_->getOccupancyMapBounds();
 }
 
 v8::Handle<v8::Promise> Instance::loadOccupancyMap(
@@ -125,12 +134,21 @@ v8::Handle<v8::Promise> Instance::loadOccupancyMap(
 
 v8::Handle<v8::Promise> Instance::saveOccupancyMap(
     const std::string& mapFileName) {
-  return runner_->saveOccupancyMap(mapFileName);
+  if (REPLACE_ASYNC)
+    return SlamRunnerDev::GetSlamRunner()->saveOccupancyMap(mapFileName);
+  else
+    return runner_->saveOccupancyMap(mapFileName);
 }
 
 v8::Handle<v8::Promise> Instance::saveOccupancyMapAsPpm(
     const std::string& mapFileName, const bool& drawCameraTrajectory) {
-  return runner_->saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory);
+
+  if (REPLACE_ASYNC) {
+    return SlamRunnerDev::GetSlamRunner()->saveOccupancyMapAsPpm(
+        mapFileName, drawCameraTrajectory);
+  } else {
+    return runner_->saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory);
+  }
 }
 
 v8::Handle<v8::Promise> Instance::loadRelocalizationMap(

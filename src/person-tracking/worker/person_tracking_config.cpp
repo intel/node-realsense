@@ -10,6 +10,53 @@
 using TrackingConfig = PT::PersonTrackingConfiguration::TrackingConfiguration;
 using SkeletonConfig = PT::SkeletonJointsConfiguration;
 
+bool PersonTrackerOptionsHelper::CheckSemanticConsistency(
+    std::shared_ptr<DictionaryPersonTrackerOptions> options,
+    std::string* error) {
+  if (!options) {
+    return false;
+  }
+
+  if (options->has_member_gesture) {
+    auto& gesture = options->member_gesture;
+    bool enableAll = false;
+    bool disableAll = false;
+    bool enablePointing = false;
+    bool disablePointing = false;
+
+    if (gesture.has_member_enableAllGestures &&
+        gesture.member_enableAllGestures)
+      enableAll = true;
+
+    if (gesture.has_member_disableAllGestures &&
+        gesture.member_disableAllGestures)
+      disableAll = true;
+
+    if (gesture.has_member_enablePointing) {
+      if (gesture.member_enablePointing)
+        enablePointing = true;
+      else
+        disablePointing = true;
+    }
+    if (enableAll && disablePointing) {
+      if (error)
+        *error = "Conflict found between enablePointing and enableAllGestures of GestureRecognitionOptions";  // NOLINT
+      return false;
+    }
+    if (disableAll && enablePointing) {
+      if (error)
+        *error = "Conflict found between enablePointing and disableAllGestures of GestureRecognitionOptions";  // NOLINT
+      return false;
+    }
+    if (enableAll && disableAll) {
+      if (error)
+        *error = "Conflict found between enableAllGestures and disableAllGestures of GestureRecognitionOptions";  // NOLINT
+      return false;
+    }
+  }
+  return true;
+}
+
 PersonTrackingConfig::PersonTrackingConfig() {
   Reset();
 }

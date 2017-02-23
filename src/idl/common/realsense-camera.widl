@@ -49,15 +49,17 @@ interface Image {
   readonly attribute long           width;
   readonly attribute long           height;
   readonly attribute PixelFormat    format;
+  readonly attribute double         timeStamp;
 
-  readonly attribute unsigned long  timeStamp;
-  readonly attribute long           frameNumber;
+  // In realsense_sdk, the type of frame_number is uint64_t,
+  // but NAN doesn't support unsigned long long(uint64_t), so use uint32_t instread.
+  readonly attribute unsigned long  frameNumber;
   readonly attribute ArrayBuffer    data;
 };
 
 interface MotionSample {
-  readonly attribute unsigned long  timeStamp;
-  readonly attribute long           frameNumber;
+  readonly attribute double         timeStamp;
+  readonly attribute unsigned long  frameNumber;
   readonly attribute Float32Array   data; // length === 3 
 };
 

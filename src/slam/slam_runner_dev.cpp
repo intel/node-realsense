@@ -121,3 +121,44 @@ v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapUpdate() {
       "{{GET_OCCUPANCY_MAP_UPDATE MESSAGE}}");
 }
 
+v8::Handle<v8::Promise> SlamRunnerDev::restartTracking() {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new RestartTrackingTask(),
+      new SlamPayload<void>(this),
+      "{{RESTART_TRACKING MESSAGE}}");
+}
+
+v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMap(
+    const std::string& file_name) {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new SaveOccupancyMapTask(),
+      new SlamPayload<std::string>(this, file_name),
+      "{{SAVE_OCCUPANCY_MAP MESSAGE}}");
+}
+
+v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMapAsPpm(
+    const std::string& file_name, bool draw_camera_trajectory) {
+  auto wrapper = new ParameterWrapperForSavingPpmMap(
+      file_name, draw_camera_trajectory);
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new SaveOccupancyMapAsPpmTask(),
+      new SavePpmMapPayload(this, wrapper),
+      "{{SAVE_OCCUPANCY_MAP_AS_PPM MESSAGE}}");
+}
+
+v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapAsRgba(
+    bool draw_pose_trajectory, bool draw_occupancy_map) {
+  auto wrapper = new ParameterWrapperForGetRgbaMap(
+      draw_pose_trajectory, draw_occupancy_map);
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new GetOccupancyMapAsRgbaTask(),
+      new GetRgbaMapPayload(this, wrapper),
+      "{{GET_OCCUPANCY_MAP_AS_RGBA MESSAGE}}");
+}
+
+v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapBounds() {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new GetOccupancyMapBoundsTask(),
+      new SlamPayload<OccupancyMapBounds*>(this, nullptr),
+      "{{GET_OCCUPANCY_MAP_BOUNDS MESSAGE}}");
+}

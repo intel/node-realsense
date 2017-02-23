@@ -22,7 +22,7 @@ let or = undefined;
 const orOptionsPositive = {
   enableObjectCenterEstimation: [false],
   mode: ['single-recognition', 'tracking', 'localization'],
-  confidenceThreshold: [-0.15, 0, 0.15, 0.75, 1],
+  confidenceThreshold: [0.15, 0.75],
   computeEngine: ['CPU', 'GPU'],
   enableSegmentation: [true, false],
   maxReturnObjectCount: [1, 2, 3],
@@ -33,21 +33,24 @@ const orOptionsNegative = {
     'single-recognition111', // invalid value
   ],
   confidenceThreshold: [
+    -0.15,
+    0,
+    1,
     '0.15', // invalid type
   ],
   computeEngine: [
     'CPU1', // invalid value
     'GPU2', // invalid value
   ],
-  enableSegmentation: [
-    true,
-    123, // invalid value
-  ],
+  // enableSegmentation: [
+  //   123, // invalid value
+  // ],
   maxReturnObjectCount: [
     -1, // invalid value
     'string', // invalid type
   ],
   enableObjectCenterEstimation: [
+    true,
     123, // invalid value
   ],
 };
@@ -103,12 +106,15 @@ function testNegative(orOptions) {
     after(function() {
       this.timeout(15000);
       return new Promise((resolve, reject) => {
-        or.stop().then(function() {
-          console.log('Stop Camera');
-          resolve();
-        }).catch(() => {
-          reject();
-        });
+        if(or.state === 'running') {
+          or.stop().then(function() {
+            console.log('Stop Camera');
+            resolve();
+          }).catch(() => {
+            reject();
+          });
+        }
+        resolve();
       });
     });
 

@@ -13,8 +13,8 @@ static bool IsPlaceholder(v8::Local<v8::Value> value) {
 }
 
 NAN_METHOD(CreatePersonTracker) {
-  DictionaryPersonTrackerOptions tracker_options;
-  DictionaryCameraOptions camera_options;
+  DictionaryPersonTrackerOptions dic_tracker_options;
+  DictionaryCameraOptions dic_camera_options;
 
   bool tracker_options_present = false;
   bool camera_options_present = false;
@@ -41,19 +41,35 @@ NAN_METHOD(CreatePersonTracker) {
   if (len == 2 && info[1]->IsObject())
     camera_options_present = true;
 
+  // Check the option value type
+  std::string error_string;
   if (tracker_options_present) {
-    tracker_options.ImportFrom(v8::Local<v8::Object>::Cast(info[0]));
+    PersonTrackerOptions tracker_options(info[0]->ToObject());
+    dic_tracker_options.ImportFrom(tracker_options);
+
+    if (!tracker_options.CheckType(&error_string)) {
+      info.GetReturnValue().Set(
+          PersonTrackerAdapter::CreateRejectedPromise(error_string));
+      return;
+    }
   }
 
   if (camera_options_present) {
-    camera_options.ImportFrom(v8::Local<v8::Object>::Cast(info[1]));
+    CameraOptions camera_options(info[0]->ToObject());
+    dic_camera_options.ImportFrom(camera_options);
+
+    if (!camera_options.CheckType(&error_string)) {
+      info.GetReturnValue().Set(
+          PersonTrackerAdapter::CreateRejectedPromise(error_string));
+      return;
+    }
   }
 
   PersonTrackerCreator* creator = new PersonTrackerCreator();
   if (tracker_options_present)
-    creator->SetTrackerOptions(tracker_options);
+    creator->SetTrackerOptions(dic_tracker_options);
   if (camera_options_present)
-    creator->SetCameraOptions(camera_options);
+    creator->SetCameraOptions(dic_camera_options);
   creator->CreatePromiseAndSetFunctionReturnValue(info);
 }
 
@@ -75,13 +91,14 @@ void PersonTrackerCreator::SetCameraOptions(
 }
 
 bool PersonTrackerCreator::DoWork() {
+  bool success = true;
   if (have_tracker_options_)
-    PersonTrackerRunnerProxy::GetInstance()->SetPersonTrackerOptionsDirectly(
-        tracker_options_);
-  if (have_camera_options_)
-    return PersonTrackerRunnerProxy::GetInstance()->SetCameraOptionsDirectly(
+    success = PersonTrackerRunnerProxy::GetInstance()->SetPersonTrackerOptionsDirectly(  // NOLINT
+        tracker_options_, &fail_reason_);
+  if (success && have_camera_options_)
+    success = PersonTrackerRunnerProxy::GetInstance()->SetCameraOptionsDirectly(  // NOLINT
         camera_options_, &fail_reason_);
-  return true;
+  return success;
 }
 
 void PersonTrackerCreator::OnWorkDone() {

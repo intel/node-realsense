@@ -35,8 +35,10 @@ PersonTrackerAdapter* PTEventEmitterTask::GetAdapter() {
 void SetOptionsTask::WorkerThreadExecute() {
   SetOptionsTaskPayload* payload = GetPayload();
   PersonTrackerAdapter* adapter = GetAdapter();
-  adapter->SetConfig(payload->GetOptions());
-  task_state = AsyncTask::Successful;
+  if (adapter->SetConfig(payload->GetOptions(), &reject_reason_))
+    task_state = AsyncTask::Successful;
+  else
+    task_state = AsyncTask::Failed;
 }
 
 SetOptionsTaskPayload* SetOptionsTask::GetPayload() {

@@ -50,19 +50,19 @@ class Image {
     format_ = value;
   }
 
-  uint32_t get_timeStamp() const {
+  double get_timeStamp() const {
     return this->timestamp_;
   }
 
-  void set_timeStamp(uint32_t value) {
+  void set_timeStamp(double value) {
     timestamp_ = value;
   }
 
-  int32_t get_frameNumber() const {
+  uint32_t get_frameNumber() const {
     return this->frame_number_;
   }
 
-  void set_frameNumber(int32_t value) {
+  void set_frameNumber(uint32_t value) {
     frame_number_ = value;
   }
 
@@ -92,9 +92,9 @@ class Image {
 
   std::string format_;
 
-  uint32_t timestamp_;
+  double timestamp_;
 
-  int32_t frame_number_;
+  uint32_t frame_number_;
 
   ArrayBuffer data_;
   bool own_data_;

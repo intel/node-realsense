@@ -68,6 +68,8 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::SetPersonTrackerOptions(
   std::string error;
   if (!PassStateCheck(kSetOptions, &error))
     return adapter_->CreateRejectedPromise(error);
+  if (!options.CheckType(&error))
+    return adapter_->CreateRejectedPromise(error);
   auto payload = new SetOptionsTaskPayload(
       std::make_shared<DictionaryPersonTrackerOptions>(options), adapter_);
   return runner_->PostPromiseTask(new SetOptionsTask(), payload,
@@ -85,6 +87,8 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::SetCameraOptions(
     const CameraOptions& options) {
   std::string error;
   if (!PassStateCheck(kSetOptions, &error))
+    return adapter_->CreateRejectedPromise(error);
+  if (!options.CheckType(&error))
     return adapter_->CreateRejectedPromise(error);
   auto payload = new CameraOptionsTaskPayload(
       adapter_,
@@ -112,10 +116,10 @@ void PersonTrackerRunnerProxy::RemoveReference() {
   }
 }
 
-void PersonTrackerRunnerProxy::SetPersonTrackerOptionsDirectly(
-    const DictionaryPersonTrackerOptions& options) {
-  adapter_->SetConfig(
-      std::make_shared<DictionaryPersonTrackerOptions>(options));
+bool PersonTrackerRunnerProxy::SetPersonTrackerOptionsDirectly(
+    const DictionaryPersonTrackerOptions& options, std::string* fail_reason) {
+  return adapter_->SetConfig(
+      std::make_shared<DictionaryPersonTrackerOptions>(options), fail_reason);
 }
 
 bool PersonTrackerRunnerProxy::SetCameraOptionsDirectly(

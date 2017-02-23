@@ -43,8 +43,6 @@ class SlamModuleDev : public CameraOptionsIO {
   // TODO(Donna): support utils::Status reset();
   utils::Status Stop();
   utils::Status Destroy();
-
-
   utils::Status RestartTracking();
 
   SlamState state();

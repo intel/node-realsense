@@ -4,7 +4,7 @@
 
 #include "common/motion_sample.h"
 
-MotionSample::MotionSample() {
+MotionSample::MotionSample() : timestamp_(0), frame_number_(0) {
   ZerofillArray(data_store_, DATA_SIZE);
   Setup();
 }
@@ -29,6 +29,8 @@ void MotionSample::Setup() {
 
 void MotionSample::CopyFrom(const MotionSample& rhs) {
   if (this != &rhs) {
+    frame_number_ = rhs.frame_number_;
+    timestamp_ = rhs.timestamp_;
     Setup();
     DeepCopyFromTypedArrayHelper(rhs.data_,
         data_store_, DATA_SIZE);
