@@ -8,7 +8,7 @@ Go to [Setup Environment](./setup_environment.md) first to ensure all your hardw
 4. Add your ssh key (on step 1) to archive server, follow [Adding SSH Keys to authorized_keys](http://askubuntu.com/questions/46424/adding-ssh-keys-to-authorized-keys). This step ensure you can push code and upload to archive server w/o password.
 
 ## Customize
-1. clone this code via SSH way, `git clone git@github.com:otcshare/node-realsense.git`. Otherwise, unable to automatically push commit.
+1. clone this code via SSH way, `git clone git@github.com:01org/node-realsense.git`. Otherwise, unable to automatically push commit.
 2. Copy `tools/.boto_config.json.template` to `tools/.boto_config.json` and change the value
 ```
   "archive_server": {

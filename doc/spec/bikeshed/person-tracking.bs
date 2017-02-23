@@ -3,9 +3,9 @@ Title: Person Tracking
 Shortname:
 Level: 1
 Status: LS
-URL: https://github.com/otcshare/node-realsense/
+URL: https://github.com/01org/node-realsense/
 Editor: Ting Shao
-Repository: https://github.com/otcshare/node-realsense/src/person-tracking
+Repository: https://github.com/01org/node-realsense/src/person-tracking
 Abstract: This specification describes the JavaScript API of the Person Tracking module based on Intel® and RealSense™ technology.
 Markup Shorthands: css no, markdown yes
 Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
