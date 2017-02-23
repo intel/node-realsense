@@ -20,9 +20,27 @@ class PersonTrackerOptionsHelper {
   PersonTrackerOptionsHelper() {}
   ~PersonTrackerOptionsHelper() {}
 
-  void SetOptions(
-      std::shared_ptr<DictionaryPersonTrackerOptions> options) {
-    options_ = options;
+  bool IsStringInRange(
+      std::string value, const char* valid_values[], int32_t count) {
+    for (int32_t i=0; i < count; i++) {
+      if (value == valid_values[i])
+        return true;
+    }
+    return false;
+  }
+
+  bool CheckSemanticConsistency(
+      std::shared_ptr<DictionaryPersonTrackerOptions> options,
+      std::string* error);
+
+  bool SetOptions(
+      std::shared_ptr<DictionaryPersonTrackerOptions> options,
+      std::string* error) {
+    if (CheckSemanticConsistency(options, error)) {
+      options_ = options;
+      return true;
+    }
+    return false;
   }
 
   bool IsTrackingEnabled() {

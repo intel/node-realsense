@@ -64,8 +64,9 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   };
 
   virtual ~PersonTrackerAdapter();
-  void SetConfig(const PersonTrackerOptions& cfg);
-  void SetConfig(std::shared_ptr<DictionaryPersonTrackerOptions> cfg);
+  bool SetConfig(const PersonTrackerOptions& cfg, std::string* error);
+  bool SetConfig(
+      std::shared_ptr<DictionaryPersonTrackerOptions> cfg, std::string* error);
   bool HaveConfig() { return config_.option_helper_.options_?true:false; }
   // This method create v8 objects, should be called in v8 main thread.
   bool GetConfig(PersonTrackerOptions* options);

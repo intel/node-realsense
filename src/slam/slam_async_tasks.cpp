@@ -6,6 +6,8 @@
 #include <string>
 
 #include "gen/nan__event_info.h"
+#include "gen/nan__map_image.h"
+#include "gen/nan__occupancy_map_bounds.h"
 #include "gen/nan__occupancy_map_data.h"
 #include "gen/nan__tracking_result.h"
 #include "gen/array_helper.h"
@@ -235,4 +237,129 @@ void SetCameraOptionsTask::WorkerThreadExecute() {
 
 CameraOptionsTaskPayload* SetCameraOptionsTask::GetPayload() {
   return reinterpret_cast<CameraOptionsTaskPayload*>(AsyncTask::GetPayload());
+}
+
+/////////////////////////////////////////////////////////////////////////////
+RestartTrackingTask::RestartTrackingTask() {
+  task_tag = "restartTracking() task";
+}
+
+RestartTrackingTask::~RestartTrackingTask() {
+}
+
+void RestartTrackingTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->RestartTracking();
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<void>* RestartTrackingTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<void>*>(AsyncTask::GetPayload());
+}
+/////////////////////////////////////////////////////////////////////////////
+SaveOccupancyMapTask::SaveOccupancyMapTask() {
+  task_tag = "saveOccupancyMap() task";
+}
+
+SaveOccupancyMapTask::~SaveOccupancyMapTask() {
+}
+
+void SaveOccupancyMapTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->SaveOccupancyMap(payload->data());
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<std::string>* SaveOccupancyMapTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<std::string>*>(AsyncTask::GetPayload());
+}
+
+v8::Local<v8::Value> SaveOccupancyMapTask::GetResolved() {
+  auto payload = GetPayload();
+  return Nan::New(payload->data().c_str()).ToLocalChecked();
+}
+/////////////////////////////////////////////////////////////////////////////
+SaveOccupancyMapAsPpmTask::SaveOccupancyMapAsPpmTask() {
+  task_tag = "saveOccupancyMapAsPpm() task";
+}
+
+SaveOccupancyMapAsPpmTask::~SaveOccupancyMapAsPpmTask() {
+}
+
+void SaveOccupancyMapAsPpmTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->SaveOccupancyMapAsPpm(
+      payload->data()->file_name, payload->data()->draw_camera_trajectory);
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SavePpmMapPayload* SaveOccupancyMapAsPpmTask::GetPayload() {
+  return reinterpret_cast<SavePpmMapPayload*>(AsyncTask::GetPayload());
+}
+
+v8::Local<v8::Value> SaveOccupancyMapAsPpmTask::GetResolved() {
+  auto payload = GetPayload();
+  return Nan::New(payload->data()->file_name.c_str()).ToLocalChecked();
+}
+/////////////////////////////////////////////////////////////////////////////
+GetOccupancyMapAsRgbaTask::GetOccupancyMapAsRgbaTask() {
+  task_tag = "getOccupancyMapAsRgba() task";
+}
+
+GetOccupancyMapAsRgbaTask::~GetOccupancyMapAsRgbaTask() {
+}
+
+void GetOccupancyMapAsRgbaTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  auto map_image = new MapImage();
+  result_status = payload->GetSlamModule()->GetOccupancyMapAsRgba(map_image,
+      payload->data()->draw_pose_trajectory,
+      payload->data()->draw_occupancy_map);
+  delete payload->data()->map_image;
+  payload->data()->map_image = map_image;
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+GetRgbaMapPayload* GetOccupancyMapAsRgbaTask::GetPayload() {
+  return reinterpret_cast<GetRgbaMapPayload*>(AsyncTask::GetPayload());
+}
+
+v8::Local<v8::Value> GetOccupancyMapAsRgbaTask::GetResolved() {
+  auto payload = GetPayload();
+  auto map_image = payload->data()->map_image;
+  map_image->SetupTypedArray();
+  return NanMapImage::NewInstance(map_image);
+}
+/////////////////////////////////////////////////////////////////////////////
+GetOccupancyMapBoundsTask::GetOccupancyMapBoundsTask() {
+  task_tag = "getOccupancyMapBounds() task";
+}
+
+GetOccupancyMapBoundsTask::~GetOccupancyMapBoundsTask() {
+}
+
+void GetOccupancyMapBoundsTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  auto map_bounds = new OccupancyMapBounds();
+  result_status = payload->GetSlamModule()->GetOccupancyMapBounds(map_bounds);
+
+  // The payload->data() should be nullptr, just in case the memory leak.
+  delete payload->data();
+  payload->set_data(map_bounds);
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<OccupancyMapBounds*>* GetOccupancyMapBoundsTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<OccupancyMapBounds*>*>(
+      AsyncTask::GetPayload());
+}
+
+v8::Local<v8::Value> GetOccupancyMapBoundsTask::GetResolved() {
+  auto payload = GetPayload();
+  return NanOccupancyMapBounds::NewInstance(payload->data());
 }

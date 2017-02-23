@@ -1,6 +1,6 @@
 {
   "name": "person-tracking",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "description": "Person Tracking Node.js module based on Intel® RealSense™ technology",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "bindings": "^1.2.1",
     "nan": "^2.4.0",
-    "widl-nan": "^0.1.21"
+    "widl-nan": "^0.1.23"
   },
   "devDependencies": {
     "express": "^4.14.0",

@@ -18,6 +18,7 @@ inherits(addon.PersonTracker, EventEmitter);
 let options = {
   tracking: {
     enable: true,
+    trackingMode: 'following',
   },
   skeleton: {
     enable: false,
@@ -86,6 +87,66 @@ describe('Person Tracking Test Suite - Options', function() {
         resolve();
       }).catch(function(e) {
         reject(e);
+      });
+    });
+  });
+
+  it('Invalid option type is rejected', function() {
+    let wrongOptionsArray = [
+      {
+        tracking: {
+          enable: true,
+        },
+        skeleton: 123,
+      },
+      {
+        tracking: {
+          enable: true,
+          trackingMode: 123,
+        },
+      },
+      {
+        tracking: {
+          enable: true,
+          trackingMode: 'wrongmode',
+        },
+      },
+      {
+        tracking: {
+          enable: 123,
+        },
+      },
+    ];
+    function singleTest(invalidOption) {
+      return tracker.setPersonTrackerOptions(options).then(function() {
+        return tracker.getPersonTrackerOptions();
+      }).then(function(opt) {
+        assert.equal(opt.tracking.enable, true);
+        assert.equal(opt.skeleton.enable, false);
+        return tracker.setPersonTrackerOptions(invalidOption);
+      }).then(() => {
+        throw new Error('setPersonTrackerOptions should be rejected for invalid option type');
+      }, function(e) {
+        return tracker.getPersonTrackerOptions();
+      }).then((opt) => {
+        assert.equal(opt.tracking.enable, true);
+        assert.equal(opt.skeleton.enable, false);
+      });
+    }
+
+    function getSerialPromises(optionsArray) {
+      return optionsArray.reduce(function(promise, option) {
+        return promise.then(function() {
+          return singleTest(option);
+        });
+      }, Promise.resolve());
+    };
+
+    return new Promise(function(resolve, reject) {
+      getSerialPromises(wrongOptionsArray).then(function() {
+        resolve();
+      }).catch(function(e) {
+        reject('Failed to cover all invalid option check');
       });
     });
   });

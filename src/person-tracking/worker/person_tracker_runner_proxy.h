@@ -31,8 +31,9 @@ class PersonTrackerRunnerProxy {
   v8::Handle<v8::Promise> GetPersonInfo(int32_t trackID);
   // The below two method apply these options directly to adapter
   // without posting tasks.
-  void SetPersonTrackerOptionsDirectly(
-      const DictionaryPersonTrackerOptions& options);
+  bool SetPersonTrackerOptionsDirectly(
+      const DictionaryPersonTrackerOptions& options,
+      std::string* fail_reason);
   bool SetCameraOptionsDirectly(
       const DictionaryCameraOptions& options,
       std::string* fail_reason);

@@ -49,6 +49,8 @@ class Instance {
   v8::Handle<v8::Promise> createInstance();
 
   std::string get_state() const {
+    if (REPLACE_ASYNC) return SlamRunnerDev::GetSlamRunner()->GetSlamState();
+
     if (!runner_) {
       utils::OnSlamError("Null runner when get state.");
       return "";

@@ -20,6 +20,8 @@ using InstanceOptionsTaskPayload = SlamPayload<DictionaryInstanceOptions*>;
 using TrackingEventPayload = SlamPayload<TrackedResultInternal*>;
 using TrackingResultPayload = SlamPayload<OutputHolder*>;
 using CameraOptionsTaskPayload = SlamPayload<DictionaryCameraOptions*>;
+using SavePpmMapPayload = SlamPayload<ParameterWrapperForSavingPpmMap*>;
+using GetRgbaMapPayload = SlamPayload<ParameterWrapperForGetRgbaMap*>;
 
 //
 // Request for: getInstanceOptions
@@ -101,7 +103,7 @@ class GetTrackingResultTask : public SlamPromiseTask {
 };
 
 //
-// Request for: getOccupancyMapUpdateTask
+// Request for: getOccupancyMapUpdate
 //
 class GetOccupancyMapUpdateTask : public SlamPromiseTask {
  public:
@@ -135,6 +137,69 @@ class SetCameraOptionsTask : public SlamPromiseTask {
   ~SetCameraOptionsTask();
   void WorkerThreadExecute() override;
   CameraOptionsTaskPayload* GetPayload();
+};
+
+// Request for: restartTracking
+//
+class RestartTrackingTask : public SlamPromiseTask {
+ public:
+  RestartTrackingTask();
+  ~RestartTrackingTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<void>* GetPayload();
+};
+
+//
+// Request for: saveOccupancyMap
+//
+class SaveOccupancyMapTask : public SlamPromiseTask {
+ public:
+  SaveOccupancyMapTask();
+  ~SaveOccupancyMapTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<std::string>* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
+};
+
+//
+// Request for: saveOccupancyMapAsPpm
+//
+class SaveOccupancyMapAsPpmTask : public SlamPromiseTask {
+ public:
+  SaveOccupancyMapAsPpmTask();
+  ~SaveOccupancyMapAsPpmTask();
+
+  void WorkerThreadExecute() override;
+  SavePpmMapPayload* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
+};
+
+//
+// Request for: getOccupancyMapAsRgba
+//
+class GetOccupancyMapAsRgbaTask : public SlamPromiseTask {
+ public:
+  GetOccupancyMapAsRgbaTask();
+  ~GetOccupancyMapAsRgbaTask();
+
+  void WorkerThreadExecute() override;
+  GetRgbaMapPayload* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
+};
+
+//
+// Request for: getOccupancyMapBounds
+//
+class GetOccupancyMapBoundsTask : public SlamPromiseTask {
+ public:
+  GetOccupancyMapBoundsTask();
+  ~GetOccupancyMapBoundsTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<OccupancyMapBounds*>* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
 };
 
 #endif  // _WORKER_ALL_REQUESTS_H_

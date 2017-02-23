@@ -8,7 +8,7 @@
 // TODO(Donna): could defines be in namespace?
 
 #define DEBUG false
-#define REPLACE_ASYNC false
+#define REPLACE_ASYNC true
 #define SLAM_ADDON_ERROR  -10000
 #define SLAM_ERROR_PREFIX  "SLAM - "
 #define BT_BUF_SIZE 500

@@ -37,8 +37,8 @@ interface OccupancyMapData {
 };
 
 interface MapImage {
-  readonly attribute long width;
-  readonly attribute long height;
+  readonly attribute unsigned long width;
+  readonly attribute unsigned long height;
   readonly attribute Uint8Array data;
 };
 

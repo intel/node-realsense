@@ -98,11 +98,14 @@ bool InstanceCreator::DoWork() {
   bool success = true;
 
   auto runner = SlamRunnerDev::GetSlamRunner();
-  // runner->reset();
-  auto result = runner->slam_module()->Init();
-  if (result.id() < rs::core::status_no_error) {
-    d_->failed_msg_ = result.message();
-    return false;
+  // TODO(Donna): implement Reset interface and call runner->reset() instread of
+  // call the module init directly.
+  if (!instance_) {
+    auto result = runner->slam_module()->Init();
+    if (result.id() < rs::core::status_no_error) {
+      d_->failed_msg_ = result.message();
+      return false;
+    }
   }
   // TODO(Donna) 1. Apply InstanceOptions
   // runner->ImportOptions(d_->instance_options_);

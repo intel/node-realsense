@@ -23,19 +23,19 @@ class MapImage {
   MapImage& operator = (const MapImage& rhs);
 
  public:
-  int32_t get_width() const {
+  uint32_t get_width() const {
     return this->width_;
   }
 
-  void set_width(int32_t width) {
+  void set_width(uint32_t width) {
     this->width_ = width;
   }
 
-  int32_t get_height() const {
+  uint32_t get_height() const {
     return this->height_;
   }
 
-  void set_height(int32_t height) {
+  void set_height(uint32_t height) {
     this->height_ = height;
   }
 
@@ -43,12 +43,12 @@ class MapImage {
     return this->data_;
   }
 
-  uint8_t* get_data_store(int32_t width, int32_t height) {
+  uint8_t* get_data_store(uint32_t width, uint32_t height) {
     data_store_.resize(4 * width * height);
     return data_store_.data();
   }
 
-  void set_data_store(uint8_t* external_data, int width, int height) {
+  void set_data_store(uint8_t* external_data, uint32_t width, uint32_t height) {
     this->data_store_.assign(external_data, external_data + width * height * 4);
   }
 
@@ -60,12 +60,13 @@ class MapImage {
   }
 
  private:
-  int32_t width_;
-  int32_t height_;
+  uint32_t width_;
+  uint32_t height_;
   Uint8ArrayHelper data_;
   std::vector<uint8_t> data_store_;
 };
 
+// TODO(Donna): need to delete this class when deprecate the old implementation.
 class ArgumentUnit {
  public:
   ArgumentUnit(bool draw_pose_trajectory, bool draw_occupancy_map) {
