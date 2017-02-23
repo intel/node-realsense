@@ -8,6 +8,7 @@
 /* eslint no-invalid-this: "off" */
 const assert = require('assert');
 const addon = require('bindings')('realsense_object_recognition');
+const utils = require('../../common/tests/testUtils.js');
 
 const EventEmitter = require('events').EventEmitter;
 function inherits(target, source) {
@@ -59,6 +60,7 @@ describe('Object Recognition Test Suite - or', function() {
 
   it('FrameData exists and type is correct', function() {
     assert.equal(typeof (obj), 'object');
+    assert.equal(utils.isFrameData(obj, 'or'), true);
     assert(obj instanceof addon.FrameData);
     // Note: no need to test more on FrameData interface, since
     //       there is (or will be) a test suite on this FrameData interface
