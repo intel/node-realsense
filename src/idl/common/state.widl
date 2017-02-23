@@ -1,7 +1,0 @@
-// Will be discarded, each add-on will use its own state enum
-enum InstanceState {
-  "ready",
-  "running",
-  "paused",
-  "errored"
-};
