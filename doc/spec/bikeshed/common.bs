@@ -77,11 +77,10 @@ interface Point2D {
 </pre>
 
 ### Attributes ### {#point2d-attributes-1}
-: {{x}} of type [=float=]
+: {{x}} of type <code>float</code>
 ::  The current x value of the point
 
-### Attributes ### {#point2d-attributes-2}
-: {{y}} of type [=float=]
+: {{y}} of type <code>float</code>
 ::  The current y value of the point
 
 ### Methods ### {#methods-point2DInterface}
@@ -129,15 +128,13 @@ interface Point3D {
 </pre>
 
 ### Attributes ### {#point3d-attributes-1}
-: {{x}} of type [=float=]
+: {{x}} of type <code>float</code>
 ::  The current x value of the point
 
-### Attributes ### {#point3d-attributes-2}
-: {{y}} of type [=float=]
+: {{y}} of type <code>float</code>
 ::  The current y value of the point
 
-### Attributes ### {#point3d-attributes-3}
-: {{z}} of type [=float=]
+: {{z}} of type <code>float</code>
 ::  The current z value of the point
 
 ### Methods ### {#methods-point3DInterface}
@@ -190,19 +187,16 @@ interface Range {
 </pre>
 
 ### Attributes ### {#range-attributes-1}
-: {{begin}} of type [=float=]
+: {{begin}} of type <code>float</code>
 ::  The first value of the range
 
-### Attributes ### {#range-attributes-2}
-: {{end}} of type [=float=]
+: {{end}} of type <code>float</code>
 ::  The last value of the range
 
-### Attributes ### {#range-attributes-3}
-: {{min}} of type [=float=]
+: {{min}} of type <code>float</code>
 ::  The alias to the first value of the range
 
-### Attributes ### {#range-attributes-4}
-: {{max}} of type [=float=]
+: {{max}} of type <code>float</code>
 ::  The alias to the last value of the range
 
 ### Methods ### {#methods-rangeInterface}
@@ -255,19 +249,16 @@ interface Size2D {
 </pre>
 
 ### Attributes ### {#size2d-attributes-1}
-: {{width}} of type [=float=]
+: {{width}} of type <code>float</code>
 ::  The width of the size
 
-### Attributes ### {#size2d-attributes-2}
-: {{height}} of type [=float=]
+: {{height}} of type <code>float</code>
 ::  The height of the size
 
-### Attributes ### {#size2d-attributes-3}
-: {{cx}} of type [=float=]
+: {{cx}} of type <code>float</code>
 ::  The alais to the width of the size
 
-### Attributes ### {#size2d-attributes-4}
-: {{cy}} of type [=float=]
+: {{cy}} of type <code>float</code>
 ::  The alais to the height of the size
 
 ### Methods ### {#size2d-methods}
@@ -386,86 +377,66 @@ interface Rect2D {
 </pre>
 
 ### Attributes ### {#rect2d-attributes-1}
-: {{x}} of type [=float=]
+: {{x}} of type <code>float</code>
 :: the x of the rectangle
 
-### Attributes ### {#rect2d-attributes-2}
-: {{y}} of type [=float=]
+: {{y}} of type <code>float</code>
 :: the y of the rectangle
 
-### Attributes ### {#rect2d-attributes-3}
-: {{width}} of type [=float=]
+: {{width}} of type <code>float</code>
 :: the width of the rectangle
 
-### Attributes ### {#rect2d-attributes-4}
-: {{height}} of type [=float=]
+: {{height}} of type <code>float</code>
 :: the height of the rectangle
 
-### Attributes ### {#rect2d-attributes-5}
-: {{diagonalLength}} of type [=float=]
+: {{diagonalLength}} of type <code>float</code>
 :: the diagonal length of the rectangle
 
-### Attributes ### {#rect2d-attributes-6}
 : {{size}} of type [=Size2D=]
 :: the size of the rectangle
 
-### Attributes ### {#rect2d-attributes-7}
 : {{topLeft}} of type [=Point2D=]
 :: the top-left of the rectangle
 
-### Attributes ### {#rect2d-attributes-8}
 : {{topRight}} of type [=Point2D=]
 :: the top-right of the rectangle
 
-### Attributes ### {#rect2d-attributes-9}
 : {{bottomLeft}} of type [=Point2D=]
 :: the bottomLeft of the rectangle
 
-### Attributes ### {#rect2d-attributes-a}
 : {{bottomRight}} of type [=Point2D=]
 :: the bottom-right of the rectangle
 
-### Attributes ### {#rect2d-attributes-b}
 : {{center}} of type [=Point2D=]
 :: the center of the rectangle
 
-### Attributes ### {#rect2d-attributes-c}
 : {{topCenter}} of type [=Point2D=]
 :: the top-center of the rectangle
 
-### Attributes ### {#rect2d-attributes-d}
 : {{bottomCenter}} of type [=Point2D=]
 :: the bottom-center of the rectangle
 
-### Attributes ### {#rect2d-attributes-e}
 : {{leftCenter}} of type [=Point2D=]
 :: the left-center of the rectangle
 
-### Attributes ### {#rect2d-attributes-f}
 : {{rightCenter}} of type [=Point2D=]
 :: the right-center of the rectangle
 
-### Attributes ### {#rect2d-attributes-g}
-: {{top}} of type [=float=]
+: {{top}} of type <code>float</code>
 :: the top of the rectangle
 
-### Attributes ### {#rect2d-attributes-h}
-: {{left}} of type [=float=]
+: {{left}} of type <code>float</code>
 :: the left of the rectangle
 
-### Attributes ### {#rect2d-attributes-i}
-: {{bottom}} of type [=float=]
+: {{bottom}} of type <code>float</code>
 :: the bottom of the rectangle
 
-### Attributes ### {#rect2d-attributes-j}
-: {{right}} of type [=float=]
+: {{right}} of type <code>float</code>
 :: the right of the rectangle
 
-### Attributes ### {#rect2d-attributes-k}
 : {{horzRange}} of type [=Range=]
 :: the horz-range of the rectangle
 
-### Attributes ### {#rect2d-attributes-l}
 : {{vertRange}} of type [=Range=]
 :: the vert-range of the rectangle
 
@@ -587,3 +558,342 @@ interface Rect2D {
 :: *Return type*: <code>booleanean</code>
 
 
+<dfn>MotionDeviceIntrinsic</dfn> {#motionDeviceIntrinsicInterface}
+----------------------------
+
+<pre class="idl">
+interface MotionDeviceIntrinsic {
+  // Array indices for attribute data
+  /* Scale X        cross axis        cross axis      Bias X */
+  /* cross axis     Scale Y           cross axis      Bias Y */
+  /* cross axis     cross axis        Scale Z         Bias Z */
+  attribute Float32Array  data;            // length === 12
+
+  attribute Float32Array  noiseVariances;  // length === 3
+  attribute Float32Array  biasVariances;   // length === 3
+};
+</pre>
+
+### Attributes ### {#motionDeviceIntrinsic-attributes-1}
+: {{data}} of type <code>Float32Array</code>
+::  A TypedArray, representing intrinsic of the momtion device
+
+: {{noiseVariances}} of type <code>Float32Array</code>
+::  A TypedArray, representing noise variances of the momtion device
+
+: {{biasVariances}} of type <code>Float32Array</code>
+::  A TypedArray, representing bias variances of the momtion device
+
+
+
+<dfn>Intrinsics</dfn> {#intrinsicsInterface}
+----------------------------
+
+<pre class="idl">
+interface Intrinsics
+{
+  attribute long     width;          // width of the image in pixels
+  attribute long     height;         // height of the image in pixels
+  attribute Point2D  principalPoint; // coordinate of the principal point of the image, as a pixel offset from the top/left edge
+  attribute Point2D  focalLength;    // focal length of the image plane, as a multiple of pixel width
+};
+</pre>
+
+### Attributes ### {#intrinsics-attributes-1}
+: {{width}} of type <code>long</code>
+::  The width of the image
+
+: {{height}} of type <code>long</code>
+::  The height of the image
+
+: {{principalPoint}} of type [=Point2D=]
+::  The principal point, as a pixel offset from the top/left edge
+
+: {{focalLength}} of type [=Point2D=]
+::  The focal length
+
+
+
+
+<dfn>Extrinsics</dfn> {#extrinsicsInterface}
+----------------------------
+
+<pre class="idl">
+interface Extrinsics {
+  attribute Float32Array rotation;      // length === 3
+  attribute Float32Array translation;   // length === 3
+};
+</pre>
+
+### Attributes ### {#intrinsics-attributes-1}
+: {{rotation}} of type <code>Float32Array</code>
+::  A TypedArray, representing the rotation
+
+: {{translation}} of type <code>Float32Array</code>
+::  A TypedArray, representing the translation
+
+
+
+<dfn>Image</dfn> {#imageInterface}
+----------------------------
+
+<pre class="idl">
+interface Image {
+  readonly attribute long           width;
+  readonly attribute long           height;
+  readonly attribute PixelFormat    format;
+  readonly attribute double         timeStamp;
+
+  readonly attribute unsigned long  frameNumber;
+  readonly attribute ArrayBuffer    data;
+};
+</pre>
+
+### Attributes ### {#intrinsics-attributes-1}
+: {{width}} of type <code>long</code>
+::  The width of the image
+
+: {{height}} of type <code>long</code>
+::  The height of the image
+
+: {{format}} of type [=PixelFormat=]
+::  The format of the image
+
+: {{timeStamp}} of type <code>double</code>
+::  The time stamp of the image
+
+: {{frameNumber}} of type <code>unsigned long</code>
+::  The frame number of the image
+
+: {{data}} of type <code>double</code>
+::  An ArrayBuffer object, representing the image data
+
+
+
+<dfn>MotionSample</dfn> {#motionSampleInterface}
+----------------------------
+
+<pre class="idl">
+interface MotionSample {
+  readonly attribute double         timeStamp;
+  readonly attribute unsigned long  frameNumber;
+  readonly attribute Float32Array   data; // length === 3 
+};
+</pre>
+
+### Attributes ### {#motionSample-attributes-1}
+: {{timeStamp}} of type <code>double</code>
+::  The time stamp
+
+: {{frameNumber}} of type <code>unsigned long</code>
+::  The frame number
+
+: {{data}} of type <code>Float32Array</code>
+::  A TypedArray, representing the motion data
+
+
+<dfn>FrameData</dfn> {#frameDataInterface}
+----------------------------
+
+<pre class="idl">
+interface FrameData {
+  readonly attribute Image? fisheye;
+  readonly attribute Image? color;
+  readonly attribute Image? depth;
+
+  readonly attribute MotionSample? gyro;
+  readonly attribute MotionSample? accel;
+};
+</pre>
+
+### Attributes ### {#motionSample-attributes-1}
+: {{fisheye}} of type [=Image=]
+::  The fisheye image stream of the camera
+
+: {{color}} of type [=Image=]
+::  The color image stream of the camera
+
+: {{depth}} of type [=Image=]
+::  The depth image stream of the camera
+
+: {{gyro}} of type [=MotionSample=]
+::  The gyro sensor of the camera
+
+: {{accel}} of type [=MotionSample=]
+::  The accel sensor of the camera
+
+
+Dictionaries {#dictionaries}
+========================
+
+<dfn>ImageStreamOptions</dfn> {#imageStreamOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary ImageStreamOptions {
+  long        width;
+  long        height;
+  float       frameRate;
+  Intrinsics  intrinsics;
+  Extrinsics  extrinsics;
+  boolean     isEnabled;
+};
+</pre>
+
+### Dictionary [=ImageStreamOptions=] Members### {#imageStreamOptionsMembers}
+
+: {{width}} of type <code>long</a>
+:: the width of the image stream
+
+: {{height}} of type <code>long</a>
+:: the height of the image stream
+
+: {{frameRate}} of type <code>long</a>
+:: the frame rate of the stream
+
+: {{isEnabled}} of type <code>boolean</a>
+:: if this stream is enabled
+
+: {{intrinsics}} of type [=Intrinsics=]</a>
+:: the intrinsics of the stream
+
+: {{extrinsics}} of type [=Extrinsics=]</a>
+:: the extrinsics of the stream
+
+<dfn>MotionSensorOptions</dfn> {#motionSensorOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary MotionSensorOptions {
+  float                  frameRate;
+  boolean                isEnabled;
+  MotionDeviceIntrinsic  intrinsics;
+  Extrinsics             extrinsics;
+};
+</pre>
+
+### Dictionary [=MotionSensorOptions=] Members### {#motionSensorOptionsMembers}
+
+: {{frameRate}} of type <code>long</a>
+:: the frame rate of the sensor
+
+: {{isEnabled}} of type <code>boolean</a>
+:: if this sensor is enabled
+
+: {{intrinsics}} of type [=MotionDeviceIntrinsic=]</a>
+:: the intrinsics of the sensor
+
+: {{extrinsics}} of type [=Extrinsics=]</a>
+:: the extrinsics of the sensor
+
+
+<dfn>CameraOptions</dfn> {#cameraOptions}
+----------------------------
+
+<pre class='idl'>
+dictionary CameraOptions {
+  ImageStreamOptions   color;
+  ImageStreamOptions   depth;
+  ImageStreamOptions   fisheye;
+
+  MotionSensorOptions  accel;
+  MotionSensorOptions  gyro;
+
+  // Only for testing purpose
+  DOMString playbackPathForTesting;
+};
+</pre>
+
+
+### Dictionary [=CameraOptions=] Members### {#cameraOptionsMembers}
+
+: {{color}} of type [=ImageStreamOptions=]</a>
+:: the frame rate of the sensor
+
+: {{depth}} of type [=ImageStreamOptions=]</a>
+:: the frame rate of the sensor
+
+: {{fisheye}} of type [=ImageStreamOptions=]</a>
+:: the frame rate of the sensor
+
+: {{accel}} of type [=MotionSensorOptions=]</a>
+:: the frame rate of the sensor
+
+: {{gyro}} of type [=MotionSensorOptions=]</a>
+:: the frame rate of the sensor
+
+: {{playbackPathForTesting}} of type <code>String</a>
+:: the frame rate of the sensor
+
+
+Enumerators {#enumerators}
+========================
+
+<dfn>PixelFormat</dfn> enum {#RecognitionMode}
+----------------------------
+
+<pre class='idl'>
+enum PixelFormat {
+  "any",
+  "z16",
+  "disparity16",  // 16 bit linear depth values. The depth is meters is equal to depth scale * pixel value
+  "xyz32f",       // 32 bit floating point 3D coordinates.
+  "yuyv",
+  "rgb8",
+  "bgr8",
+  "rgba8",
+  "bgra8",
+  "y8",
+  "y16",
+  "raw8",
+  "raw10",        // Four 10-bit luminance values encoded into a 5-byte macropixel
+  "raw16"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"any"}}
+       <td>
+    <tr>
+       <td>{{"z16"}}
+       <td>
+    <tr>
+       <td>{{"disparity16"}}
+       <td>
+    <tr>
+       <td>{{"xyz32f"}}
+       <td>
+    <tr>
+       <td>{{"yuyv"}}
+       <td>
+    <tr>
+       <td>{{"rgb8"}}
+       <td>
+    <tr>
+       <td>{{"bgr8"}}
+       <td>
+    <tr>
+       <td>{{"rgba8"}}
+       <td>
+    <tr>
+       <td>{{"bgra8"}}
+       <td>
+    <tr>
+       <td>{{"y8"}}
+       <td>
+    <tr>
+       <td>{{"y16"}}
+       <td>
+    <tr>
+       <td>{{"raw8"}}
+       <td>
+    <tr>
+       <td>{{"raw10"}}
+       <td>
+    <tr>
+       <td>{{"raw16"}}
+       <td>
+</table>
