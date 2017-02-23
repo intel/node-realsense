@@ -95,7 +95,7 @@ interface Instance {
   Promise&lt;sequence&lt;float>> getRelocalizationPose();  // Note: not supported yet.
 
   attribute EventHandler ontracking;
-  attribute EventHandler onerror; // Note: not supported yet.
+  attribute EventHandler onerror;
 };
 </pre>
 
@@ -273,7 +273,6 @@ interface Instance {
 :: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('tracking', function(e) { ... })` to handle the event
 
 : {{onerror}}
-:: Note: not supported yet.
 :: This event will be fired when there is a unexpected error happened. A registered callback will get a <a>string</a> type error message.
 :: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('error', function(e) { ... })` to handle the event
 

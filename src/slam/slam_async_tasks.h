@@ -18,6 +18,7 @@
 
 using InstanceOptionsTaskPayload = SlamPayload<DictionaryInstanceOptions*>;
 using TrackingEventPayload = SlamPayload<TrackedResultInternal*>;
+using ErrorEventPayload = SlamPayload<std::string*>;
 using TrackingResultPayload = SlamPayload<OutputHolder*>;
 using CameraOptionsTaskPayload = SlamPayload<DictionaryCameraOptions*>;
 using SavePpmMapPayload = SlamPayload<ParameterWrapperForSavingPpmMap*>;
@@ -86,6 +87,20 @@ class TrackingEventTask : public SlamEventTask {
 
   TrackingEventPayload* GetPayload() {
     return reinterpret_cast<TrackingEventPayload*>(AsyncTask::GetPayload());
+  }
+};
+
+//
+// Request for: error event
+//
+class ErrorEventTask : public SlamEventTask {
+ public:
+  ErrorEventTask() : SlamEventTask(SlamEvent::kError) {}
+
+  v8_value_t PopEventData(size_t event_index) override;
+
+  ErrorEventPayload* GetPayload() {
+    return reinterpret_cast<ErrorEventPayload*>(AsyncTask::GetPayload());
   }
 };
 
