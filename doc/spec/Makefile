@@ -1,7 +1,10 @@
 # Make sure bikeshed is installed
 #  https://github.com/tabatkins/bikeshed/blob/master/docs/install.md
 
-all : object-recognition.html person-tracking.html slam.html
+all : object-recognition.html person-tracking.html slam.html common.html
+
+common.html : bikeshed/common.bs
+	bikeshed spec bikeshed/common.bs common.html
 
 object-recognition.html : bikeshed/object-recognition.bs
 	bikeshed spec bikeshed/object-recognition.bs object-recognition.html
