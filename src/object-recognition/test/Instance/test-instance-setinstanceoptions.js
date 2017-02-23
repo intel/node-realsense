@@ -21,8 +21,8 @@ let or = undefined;
 
 const orOptionsPositive = {
     mode: ['single-recognition', 'tracking', 'localization'],
-    framesSkipping: [-1, 0, 60, 2147483647],
-    confidenceThreshold: [-0.15, 0, 0.15, 0.75, 1],
+    framesSkipping: [0, 60, 2147483647],
+    confidenceThreshold: [0, 0.15, 0.75, 1],
     computeEngine: ['CPU', 'GPU'],
     enableSegmentation: [true, false],
     maxReturnObjectCount: [1, 2, 3],

@@ -29,7 +29,7 @@ const orOptionsPositive = {
       type: 'number',
     },
     confidenceThreshold: {
-      value: [-0.15, 0, 0.15, 0.75, 1],
+      value: [0, 0.15, 0.75, 1],
       type: 'number',
     },
     computeEngine: {
