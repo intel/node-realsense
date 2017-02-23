@@ -1,0 +1,3 @@
+[submodule "src/common/tests/data"]
+	path = src/common/tests/data
+	url = https://github.com/01org/node-realsense-test-data

@@ -23,6 +23,7 @@ before_install:
   - sudo docker pull ubuntu:16.04
 
   # Install dependencies described as Dockerfile
+  - sudo git submodule update --init --recursive
   - sudo mkdir ./tools/.docker
   - sudo cat ./tools/Dockerfile.template | sed 's/<your_username>/mrbuild/g' | sed 's/<your_git_name>/Mr. Build/g' | sed 's/<your_git_email>/node-realsense@github.com/g' > /tmp/Dockerfile
   - sudo cp /tmp/Dockerfile ./tools/.docker/Dockerfile
