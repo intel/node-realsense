@@ -12,7 +12,7 @@ npm install --save person-tracking
 ```
 Note: Use below steps instead before we officially register on https://www.npmjs.com
 ```
-git clone ssh://git@github.com/otcshare/node-realsense ~/node-realsense
+git clone ssh://git@github.com/01org/node-realsense ~/node-realsense
 cd ~/node-realsense/src/person-tracking
 npm run-script maketarball
 cd <your_project_path>

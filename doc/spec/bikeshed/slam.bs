@@ -3,9 +3,9 @@ Title: Simultaneous Localization and Mapping
 Shortname: SLAM 
 Level: 1
 Status: LS
-URL: https://github.com/otcshare/node-realsense
+URL: https://github.com/01org/node-realsense
 Editor: Lisha Guo
-Repository: https://github.com/otcshare/node-realsense
+Repository: https://github.com/01org/node-realsense
 Abstract: This specification describes the JavaScript API of the Simultaneous Localization And Mapping module based on Intel® and RealSense™ technology.
 Markup Shorthands: css no, markdown yes
 Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
