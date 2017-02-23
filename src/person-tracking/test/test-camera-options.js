@@ -26,14 +26,14 @@ let options = {
 
 let cameraOptions = {
   color: {
-    width: 640,
-    height: 480,
+    width: 320,
+    height: 240,
     frameRate: 30,
     isEnabled: true,
   },
   depth: {
-    width: 320,
-    height: 240,
+    width: 628,
+    height: 468,
     frameRate: 30,
     isEnabled: true,
   },
@@ -74,12 +74,12 @@ describe('Person Tracking Test Suite - Camera Options', function() {
         tracker = inst;
         return tracker.getCameraOptions();
       }).then(function(options) {
-        assert.equal(options.color.width, 640);
-        assert.equal(options.color.height, 480);
+        assert.equal(options.color.width, 320);
+        assert.equal(options.color.height, 240);
         assert.equal(options.color.frameRate, 30);
         assert.equal(options.color.isEnabled, true);
-        assert.equal(options.depth.width, 320);
-        assert.equal(options.depth.height, 240);
+        assert.equal(options.depth.width, 628);
+        assert.equal(options.depth.height, 468);
         assert.equal(options.depth.frameRate, 30);
         assert.equal(options.color.isEnabled, true);
         resolve();

@@ -55,7 +55,7 @@ NAN_METHOD(CreatePersonTracker) {
   }
 
   if (camera_options_present) {
-    CameraOptions camera_options(info[0]->ToObject());
+    CameraOptions camera_options(info[1]->ToObject());
     dic_camera_options.ImportFrom(camera_options);
 
     if (!camera_options.CheckType(&error_string)) {
