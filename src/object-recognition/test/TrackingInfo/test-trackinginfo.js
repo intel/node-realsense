@@ -21,10 +21,19 @@ inherits(addon.ObjectRecognizer, EventEmitter);
 
 let obj;
 
-describe('LocalizationInfo Test Suite - Run', function() {
+describe('TrackingInfo Test Suite - Run', function() {
   before(function() {
     this.timeout(50000);
     let or = undefined;
+    function setTracking(results) {
+      let trackingOptions = {
+        mode: 'tracking',
+        trackingRois: [],
+      };
+      let roi = results[0].roi;
+      trackingOptions.trackingRois.push(new addon.Rect2D(roi.x, roi.y, roi.width, roi.height));
+      or.setObjectRecognitionOptions(trackingOptions);
+    }
     return new Promise((resolve, reject) => {
       const options = {
           mode: 'localization',
@@ -36,10 +45,10 @@ describe('LocalizationInfo Test Suite - Run', function() {
       };
       addon.createObjectRecognizer(options).then((objectRecognizer) => {
         or = objectRecognizer;
-        return or.setObjectRecognitionOptions(options);
-      })
-      .then(() => {
-        or.on('localization', function(data) {
+        or.on('localization', function(d) {
+          setTracking(d);
+        });
+        or.on('tracking', function(data) {
           obj = data[0];
           if (or) {
             or.stop()
@@ -56,35 +65,20 @@ describe('LocalizationInfo Test Suite - Run', function() {
       });
     });
   });
-  it('LocalizationInfo object has an attribute named label, type is String', function() {
-    assert.equal(typeof(obj.label), 'string');
-  });
 
-  it('label of LocalizationInfo is readonly', function() {
-    assert.equal(Object.getOwnPropertyDescriptor(obj, 'label').writable, false);
-  });
-
-  it('LocalizationInfo object has an attribute named probability, type is float', function() {
-    assert.equal(typeof(obj.probability), 'number');
-  });
-
-  it('probability of LocalizationInfo is readonly', function() {
-    assert.equal(Object.getOwnPropertyDescriptor(obj, 'probability').writable, false);
-  });
-
-  it('LocalizationInfo object has an attribute named roi, type is object', function() {
+  it('TrackingInfo object has an attribute named roi, type is object', function() {
     assert.equal(utils.isRect2DObject(obj.roi), true);
   });
 
-  it('roi of LocalizationInfo is readonly', function() {
+  it('roi of TrackingInfo is readonly', function() {
     assert.equal(Object.getOwnPropertyDescriptor(obj, 'roi').writable, false);
   });
 
-  it('LocalizationInfo object has an attribute named objectCenter, type is object', function() {
-    assert.equal(typeof(obj.objectCenter), 'object');
+  it('TrackingInfo object has an attribute named objectCenter, type is object', function() {
+    assert.equal(utils.isPoint3DObject(obj.objectCenter), true);
   });
 
-  it('objectCenter of LocalizationInfo is readonly', function() {
+  it('objectCenter of TrackingInfo is readonly', function() {
     assert.equal(Object.getOwnPropertyDescriptor(obj, 'objectCenter').writable, false);
   });
 });
