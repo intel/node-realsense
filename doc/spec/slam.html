@@ -1176,7 +1176,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 645534c1532bca4fdb4f3859efc66268a218d7c8" name="generator">
+  <meta content="Bikeshed 1.0.0" name="generator">
 <style>
 table {
   text-indent: 20px;
@@ -1445,13 +1445,13 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Simultaneous Localization and Mapping</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-23">23 February 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-22">22 February 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="https://github.com/01org/node-realsense">https://github.com/01org/node-realsense</a>
+     <dd><a class="u-url" href="https://github.com/otcshare/node-realsense">https://github.com/otcshare/node-realsense</a>
      <dt>Issue Tracking:
-     <dd><a href="https://github.com/01org/node-realsense/issues/">GitHub</a>
+     <dd><a href="https://github.com/otcshare/node-realsense/issues/">GitHub</a>
      <dt class="editor">Editor:
      <dd class="editor p-author h-card vcard"><span class="p-name fn">Lisha Guo</span>
     </dl>
@@ -1459,7 +1459,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 23 February 2017,
+In addition, as of 22 February 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1484,25 +1484,35 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#methods-1"><span class="secno">2.1.2</span> <span class="content">Methods</span></a>
         <li><a href="#events-1"><span class="secno">2.1.3</span> <span class="content">Events</span></a>
         <li>
-         <a href="#heightOfInterest"><span class="secno">2.1.4</span> <span class="content"><span>HeightOfInterest</span> Interface</span></a>
+         <a href="#MapImage"><span class="secno">2.1.4</span> <span class="content"><span>MapImage</span> Interface</span></a>
          <ol class="toc">
           <li><a href="#attributes"><span class="secno">2.1.4.1</span> <span class="content">Attributes</span></a>
          </ol>
         <li>
-         <a href="#trackingResult"><span class="secno">2.1.5</span> <span class="content"><span>TrackingResult</span> Interface</span></a>
+         <a href="#OccupancyMap"><span class="secno">2.1.5</span> <span class="content"><span>OccupancyMap</span> Interface</span></a>
          <ol class="toc">
           <li><a href="#attributes0"><span class="secno">2.1.5.1</span> <span class="content">Attributes</span></a>
-          <li><a href="#methods"><span class="secno">2.1.5.2</span> <span class="content">Methods</span></a>
          </ol>
         <li>
-         <a href="#eventInfo"><span class="secno">2.1.6</span> <span class="content"><span>EventInfo</span> Interface</span></a>
+         <a href="#OccupancyMapBounds"><span class="secno">2.1.6</span> <span class="content"><span>OccupancyMapBounds</span> Interface</span></a>
          <ol class="toc">
           <li><a href="#attributes1"><span class="secno">2.1.6.1</span> <span class="content">Attributes</span></a>
          </ol>
         <li>
-         <a href="#trackingEvent"><span class="secno">2.1.7</span> <span class="content"><span>TrackingEvent</span> Interface</span></a>
+         <a href="#trackingResult"><span class="secno">2.1.7</span> <span class="content"><span>TrackingResult</span> Interface</span></a>
          <ol class="toc">
           <li><a href="#attributes2"><span class="secno">2.1.7.1</span> <span class="content">Attributes</span></a>
+          <li><a href="#methods"><span class="secno">2.1.7.2</span> <span class="content">Methods</span></a>
+         </ol>
+        <li>
+         <a href="#eventInfo"><span class="secno">2.1.8</span> <span class="content"><span>EventInfo</span> Interface</span></a>
+         <ol class="toc">
+          <li><a href="#attributes3"><span class="secno">2.1.8.1</span> <span class="content">Attributes</span></a>
+         </ol>
+        <li>
+         <a href="#trackingEvent"><span class="secno">2.1.9</span> <span class="content"><span>TrackingEvent</span> Interface</span></a>
+         <ol class="toc">
+          <li><a href="#attributes4"><span class="secno">2.1.9.1</span> <span class="content">Attributes</span></a>
          </ol>
        </ol>
      </ol>
@@ -1513,6 +1523,7 @@ Parts of this work may be from another specification document.  If so, those par
        <a href="#instanceOptions"><span class="secno">3.1</span> <span class="content"><span>InstanceOptions</span></span></a>
        <ol class="toc">
         <li><a href="#instanceOptions0"><span class="secno">3.1.1</span> <span class="content">Dictionary <span>InstanceOptions</span> Members</span></a>
+        <li><a href="#RangeOfInterest"><span class="secno">3.1.2</span> <span class="content">Dictionary <span>RangeOfInterest</span> Members</span></a>
        </ol>
      </ol>
     <li>
@@ -1554,8 +1565,10 @@ Parts of this work may be from another specification document.  If so, those par
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="pause()" id="dom-instance-pause">pause<a class="self-link" href="#dom-instance-pause"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="resume()" id="dom-instance-resume">resume<a class="self-link" href="#dom-instance-resume"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="restartTracking()" id="dom-instance-restarttracking">restartTracking<a class="self-link" href="#dom-instance-restarttracking"></a></dfn>();
-  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMap(maxPoint, minPoint)|getOccupancyMap(maxPoint)|getOccupancyMap()" id="dom-instance-getoccupancymap">getOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">Point2D</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMap(maxPoint, minPoint), Instance/getOccupancyMap(maxPoint), Instance/getOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-maxpoint-minpoint-maxpoint">maxPoint<a class="self-link" href="#dom-instance-getoccupancymap-maxpoint-minpoint-maxpoint"></a></dfn>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name">Point2D</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMap(maxPoint, minPoint), Instance/getOccupancyMap(maxPoint), Instance/getOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-maxpoint-minpoint-minpoint">minPoint<a class="self-link" href="#dom-instance-getoccupancymap-maxpoint-minpoint-minpoint"></a></dfn>);
-  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapUpdate(maxPoint, minPoint)|getOccupancyMapUpdate(maxPoint)|getOccupancyMapUpdate()" id="dom-instance-getoccupancymapupdate">getOccupancyMapUpdate<a class="self-link" href="#dom-instance-getoccupancymapupdate"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">Point2D</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(maxPoint, minPoint), Instance/getOccupancyMapUpdate(maxPoint), Instance/getOccupancyMapUpdate()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-maxpoint-minpoint-maxpoint">maxPoint<a class="self-link" href="#dom-instance-getoccupancymapupdate-maxpoint-minpoint-maxpoint"></a></dfn>, <span class="kt">optional</span>  <a class="n" data-link-type="idl-name">Point2D</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(maxPoint, minPoint), Instance/getOccupancyMapUpdate(maxPoint), Instance/getOccupancyMapUpdate()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-maxpoint-minpoint-minpoint">minPoint<a class="self-link" href="#dom-instance-getoccupancymapupdate-maxpoint-minpoint-minpoint"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata" id="ref-for-occupancymapdata-1">OccupancyMapData</a>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMap(roi)|getOccupancyMap()" id="dom-instance-getoccupancymap">getOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMap(roi), Instance/getOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymap-roi-roi"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata" id="ref-for-occupancymapdata-2">OccupancyMapData</a>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapUpdate(roi)|getOccupancyMapUpdate()" id="dom-instance-getoccupancymapupdate">getOccupancyMapUpdate<a class="self-link" href="#dom-instance-getoccupancymapupdate"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(roi), Instance/getOccupancyMapUpdate()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymapupdate-roi-roi"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#mapimage0" id="ref-for-mapimage0-1">MapImage</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)" id="dom-instance-getoccupancymapasrgba">getOccupancyMapAsRgba<a class="self-link" href="#dom-instance-getoccupancymapasrgba"></a></dfn>(<span class="kt">boolean</span> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawposetrajectory">drawPoseTrajectory<a class="self-link" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawposetrajectory"></a></dfn>, <span class="kt">boolean</span> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawoccupancymap">drawOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawoccupancymap"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapbounds0" id="ref-for-occupancymapbounds0-1">OccupancyMapBounds</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapBounds()" id="dom-instance-getoccupancymapbounds">getOccupancyMapBounds<a class="self-link" href="#dom-instance-getoccupancymapbounds"></a></dfn>();
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#trackingresult0" id="ref-for-trackingresult0-1">TrackingResult</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getTrackingResult()" id="dom-instance-gettrackingresult">getTrackingResult<a class="self-link" href="#dom-instance-gettrackingresult"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="loadOccupancyMap(mapFileName)" id="dom-instance-loadoccupancymap">loadOccupancyMap<a class="self-link" href="#dom-instance-loadoccupancymap"></a></dfn>(<a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/loadOccupancyMap(mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-loadoccupancymap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-loadoccupancymap-mapfilename-mapfilename"></a></dfn>);
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveOccupancyMap(mapFileName)|saveOccupancyMap()" id="dom-instance-saveoccupancymap">saveOccupancyMap<a class="self-link" href="#dom-instance-saveoccupancymap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMap(mapFileName), Instance/saveOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymap-mapfilename-mapfilename"></a></dfn>);
@@ -1749,12 +1762,12 @@ Parts of this work may be from another specification document.  If so, those par
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">getOccupancyMap</a></code></p>
     <dd data-md="">
-     <p>get_occupancy_map returns ALL the tiles in the occupancy map construction that have occupancy values within specified region of interest.</p>
+     <p>getOccupancyMap returns ALL the tiles in the occupancy map construction that have occupancy values within specified region of interest.</p>
     <dd data-md="">
-     <p>This method returns a promise.The promise will be fulfilled with an array of float which containing all tiles in the occupancy map construction that have occpuancy values if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
+     <p>This method returns a promise.The promise will be fulfilled with an object of OccupancyMapData which containing all tiles in the occupancy map construction that have occpuancy values if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
    </dl>
    <table class="argumentdef data">
-    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.getOccupancyMap(optional Point2D maxPoint, optional Point2D minPoint)</a> method.</caption>
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.getOccupancyMap(optional RegionOfInterest roi)</a> method.</caption>
     <thead>
      <tr>
       <th>Parameter 
@@ -1764,30 +1777,24 @@ Parts of this work may be from another specification document.  If so, those par
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMap(optional Point2D maxPoint, optional Point2D minPoint)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-optional-point2d-maxpoint-optional-point2d-minpoint-maxpoint">maxPoint<a class="self-link" href="#dom-instance-getoccupancymap-optional-point2d-maxpoint-optional-point2d-minpoint-maxpoint"></a></dfn> 
-      <td> Point2D 
+      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMap(optional RegionOfInterest roi)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-optional-regionofinterest-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymap-optional-regionofinterest-roi-roi"></a></dfn> 
+      <td> RegionOfInterest 
       <td> <span class="no">✘</span>
       <td> <span class="yes">✔</span>
-      <td>maximum of x and y co-ordinate of region of interest. 
-     <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMap(optional Point2D maxPoint, optional Point2D minPoint)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-optional-point2d-maxpoint-optional-point2d-minpoint-minpoint">minPoint<a class="self-link" href="#dom-instance-getoccupancymap-optional-point2d-maxpoint-optional-point2d-minpoint-minpoint"></a></dfn> 
-      <td> Point2D 
-      <td> <span class="no">✘</span>
-      <td> <span class="yes">✔</span>
-      <td>minimum of x and y co-ordinate of region of interest. 
+      <td>maximum of x and y, minimum of x and y co-ordinate of region of interest. 
    </table>
    <dl>
     <dd data-md="">
-     <p><em>Return type</em>:Promise&lt;sequence&lt;<a data-link-type="dfn">long</a>>></p>
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#occupancymap" id="ref-for-occupancymap-1">OccupancyMap</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">getOccupancyMapUpdate</a></code></p>
     <dd data-md="">
      <p>To obtain the occupancy map data that have been modified since the last successful call to getOccupancymapUpdate() when <a data-link-type="dfn">enableOccpuancymapBuilding</a> is true.</p>
     <dd data-md="">
-     <p>This method returns a promise.The promise will be fulfilled with an array of float which containing all tiles in the occupancy map construction that have occpuancy valuesif there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
+     <p>This method returns a promise.The promise will be fulfilled with an object of OccupancyMap which containing all tiles in the occupancy map construction that have occpuancy valuesif there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
    </dl>
    <table class="argumentdef data">
-    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.getOccupancyMapUpdate(optional Point2D maxPoint, optional Point2D minPoint)</a> method.</caption>
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.getOccupancyMapUpdate(optional RegionOfInterest roi)</a> method.</caption>
     <thead>
      <tr>
       <th>Parameter 
@@ -1797,20 +1804,56 @@ Parts of this work may be from another specification document.  If so, those par
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(optional Point2D maxPoint, optional Point2D minPoint)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-optional-point2d-maxpoint-optional-point2d-minpoint-maxpoint">maxPoint<a class="self-link" href="#dom-instance-getoccupancymapupdate-optional-point2d-maxpoint-optional-point2d-minpoint-maxpoint"></a></dfn> 
-      <td> Point2D 
+      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(optional RegionOfInterest roi)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-optional-regionofinterest-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymapupdate-optional-regionofinterest-roi-roi"></a></dfn> 
+      <td> RegionOfInterest 
       <td> <span class="no">✘</span>
       <td> <span class="yes">✔</span>
-      <td>maximum of x and y co-ordinate of region of interest. 
-     <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(optional Point2D maxPoint, optional Point2D minPoint)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-optional-point2d-maxpoint-optional-point2d-minpoint-minpoint">minPoint<a class="self-link" href="#dom-instance-getoccupancymapupdate-optional-point2d-maxpoint-optional-point2d-minpoint-minpoint"></a></dfn> 
-      <td> Point2D 
-      <td> <span class="no">✘</span>
-      <td> <span class="yes">✔</span>
-      <td>minimum of x and y co-ordinate of region of interest. 
+      <td>maximum of x and y, minimum of x and y co-ordinate of region of interest. 
    </table>
-   <p>::<em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
    <dl>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#occupancymap" id="ref-for-occupancymap-2">OccupancyMap</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">getOccupancyMapAsRgba</a></code></p>
+    <dd data-md="">
+     <p>To obtain a representation of the occupancy map as an RGBA image.</p>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled with an object of MapImage if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapasrgba-boolean-drawposetrajectory-boolean-drawoccupancymap-drawposetrajectory">drawPoseTrajectory<a class="self-link" href="#dom-instance-getoccupancymapasrgba-boolean-drawposetrajectory-boolean-drawoccupancymap-drawposetrajectory"></a></dfn> 
+      <td> boolean 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>pass 1 to draw the pose trajectory over time, otherwise 0. 
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="Instance/getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapasrgba-boolean-drawposetrajectory-boolean-drawoccupancymap-drawoccupancymap">drawOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymapasrgba-boolean-drawposetrajectory-boolean-drawoccupancymap-drawoccupancymap"></a></dfn> 
+      <td> boolean 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>pass 1 to draw the occupancy map, otherwise 0. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#mapimage" id="ref-for-mapimage-1">MapImage</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">getOccupancyMapBounds</a></code></p>
+    <dd data-md="">
+     <p>getOccupancyMapBounds gets the boundaries of the occupancy map in tile units.</p>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled with an object of OccupancyMapBounds if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#occupancymapbounds" id="ref-for-occupancymapbounds-1">OccupancyMapBounds</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">saveRelocalizationMap</a></code></p>
     <dd data-md="">
@@ -1891,33 +1934,85 @@ Parts of this work may be from another specification document.  If so, those par
     <dd data-md="">
      <p class="note" role="note">Note: this is just a notation, the underlying mechanism is the <code>EventEmitter</code> of <code>Node.js</code>, please use <code>instance.on('localization', function(e) { ... })</code> to handle the event</p>
    </dl>
-   <h4 class="heading settled" data-level="2.1.4" id="heightOfInterest"><span class="secno">2.1.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="heightofinterest">HeightOfInterest</dfn> Interface</span><a class="self-link" href="#heightOfInterest"></a></h4>
-<pre class="idl highlight def">[<dfn class="nv idl-code" data-dfn-for="HeightOfInterest" data-dfn-type="constructor" data-export="" data-lt="HeightOfInterest()" id="dom-heightofinterest-heightofinterest">Constructor<a class="self-link" href="#dom-heightofinterest-heightofinterest"></a></dfn>,
- <dfn class="nv idl-code" data-dfn-for="HeightOfInterest" data-dfn-type="constructor" data-export="" data-lt="HeightOfInterest(minHeight, maxHeight)" id="dom-heightofinterest-heightofinterest-minheight-maxheight">Constructor<a class="self-link" href="#dom-heightofinterest-heightofinterest-minheight-maxheight"></a></dfn>(<span class="kt">float</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="HeightOfInterest/HeightOfInterest(minHeight, maxHeight)" data-dfn-type="argument" data-export="" id="dom-heightofinterest-heightofinterest-minheight-maxheight-minheight">minHeight</dfn>, <span class="kt">float</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="HeightOfInterest/HeightOfInterest(minHeight, maxHeight)" data-dfn-type="argument" data-export="" id="dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight">maxHeight</dfn>)]
-<span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="heightofinterest0">HeightOfInterest</dfn> {
-  <span class="kt">attribute</span> <span class="kt">float</span> <dfn class="nv idl-code" data-dfn-for="HeightOfInterest" data-dfn-type="attribute" data-export="" data-type="float" id="dom-heightofinterest-minheight">minHeight<a class="self-link" href="#dom-heightofinterest-minheight"></a></dfn>;
-  <span class="kt">attribute</span> <span class="kt">float</span> <dfn class="nv idl-code" data-dfn-for="HeightOfInterest" data-dfn-type="attribute" data-export="" data-type="float" id="dom-heightofinterest-maxheight">maxHeight<a class="self-link" href="#dom-heightofinterest-maxheight"></a></dfn>;
+   <h4 class="heading settled" data-level="2.1.4" id="MapImage"><span class="secno">2.1.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="mapimage">MapImage</dfn> Interface</span><a class="self-link" href="#MapImage"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="mapimage0">MapImage</dfn> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="MapImage" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-mapimage-width">width</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="MapImage" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-mapimage-height">height</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">Uint8Array</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="MapImage" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Uint8Array" id="dom-mapimage-data">data</dfn>;
 };
 </pre>
    <h5 class="heading settled" data-level="2.1.4.1" id="attributes"><span class="secno">2.1.4.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes"></a></h5>
    <ul>
     <li data-md="">
-     <p><code class="idl"><a data-link-type="idl" href="#dom-heightofinterest-heightofinterest-minheight-maxheight-minheight" id="ref-for-dom-heightofinterest-heightofinterest-minheight-maxheight-minheight-1">minHeight</a></code> of type <a data-link-type="dfn" href="https://drafts.csswg.org/css-page-floats-3/#float">float</a></p>
+     <p><code class="idl"><a data-link-type="idl" href="#dom-mapimage-width" id="ref-for-dom-mapimage-width-1">width</a></code> of type <a data-link-type="dfn">long</a></p>
     <li data-md="">
-     <p>    Minimum height of interest</p>
+     <p>    Receives the image width in pixels</p>
     <li data-md="">
-     <p><code class="idl"><a data-link-type="idl" href="#dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight" id="ref-for-dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight-1">maxHeight</a></code> of type <a data-link-type="dfn" href="https://drafts.csswg.org/css-page-floats-3/#float">float</a></p>
+     <p><code class="idl"><a data-link-type="idl" href="#dom-mapimage-height" id="ref-for-dom-mapimage-height-1">height</a></code> of type <a data-link-type="dfn">long</a></p>
     <li data-md="">
-     <p>    Maximum height of interest</p>
+     <p>    Receives the image Height in pixels</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-mapimage-data" id="ref-for-dom-mapimage-data-1">data</a></code> of type <a data-link-type="dfn">Uint8Array</a></p>
+    <li data-md="">
+     <p>    Store the resulting output image</p>
    </ul>
-   <h4 class="heading settled" data-level="2.1.5" id="trackingResult"><span class="secno">2.1.5. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="trackingresult">TrackingResult<a class="self-link" href="#trackingresult"></a></dfn> Interface</span><a class="self-link" href="#trackingResult"></a></h4>
+   <h4 class="heading settled" data-level="2.1.5" id="OccupancyMap"><span class="secno">2.1.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="occupancymap">OccupancyMap</dfn> Interface</span><a class="self-link" href="#OccupancyMap"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="occupancymapdata">OccupancyMapData</dfn> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">boolean</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="OccupancyMapData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="boolean" id="dom-occupancymapdata-isdatapending">isDataPending</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="OccupancyMapData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-occupancymapdata-tilecount">tileCount</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">Int32Array</span> <dfn class="nv idl-code" data-dfn-for="OccupancyMapData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Int32Array" id="dom-occupancymapdata-data">data<a class="self-link" href="#dom-occupancymapdata-data"></a></dfn>;
+};
+</pre>
+   <h5 class="heading settled" data-level="2.1.5.1" id="attributes0"><span class="secno">2.1.5.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes0"></a></h5>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-occupancymapdata-isdatapending" id="ref-for-dom-occupancymapdata-isdatapending-1">isDataPending</a></code> of type <a data-link-type="dfn">boolean</a></p>
+    <li data-md="">
+     <p>    If the OccupancyMap object cannot accommodate all the available tiles, isDatatPending will be set to false. In this case, make an additional call later to getOccupancyMapUpdate or getOccupancyMap to fetch remaining tiles.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-occupancymapdata-tilecount" id="ref-for-dom-occupancymapdata-tilecount-1">tileCount</a></code> of type <a data-link-type="dfn">long</a></p>
+    <li data-md="">
+     <p>    The count of tiles for occupancy map.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-mapimage-data" id="ref-for-dom-mapimage-data-2">data</a></code> of type <a data-link-type="dfn">Int32Array</a></p>
+    <li data-md="">
+     <p>    Container to store the occupancy map.</p>
+   </ul>
+   <h4 class="heading settled" data-level="2.1.6" id="OccupancyMapBounds"><span class="secno">2.1.6. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="occupancymapbounds">OccupancyMapBounds</dfn> Interface</span><a class="self-link" href="#OccupancyMapBounds"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="occupancymapbounds0">OccupancyMapBounds</dfn> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="OccupancyMapBounds" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-occupancymapbounds-minx">minX</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="OccupancyMapBounds" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-occupancymapbounds-minz">minZ</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="OccupancyMapBounds" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-occupancymapbounds-maxx">maxX</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="OccupancyMapBounds" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-occupancymapbounds-maxz">maxZ</dfn>;
+};
+</pre>
+   <h5 class="heading settled" data-level="2.1.6.1" id="attributes1"><span class="secno">2.1.6.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes1"></a></h5>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-occupancymapbounds-minx" id="ref-for-dom-occupancymapbounds-minx-1">minX</a></code> of type <a data-link-type="dfn">long</a></p>
+    <li data-md="">
+     <p>    Stored the minimum tile seen on the X-axis.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-occupancymapbounds-minz" id="ref-for-dom-occupancymapbounds-minz-1">minZ</a></code> of type <a data-link-type="dfn">long</a></p>
+    <li data-md="">
+     <p>    Stored the minimum tile seen on the Z-axis.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-occupancymapbounds-maxx" id="ref-for-dom-occupancymapbounds-maxx-1">maxX</a></code> of type <a data-link-type="dfn">long</a></p>
+    <li data-md="">
+     <p>    Stored the maximum tile seen on the X-axis</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-occupancymapbounds-maxz" id="ref-for-dom-occupancymapbounds-maxz-1">maxZ</a></code> of type <a data-link-type="dfn">long</a></p>
+    <li data-md="">
+     <p>    Stored the maximum tile seen on the Z-axis</p>
+   </ul>
+   <h4 class="heading settled" data-level="2.1.7" id="trackingResult"><span class="secno">2.1.7. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="trackingresult">TrackingResult<a class="self-link" href="#trackingresult"></a></dfn> Interface</span><a class="self-link" href="#trackingResult"></a></h4>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="trackingresult0">TrackingResult</dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#enumdef-trackingaccuracy" id="ref-for-enumdef-trackingaccuracy-1">TrackingAccuracy</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="TrackingResult" data-dfn-type="attribute" data-export="" data-readonly="" data-type="TrackingAccuracy" id="dom-trackingresult-accuracy">accuracy</dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">float</span>[] <dfn class="nv dfn-paneled idl-code" data-dfn-for="TrackingResult" data-dfn-type="attribute" data-export="" data-readonly="" data-type="float[]" id="dom-trackingresult-camerapose">cameraPose</dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">FrameData</a> <dfn class="nv idl-code" data-dfn-for="TrackingResult" data-dfn-type="attribute" data-export="" data-readonly="" data-type="FrameData" id="dom-trackingresult-framedata">frameData<a class="self-link" href="#dom-trackingresult-framedata"></a></dfn>;
 };
 </pre>
-   <h5 class="heading settled" data-level="2.1.5.1" id="attributes0"><span class="secno">2.1.5.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes0"></a></h5>
+   <h5 class="heading settled" data-level="2.1.7.1" id="attributes2"><span class="secno">2.1.7.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes2"></a></h5>
    <ul>
     <li data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-trackingresult-accuracy" id="ref-for-dom-trackingresult-accuracy-1">accuracy</a></code> of type <a data-link-type="dfn" href="#trackingaccuracy" id="ref-for-trackingaccuracy-1">TrackingAccuracy</a>, readonly</p>
@@ -1928,7 +2023,7 @@ Parts of this work may be from another specification document.  If so, those par
     <li data-md="">
      <p>    Current camera pose</p>
    </ul>
-   <h5 class="heading settled" data-level="2.1.5.2" id="methods"><span class="secno">2.1.5.2. </span><span class="content">Methods</span><a class="self-link" href="#methods"></a></h5>
+   <h5 class="heading settled" data-level="2.1.7.2" id="methods"><span class="secno">2.1.7.2. </span><span class="content">Methods</span><a class="self-link" href="#methods"></a></h5>
    <dl>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">getFrameData</a></code></p>
@@ -1941,13 +2036,13 @@ Parts of this work may be from another specification document.  If so, those par
     <dd data-md="">
      <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
    </dl>
-   <h4 class="heading settled" data-level="2.1.6" id="eventInfo"><span class="secno">2.1.6. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="eventinfo">EventInfo</dfn> Interface</span><a class="self-link" href="#eventInfo"></a></h4>
+   <h4 class="heading settled" data-level="2.1.8" id="eventInfo"><span class="secno">2.1.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="eventinfo">EventInfo</dfn> Interface</span><a class="self-link" href="#eventInfo"></a></h4>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="eventinfo0">EventInfo</dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#enumdef-trackingaccuracy" id="ref-for-enumdef-trackingaccuracy-2">TrackingAccuracy</a> <dfn class="nv idl-code" data-dfn-for="EventInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="TrackingAccuracy" id="dom-eventinfo-accuracy">accuracy<a class="self-link" href="#dom-eventinfo-accuracy"></a></dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">float</span>[] <dfn class="nv idl-code" data-dfn-for="EventInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="float[]" id="dom-eventinfo-camerapose">cameraPose<a class="self-link" href="#dom-eventinfo-camerapose"></a></dfn>;
 };
 </pre>
-   <h5 class="heading settled" data-level="2.1.6.1" id="attributes1"><span class="secno">2.1.6.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes1"></a></h5>
+   <h5 class="heading settled" data-level="2.1.8.1" id="attributes3"><span class="secno">2.1.8.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes3"></a></h5>
    <ul>
     <li data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-trackingresult-accuracy" id="ref-for-dom-trackingresult-accuracy-2">accuracy</a></code> of type <a data-link-type="dfn" href="#trackingaccuracy" id="ref-for-trackingaccuracy-2">TrackingAccuracy</a>, readonly</p>
@@ -1958,20 +2053,20 @@ Parts of this work may be from another specification document.  If so, those par
     <li data-md="">
      <p>    Current camera pose</p>
    </ul>
-   <h4 class="heading settled" data-level="2.1.7" id="trackingEvent"><span class="secno">2.1.7. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="trackingevent">TrackingEvent</dfn> Interface</span><a class="self-link" href="#trackingEvent"></a></h4>
+   <h4 class="heading settled" data-level="2.1.9" id="trackingEvent"><span class="secno">2.1.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="trackingevent">TrackingEvent</dfn> Interface</span><a class="self-link" href="#trackingEvent"></a></h4>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv idl-code" data-dfn-type="interface" data-export="" id="trackingevent0">TrackingEvent<a class="self-link" href="#trackingevent0"></a></dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">String</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="TrackingEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="String" id="dom-trackingevent-eventname">eventName</dfn>;
-  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#eventinfo0" id="ref-for-eventinfo0-1">EventInfo</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="TrackingEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="EventInfo" id="dom-trackingevent-data">data</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#eventinfo0" id="ref-for-eventinfo0-1">EventInfo</a> <dfn class="nv idl-code" data-dfn-for="TrackingEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="EventInfo" id="dom-trackingevent-data">data<a class="self-link" href="#dom-trackingevent-data"></a></dfn>;
 };
 </pre>
-   <h5 class="heading settled" data-level="2.1.7.1" id="attributes2"><span class="secno">2.1.7.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes2"></a></h5>
+   <h5 class="heading settled" data-level="2.1.9.1" id="attributes4"><span class="secno">2.1.9.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes4"></a></h5>
    <ul>
     <li data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-trackingevent-eventname" id="ref-for-dom-trackingevent-eventname-1">eventName</a></code> of type <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#string">String</a>, readonly</p>
     <li data-md="">
      <p>    The name of the tracking event.</p>
     <li data-md="">
-     <p><code class="idl"><a data-link-type="idl" href="#dom-trackingevent-data" id="ref-for-dom-trackingevent-data-1">data</a></code> of type <a data-link-type="dfn" href="#eventinfo" id="ref-for-eventinfo-1">EventInfo</a>, readonly</p>
+     <p><code class="idl"><a data-link-type="idl" href="#dom-mapimage-data" id="ref-for-dom-mapimage-data-3">data</a></code> of type <a data-link-type="dfn" href="#eventinfo" id="ref-for-eventinfo-1">EventInfo</a>, readonly</p>
     <li data-md="">
      <p>    The data carried by the tracking event.</p>
    </ul>
@@ -1979,8 +2074,9 @@ Parts of this work may be from another specification document.  If so, those par
    <h3 class="heading settled" data-level="3.1" id="instanceOptions"><span class="secno">3.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="instanceoptions">InstanceOptions</dfn></span><a class="self-link" href="#instanceOptions"></a></h3>
 <pre class="idl highlight def"><span class="kt">dictionary</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-instanceoptions">InstanceOptions</dfn> {
   <span class="kt">boolean</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-instanceoptions-enableoccupancymapbuilding">enableOccupancyMapBuilding</dfn>;
-  <a class="n" data-link-type="idl-name" href="#heightofinterest0" id="ref-for-heightofinterest0-1">HeightOfInterest</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="HeightOfInterest " id="dom-instanceoptions-occupancymapheightofinterest">occupancyMapHeightOfInterest</dfn>;
-  <span class="kt">float</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="float " id="dom-instanceoptions-occupancymapresolution">occupancyMapResolution</dfn>;
+  <a class="n" data-link-type="idl-name">RangeOfInterest</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="RangeOfInterest " id="dom-instanceoptions-occupancymapheightofinterest">occupancyMapHeightOfInterest</dfn>;
+  <a class="n" data-link-type="idl-name">RangeOfInterest</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="RangeOfInterest " id="dom-instanceoptions-occupancymapdepthofinterest">occupancyMapDepthOfInterest</dfn>;
+  <span class="kt">float</span> <dfn class="nv idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="float " id="dom-instanceoptions-occupancymapresolution">occupancyMapResolution<a class="self-link" href="#dom-instanceoptions-occupancymapresolution"></a></dfn>;
   <span class="kt">boolean</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-instanceoptions-enablerelocalizationmapping">enableRelocalizationMapping</dfn>;
   <span class="kt">boolean</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InstanceOptions" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-instanceoptions-enableforcerelocalizationpose">enableForceRelocalizationPose</dfn>;
 };
@@ -1992,13 +2088,13 @@ Parts of this work may be from another specification document.  If so, those par
     <li data-md="">
      <p>    Enable or disable the automatic oocpuancy map building. By default, automatic map building is enbled. When it is enabled, new coming frame data will also update the occpuancy map. To manually build occupancy map with updateOccupancyMap, enableOccpuancyMapBuilding should be set to false.</p>
     <li data-md="">
-     <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-occupancymapheightofinterest" id="ref-for-dom-instanceoptions-occupancymapheightofinterest-1">occupancyMapHeightOfInterest</a></code> of type <a data-link-type="dfn" href="#heightofinterest" id="ref-for-heightofinterest-1">HeightOfInterest</a></p>
+     <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-occupancymapheightofinterest" id="ref-for-dom-instanceoptions-occupancymapheightofinterest-1">occupancyMapHeightOfInterest</a></code> of type <a data-link-type="dfn">RangeOfInterest</a></p>
     <li data-md="">
      <p>    Set the vertical range of interest for the occpuancy map. Regions outside this vertical range are ignored.</p>
     <li data-md="">
-     <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-occupancymapresolution" id="ref-for-dom-instanceoptions-occupancymapresolution-1">occupancyMapResolution</a></code> of type <a data-link-type="dfn" href="https://drafts.csswg.org/css-page-floats-3/#float">float</a></p>
+     <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-occupancymapdepthofinterest" id="ref-for-dom-instanceoptions-occupancymapdepthofinterest-1">occupancyMapDepthOfInterest</a></code> of type <a data-link-type="dfn">RangeOfInterest</a></p>
     <li data-md="">
-     <p>    Set the grid resolution of occupancy map construction. The resolution defines the size of each square grid cell in the map.</p>
+     <p>    Set the depth range of interest for the occpuancy map. Regions outside this range are ignored.</p>
     <li data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-enablerelocalizationmapping" id="ref-for-dom-instanceoptions-enablerelocalizationmapping-1">enableRelocalizationMapping</a></code> of type <a data-link-type="dfn">boolean</a></p>
     <li data-md="">
@@ -2006,9 +2102,20 @@ Parts of this work may be from another specification document.  If so, those par
     <li data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-enableforcerelocalizationpose" id="ref-for-dom-instanceoptions-enableforcerelocalizationpose-1">enableForceRelocalizationPose</a></code> of type <a data-link-type="dfn">boolean</a></p>
     <li data-md="">
-     <p>    Set whether to use relocalization pose in tracking or not when relocalization mapping is running. By default, relocalization will overwrite the tracker pose.</p>
+     <p>    Set whether to use relocalization pose in tracking or not when relocalization mapping is running.By default, relocalization will overwrite the tracker pose.</p>
 <pre class="note">Note: All members except occupancyMapHeightOfInterest listed above can not be modified after invoking start().
 </pre>
+   </ul>
+   <h4 class="heading settled" data-level="3.1.2" id="RangeOfInterest"><span class="secno">3.1.2. </span><span class="content">Dictionary <a data-link-type="dfn">RangeOfInterest</a> Members</span><a class="self-link" href="#RangeOfInterest"></a></h4>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-enableoccupancymapbuilding" id="ref-for-dom-instanceoptions-enableoccupancymapbuilding-2">enableOccupancyMapBuilding</a></code> of type <a data-link-type="dfn">boolean</a></p>
+    <li data-md="">
+     <p>    Enable or disable the automatic oocpuancy map building. By default, automatic map building is enbled. When it is enabled, new coming frame data will also update the occpuancy map. To manually build occupancy map with updateOccupancyMap, enableOccpuancyMapBuilding should be set to false.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-instanceoptions-occupancymapheightofinterest" id="ref-for-dom-instanceoptions-occupancymapheightofinterest-2">occupancyMapHeightOfInterest</a></code> of type <a data-link-type="dfn">RangeOfInterest</a></p>
+    <li data-md="">
+     <p>    Set the vertical range of interest for the occpuancy map. Regions outside this vertical range are ignored.</p>
    </ul>
    <h2 class="heading settled" data-level="4" id="enumerators"><span class="secno">4. </span><span class="content">Enumerators</span><a class="self-link" href="#enumerators"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="trackingAccuary"><span class="secno">4.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="trackingaccuracy">TrackingAccuracy</dfn> enum</span><a class="self-link" href="#trackingAccuary"></a></h3>
@@ -2062,13 +2169,153 @@ Parts of this work may be from another specification document.  If so, those par
       <td>The tracking work is paused. 
    </table>
    <h2 class="heading settled" data-level="5" id="examples"><span class="secno">5. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-<pre class="example" id="example-03108a6f"><a class="self-link" href="#example-03108a6f"></a>var slamAddon = require('bindings')('slam.js');
-var EventEmitter = require('events').EventEmitter;
+<pre class="example" id="example-5275bad5"><a class="self-link" href="#example-5275bad5"></a>  let slamAddon = require('bindings')('realsense_slam');
+let EventEmitter = require('events').EventEmitter;
+let trackingEvent = 'tracking';
+let errorEvent = 'error';
+
 function inherits(target, source) {
-  for (var k in source.prototype) {
+  // eslint-disable-next-line
+  for (let k in source.prototype) {
     target.prototype[k] = source.prototype[k];
   }
 }
+inherits(slamAddon.Instance, EventEmitter);
+
+function addListeners(instance) {
+  instance.on('newListener', function(event) {
+    if (event === trackingEvent &amp;&amp; instance.listenerCount(event) === 0)
+      instance.enableTrackingEvent = true;
+    if (event === errorEvent &amp;&amp; instance.listenerCount(event) === 0)
+      instance.enableErrorEvent = true;
+  });
+  instance.on('removeListener', function(event) {
+    if (event === trackingEvent &amp;&amp; instance.listenerCount(event) === 0)
+      instance.enableTrackingEvent = false;
+    if (event === errorEvent &amp;&amp; instance.listenerCount(event) === 0)
+      instance.enableErrorEvent = false;
+  });
+}
+/** The same work as JavaScript wrapper **/
+
+function instanceHandler(slamInstance) {
+  addListeners(slamInstance);
+  let options = {
+    enableOccupancyMapBuilding: true,
+    occupancyMapHeightOfInterest: {max: 1, min: -0.2},
+    occupancyMapResolution: 0.2,
+    enableRelocalizationMapping: false,
+    enableForceRelocalizationPose: false,
+  };
+  slamInstance.setInstanceOptions(options).then(function() {
+    console.log('set instance options succeed');
+    return slamInstance.getInstanceOptions();
+  })
+  .then(function(o) {
+    console.log('options:', o);
+    slamInstance.addListener('tracking', function(e) {
+      console.log('on tracking:', e);
+      slamInstance.getTrackingResult().then((frameData) => {
+        console.log('trackingResult:', frameData);
+      }, (e) => {
+        console.log('failed to get trackingResult:', e);
+      });
+    });
+    return slamInstance.start();
+  })
+  .then(function() {
+    setInterval(() => {
+      getOccupancyMapUpdate(slamInstance);
+      getOccupancyMapBounds(slamInstance);
+      getOccupancyMapAsRgba(slamInstance);
+    }, 5000);
+    console.log('start succeed.');
+  })
+  .catch(function(e) {
+    console.log('error:' + e);
+  });
+
+  function saveOccupancyMapAsPpm() {
+    slamInstance.saveOccupancyMapAsPpm( __dirname + '/map.ppm', false)
+    .then(function(str) {
+      console.log('JS:save occupancy map as ppm success.');
+      console.log(str);
+    })
+    .catch(function(e) {
+      console.log('error:' + e);
+    });
+  }
+
+  setTimeout(saveOccupancyMapAsPpm, 10000);
+}
+
+let id = 0;
+function getOccupancyMapUpdate(slamInstance) {
+  if(id == 10) {
+    clearInterval(id);
+  } else {
+    slamInstance.getOccupancyMapUpdate().then(function(mapData) {
+      console.log('JS:get occupancy map success, data.length:' + mapData.data.length);
+      console.log(mapData);
+    })
+    .catch(function(e) {
+      console.log('error:' + e);
+    });
+    id++;
+  }
+}
+
+function getOccupancyMapAsRgba(slamInstance) {
+  if(id == 10) {
+    clearInterval(id);
+  } else {
+    slamInstance.getOccupancyMapAsRgba(true, true).then(function(mapImage) {
+      console.log('JS:get occupancy map success,');
+      console.log('width: ' + mapImage.width);
+      console.log('height: ' + mapImage.height);
+      console.log('data: ' + mapImage.data);
+    })
+    .catch(function(e) {
+      console.log('error:' + e);
+    });
+    id++;
+  }
+}
+
+function getOccupancyMapBounds(slamInstance) {
+  if(id == 10) {
+    clearInterval(id);
+  } else {
+    slamInstance.getOccupancyMapBounds().then(function(boundsData) {
+      console.log('JS:get occupancy map bounds success');
+      console.log(boundsData);
+    })
+    .catch(function(e) {
+      console.log('error:' + e);
+    });
+    id++;
+  }
+}
+
+function test1() {
+  slamAddon.createInstance().then(function(slamInstance) {
+    console.log('In JS: Succeed to create slamInstance.');
+    try {
+      instanceHandler(slamInstance);
+    } catch(e) {
+      console.error('Error caught:', e);
+      slamInstance.stop();
+    }
+  }, function(e) {
+    console.error('In JS: Failed to create SLAM instance:' + e);
+  });
+}
+
+test1();
+
+process.on('uncaughtException', function(err) {
+  console.error('Error caught in uncaughtException event:', err);
+});
 </pre>
   </main>
   <div data-fill-with="conformance">
@@ -2223,47 +2470,46 @@ function inherits(target, source) {
    <li>
     accuracy
     <ul>
-     <li><a href="#dom-trackingresult-accuracy">attribute for TrackingResult</a><span>, in §2.1.5</span>
-     <li><a href="#dom-eventinfo-accuracy">attribute for EventInfo</a><span>, in §2.1.6</span>
+     <li><a href="#dom-trackingresult-accuracy">attribute for TrackingResult</a><span>, in §2.1.7</span>
+     <li><a href="#dom-eventinfo-accuracy">attribute for EventInfo</a><span>, in §2.1.8</span>
     </ul>
    <li>
     cameraPose
     <ul>
-     <li><a href="#dom-trackingresult-camerapose">attribute for TrackingResult</a><span>, in §2.1.5</span>
-     <li><a href="#dom-eventinfo-camerapose">attribute for EventInfo</a><span>, in §2.1.6</span>
+     <li><a href="#dom-trackingresult-camerapose">attribute for TrackingResult</a><span>, in §2.1.7</span>
+     <li><a href="#dom-eventinfo-camerapose">attribute for EventInfo</a><span>, in §2.1.8</span>
     </ul>
-   <li><a href="#dom-trackingevent-data">data</a><span>, in §2.1.7</span>
+   <li>
+    data
+    <ul>
+     <li><a href="#dom-mapimage-data">attribute for MapImage</a><span>, in §2.1.4</span>
+     <li><a href="#dom-occupancymapdata-data">attribute for OccupancyMapData</a><span>, in §2.1.5</span>
+     <li><a href="#dom-trackingevent-data">attribute for TrackingEvent</a><span>, in §2.1.9</span>
+    </ul>
    <li><a href="#dom-instanceoptions-enableforcerelocalizationpose">enableForceRelocalizationPose</a><span>, in §3.1</span>
    <li><a href="#dom-instanceoptions-enableoccupancymapbuilding">enableOccupancyMapBuilding</a><span>, in §3.1</span>
    <li><a href="#dom-instanceoptions-enablerelocalizationmapping">enableRelocalizationMapping</a><span>, in §3.1</span>
    <li>
     EventInfo
     <ul>
-     <li><a href="#eventinfo">definition of</a><span>, in §2.1.6</span>
-     <li><a href="#eventinfo0">(interface)</a><span>, in §2.1.6</span>
+     <li><a href="#eventinfo">definition of</a><span>, in §2.1.8</span>
+     <li><a href="#eventinfo0">(interface)</a><span>, in §2.1.8</span>
     </ul>
-   <li><a href="#dom-trackingevent-eventname">eventName</a><span>, in §2.1.7</span>
-   <li><a href="#dom-trackingaccuracy-failed">"failed"</a><span>, in §4.1</span>
+   <li><a href="#dom-trackingevent-eventname">eventName</a><span>, in §2.1.9</span>
    <li><a href="#dom-trackingaccuracy-failed">failed</a><span>, in §4.1</span>
-   <li><a href="#dom-trackingresult-framedata">frameData</a><span>, in §2.1.5</span>
+   <li><a href="#dom-trackingaccuracy-failed">"failed"</a><span>, in §4.1</span>
+   <li><a href="#dom-trackingresult-framedata">frameData</a><span>, in §2.1.7</span>
    <li><a href="#dom-instance-getcameraoptions">getCameraOptions()</a><span>, in §2.1</span>
    <li><a href="#dom-instance-getinstanceoptions">getInstanceOptions()</a><span>, in §2.1</span>
    <li><a href="#dom-instance-getoccupancymap">getOccupancyMap()</a><span>, in §2.1</span>
-   <li><a href="#dom-instance-getoccupancymap">getOccupancyMap(maxPoint)</a><span>, in §2.1</span>
-   <li><a href="#dom-instance-getoccupancymap">getOccupancyMap(maxPoint, minPoint)</a><span>, in §2.1</span>
+   <li><a href="#dom-instance-getoccupancymapasrgba">getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)</a><span>, in §2.1</span>
+   <li><a href="#dom-instance-getoccupancymapbounds">getOccupancyMapBounds()</a><span>, in §2.1</span>
+   <li><a href="#dom-instance-getoccupancymap">getOccupancyMap(roi)</a><span>, in §2.1</span>
    <li><a href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate()</a><span>, in §2.1</span>
-   <li><a href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate(maxPoint)</a><span>, in §2.1</span>
-   <li><a href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate(maxPoint, minPoint)</a><span>, in §2.1</span>
+   <li><a href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate(roi)</a><span>, in §2.1</span>
    <li><a href="#dom-instance-getrelocalizationpose">getRelocalizationPose()</a><span>, in §2.1</span>
    <li><a href="#dom-instance-gettrackingresult">getTrackingResult()</a><span>, in §2.1</span>
-   <li><a href="#dom-heightofinterest-heightofinterest">HeightOfInterest()</a><span>, in §2.1.4</span>
-   <li>
-    HeightOfInterest
-    <ul>
-     <li><a href="#heightofinterest">definition of</a><span>, in §2.1.4</span>
-     <li><a href="#heightofinterest0">(interface)</a><span>, in §2.1.4</span>
-    </ul>
-   <li><a href="#dom-heightofinterest-heightofinterest-minheight-maxheight">HeightOfInterest(minHeight, maxHeight)</a><span>, in §2.1.4</span>
+   <li><a href="#dom-mapimage-height">height</a><span>, in §2.1.4</span>
    <li><a href="#dom-trackingaccuracy-high">high</a><span>, in §4.1</span>
    <li><a href="#dom-trackingaccuracy-high">"high"</a><span>, in §4.1</span>
    <li>
@@ -2278,14 +2524,32 @@ function inherits(target, source) {
      <li><a href="#instanceoptions">definition of</a><span>, in §3.1</span>
      <li><a href="#dictdef-instanceoptions">(dictionary)</a><span>, in §3.1</span>
     </ul>
+   <li><a href="#dom-occupancymapdata-isdatapending">isDataPending</a><span>, in §2.1.5</span>
    <li><a href="#dom-instance-loadoccupancymap">loadOccupancyMap(mapFileName)</a><span>, in §2.1</span>
    <li><a href="#dom-instance-loadrelocalizationmap">loadRelocalizationMap(mapFileName)</a><span>, in §2.1</span>
    <li><a href="#dom-trackingaccuracy-low">"low"</a><span>, in §4.1</span>
    <li><a href="#dom-trackingaccuracy-low">low</a><span>, in §4.1</span>
-   <li><a href="#dom-heightofinterest-maxheight">maxHeight</a><span>, in §2.1.4</span>
-   <li><a href="#dom-trackingaccuracy-med">"med"</a><span>, in §4.1</span>
+   <li>
+    MapImage
+    <ul>
+     <li><a href="#mapimage">definition of</a><span>, in §2.1.4</span>
+     <li><a href="#mapimage0">(interface)</a><span>, in §2.1.4</span>
+    </ul>
+   <li><a href="#dom-occupancymapbounds-maxx">maxX</a><span>, in §2.1.6</span>
+   <li><a href="#dom-occupancymapbounds-maxz">maxZ</a><span>, in §2.1.6</span>
    <li><a href="#dom-trackingaccuracy-med">med</a><span>, in §4.1</span>
-   <li><a href="#dom-heightofinterest-minheight">minHeight</a><span>, in §2.1.4</span>
+   <li><a href="#dom-trackingaccuracy-med">"med"</a><span>, in §4.1</span>
+   <li><a href="#dom-occupancymapbounds-minx">minX</a><span>, in §2.1.6</span>
+   <li><a href="#dom-occupancymapbounds-minz">minZ</a><span>, in §2.1.6</span>
+   <li><a href="#occupancymap">OccupancyMap</a><span>, in §2.1.5</span>
+   <li>
+    OccupancyMapBounds
+    <ul>
+     <li><a href="#occupancymapbounds">definition of</a><span>, in §2.1.6</span>
+     <li><a href="#occupancymapbounds0">(interface)</a><span>, in §2.1.6</span>
+    </ul>
+   <li><a href="#occupancymapdata">OccupancyMapData</a><span>, in §2.1.5</span>
+   <li><a href="#dom-instanceoptions-occupancymapdepthofinterest">occupancyMapDepthOfInterest</a><span>, in §3.1</span>
    <li><a href="#dom-instanceoptions-occupancymapheightofinterest">occupancyMapHeightOfInterest</a><span>, in §3.1</span>
    <li><a href="#dom-instanceoptions-occupancymapresolution">occupancyMapResolution</a><span>, in §3.1</span>
    <li><a href="#dom-instance-onerror">onerror</a><span>, in §2.1</span>
@@ -2293,8 +2557,8 @@ function inherits(target, source) {
    <li><a href="#dom-instance-pause">pause()</a><span>, in §2.1</span>
    <li><a href="#dom-slamstate-paused">"paused"</a><span>, in §4.2</span>
    <li><a href="#dom-slamstate-paused">paused</a><span>, in §4.2</span>
-   <li><a href="#dom-slamstate-ready">ready</a><span>, in §4.2</span>
    <li><a href="#dom-slamstate-ready">"ready"</a><span>, in §4.2</span>
+   <li><a href="#dom-slamstate-ready">ready</a><span>, in §4.2</span>
    <li><a href="#dom-instance-reset">reset()</a><span>, in §2.1</span>
    <li><a href="#dom-instance-restarttracking">restartTracking()</a><span>, in §2.1</span>
    <li><a href="#dom-instance-resume">resume()</a><span>, in §2.1</span>
@@ -2317,6 +2581,7 @@ function inherits(target, source) {
    <li><a href="#dom-instance-start">start()</a><span>, in §2.1</span>
    <li><a href="#dom-instance-state">state</a><span>, in §2.1</span>
    <li><a href="#dom-instance-stop">stop()</a><span>, in §2.1</span>
+   <li><a href="#dom-occupancymapdata-tilecount">tileCount</a><span>, in §2.1.5</span>
    <li><a href="#dom-slamstate-tracking">tracking</a><span>, in §4.2</span>
    <li><a href="#dom-slamstate-tracking">"tracking"</a><span>, in §4.2</span>
    <li>
@@ -2328,15 +2593,16 @@ function inherits(target, source) {
    <li>
     TrackingEvent
     <ul>
-     <li><a href="#trackingevent">definition of</a><span>, in §2.1.7</span>
-     <li><a href="#trackingevent0">(interface)</a><span>, in §2.1.7</span>
+     <li><a href="#trackingevent">definition of</a><span>, in §2.1.9</span>
+     <li><a href="#trackingevent0">(interface)</a><span>, in §2.1.9</span>
     </ul>
    <li>
     TrackingResult
     <ul>
-     <li><a href="#trackingresult">definition of</a><span>, in §2.1.5</span>
-     <li><a href="#trackingresult0">(interface)</a><span>, in §2.1.5</span>
+     <li><a href="#trackingresult">definition of</a><span>, in §2.1.7</span>
+     <li><a href="#trackingresult0">(interface)</a><span>, in §2.1.7</span>
     </ul>
+   <li><a href="#dom-mapimage-width">width</a><span>, in §2.1.4</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
@@ -2364,7 +2630,7 @@ function inherits(target, source) {
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
    <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 29 September 2016. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-html">[HTML]
-   <dd>Ian Hickson. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
   </dl>
@@ -2381,8 +2647,10 @@ function inherits(target, source) {
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-pause">pause</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-resume">resume</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-restarttracking">restartTracking</a>();
-  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <a class="nv" href="#dom-instance-getoccupancymap">getOccupancyMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">Point2D</a> <a class="nv" href="#dom-instance-getoccupancymap-maxpoint-minpoint-maxpoint">maxPoint</a>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name">Point2D</a> <a class="nv" href="#dom-instance-getoccupancymap-maxpoint-minpoint-minpoint">minPoint</a>);
-  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <a class="nv" href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">Point2D</a> <a class="nv" href="#dom-instance-getoccupancymapupdate-maxpoint-minpoint-maxpoint">maxPoint</a>, <span class="kt">optional</span>  <a class="n" data-link-type="idl-name">Point2D</a> <a class="nv" href="#dom-instance-getoccupancymapupdate-maxpoint-minpoint-minpoint">minPoint</a>);
+  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata">OccupancyMapData</a>>> <a class="nv" href="#dom-instance-getoccupancymap">getOccupancyMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <a class="nv" href="#dom-instance-getoccupancymap-roi-roi">roi</a>);
+  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata">OccupancyMapData</a>>> <a class="nv" href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <a class="nv" href="#dom-instance-getoccupancymapupdate-roi-roi">roi</a>);
+  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#mapimage0">MapImage</a>> <a class="nv" href="#dom-instance-getoccupancymapasrgba">getOccupancyMapAsRgba</a>(<span class="kt">boolean</span> <a class="nv" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawposetrajectory">drawPoseTrajectory</a>, <span class="kt">boolean</span> <a class="nv" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawoccupancymap">drawOccupancyMap</a>);
+  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapbounds0">OccupancyMapBounds</a>> <a class="nv" href="#dom-instance-getoccupancymapbounds">getOccupancyMapBounds</a>();
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#trackingresult0">TrackingResult</a>> <a class="nv" href="#dom-instance-gettrackingresult">getTrackingResult</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-loadoccupancymap">loadOccupancyMap</a>(<a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-loadoccupancymap-mapfilename-mapfilename">mapFileName</a>);
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <a class="nv" href="#dom-instance-saveoccupancymap">saveOccupancyMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saveoccupancymap-mapfilename-mapfilename">mapFileName</a>);
@@ -2395,11 +2663,23 @@ function inherits(target, source) {
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-instance-onerror">onerror</a>;
 };
 
-[<a class="nv" href="#dom-heightofinterest-heightofinterest">Constructor</a>,
- <a class="nv" href="#dom-heightofinterest-heightofinterest-minheight-maxheight">Constructor</a>(<span class="kt">float</span> <a class="nv" href="#dom-heightofinterest-heightofinterest-minheight-maxheight-minheight">minHeight</a>, <span class="kt">float</span> <a class="nv" href="#dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight">maxHeight</a>)]
-<span class="kt">interface</span> <a class="nv" href="#heightofinterest0">HeightOfInterest</a> {
-  <span class="kt">attribute</span> <span class="kt">float</span> <a class="nv" data-type="float" href="#dom-heightofinterest-minheight">minHeight</a>;
-  <span class="kt">attribute</span> <span class="kt">float</span> <a class="nv" data-type="float" href="#dom-heightofinterest-maxheight">maxHeight</a>;
+<span class="kt">interface</span> <a class="nv" href="#mapimage0">MapImage</a> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-mapimage-width">width</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-mapimage-height">height</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">Uint8Array</span> <a class="nv" data-readonly="" data-type="Uint8Array" href="#dom-mapimage-data">data</a>;
+};
+
+<span class="kt">interface</span> <a class="nv" href="#occupancymapdata">OccupancyMapData</a> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">boolean</span> <a class="nv" data-readonly="" data-type="boolean" href="#dom-occupancymapdata-isdatapending">isDataPending</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-occupancymapdata-tilecount">tileCount</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">Int32Array</span> <a class="nv" data-readonly="" data-type="Int32Array" href="#dom-occupancymapdata-data">data</a>;
+};
+
+<span class="kt">interface</span> <a class="nv" href="#occupancymapbounds0">OccupancyMapBounds</a> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-occupancymapbounds-minx">minX</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-occupancymapbounds-minz">minZ</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-occupancymapbounds-maxx">maxX</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-occupancymapbounds-maxz">maxZ</a>;
 };
 
 <span class="kt">interface</span> <a class="nv" href="#trackingresult0">TrackingResult</a> {
@@ -2420,7 +2700,8 @@ function inherits(target, source) {
 
 <span class="kt">dictionary</span> <a class="nv" href="#dictdef-instanceoptions">InstanceOptions</a> {
   <span class="kt">boolean</span> <a class="nv" data-type="boolean " href="#dom-instanceoptions-enableoccupancymapbuilding">enableOccupancyMapBuilding</a>;
-  <a class="n" data-link-type="idl-name" href="#heightofinterest0">HeightOfInterest</a> <a class="nv" data-type="HeightOfInterest " href="#dom-instanceoptions-occupancymapheightofinterest">occupancyMapHeightOfInterest</a>;
+  <a class="n" data-link-type="idl-name">RangeOfInterest</a> <a class="nv" data-type="RangeOfInterest " href="#dom-instanceoptions-occupancymapheightofinterest">occupancyMapHeightOfInterest</a>;
+  <a class="n" data-link-type="idl-name">RangeOfInterest</a> <a class="nv" data-type="RangeOfInterest " href="#dom-instanceoptions-occupancymapdepthofinterest">occupancyMapDepthOfInterest</a>;
   <span class="kt">float</span> <a class="nv" data-type="float " href="#dom-instanceoptions-occupancymapresolution">occupancyMapResolution</a>;
   <span class="kt">boolean</span> <a class="nv" data-type="boolean " href="#dom-instanceoptions-enablerelocalizationmapping">enableRelocalizationMapping</a>;
   <span class="kt">boolean</span> <a class="nv" data-type="boolean " href="#dom-instanceoptions-enableforcerelocalizationpose">enableForceRelocalizationPose</a>;
@@ -2458,28 +2739,96 @@ function inherits(target, source) {
     <li><a href="#ref-for-dom-instance-onerror-1">2.1.3. Events</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="heightofinterest">
-   <b><a href="#heightofinterest">#heightofinterest</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="mapimage">
+   <b><a href="#mapimage">#mapimage</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-heightofinterest-1">3.1.1. Dictionary InstanceOptions Members</a>
+    <li><a href="#ref-for-mapimage-1">2.1.2. Methods</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-heightofinterest-heightofinterest-minheight-maxheight-minheight">
-   <b><a href="#dom-heightofinterest-heightofinterest-minheight-maxheight-minheight">#dom-heightofinterest-heightofinterest-minheight-maxheight-minheight</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="mapimage0">
+   <b><a href="#mapimage0">#mapimage0</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-heightofinterest-heightofinterest-minheight-maxheight-minheight-1">2.1.4.1. Attributes</a>
+    <li><a href="#ref-for-mapimage0-1">2.1. Instance</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight">
-   <b><a href="#dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight">#dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-mapimage-width">
+   <b><a href="#dom-mapimage-width">#dom-mapimage-width</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-heightofinterest-heightofinterest-minheight-maxheight-maxheight-1">2.1.4.1. Attributes</a>
+    <li><a href="#ref-for-dom-mapimage-width-1">2.1.4.1. Attributes</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="heightofinterest0">
-   <b><a href="#heightofinterest0">#heightofinterest0</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-mapimage-height">
+   <b><a href="#dom-mapimage-height">#dom-mapimage-height</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-heightofinterest0-1">3.1. InstanceOptions</a>
+    <li><a href="#ref-for-dom-mapimage-height-1">2.1.4.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-mapimage-data">
+   <b><a href="#dom-mapimage-data">#dom-mapimage-data</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-mapimage-data-1">2.1.4.1. Attributes</a>
+    <li><a href="#ref-for-dom-mapimage-data-2">2.1.5.1. Attributes</a>
+    <li><a href="#ref-for-dom-mapimage-data-3">2.1.9.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="occupancymap">
+   <b><a href="#occupancymap">#occupancymap</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-occupancymap-1">2.1.2. Methods</a> <a href="#ref-for-occupancymap-2">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="occupancymapdata">
+   <b><a href="#occupancymapdata">#occupancymapdata</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-occupancymapdata-1">2.1. Instance</a> <a href="#ref-for-occupancymapdata-2">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-occupancymapdata-isdatapending">
+   <b><a href="#dom-occupancymapdata-isdatapending">#dom-occupancymapdata-isdatapending</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-occupancymapdata-isdatapending-1">2.1.5.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-occupancymapdata-tilecount">
+   <b><a href="#dom-occupancymapdata-tilecount">#dom-occupancymapdata-tilecount</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-occupancymapdata-tilecount-1">2.1.5.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="occupancymapbounds">
+   <b><a href="#occupancymapbounds">#occupancymapbounds</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-occupancymapbounds-1">2.1.2. Methods</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="occupancymapbounds0">
+   <b><a href="#occupancymapbounds0">#occupancymapbounds0</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-occupancymapbounds0-1">2.1. Instance</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-occupancymapbounds-minx">
+   <b><a href="#dom-occupancymapbounds-minx">#dom-occupancymapbounds-minx</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-occupancymapbounds-minx-1">2.1.6.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-occupancymapbounds-minz">
+   <b><a href="#dom-occupancymapbounds-minz">#dom-occupancymapbounds-minz</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-occupancymapbounds-minz-1">2.1.6.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-occupancymapbounds-maxx">
+   <b><a href="#dom-occupancymapbounds-maxx">#dom-occupancymapbounds-maxx</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-occupancymapbounds-maxx-1">2.1.6.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-occupancymapbounds-maxz">
+   <b><a href="#dom-occupancymapbounds-maxz">#dom-occupancymapbounds-maxz</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-occupancymapbounds-maxz-1">2.1.6.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="trackingresult0">
@@ -2491,27 +2840,27 @@ function inherits(target, source) {
   <aside class="dfn-panel" data-for="dom-trackingresult-accuracy">
    <b><a href="#dom-trackingresult-accuracy">#dom-trackingresult-accuracy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-trackingresult-accuracy-1">2.1.5.1. Attributes</a>
-    <li><a href="#ref-for-dom-trackingresult-accuracy-2">2.1.6.1. Attributes</a>
+    <li><a href="#ref-for-dom-trackingresult-accuracy-1">2.1.7.1. Attributes</a>
+    <li><a href="#ref-for-dom-trackingresult-accuracy-2">2.1.8.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-trackingresult-camerapose">
    <b><a href="#dom-trackingresult-camerapose">#dom-trackingresult-camerapose</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-trackingresult-camerapose-1">2.1.5.1. Attributes</a>
-    <li><a href="#ref-for-dom-trackingresult-camerapose-2">2.1.6.1. Attributes</a>
+    <li><a href="#ref-for-dom-trackingresult-camerapose-1">2.1.7.1. Attributes</a>
+    <li><a href="#ref-for-dom-trackingresult-camerapose-2">2.1.8.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="eventinfo">
    <b><a href="#eventinfo">#eventinfo</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-eventinfo-1">2.1.7.1. Attributes</a>
+    <li><a href="#ref-for-eventinfo-1">2.1.9.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="eventinfo0">
    <b><a href="#eventinfo0">#eventinfo0</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-eventinfo0-1">2.1.7. TrackingEvent Interface</a>
+    <li><a href="#ref-for-eventinfo0-1">2.1.9. TrackingEvent Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="trackingevent">
@@ -2523,13 +2872,7 @@ function inherits(target, source) {
   <aside class="dfn-panel" data-for="dom-trackingevent-eventname">
    <b><a href="#dom-trackingevent-eventname">#dom-trackingevent-eventname</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-trackingevent-eventname-1">2.1.7.1. Attributes</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-trackingevent-data">
-   <b><a href="#dom-trackingevent-data">#dom-trackingevent-data</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-trackingevent-data-1">2.1.7.1. Attributes</a>
+    <li><a href="#ref-for-dom-trackingevent-eventname-1">2.1.9.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="instanceoptions">
@@ -2549,18 +2892,20 @@ function inherits(target, source) {
    <b><a href="#dom-instanceoptions-enableoccupancymapbuilding">#dom-instanceoptions-enableoccupancymapbuilding</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-instanceoptions-enableoccupancymapbuilding-1">3.1.1. Dictionary InstanceOptions Members</a>
+    <li><a href="#ref-for-dom-instanceoptions-enableoccupancymapbuilding-2">3.1.2. Dictionary RangeOfInterest Members</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-instanceoptions-occupancymapheightofinterest">
    <b><a href="#dom-instanceoptions-occupancymapheightofinterest">#dom-instanceoptions-occupancymapheightofinterest</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-instanceoptions-occupancymapheightofinterest-1">3.1.1. Dictionary InstanceOptions Members</a>
+    <li><a href="#ref-for-dom-instanceoptions-occupancymapheightofinterest-2">3.1.2. Dictionary RangeOfInterest Members</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-instanceoptions-occupancymapresolution">
-   <b><a href="#dom-instanceoptions-occupancymapresolution">#dom-instanceoptions-occupancymapresolution</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-instanceoptions-occupancymapdepthofinterest">
+   <b><a href="#dom-instanceoptions-occupancymapdepthofinterest">#dom-instanceoptions-occupancymapdepthofinterest</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-instanceoptions-occupancymapresolution-1">3.1.1. Dictionary InstanceOptions Members</a>
+    <li><a href="#ref-for-dom-instanceoptions-occupancymapdepthofinterest-1">3.1.1. Dictionary InstanceOptions Members</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-instanceoptions-enablerelocalizationmapping">
@@ -2578,15 +2923,15 @@ function inherits(target, source) {
   <aside class="dfn-panel" data-for="trackingaccuracy">
    <b><a href="#trackingaccuracy">#trackingaccuracy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-trackingaccuracy-1">2.1.5.1. Attributes</a>
-    <li><a href="#ref-for-trackingaccuracy-2">2.1.6.1. Attributes</a>
+    <li><a href="#ref-for-trackingaccuracy-1">2.1.7.1. Attributes</a>
+    <li><a href="#ref-for-trackingaccuracy-2">2.1.8.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enumdef-trackingaccuracy">
    <b><a href="#enumdef-trackingaccuracy">#enumdef-trackingaccuracy</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-enumdef-trackingaccuracy-1">2.1.5. TrackingResult Interface</a>
-    <li><a href="#ref-for-enumdef-trackingaccuracy-2">2.1.6. EventInfo Interface</a>
+    <li><a href="#ref-for-enumdef-trackingaccuracy-1">2.1.7. TrackingResult Interface</a>
+    <li><a href="#ref-for-enumdef-trackingaccuracy-2">2.1.8. EventInfo Interface</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-trackingaccuracy-low">
