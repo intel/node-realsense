@@ -164,6 +164,18 @@ class SaveOccupancyMapTask : public SlamPromiseTask {
 };
 
 //
+// Request for: loadOccupancyMap
+//
+class LoadOccupancyMapTask : public SlamPromiseTask {
+ public:
+  LoadOccupancyMapTask();
+  ~LoadOccupancyMapTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<std::string>* GetPayload();
+};
+
+//
 // Request for: saveOccupancyMapAsPpm
 //
 class SaveOccupancyMapAsPpmTask : public SlamPromiseTask {

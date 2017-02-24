@@ -129,7 +129,8 @@ v8::Handle<v8::Promise> Instance::getOccupancyMapBounds() {
 
 v8::Handle<v8::Promise> Instance::loadOccupancyMap(
     const std::string& mapFileName) {
-  // TODO(widl-nan): fill your code here
+  if (REPLACE_ASYNC)
+    return SlamRunnerDev::GetSlamRunner()->loadOccupancyMap(mapFileName);
 }
 
 v8::Handle<v8::Promise> Instance::saveOccupancyMap(

@@ -281,6 +281,24 @@ v8::Local<v8::Value> SaveOccupancyMapTask::GetResolved() {
   return Nan::New(payload->data().c_str()).ToLocalChecked();
 }
 /////////////////////////////////////////////////////////////////////////////
+LoadOccupancyMapTask::LoadOccupancyMapTask() {
+  task_tag = "loadOccupancyMap() task";
+}
+
+LoadOccupancyMapTask::~LoadOccupancyMapTask() {
+}
+
+void LoadOccupancyMapTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->LoadOccupancyMap(payload->data());
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<std::string>* LoadOccupancyMapTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<std::string>*>(AsyncTask::GetPayload());
+}
+/////////////////////////////////////////////////////////////////////////////
 SaveOccupancyMapAsPpmTask::SaveOccupancyMapAsPpmTask() {
   task_tag = "saveOccupancyMapAsPpm() task";
 }

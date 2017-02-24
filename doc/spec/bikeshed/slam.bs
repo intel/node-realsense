@@ -87,7 +87,7 @@ interface Instance {
   Promise&lt;MapImage&gt; getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap);
   Promise&lt;OccupancyMapBounds&gt; getOccupancyMapBounds();
   Promise&lt;TrackingResult&gt; getTrackingResult();
-  Promise&lt;void&gt; loadOccupancyMap(String mapFileName);  // Note: not supported yet.
+  Promise&lt;void&gt; loadOccupancyMap(String mapFileName);
   Promise&lt;String&gt; saveOccupancyMap(optional String mapFileName);
   Promise&lt;String&gt; saveOccupancyMapAsPpm(optional String mapFileName, optional bool drawCameraTrajectory);
   Promise&lt;void> loadRelocalizationMap(String mapFileName);  // Note: not supported yet.
@@ -189,7 +189,6 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>String</a>&gt;
 
 : {{loadOccupancyMap}}
-:: Note: not supported yet.
 :: To load occpuancy map from specified occupancy map file which was created using saveOccupancyMap(...).
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 

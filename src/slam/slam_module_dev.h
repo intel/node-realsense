@@ -59,6 +59,7 @@ class SlamModuleDev : public CameraOptionsIO {
   utils::Status SaveOccupancyMapAsPpm(
       const std::string& file_name, bool draw_camera_trajectory);
   utils::Status SaveOccupancyMap(const std::string& file_name);
+  utils::Status LoadOccupancyMap(const std::string& file_name);
 
   // CameraOptionsIO methods
   bool IsSupported(const CameraOptionsType* src) const override;
