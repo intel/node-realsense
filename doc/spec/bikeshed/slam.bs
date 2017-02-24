@@ -1,12 +1,13 @@
 <pre class='metadata'>
 Title: Simultaneous Localization and Mapping
-Shortname: SLAM 
+Shortname: SLAM
 Level: 1
 Status: LS
 URL: https://github.com/otcshare/node-realsense
 Editor: Lisha Guo
+Editor: Donna Wu
 Repository: https://github.com/otcshare/node-realsense
-Abstract: This specification describes the JavaScript API of the Simultaneous Localization And Mapping module based on Intel® and RealSense™ technology.
+Abstract: This specification describes Simultaneous Localization And Mapping(SLAM) JavaScript API for Intel® RealSense™ camera.
 Markup Shorthands: css no, markdown yes
 Ignored Terms: h1, h2, h3, h4, h5, h6, xmp
 </pre>
@@ -44,10 +45,28 @@ li {list-style-type: none;}
 Introduction {#introduction}
 ========================
 
-The JavaScript API of the SLAM module is based on Intel® and RealSense™ technology.
+Interfaces described in this document are exposed through <code>slam</code> module.
 
 Interface {#interface}
 ========================
+
+
+
+<dfn>Module</dfn> {#moduleInterface}
+----------------------------
+
+<pre class="idl">
+partial interface Module {
+  static Promise&lt;Instance&gt; createInstance();
+};
+</pre>
+
+### Methods ### {#methods-moduleInterface}
+: {{createInstance}}
+:: Use this static method to create an SLAM instance, the state of this instance will be "ready" if succeed. A SLAM instance is a running unit that can connect to an Intel® RealSense™ camera and perform localization and mapping algorithm.
+
+:: *Return type*: <code>Promise&lt;[=Instance=]&gt;</code>
+
 
 <dfn>Instance</dfn> {#instance}
 ----------------------------
@@ -59,26 +78,24 @@ interface Instance {
   Promise&lt;InstanceOptions&gt; getInstanceOptions();
   Promise&lt;void&gt; setCameraOptions(CameraOptions options);
   Promise&lt;void&gt; setInstanceOptions(optional InstanceOptions options);
-  Promise&lt;void&gt; reset();
+  Promise&lt;void&gt; reset(); //Note: not supported yet.
   Promise&lt;void&gt; start();
   Promise&lt;void&gt; stop();
-  Promise&lt;void&gt; pause();
-  Promise&lt;void&gt; resume();
   Promise&lt;void> restartTracking();
   Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMap(optional RegionOfInterest roi);
   Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMapUpdate(optional RegionOfInterest roi);
   Promise&lt;MapImage&gt; getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap);
   Promise&lt;OccupancyMapBounds&gt; getOccupancyMapBounds();
   Promise&lt;TrackingResult&gt; getTrackingResult();
-  Promise&lt;void&gt; loadOccupancyMap(String mapFileName);
+  Promise&lt;void&gt; loadOccupancyMap(String mapFileName);  // Note: not supported yet.
   Promise&lt;String&gt; saveOccupancyMap(optional String mapFileName);
   Promise&lt;String&gt; saveOccupancyMapAsPpm(optional String mapFileName, optional bool drawCameraTrajectory);
-  Promise&lt;void> loadRelocalizationMap(String mapFileName);
-  Promise&lt;String> saveRelocalizationMap(optional String mapFileName);
-  Promise&lt;sequence&lt;float>> getRelocalizationPose();
+  Promise&lt;void> loadRelocalizationMap(String mapFileName);  // Note: not supported yet.
+  Promise&lt;String> saveRelocalizationMap(optional String mapFileName);  // Note: not supported yet.
+  Promise&lt;sequence&lt;float>> getRelocalizationPose();  // Note: not supported yet.
 
   attribute EventHandler ontracking;
-  attribute EventHandler onerror;
+  attribute EventHandler onerror; // Note: not supported yet.
 };
 </pre>
 
@@ -87,17 +104,42 @@ interface Instance {
 * &nbsp;&nbsp;&nbsp;&nbsp;Current working state of slam module.
 
 ### Methods ### {#methods-1}
+: {{start}}
+:: Start SLAM instance, the state will be changed to "tracking" if succeed. The module will track the camera's position and create the occupancy map.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+:: *Return type*:Promise&lt;[=void=]&gt;
+
+: {{stop}}
+:: Stop SLAM instance, the state will be changed to "ready" if succeed. The module will stop tracking and mapping.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+:: *Return type*:Promise&lt;[=void=]&gt;
+
+: {{reset}}
+:: Note: not supported yet.
+:: Reset the SLAM instance, the state will be changed to "ready" if successed. It somewhat do things like <code>stop</code>, but it will reset all the options, including instance options and camera options.
+:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+
+:: *Return type*:Promise&lt;[=void=]&gt;
+
 : {{restartTracking}}
 :: Restarts SLAM with pose aligned to gravity. Camera and module configurations will not be changed.
 :: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
-:: *Return type*:Promise&lt;[=CameraOptions=]&gt;
+:: *Return type*:Promise&lt;[=void=]&gt;
 
-: {{GetCameraOptions}}
-:: Get the camera configure. 
+: {{getCameraOptions}}
+:: Get the camera configure.
 :: This method returns a promise. The promise will be fulfilled with current [=CameraOptions=] containing ImageStreamConfig and MotionSensorConfig if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 :: *No parameters.*
 :: *Return type*:Promise&lt;[=CameraOptions=]&gt;
+
+: {{getTrackingResult}}
+:: Get the tracked result and the source frame data, including fisheye image, depth image and motion source.
+:: This method returns a promise. The promise will be fulfilled with a [=TrackingResult=] object if there are no errors. The promise will be rejected with the Exception object if there is a failure.
+:: *No parameters.*
+:: *Return type*:Promise&lt;[=TrackingResult=]&gt;
 
 : {{setCameraOptions}}
 :: Set the camera configure.
@@ -106,23 +148,23 @@ interface Instance {
 <pre class='argumentdef' for="Instance/setCameraOptions(CameraOptions options)">
     options: The camera configure containing the image stream configure for color, depth, fisheye and the motion sensor configure for accelerator, gyroscope.
 </pre>
-      
+
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
-: {{GetInstanceOptions}}
-:: Get the module configure.
+: {{getInstanceOptions}}
+:: Get the instance configure.
 :: This method returns a promise. The promise will be fulfilled with current          [=InstanceOptions=] if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 :: *No parameters.*
 :: *Return type*:Promise&lt;[=InstanceOptions=]&gt;
 
 : {{setInstanceOptions}}
-:: Set the module configure.
+:: Set the instance configure.
 :: This method returns a promise. The promise will be fulfilled if there are no errors.The promise will be rejected with the Exception object if there is a failure.
 
 <pre class='argumentdef' for="Instance/setInstanceOptions(CameraOptions options)">
-    options: The InstanceOptions is used to config whether enableOccupancyMapBuilding, enableRelocalizationMapping, enbleForceRelocalozationPose. Besides, it also can set the HeightofInterest and Resolution for occupancy map.  
+    options: The InstanceOptions is used to config whether enableOccupancyMapBuilding, enableRelocalizationMapping, enbleForceRelocalozationPose. Besides, it also can set the HeightofInterest and Resolution for occupancy map.
 </pre>
-      
+
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{saveOccupancyMap}}
@@ -147,6 +189,7 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>String</a>&gt;
 
 : {{loadOccupancyMap}}
+:: Note: not supported yet.
 :: To load occpuancy map from specified occupancy map file which was created using saveOccupancyMap(...).
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
@@ -194,6 +237,7 @@ interface Instance {
 :: *Return type*:Promise&lt;[=OccupancyMapBounds=]&gt;
 
 : {{saveRelocalizationMap}}
+:: Note: not supported yet.
 :: Saves the current re-localization map data to a given file. Saved re-localization map can be loaded later by calling loadRelocalizationMap(...).
 :: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the           Exception object if there is a failure.
 
@@ -204,6 +248,7 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>String</a>&gt;
 
 : {{loadRelocalizationMap}}
+:: Note: not supported yet.
 :: To load re-localization map from a given file which was created using saveRelocalizationMap(...).
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
@@ -214,6 +259,7 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{getRelocalizationPose}}
+:: Note: not supported yet.
 :: To get the relocalizer pose for the last tracked frame.
 :: This method returns a promise.The promise will be fulfilled with the relocalization pose if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 :: *No parameters.*
@@ -227,21 +273,22 @@ interface Instance {
 :: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('tracking', function(e) { ... })` to handle the event
 
 : {{onerror}}
+:: Note: not supported yet.
 :: This event will be fired when there is a unexpected error happened. A registered callback will get a <a>string</a> type error message.
-:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('localization', function(e) { ... })` to handle the event
+:: Note: this is just a notation, the underlying mechanism is the `EventEmitter` of `Node.js`, please use `instance.on('error', function(e) { ... })` to handle the event
 
 
 ### <dfn>MapImage</dfn> Interface ### {#MapImage}
 
 <pre class='idl'>
 interface MapImage {
-  readonly attribute long width;
-  readonly attribute long height;
+  readonly attribute unsigned long width;
+  readonly attribute unsigned long height;
   readonly attribute Uint8Array data;
 };
 </pre>
 
-#### Attributes 
+#### Attributes
 * {{width}} of type <a>long</a>
 * &nbsp;&nbsp;&nbsp;&nbsp;Receives the image width in pixels
 
@@ -261,7 +308,7 @@ interface OccupancyMapData {
 };
 </pre>
 
-#### Attributes 
+#### Attributes
 * {{isDataPending}} of type <a>boolean</a>
 * &nbsp;&nbsp;&nbsp;&nbsp;If the OccupancyMap object cannot accommodate all the available tiles, isDatatPending will be set to false. In this case, make an additional call later to getOccupancyMapUpdate or getOccupancyMap to fetch remaining tiles.
 
@@ -282,7 +329,7 @@ interface OccupancyMapBounds {
 };
 </pre>
 
-#### Attributes 
+#### Attributes
 * {{minX}} of type <a>long</a>
 * &nbsp;&nbsp;&nbsp;&nbsp;Stored the minimum tile seen on the X-axis.
 * {{minZ}} of type <a>long</a>
@@ -301,7 +348,7 @@ interface TrackingResult {
 };
 </pre>
 
-#### Attributes 
+#### Attributes
 * {{accuracy}} of type [=TrackingAccuracy=], readonly
 * &nbsp;&nbsp;&nbsp;&nbsp;Current state of confidence in camera pose estimation
 * {{cameraPose}} of type <a>float</a> array, readonly
@@ -360,7 +407,7 @@ dictionary InstanceOptions {
 };
 </pre>
 
-### Dictionary [=InstanceOptions=] Members### {#instanceOptions} 
+### Dictionary [=InstanceOptions=] Members### {#instanceOptions}
 
 * {{enableOccupancyMapBuilding}} of type <a>boolean</a>
 * &nbsp;&nbsp;&nbsp;&nbsp;Enable or disable the automatic oocpuancy map building. By default, automatic map building is enbled. When it is enabled, new coming frame data will also update the occpuancy map. To manually build occupancy map with updateOccupancyMap, enableOccpuancyMapBuilding should be set to false.
@@ -372,16 +419,16 @@ dictionary InstanceOptions {
 * &nbsp;&nbsp;&nbsp;&nbsp;Set the depth range of interest for the occpuancy map. Regions outside this range are ignored.
 
 * {{enableRelocalizationMapping}} of type <a>boolean</a>
-* &nbsp;&nbsp;&nbsp;&nbsp;Enable to start the re-localization mapping process. 
+* &nbsp;&nbsp;&nbsp;&nbsp;Enable to start the re-localization mapping process.
 
 * {{enableForceRelocalizationPose}} of type <a>boolean</a>
-* &nbsp;&nbsp;&nbsp;&nbsp;Set whether to use relocalization pose in tracking or not when relocalization mapping is running.By default, relocalization will overwrite the tracker pose. 
+* &nbsp;&nbsp;&nbsp;&nbsp;Set whether to use relocalization pose in tracking or not when relocalization mapping is running.By default, relocalization will overwrite the tracker pose.
 
 <xmp class='note'>
  Note: All members except occupancyMapHeightOfInterest listed above can not be modified after invoking start().
 </xmp>
 
-### Dictionary [=RangeOfInterest=] Members### {#RangeOfInterest} 
+### Dictionary [=RangeOfInterest=] Members### {#RangeOfInterest}
 
 * {{enableOccupancyMapBuilding}} of type <a>boolean</a>
 * &nbsp;&nbsp;&nbsp;&nbsp;Enable or disable the automatic oocpuancy map building. By default, automatic map building is enbled. When it is enabled, new coming frame data will also update the occpuancy map. To manually build occupancy map with updateOccupancyMap, enableOccpuancyMapBuilding should be set to false.
@@ -449,151 +496,64 @@ Examples {#examples}
 ========================
 
 <pre class='example'>
-  let slamAddon = require('bindings')('realsense_slam');
-let EventEmitter = require('events').EventEmitter;
-let trackingEvent = 'tracking';
-let errorEvent = 'error';
+let slamModule = require('slam');
 
-function inherits(target, source) {
-  // eslint-disable-next-line
-  for (let k in source.prototype) {
-    target.prototype[k] = source.prototype[k];
-  }
-}
-inherits(slamAddon.Instance, EventEmitter);
+let slam;
+slamModule.createInstance().then((instance) => {
+  slam = instance;
 
-function addListeners(instance) {
-  instance.on('newListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = true;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = true;
-  });
-  instance.on('removeListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = false;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = false;
-  });
-}
-/** The same work as JavaScript wrapper **/
-
-function instanceHandler(slamInstance) {
-  addListeners(slamInstance);
-  let options = {
-    enableOccupancyMapBuilding: true,
-    occupancyMapHeightOfInterest: {max: 1, min: -0.2},
-    occupancyMapResolution: 0.2,
-    enableRelocalizationMapping: false,
-    enableForceRelocalizationPose: false,
+  let slamOptions = {
+    occupancyMapResolution: 0.025,
   };
-  slamInstance.setInstanceOptions(options).then(function() {
-    console.log('set instance options succeed');
-    return slamInstance.getInstanceOptions();
-  })
-  .then(function(o) {
-    console.log('options:', o);
-    slamInstance.addListener('tracking', function(e) {
-      console.log('on tracking:', e);
-      slamInstance.getTrackingResult().then((frameData) => {
-        console.log('trackingResult:', frameData);
-      }, (e) => {
-        console.log('failed to get trackingResult:', e);
-      });
-    });
-    return slamInstance.start();
-  })
-  .then(function() {
-    setInterval(() => {
-      getOccupancyMapUpdate(slamInstance);
-      getOccupancyMapBounds(slamInstance);
-      getOccupancyMapAsRgba(slamInstance);
-    }, 5000);
-    console.log('start succeed.');
-  })
-  .catch(function(e) {
-    console.log('error:' + e);
+  return slam.setInstanceOptions(slamOptions);
+}).then(() => {
+  console.log('Starting SLAM...');
+  slam.on('tracking', (result) => {
+    printTrackingResult(result);
   });
-
-  function saveOccupancyMapAsPpm() {
-    slamInstance.saveOccupancyMapAsPpm( __dirname + '/map.ppm', false)
-    .then(function(str) {
-      console.log('JS:save occupancy map as ppm success.');
-      console.log(str);
-    })
-    .catch(function(e) {
-      console.log('error:' + e);
-    });
-  }
-
-  setTimeout(saveOccupancyMapAsPpm, 10000);
-}
-
-let id = 0;
-function getOccupancyMapUpdate(slamInstance) {
-  if(id == 10) {
-    clearInterval(id);
-  } else {
-    slamInstance.getOccupancyMapUpdate().then(function(mapData) {
-      console.log('JS:get occupancy map success, data.length:' + mapData.data.length);
-      console.log(mapData);
-    })
-    .catch(function(e) {
-      console.log('error:' + e);
-    });
-    id++;
-  }
-}
-
-function getOccupancyMapAsRgba(slamInstance) {
-  if(id == 10) {
-    clearInterval(id);
-  } else {
-    slamInstance.getOccupancyMapAsRgba(true, true).then(function(mapImage) {
-      console.log('JS:get occupancy map success,');
-      console.log('width: ' + mapImage.width);
-      console.log('height: ' + mapImage.height);
-      console.log('data: ' + mapImage.data);
-    })
-    .catch(function(e) {
-      console.log('error:' + e);
-    });
-    id++;
-  }
-}
-
-function getOccupancyMapBounds(slamInstance) {
-  if(id == 10) {
-    clearInterval(id);
-  } else {
-    slamInstance.getOccupancyMapBounds().then(function(boundsData) {
-      console.log('JS:get occupancy map bounds success');
-      console.log(boundsData);
-    })
-    .catch(function(e) {
-      console.log('error:' + e);
-    });
-    id++;
-  }
-}
-
-function test1() {
-  slamAddon.createInstance().then(function(slamInstance) {
-    console.log('In JS: Succeed to create slamInstance.');
-    try {
-      instanceHandler(slamInstance);
-    } catch(e) {
-      console.error('Error caught:', e);
-      slamInstance.stop();
-    }
-  }, function(e) {
-    console.error('In JS: Failed to create SLAM instance:' + e);
-  });
-}
-
-test1();
-
-process.on('uncaughtException', function(err) {
-  console.error('Error caught in uncaughtException event:', err);
+  return slam.start();
+}).catch((error) => {
+  console.log('error: ' + error);
 });
+
+function printTrackingResult(result) {
+  let pose = result.cameraPose;
+  let accuracy = result.accuracy;
+  slam.getOccupancyMapUpdate().then((mapData) => {
+    let countUpdatedTiles = mapData.tileCount;
+    console.log(`Translation:(X=${pose[3].toPrecision(2)}, Y=${pose[7].toPrecision(2)}, Z=${pose[11].toPrecision(2)})` +
+        `    Accuracy: ${accuracy}    Tiles_Updated: ${countUpdatedTiles}`);
+  });
+}
+
+console.log('\n-------- Press Esc key to exit --------\n');
+
+const ESC_KEY = '\u001b';
+const CTRL_C = '\u0003';
+let stdin = process.stdin;
+stdin.setRawMode(true);
+stdin.resume();
+stdin.setEncoding('utf8');
+stdin.on('data', function(key) {
+  if (key === ESC_KEY || key === CTRL_C) {
+    exit();
+  }
+});
+
+function exit() {
+  if (slam) {
+    console.log('Saving occupancy map to disk...');
+    slam.saveOccupancyMapAsPpm('occupancy.ppm', true).then(() => {
+      console.log('Stopping...');
+      return slam.stop();
+    }).then(() => {
+      process.exit();
+    }).catch((error) => {
+      console.log('error: ' + error);
+      process.exit();
+    })
+  } else {
+    process.exit();
+  }
+}
 </pre>
