@@ -64,5 +64,5 @@ function tests(state, options) {
   });
 }
 let argv = '/tmp/saveRelocalizationMap.map';
-tests('Positive - 1', argv);
-tests('Positive - 2', null);
+// tests('Positive - 1', argv);
+// tests('Positive - 2', null);
