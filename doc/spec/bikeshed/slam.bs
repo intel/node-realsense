@@ -3,7 +3,7 @@ Title: Simultaneous Localization and Mapping
 Shortname: SLAM
 Level: 1
 Status: LS
-URL: https://github.com/otcshare/node-realsense
+URL: https://github.com/01org/node-realsense
 Editor: Lisha Guo
 Editor: Donna Wu
 Repository: https://github.com/otcshare/node-realsense
