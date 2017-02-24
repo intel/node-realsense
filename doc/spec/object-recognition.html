@@ -1446,7 +1446,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Object Recognition JavaScript API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-23">23 February 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-24">24 February 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1460,7 +1460,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 23 February 2017,
+In addition, as of 24 February 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1490,8 +1490,21 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#methods-1"><span class="secno">2.2.2</span> <span class="content">Methods</span></a>
         <li><a href="#events-1"><span class="secno">2.2.3</span> <span class="content">Events</span></a>
        </ol>
-      <li><a href="#RecognitionInfo"><span class="secno">2.3</span> <span class="content"><span>RecognitionInfo</span></span></a>
-      <li><a href="#LocalizationInfo"><span class="secno">2.4</span> <span class="content"><span>LocalizationInfo</span></span></a>
+      <li>
+       <a href="#recognitionInfo"><span class="secno">2.3</span> <span class="content"><span>RecognitionInfo</span></span></a>
+       <ol class="toc">
+        <li><a href="#attributes-recognitionInfo"><span class="secno">2.3.1</span> <span class="content">Attributes</span></a>
+       </ol>
+      <li>
+       <a href="#localizationInfo"><span class="secno">2.4</span> <span class="content"><span>LocalizationInfo</span></span></a>
+       <ol class="toc">
+        <li><a href="#attributes-localizationInfo"><span class="secno">2.4.1</span> <span class="content">Attributes</span></a>
+       </ol>
+      <li>
+       <a href="#trackingInfo"><span class="secno">2.5</span> <span class="content"><span>TrackingInfo</span></span></a>
+       <ol class="toc">
+        <li><a href="#attributes-trackingInfo"><span class="secno">2.5.1</span> <span class="content">Attributes</span></a>
+       </ol>
      </ol>
     <li>
      <a href="#dictionaries"><span class="secno">3</span> <span class="content">Dictionaries</span></a>
@@ -1556,7 +1569,6 @@ Parts of this work may be from another specification document.  If so, those par
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="ObjectRecognizer" data-dfn-type="method" data-export="" data-lt="stop()" id="dom-objectrecognizer-stop">stop<a class="self-link" href="#dom-objectrecognizer-stop"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="ObjectRecognizer" data-dfn-type="method" data-export="" data-lt="pause()" id="dom-objectrecognizer-pause">pause<a class="self-link" href="#dom-objectrecognizer-pause"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="ObjectRecognizer" data-dfn-type="method" data-export="" data-lt="resume()" id="dom-objectrecognizer-resume">resume<a class="self-link" href="#dom-objectrecognizer-resume"></a></dfn>();
-  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="ObjectRecognizer" data-dfn-type="method" data-export="" data-lt="restart()" id="dom-objectrecognizer-restart">restart<a class="self-link" href="#dom-objectrecognizer-restart"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="ObjectRecognizer" data-dfn-type="method" data-export="" data-lt="reset()" id="dom-objectrecognizer-reset">reset<a class="self-link" href="#dom-objectrecognizer-reset"></a></dfn>();
 
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">FrameData</a>> <dfn class="nv idl-code" data-dfn-for="ObjectRecognizer" data-dfn-type="method" data-export="" data-lt="getFrameData()" id="dom-objectrecognizer-getframedata">getFrameData<a class="self-link" href="#dom-objectrecognizer-getframedata"></a></dfn>();
@@ -1714,14 +1726,6 @@ Parts of this work may be from another specification document.  If so, those par
     <dd data-md="">
      <p><em>Return type</em>: <code>Promise&lt;void></code></p>
     <dt data-md="">
-     <p><code class="idl"><a data-link-type="idl">restart</a></code></p>
-    <dd data-md="">
-     <p>Restart the Intel® RealSense™ camera and object recognition algorithm</p>
-    <dd data-md="">
-     <p>This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
-    <dd data-md="">
-     <p><em>Return type</em>: <code>Promise&lt;void></code></p>
-    <dt data-md="">
      <p><code class="idl"><a data-link-type="idl" href="https://wicg.github.io/webusb/#dom-usbdevice-reset">reset</a></code></p>
     <dd data-md="">
      <p>Reset the instance state to default as if it were just created, release as much resource as possible</p>
@@ -1736,7 +1740,15 @@ Parts of this work may be from another specification document.  If so, those par
     <dd data-md="">
      <p>This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
     <dd data-md="">
-     <p><em>Return type</em>: <code>Promise&lt;String[]></code></p>
+     <p><em>Return type</em>: <code>Promise&lt;String[]></code>. Below is a typical list of all recognizable objects</p>
+<pre>    1._0background 2.cake 3.cup 4.light 5.pillow 6.stove_top
+    7.area_rug 8.can 9.dishwasher 10.light_switch 11.refrigerator
+    12.table 13.bag 14.cat 15.dog 16.microwave 17.shoes 18.toilet 19.bed
+    20.chair 21.dresser 22.monitor 23.sink 24.toys 25.bookcase 26.clock
+    27.garbagebin 28.open_door 29.smartphone 30.tv_remote 31.bottle
+    32.closed_door 33.houseplant 34.oven 35.soccer_ball 36.washing_machine
+    37.cabinet 38.closet 39.laptop 40.picture 41.sofa 42.window
+</pre>
    </dl>
    <h4 class="heading settled" data-level="2.2.3" id="events-1"><span class="secno">2.2.3. </span><span class="content">Events</span><a class="self-link" href="#events-1"></a></h4>
    <dl>
@@ -1759,20 +1771,67 @@ Parts of this work may be from another specification document.  If so, those par
     <dd data-md="">
      <p class="note" role="note">Note: this is just a notation, the underlying mechanism is the <code>EventEmitter</code> of <code>Node.js</code>, please use <code>objectRecognizer.on('tracking', function(e) { ... })</code> to handle the event</p>
    </dl>
-   <h3 class="heading settled" data-level="2.3" id="RecognitionInfo"><span class="secno">2.3. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="recognitioninfo">RecognitionInfo<a class="self-link" href="#recognitioninfo"></a></dfn></span><a class="self-link" href="#RecognitionInfo"></a></h3>
+   <h3 class="heading settled" data-level="2.3" id="recognitionInfo"><span class="secno">2.3. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="recognitioninfo">RecognitionInfo<a class="self-link" href="#recognitioninfo"></a></dfn></span><a class="self-link" href="#recognitionInfo"></a></h3>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv idl-code" data-dfn-type="interface" data-export="" id="recognitioninfo0">RecognitionInfo<a class="self-link" href="#recognitioninfo0"></a></dfn> {
-  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">String</a>       <dfn class="nv idl-code" data-dfn-for="RecognitionInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="String" id="dom-recognitioninfo-label">label<a class="self-link" href="#dom-recognitioninfo-label"></a></dfn>;
-  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">float</span>        <dfn class="nv idl-code" data-dfn-for="RecognitionInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="float" id="dom-recognitioninfo-probability">probability<a class="self-link" href="#dom-recognitioninfo-probability"></a></dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">String</a>       <dfn class="nv dfn-paneled idl-code" data-dfn-for="RecognitionInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="String" id="dom-recognitioninfo-label">label</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">float</span>        <dfn class="nv dfn-paneled idl-code" data-dfn-for="RecognitionInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="float" id="dom-recognitioninfo-probability">probability</dfn>;
 };
 </pre>
-   <h3 class="heading settled" data-level="2.4" id="LocalizationInfo"><span class="secno">2.4. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="localizationinfo">LocalizationInfo<a class="self-link" href="#localizationinfo"></a></dfn></span><a class="self-link" href="#LocalizationInfo"></a></h3>
+   <h4 class="heading settled" data-level="2.3.1" id="attributes-recognitionInfo"><span class="secno">2.3.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes-recognitionInfo"></a></h4>
+   <dl>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-recognitioninfo-label" id="ref-for-dom-recognitioninfo-label-1">label</a></code> of type <code>String</code>, readonly</p>
+    <dd data-md="">
+     <p>The current recognized object name</p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-recognitioninfo-probability" id="ref-for-dom-recognitioninfo-probability-1">probability</a></code> of type <code>float</code>, readonly</p>
+    <dd data-md="">
+     <p>The current probability/confidence of that recognized object.</p>
+   </dl>
+   <h3 class="heading settled" data-level="2.4" id="localizationInfo"><span class="secno">2.4. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="localizationinfo">LocalizationInfo<a class="self-link" href="#localizationinfo"></a></dfn></span><a class="self-link" href="#localizationInfo"></a></h3>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv idl-code" data-dfn-type="interface" data-export="" id="localizationinfo0">LocalizationInfo<a class="self-link" href="#localizationinfo0"></a></dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">String</a>       <dfn class="nv idl-code" data-dfn-for="LocalizationInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="String" id="dom-localizationinfo-label">label<a class="self-link" href="#dom-localizationinfo-label"></a></dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">float</span>        <dfn class="nv idl-code" data-dfn-for="LocalizationInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="float" id="dom-localizationinfo-probability">probability<a class="self-link" href="#dom-localizationinfo-probability"></a></dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Rect2D</a>       <dfn class="nv dfn-paneled idl-code" data-dfn-for="LocalizationInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Rect2D" id="dom-localizationinfo-roi">roi</dfn>;
-  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Point3D</a>      <dfn class="nv idl-code" data-dfn-for="LocalizationInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Point3D" id="dom-localizationinfo-objectcenter">objectCenter<a class="self-link" href="#dom-localizationinfo-objectcenter"></a></dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Point3D</a>      <dfn class="nv dfn-paneled idl-code" data-dfn-for="LocalizationInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Point3D" id="dom-localizationinfo-objectcenter">objectCenter</dfn>;
 };
 </pre>
+   <h4 class="heading settled" data-level="2.4.1" id="attributes-localizationInfo"><span class="secno">2.4.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes-localizationInfo"></a></h4>
+   <dl>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-recognitioninfo-label" id="ref-for-dom-recognitioninfo-label-2">label</a></code> of type <code>String</code>, readonly</p>
+    <dd data-md="">
+     <p>The current recognized object name</p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-recognitioninfo-probability" id="ref-for-dom-recognitioninfo-probability-2">probability</a></code> of type <code>float</code>, readonly</p>
+    <dd data-md="">
+     <p>The current probability/confidence of that recognized object.</p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-localizationinfo-roi" id="ref-for-dom-localizationinfo-roi-1">roi</a></code> of type <a data-link-type="dfn">Rect2D</a>, readonly</p>
+    <dd data-md="">
+     <p>The Region of Interest of that recognized object</p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-localizationinfo-objectcenter" id="ref-for-dom-localizationinfo-objectcenter-1">objectCenter</a></code> of type <a data-link-type="dfn">Point3D</a>, readonly</p>
+    <dd data-md="">
+     <p>The center point of that recognized object</p>
+   </dl>
+   <h3 class="heading settled" data-level="2.5" id="trackingInfo"><span class="secno">2.5. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="trackinginfo">TrackingInfo<a class="self-link" href="#trackinginfo"></a></dfn></span><a class="self-link" href="#trackingInfo"></a></h3>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv idl-code" data-dfn-type="interface" data-export="" id="trackinginfo0">TrackingInfo<a class="self-link" href="#trackinginfo0"></a></dfn> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Rect2D</a>       <dfn class="nv idl-code" data-dfn-for="TrackingInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Rect2D" id="dom-trackinginfo-roi">roi<a class="self-link" href="#dom-trackinginfo-roi"></a></dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Point3D</a>      <dfn class="nv idl-code" data-dfn-for="TrackingInfo" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Point3D" id="dom-trackinginfo-objectcenter">objectCenter<a class="self-link" href="#dom-trackinginfo-objectcenter"></a></dfn>;
+};
+</pre>
+   <h4 class="heading settled" data-level="2.5.1" id="attributes-trackingInfo"><span class="secno">2.5.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes-trackingInfo"></a></h4>
+   <dl>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-localizationinfo-roi" id="ref-for-dom-localizationinfo-roi-2">roi</a></code> of type <a data-link-type="dfn">Rect2D</a>, readonly</p>
+    <dd data-md="">
+     <p>The Region of Interest of that recognized object</p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-localizationinfo-objectcenter" id="ref-for-dom-localizationinfo-objectcenter-2">objectCenter</a></code> of type <a data-link-type="dfn">Point3D</a>, readonly</p>
+    <dd data-md="">
+     <p>The center point of that recognized object</p>
+   </dl>
    <h2 class="heading settled" data-level="3" id="dictionaries"><span class="secno">3. </span><span class="content">Dictionaries</span><a class="self-link" href="#dictionaries"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="objectRecognitionOptions"><span class="secno">3.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="objectrecognitionoptions">ObjectRecognitionOptions</dfn></span><a class="self-link" href="#objectRecognitionOptions"></a></h3>
 <pre class="idl highlight def"><span class="kt">dictionary</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-objectrecognitionoptions">ObjectRecognitionOptions</dfn> {
@@ -1800,7 +1859,7 @@ Parts of this work may be from another specification document.  If so, those par
      <p><code><code class="idl"><a data-link-type="idl" href="#dom-objectrecognitionoptions-confidencethreshold" id="ref-for-dom-objectrecognitionoptions-confidencethreshold-1">confidenceThreshold</a></code> of type <code>float</code></code></p>
      <code> </code>
     <dd data-md="">
-     <p><code>Set the "confidence" threshold. All recognition with confidence/probability less than the threshold won not be sent out as recognition result.</code></p>
+     <p><code>Set the "confidence" threshold, which describes how certain the classifier is in its prediction. All recognized objects with confidence value less than the threshold won not be sent out as recognition result.</code></p>
      <code> </code>
     <dt data-md="">
      <p><code><code class="idl"><a data-link-type="idl" href="#dom-objectrecognitionoptions-computeengine" id="ref-for-dom-objectrecognitionoptions-computeengine-1">computeEngine</a></code> of type <a data-link-type="dfn" href="#computeengine" id="ref-for-computeengine-1">ComputeEngine</a></code></p>
@@ -1833,7 +1892,7 @@ Parts of this work may be from another specification document.  If so, those par
      <p><code>Set the active classier. TODO: figure out the available values for this.</code></p>
      <code> </code>
     <dt data-md="">
-     <p><code><code class="idl"><a data-link-type="idl" href="#dom-localizationinfo-roi" id="ref-for-dom-localizationinfo-roi-1">roi</a></code> of type <code>Rect2D</code></code></p>
+     <p><code><code class="idl"><a data-link-type="idl" href="#dom-localizationinfo-roi" id="ref-for-dom-localizationinfo-roi-3">roi</a></code> of type <code>Rect2D</code></code></p>
      <code> </code>
     <dd data-md="">
      <p><code>Set the ROI (region of interest) of the Object Recognition algorithm</code></p>
@@ -1851,11 +1910,11 @@ Parts of this work may be from another specification document.  If so, those par
   <dfn class="s dfn-paneled idl-code" data-dfn-for="RecognitionMode" data-dfn-type="enum-value" data-export="" data-lt="&quot;single-recognition&quot;|single-recognition" id="dom-recognitionmode-single-recognition">"single-recognition"</dfn>,
   <dfn class="s dfn-paneled idl-code" data-dfn-for="RecognitionMode" data-dfn-type="enum-value" data-export="" data-lt="&quot;localization&quot;|localization" id="dom-recognitionmode-localization">"localization"</dfn>
 };
-</pre> <table class="data"> <thead><tr><th>Member</th><th>Definition </th></tr></thead><tbody> <tr> <td><code class="idl"><a data-link-type="idl" href="#dom-recognitionmode-tracking" id="ref-for-dom-recognitionmode-tracking-1">"tracking"</a></code> </td><td>Set the object recognition algorithm in tracking mode </td></tr><tr> <td><code class="idl"><a data-link-type="idl" href="#dom-recognitionmode-single-recognition" id="ref-for-dom-recognitionmode-single-recognition-1">"single-recognition"</a></code> </td><td>Set the object recognition algorithm in single-recognition mode </td></tr><tr> <td><code class="idl"><a data-link-type="idl" href="#dom-recognitionmode-localization" id="ref-for-dom-recognitionmode-localization-1">"localization"</a></code> </td><td>Set the object recognition algorithm in localization mode </td></tr></tbody></table> <h3 class="heading settled" data-level="4.2" id="ComputeEngine"><span class="secno">4.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="computeengine">ComputeEngine</dfn> enum</span><a class="self-link" href="#ComputeEngine"></a></h3> <pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-computeengine">ComputeEngine</dfn> {
+</pre> <table class="data"> <thead><tr><th>Member</th><th>Definition </th></tr></thead><tbody> <tr> <td><code class="idl"><a data-link-type="idl" href="#dom-recognitionmode-tracking" id="ref-for-dom-recognitionmode-tracking-1">"tracking"</a></code> </td><td>Set the object recognition algorithm in tracking mode, which enables the machine to keep track of objects previously recognized and localized. </td></tr><tr> <td><code class="idl"><a data-link-type="idl" href="#dom-recognitionmode-single-recognition" id="ref-for-dom-recognitionmode-single-recognition-1">"single-recognition"</a></code> </td><td>Set the object recognition algorithm in single-recognition mode, which identifies a single object in a scene. </td></tr><tr> <td><code class="idl"><a data-link-type="idl" href="#dom-recognitionmode-localization" id="ref-for-dom-recognitionmode-localization-1">"localization"</a></code> </td><td>Set the object recognition algorithm in localization mode, which identifies and locates multiple objects in a scene </td></tr></tbody></table> <h3 class="heading settled" data-level="4.2" id="ComputeEngine"><span class="secno">4.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="computeengine">ComputeEngine</dfn> enum</span><a class="self-link" href="#ComputeEngine"></a></h3> <pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-computeengine">ComputeEngine</dfn> {
   <dfn class="s dfn-paneled idl-code" data-dfn-for="ComputeEngine" data-dfn-type="enum-value" data-export="" data-lt="&quot;CPU&quot;|CPU" id="dom-computeengine-cpu">"CPU"</dfn>,
   <dfn class="s dfn-paneled idl-code" data-dfn-for="ComputeEngine" data-dfn-type="enum-value" data-export="" data-lt="&quot;GPU&quot;|GPU" id="dom-computeengine-gpu">"GPU"</dfn>
 };
-</pre> <table class="data"> <thead><tr><th>Member</th><th>Definition </th></tr></thead><tbody> <tr> <td><code class="idl"><a data-link-type="idl" href="#dom-computeengine-cpu" id="ref-for-dom-computeengine-cpu-1">"CPU"</a></code> </td><td>Use CPU to perform algorithm calculation </td></tr><tr> <td><code class="idl"><a data-link-type="idl" href="#dom-computeengine-gpu" id="ref-for-dom-computeengine-gpu-1">"GPU"</a></code> </td><td>Use GPU to perform algorithm calculation </td></tr></tbody></table> <h3 class="heading settled" data-level="4.3" id="ObjectRecognitionState"><span class="secno">4.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="objectrecognitionstate">ObjectRecognitionState</dfn> enum</span><a class="self-link" href="#ObjectRecognitionState"></a></h3> <pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-objectrecognitionstate">ObjectRecognitionState</dfn> {
+</pre> <table class="data"> <thead><tr><th>Member</th><th>Definition </th></tr></thead><tbody> <tr> <td><code class="idl"><a data-link-type="idl" href="#dom-computeengine-cpu" id="ref-for-dom-computeengine-cpu-1">"CPU"</a></code> </td><td>Use CPU to perform algorithm calculation. </td></tr><tr> <td><code class="idl"><a data-link-type="idl" href="#dom-computeengine-gpu" id="ref-for-dom-computeengine-gpu-1">"GPU"</a></code> </td><td>Use GPU to perform algorithm calculation. Generally speaking, <code>GPU</code> option is much faster than <code>CPU</code>. </td></tr></tbody></table> <h3 class="heading settled" data-level="4.3" id="ObjectRecognitionState"><span class="secno">4.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="objectrecognitionstate">ObjectRecognitionState</dfn> enum</span><a class="self-link" href="#ObjectRecognitionState"></a></h3> <pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-objectrecognitionstate">ObjectRecognitionState</dfn> {
   <dfn class="s dfn-paneled idl-code" data-dfn-for="ObjectRecognitionState" data-dfn-type="enum-value" data-export="" data-lt="&quot;ready&quot;|ready" id="dom-objectrecognitionstate-ready">"ready"</dfn>,
   <dfn class="s dfn-paneled idl-code" data-dfn-for="ObjectRecognitionState" data-dfn-type="enum-value" data-export="" data-lt="&quot;running&quot;|running" id="dom-objectrecognitionstate-running">"running"</dfn>,
   <dfn class="s dfn-paneled idl-code" data-dfn-for="ObjectRecognitionState" data-dfn-type="enum-value" data-export="" data-lt="&quot;paused&quot;|paused" id="dom-objectrecognitionstate-paused">"paused"</dfn>,
@@ -2107,7 +2166,12 @@ addon.createObjectRecognizer().then(objectRecognizer => {
    <li><a href="#dom-objectrecognitionoptions-maxreturnobjectcount">maxReturnObjectCount</a><span>, in §3.1</span>
    <li><a href="#dom-objectrecognitionoptions-mode">mode</a><span>, in §3.1</span>
    <li><a href="#module">Module</a><span>, in §2.1</span>
-   <li><a href="#dom-localizationinfo-objectcenter">objectCenter</a><span>, in §2.4</span>
+   <li>
+    objectCenter
+    <ul>
+     <li><a href="#dom-localizationinfo-objectcenter">attribute for LocalizationInfo</a><span>, in §2.4</span>
+     <li><a href="#dom-trackinginfo-objectcenter">attribute for TrackingInfo</a><span>, in §2.5</span>
+    </ul>
    <li>
     ObjectRecognitionOptions
     <ul>
@@ -2153,12 +2217,12 @@ addon.createObjectRecognizer().then(objectRecognizer => {
      <li><a href="#enumdef-recognitionmode">(enum)</a><span>, in §4.1</span>
     </ul>
    <li><a href="#dom-objectrecognizer-reset">reset()</a><span>, in §2.2</span>
-   <li><a href="#dom-objectrecognizer-restart">restart()</a><span>, in §2.2</span>
    <li><a href="#dom-objectrecognizer-resume">resume()</a><span>, in §2.2</span>
    <li>
     roi
     <ul>
      <li><a href="#dom-localizationinfo-roi">attribute for LocalizationInfo</a><span>, in §2.4</span>
+     <li><a href="#dom-trackinginfo-roi">attribute for TrackingInfo</a><span>, in §2.5</span>
      <li><a href="#dom-objectrecognitionoptions-roi">dict-member for ObjectRecognitionOptions</a><span>, in §3.1</span>
     </ul>
    <li><a href="#dom-objectrecognitionstate-running">"running"</a><span>, in §4.3</span>
@@ -2173,6 +2237,12 @@ addon.createObjectRecognizer().then(objectRecognizer => {
    <li><a href="#dom-objectrecognizer-stop">stop()</a><span>, in §2.2</span>
    <li><a href="#dom-recognitionmode-tracking">"tracking"</a><span>, in §4.1</span>
    <li><a href="#dom-recognitionmode-tracking">tracking</a><span>, in §4.1</span>
+   <li>
+    TrackingInfo
+    <ul>
+     <li><a href="#trackinginfo">definition of</a><span>, in §2.5</span>
+     <li><a href="#trackinginfo0">(interface)</a><span>, in §2.5</span>
+    </ul>
    <li><a href="#dom-objectrecognitionoptions-trackingroi">trackingRoi</a><span>, in §3.1</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2229,7 +2299,6 @@ addon.createObjectRecognizer().then(objectRecognizer => {
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-objectrecognizer-stop">stop</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-objectrecognizer-pause">pause</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-objectrecognizer-resume">resume</a>();
-  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-objectrecognizer-restart">restart</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-objectrecognizer-reset">reset</a>();
 
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">FrameData</a>> <a class="nv" href="#dom-objectrecognizer-getframedata">getFrameData</a>();
@@ -2251,6 +2320,11 @@ addon.createObjectRecognizer().then(objectRecognizer => {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">float</span>        <a class="nv" data-readonly="" data-type="float" href="#dom-localizationinfo-probability">probability</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Rect2D</a>       <a class="nv" data-readonly="" data-type="Rect2D" href="#dom-localizationinfo-roi">roi</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Point3D</a>      <a class="nv" data-readonly="" data-type="Point3D" href="#dom-localizationinfo-objectcenter">objectCenter</a>;
+};
+
+<span class="kt">interface</span> <a class="nv" href="#trackinginfo0">TrackingInfo</a> {
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Rect2D</a>       <a class="nv" data-readonly="" data-type="Rect2D" href="#dom-trackinginfo-roi">roi</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name">Point3D</a>      <a class="nv" data-readonly="" data-type="Point3D" href="#dom-trackinginfo-objectcenter">objectCenter</a>;
 };
 
 <span class="kt">dictionary</span> <a class="nv" href="#dictdef-objectrecognitionoptions">ObjectRecognitionOptions</a> {
@@ -2321,10 +2395,33 @@ addon.createObjectRecognizer().then(objectRecognizer => {
     <li><a href="#ref-for-dom-objectrecognizer-ontracking-1">2.2.3. Events</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="dom-recognitioninfo-label">
+   <b><a href="#dom-recognitioninfo-label">#dom-recognitioninfo-label</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-recognitioninfo-label-1">2.3.1. Attributes</a>
+    <li><a href="#ref-for-dom-recognitioninfo-label-2">2.4.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-recognitioninfo-probability">
+   <b><a href="#dom-recognitioninfo-probability">#dom-recognitioninfo-probability</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-recognitioninfo-probability-1">2.3.1. Attributes</a>
+    <li><a href="#ref-for-dom-recognitioninfo-probability-2">2.4.1. Attributes</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="dom-localizationinfo-roi">
    <b><a href="#dom-localizationinfo-roi">#dom-localizationinfo-roi</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-localizationinfo-roi-1">3.1.1. Dictionary ObjectRecognitionOptions Members</a>
+    <li><a href="#ref-for-dom-localizationinfo-roi-1">2.4.1. Attributes</a>
+    <li><a href="#ref-for-dom-localizationinfo-roi-2">2.5.1. Attributes</a>
+    <li><a href="#ref-for-dom-localizationinfo-roi-3">3.1.1. Dictionary ObjectRecognitionOptions Members</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-localizationinfo-objectcenter">
+   <b><a href="#dom-localizationinfo-objectcenter">#dom-localizationinfo-objectcenter</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-localizationinfo-objectcenter-1">2.4.1. Attributes</a>
+    <li><a href="#ref-for-dom-localizationinfo-objectcenter-2">2.5.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="objectrecognitionoptions">
