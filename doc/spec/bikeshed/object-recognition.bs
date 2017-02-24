@@ -85,7 +85,6 @@ interface ObjectRecognizer {
   Promise&lt;void&gt; stop();
   Promise&lt;void&gt; pause();
   Promise&lt;void&gt; resume();
-  Promise&lt;void&gt; restart();
   Promise&lt;void&gt; reset();
 
   Promise&lt;FrameData&gt; getFrameData();
@@ -207,12 +206,6 @@ Other options that are supported by Intel® RealSense™ camera won't be support
 :: *Return type*: <code>Promise&lt;void&gt;</code>
 
 
-: {{restart}}
-:: Restart the Intel® RealSense™ camera and object recognition algorithm
-:: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
-:: *Return type*: <code>Promise&lt;void&gt;</code>
-
-
 : {{reset}}
 :: Reset the instance state to default as if it were just created, release as much resource as possible
 :: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
@@ -222,7 +215,17 @@ Other options that are supported by Intel® RealSense™ camera won't be support
 : {{getRecognizableObjectNames}}
 :: Get a list of all the names of objects that can be recognized.
 :: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
-:: *Return type*: <code>Promise&lt;String[]&gt;</code>
+:: *Return type*: <code>Promise&lt;String[]&gt;</code>. Below is a typical list of all recognizable objects
+
+```
+    1._0background 2.cake 3.cup 4.light 5.pillow 6.stove_top
+    7.area_rug 8.can 9.dishwasher 10.light_switch 11.refrigerator
+    12.table 13.bag 14.cat 15.dog 16.microwave 17.shoes 18.toilet 19.bed
+    20.chair 21.dresser 22.monitor 23.sink 24.toys 25.bookcase 26.clock
+    27.garbagebin 28.open_door 29.smartphone 30.tv_remote 31.bottle
+    32.closed_door 33.houseplant 34.oven 35.soccer_ball 36.washing_machine
+    37.cabinet 38.closet 39.laptop 40.picture 41.sofa 42.window
+```
 
 
 ### Events ### {#events-1}
@@ -241,7 +244,7 @@ Other options that are supported by Intel® RealSense™ camera won't be support
 
 
 
-<dfn>RecognitionInfo</dfn> {#RecognitionInfo}
+<dfn>RecognitionInfo</dfn> {#recognitionInfo}
 ----------------------------
 <pre class='idl'>
 interface RecognitionInfo {
@@ -250,8 +253,15 @@ interface RecognitionInfo {
 };
 </pre>
 
+### Attributes ### {#attributes-recognitionInfo}
+: {{label}} of type <code>String</code>, readonly
+::  The current recognized object name
 
-<dfn>LocalizationInfo</dfn> {#LocalizationInfo}
+: {{probability}} of type <code>float</code>, readonly
+::  The current probability/confidence of that recognized object.
+
+
+<dfn>LocalizationInfo</dfn> {#localizationInfo}
 ----------------------------
 <pre class='idl'>
 interface LocalizationInfo {
@@ -261,6 +271,37 @@ interface LocalizationInfo {
   readonly attribute Point3D      objectCenter;
 };
 </pre>
+
+### Attributes ### {#attributes-localizationInfo}
+: {{label}} of type <code>String</code>, readonly
+::  The current recognized object name
+
+: {{probability}} of type <code>float</code>, readonly
+::  The current probability/confidence of that recognized object.
+
+: {{roi}} of type [=Rect2D=], readonly
+::  The Region of Interest of that recognized object
+
+: {{objectCenter}} of type [=Point3D=], readonly
+::  The center point of that recognized object
+
+
+
+<dfn>TrackingInfo</dfn> {#trackingInfo}
+----------------------------
+<pre class='idl'>
+interface TrackingInfo {
+  readonly attribute Rect2D       roi;
+  readonly attribute Point3D      objectCenter;
+};
+</pre>
+
+### Attributes ### {#attributes-trackingInfo}
+: {{roi}} of type [=Rect2D=], readonly
+::  The Region of Interest of that recognized object
+
+: {{objectCenter}} of type [=Point3D=], readonly
+::  The center point of that recognized object
 
 
 Dictionaries {#dictionaries}
@@ -291,7 +332,7 @@ dictionary ObjectRecognitionOptions {
 
 
 : {{confidenceThreshold}} of type <code>float</code>
-:: Set the "confidence" threshold. All recognition with confidence/probability less than the threshold won not be sent out as recognition result.
+:: Set the "confidence" threshold, which describes how certain the classifier is in its prediction. All recognized objects with confidence value less than the threshold won not be sent out as recognition result.
 
 
 : {{computeEngine}} of type [=ComputeEngine=]
@@ -346,13 +387,13 @@ enum RecognitionMode {
   <tbody>
     <tr>
        <td>{{"tracking"}}
-       <td>Set the object recognition algorithm in tracking mode
+       <td>Set the object recognition algorithm in tracking mode, which enables the machine to keep track of objects previously recognized and localized.
     <tr>
        <td>{{"single-recognition"}}
-       <td>Set the object recognition algorithm in single-recognition mode
+       <td>Set the object recognition algorithm in single-recognition mode, which identifies a single object in a scene.
     <tr>
        <td>{{"localization"}}
-       <td>Set the object recognition algorithm in localization mode
+       <td>Set the object recognition algorithm in localization mode, which identifies and locates multiple objects in a scene 
 </table>
 
 
@@ -371,10 +412,10 @@ enum ComputeEngine {
   <tbody>
     <tr>
        <td>{{"CPU"}}
-       <td>Use CPU to perform algorithm calculation
+       <td>Use CPU to perform algorithm calculation.
     <tr>
        <td>{{"GPU"}}
-       <td>Use GPU to perform algorithm calculation
+       <td>Use GPU to perform algorithm calculation. Generally speaking, <code>GPU</code> option is much faster than <code>CPU</code>.
 </table>
 
 
