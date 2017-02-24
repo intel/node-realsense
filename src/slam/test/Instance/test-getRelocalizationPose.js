@@ -21,7 +21,7 @@ describe('Slam Instance Test - getRelocalizationPose()', function() {
   afterEach(() => {
     return slamInstance.stop();
   });
-  it('Should get correct data getRelocalizationPose() - Positive -  ', function() {
+  it.skip('Should get correct data getRelocalizationPose() - Positive -  ', function() {
     return new Promise((resolve, reject) => {
       slamAddon.createInstance().then((Instance) => {
         slamInstance = Instance;
@@ -37,7 +37,7 @@ describe('Slam Instance Test - getRelocalizationPose()', function() {
       });
     });
   });
-  it('Should get correct data getRelocalizationPose() - Negative - ', function() {
+  it.skip('Should get correct data getRelocalizationPose() - Negative - ', function() {
     let argv = null;
     return new Promise((resolve, reject) => {
       slamAddon.createInstance().then((Instance) => {
