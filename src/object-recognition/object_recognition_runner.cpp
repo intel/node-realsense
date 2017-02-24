@@ -89,7 +89,7 @@ class ObjectRecognitionRunnerD : public ObjectRecognitionLabelNameTranslator {
 
     if (success && options.has_member_confidenceThreshold) {
       const auto threshold = options.member_confidenceThreshold;
-      success = (threshold > 0.0 && threshold < 1.0);
+      success = (threshold >= 0.0 && threshold <= 1.0);
     }
 
     if (success && options.has_member_computeEngine) {
@@ -105,6 +105,11 @@ class ObjectRecognitionRunnerD : public ObjectRecognitionLabelNameTranslator {
     if (success && options.has_member_maxReturnObjectCount) {
       const auto count = options.member_maxReturnObjectCount;
       success = (count > 0);
+    }
+
+    if (success && options.has_member_framesSkipping) {
+      int64_t value = options.member_framesSkipping;
+      success = (value >= 0 && value <=  2147483647);
     }
 
     // Skip options.has_member_enableObjectCenterEstimation

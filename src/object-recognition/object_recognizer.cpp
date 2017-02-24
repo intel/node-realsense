@@ -84,14 +84,22 @@ v8::Local<v8::Promise> ObjectRecognizer::getObjectRecognitionOptions() {
 
 v8::Local<v8::Promise> ObjectRecognizer::setObjectRecognitionOptions(
     const ObjectRecognitionOptions& options) {
-  auto payload = new InstanceOptionsTaskPayload(
-      std::make_shared<DictionaryObjectRecognitionOptions>(), d_->runner_);
-  payload->GetOptions().ImportFrom(options);
+  std::string error;
+  if (!options.CheckType(&error)) {
+    PromiseHelper resolver;
+    auto promise = resolver.CreatePromise();
+    resolver.RejectPromise(Nan::New("Invalid Options").ToLocalChecked());
+    return promise;
+  } else {
+    auto payload = new InstanceOptionsTaskPayload(
+        std::make_shared<DictionaryObjectRecognitionOptions>(), d_->runner_);
+    payload->GetOptions().ImportFrom(options);
 
-  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
-      new SetInstanceOptionsTask(),
-      payload,
-      "{{SET_INSTANCE_OPTIONS MESSAGE}}");
+    return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+        new SetInstanceOptionsTask(),
+        payload,
+        "{{SET_INSTANCE_OPTIONS MESSAGE}}");
+  }
 }
 
 v8::Local<v8::Promise> ObjectRecognizer::start() {

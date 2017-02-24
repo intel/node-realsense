@@ -12,7 +12,6 @@
         "widl_files": [
           "./idl/common/geometry.widl",
           "./idl/common/realsense-camera.widl",
-          "./idl/common/state.widl",
           "./idl/object-recognition/object-recognition.widl",
         ],
         "gen_files": [
