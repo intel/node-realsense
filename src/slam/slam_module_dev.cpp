@@ -8,7 +8,8 @@
 #include <string>
 
 #include "common/camera-options/camera_options_host_instance.h"
-
+#include "common/task/async_task_runner_instance.h"
+#include "slam_async_tasks.h"
 
 class SlamCameraDefault : public CameraOptionsDefault {
  public:
@@ -128,6 +129,15 @@ void SlamModuleDev::PartiallyFillInCameraData(CameraOptionsType* target) {
   camera_options_.IncrementallyCopyFrom(*target);
 }
 
+void PostErrorEventTask(std::string* str) {
+  auto payload = new ErrorEventPayload(SlamRunnerDev::GetSlamRunner(), str);
+  AsyncTaskRunnerInstance::GetInstance()->PostTask(
+      new ErrorEventTask(),
+      payload,
+      "{{EEROR_EVENT MESSAGE}}");
+  return;
+}
+
 // fill out the actual_config_ and setup the stream callbacks.
 utils::Status SlamModuleDev::SetStreamCallbacks() {
   memcpy(
@@ -161,7 +171,8 @@ utils::Status SlamModuleDev::SetStreamCallbacks() {
             + std::to_string(static_cast<int>(stream))
             + std::string("\twith frame counter:")
             + std::to_string(frame.get_frame_number());
-        utils::OnSlamError(utils::Status(SLAM_ADDON_ERROR, errorMessage));
+
+        PostErrorEventTask(new std::string(errorMessage));
         return;
       }
 
@@ -171,9 +182,7 @@ utils::Status SlamModuleDev::SetStreamCallbacks() {
               frame, rs::core::image_interface::flag::any);
 
       if (mw->process_sample_set(sampleSet) < rs::core::status_no_error) {
-        utils::OnSlamError(utils::Status(
-            SLAM_ADDON_ERROR,
-            "failed to process sample"));
+        PostErrorEventTask(new std::string("failed to process sample"));
       }
       sampleSet[stream]->release();
     };
@@ -201,9 +210,7 @@ utils::Status SlamModuleDev::SetStreamCallbacks() {
 
       device_->set_frame_callback(librealsenseStream, streamCallbacks[stream]);
     } catch(rs::error error) {
-      return utils::Status(
-          SLAM_ADDON_ERROR,
-          std::string("SlamModuleDev::SetStreamCallbacks, ") + error.what());
+      PostErrorEventTask(new std::string(error.what()));
     }
   }  // end of for
   return utils::Status();
@@ -233,7 +240,7 @@ utils::Status SlamModuleDev::SetMotionCallbacks() {
         sampleSet[motion_type].data[2] = entry.axes[2];
 
         if (mw->process_sample_set(sampleSet) < rs::core::status_no_error) {
-          utils::OnSlamError("failed to process sample");
+          PostErrorEventTask(new std::string("failed to process sample"));
         }
       }
     };

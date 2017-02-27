@@ -56,6 +56,9 @@ function instanceHandler(slamInstance) {
         console.log('failed to get trackingResult:', e);
       });
     });
+    slamInstance.addListener('error', function(e) {
+       console.log('on error:', e);
+    });
     return slamInstance.start();
   })
   .then(function() {

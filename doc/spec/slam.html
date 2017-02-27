@@ -1176,7 +1176,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 176d39d5a285c04f57d2f0e078fa69273028eb45" name="generator">
+  <meta content="Bikeshed 1.0.0" name="generator">
 <style>
 table {
   text-indent: 20px;
@@ -1596,7 +1596,7 @@ Parts of this work may be from another specification document.  If so, those par
   <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">float</span>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getRelocalizationPose()" id="dom-instance-getrelocalizationpose">getRelocalizationPose<a class="self-link" href="#dom-instance-getrelocalizationpose"></a></dfn>();  // Note: not supported yet.
 
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="Instance" data-dfn-type="attribute" data-export="" data-type="EventHandler" id="dom-instance-ontracking">ontracking</dfn>;
-  <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="Instance" data-dfn-type="attribute" data-export="" data-type="EventHandler" id="dom-instance-onerror">onerror</dfn>; // Note: not supported yet.
+  <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="Instance" data-dfn-type="attribute" data-export="" data-type="EventHandler" id="dom-instance-onerror">onerror</dfn>;
 };
 </pre>
    <h4 class="heading settled" data-level="2.2.1" id="attributes-1"><span class="secno">2.2.1. </span><span class="content">Attributes</span><a class="self-link" href="#attributes-1"></a></h4>
@@ -1989,8 +1989,6 @@ Parts of this work may be from another specification document.  If so, those par
      <p class="note" role="note">Note: this is just a notation, the underlying mechanism is the <code>EventEmitter</code> of <code>Node.js</code>, please use <code>instance.on('tracking', function(e) { ... })</code> to handle the event</p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-instance-onerror" id="ref-for-dom-instance-onerror-1">onerror</a></code></p>
-    <dd data-md="">
-     <p class="note" role="note">Note: not supported yet.</p>
     <dd data-md="">
      <p>This event will be fired when there is a unexpected error happened. A registered callback will get a <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#string">string</a> type error message.</p>
     <dd data-md="">
@@ -2618,7 +2616,7 @@ function exit() {
    <dt id="biblio-css-page-floats-3">[CSS-PAGE-FLOATS-3]
    <dd>Johannes Wilm. <a href="http://dev.w3.org/csswg/css-page-floats/">CSS Page Floats</a>. URL: <a href="http://dev.w3.org/csswg/css-page-floats/">http://dev.w3.org/csswg/css-page-floats/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values/">CSS Values and Units Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-values/">https://drafts.csswg.org/css-values/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 29 September 2016. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Arun Ranganathan; Jonas Sicking. <a href="https://w3c.github.io/FileAPI/">File API</a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-generic-sensor">[GENERIC-SENSOR]
@@ -2658,7 +2656,7 @@ function exit() {
   <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">float</span>>> <a class="nv" href="#dom-instance-getrelocalizationpose">getRelocalizationPose</a>();  // Note: not supported yet.
 
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-instance-ontracking">ontracking</a>;
-  <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-instance-onerror">onerror</a>; // Note: not supported yet.
+  <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-instance-onerror">onerror</a>;
 };
 
 <span class="kt">interface</span> <a class="nv" href="#mapimage0">MapImage</a> {

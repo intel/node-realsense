@@ -132,6 +132,11 @@ v8_value_t TrackingEventTask::PopEventData(size_t event_index) {
   return NanEventInfo::NewInstance(eventData);
 }
 /////////////////////////////////////////////////////////////////////////////
+v8_value_t ErrorEventTask::PopEventData(size_t event_index) {
+  auto data = GetPayload()->data();
+  return Nan::New(*data).ToLocalChecked();
+}
+/////////////////////////////////////////////////////////////////////////////
 GetTrackingResultTask::GetTrackingResultTask() {
   task_tag = "getTrackingResult() task";
 }
