@@ -74,6 +74,18 @@ class StopTask : public SlamPromiseTask {
 };
 
 //
+// Request for: reset
+//
+class ResetTask : public SlamPromiseTask {
+ public:
+  ResetTask();
+  ~ResetTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<void>* GetPayload();
+};
+
+//
 // Request for: tracking event
 //
 // TDDO(Donna) use template for all event tasks, SlamEventTask<T>, T names

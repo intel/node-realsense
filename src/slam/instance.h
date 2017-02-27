@@ -66,8 +66,6 @@ class Instance {
 
   v8::Handle<v8::Promise> setInstanceOptions(const InstanceOptions& options);
 
-  v8::Handle<v8::Promise> resetConfig();
-
   v8::Handle<v8::Promise> start();
 
   v8::Handle<v8::Promise> stop();

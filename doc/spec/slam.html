@@ -1445,7 +1445,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Simultaneous Localization and Mapping</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-24">24 February 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-27">27 February 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1460,7 +1460,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 24 February 2017,
+In addition, as of 27 February 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1579,7 +1579,7 @@ Parts of this work may be from another specification document.  If so, those par
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#dictdef-instanceoptions" id="ref-for-dictdef-instanceoptions-1">InstanceOptions</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getInstanceOptions()" id="dom-instance-getinstanceoptions">getInstanceOptions<a class="self-link" href="#dom-instance-getinstanceoptions"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="setCameraOptions(options)" id="dom-instance-setcameraoptions">setCameraOptions<a class="self-link" href="#dom-instance-setcameraoptions"></a></dfn>(<a class="n" data-link-type="idl-name">CameraOptions</a> <dfn class="nv idl-code" data-dfn-for="Instance/setCameraOptions(options)" data-dfn-type="argument" data-export="" id="dom-instance-setcameraoptions-options-options">options<a class="self-link" href="#dom-instance-setcameraoptions-options-options"></a></dfn>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="setInstanceOptions(options)|setInstanceOptions()" id="dom-instance-setinstanceoptions">setInstanceOptions<a class="self-link" href="#dom-instance-setinstanceoptions"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-instanceoptions" id="ref-for-dictdef-instanceoptions-2">InstanceOptions</a> <dfn class="nv idl-code" data-dfn-for="Instance/setInstanceOptions(options), Instance/setInstanceOptions()" data-dfn-type="argument" data-export="" id="dom-instance-setinstanceoptions-options-options">options<a class="self-link" href="#dom-instance-setinstanceoptions-options-options"></a></dfn>);
-  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="reset()" id="dom-instance-reset">reset<a class="self-link" href="#dom-instance-reset"></a></dfn>(); //Note: not supported yet.
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="reset()" id="dom-instance-reset">reset<a class="self-link" href="#dom-instance-reset"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="start()" id="dom-instance-start">start<a class="self-link" href="#dom-instance-start"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="stop()" id="dom-instance-stop">stop<a class="self-link" href="#dom-instance-stop"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="restartTracking()" id="dom-instance-restarttracking">restartTracking<a class="self-link" href="#dom-instance-restarttracking"></a></dfn>();
@@ -1627,9 +1627,7 @@ Parts of this work may be from another specification document.  If so, those par
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl" href="https://wicg.github.io/webusb/#dom-usbdevice-reset">reset</a></code></p>
     <dd data-md="">
-     <p class="note" role="note">Note: not supported yet.</p>
-    <dd data-md="">
-     <p>Reset the SLAM instance, the state will be changed to "ready" if successed. It somewhat do things like <code>stop</code>, but it will reset all the options, including instance options and camera options.</p>
+     <p>Reset the SLAM instance, the state will be changed to "ready" if succeed. It somewhat do things like <code>stop</code>, but it will reset all the options, including instance options and camera options.</p>
     <dd data-md="">
      <p>This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
     <dd data-md="">
@@ -2643,7 +2641,7 @@ function exit() {
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#dictdef-instanceoptions">InstanceOptions</a>> <a class="nv" href="#dom-instance-getinstanceoptions">getInstanceOptions</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-setcameraoptions">setCameraOptions</a>(<a class="n" data-link-type="idl-name">CameraOptions</a> <a class="nv" href="#dom-instance-setcameraoptions-options-options">options</a>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-setinstanceoptions">setInstanceOptions</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-instanceoptions">InstanceOptions</a> <a class="nv" href="#dom-instance-setinstanceoptions-options-options">options</a>);
-  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-reset">reset</a>(); //Note: not supported yet.
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-reset">reset</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-start">start</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-stop">stop</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-restarttracking">restartTracking</a>();

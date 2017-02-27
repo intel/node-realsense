@@ -77,7 +77,7 @@ describe('SLAM Test Suite - State - full', function() {
     });
   });
 
-  it.skip('create - start - reset', function() {
+  it('create - start - reset', function() {
     // eslint-disable-next-line no-invalid-this
     this.timeout(50 * 1000);
     return new Promise((resolve, reject) => {
@@ -95,7 +95,7 @@ describe('SLAM Test Suite - State - full', function() {
     });
   });
 
-  it.skip('create - start - reset - stop', function() {
+  it('create - start - reset - stop', function() {
     // eslint-disable-next-line no-invalid-this
     this.timeout(50 * 1000);
     return new Promise((resolve, reject) => {

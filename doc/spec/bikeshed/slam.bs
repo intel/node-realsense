@@ -78,7 +78,7 @@ interface Instance {
   Promise&lt;InstanceOptions&gt; getInstanceOptions();
   Promise&lt;void&gt; setCameraOptions(CameraOptions options);
   Promise&lt;void&gt; setInstanceOptions(optional InstanceOptions options);
-  Promise&lt;void&gt; reset(); //Note: not supported yet.
+  Promise&lt;void&gt; reset();
   Promise&lt;void&gt; start();
   Promise&lt;void&gt; stop();
   Promise&lt;void> restartTracking();
@@ -117,8 +117,7 @@ interface Instance {
 :: *Return type*:Promise&lt;[=void=]&gt;
 
 : {{reset}}
-:: Note: not supported yet.
-:: Reset the SLAM instance, the state will be changed to "ready" if successed. It somewhat do things like <code>stop</code>, but it will reset all the options, including instance options and camera options.
+:: Reset the SLAM instance, the state will be changed to "ready" if succeed. It somewhat do things like <code>stop</code>, but it will reset all the options, including instance options and camera options.
 :: This method returns a promise. The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
 :: *Return type*:Promise&lt;[=void=]&gt;

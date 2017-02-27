@@ -22,27 +22,18 @@
 
 class SlamModuleDev : public CameraOptionsIO {
  public:
-  SlamModuleDev() : state_(SlamState::kIdle),
-                 process_handler_(nullptr),
-                 control_handler_(nullptr) {
-    occupancy_map_.reset();
-    ResetConfig();
-    CameraOptionsHost* host = CameraOptionsHostInstance::GetInstance();
-    host->GetCameraOptionsIO()->Add(this);
+  SlamModuleDev() {
+    CleanUp();
+    RegisterToCameraHost();
   }
 
   ~SlamModuleDev() {
-    slam_.reset();
-    if (process_handler_ != nullptr) delete process_handler_;
-
-    if (control_handler_ != nullptr) delete control_handler_;
+     CleanUp();
   }
 
-  utils::Status Init();
   utils::Status Start();
-  // TODO(Donna): support utils::Status reset();
+  utils::Status Reset();
   utils::Status Stop();
-  utils::Status Destroy();
   utils::Status RestartTracking();
 
   SlamState state();
@@ -67,7 +58,10 @@ class SlamModuleDev : public CameraOptionsIO {
   void PartiallyFillInCameraData(CameraOptionsType* target) override;
 
  private:
-  void ResetConfig();
+  utils::Status Init();
+  void CleanUp();
+  void RegisterToCameraHost();
+  utils::Status StopDevice();
   utils::Status QuerySupportedConfig();
   utils::Status SetStreamCallbacks();
   utils::Status SetMotionCallbacks();
