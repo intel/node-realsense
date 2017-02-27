@@ -101,6 +101,27 @@ void StopTask::WorkerThreadExecute() {
 SlamPayload<void>* StopTask::GetPayload() {
   return reinterpret_cast<SlamPayload<void>*>(AsyncTask::GetPayload());
 }
+
+/////////////////////////////////////////////////////////////////////////////
+ResetTask::ResetTask() {
+  task_tag = "reset() task";
+}
+
+ResetTask::~ResetTask() {
+}
+
+void ResetTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+
+  result_status = payload->GetSlamModule()->Reset();
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<void>* ResetTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<void>*>(AsyncTask::GetPayload());
+}
+
 /////////////////////////////////////////////////////////////////////////////
 v8_value_t TrackingEventTask::PopEventData(size_t event_index) {
   auto data = GetPayload()->data();

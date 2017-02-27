@@ -51,10 +51,6 @@ v8::Handle<v8::Promise> Instance::setInstanceOptions(
     return runner_->setInstanceOptions(options);
 }
 
-v8::Handle<v8::Promise> Instance::resetConfig() {
-  // TODO(widl-nan): fill your code here
-}
-
 v8::Handle<v8::Promise> Instance::start() {
   if (REPLACE_ASYNC)
     return SlamRunnerDev::GetSlamRunner()->start();
@@ -78,7 +74,8 @@ v8::Handle<v8::Promise> Instance::resume() {
 }
 
 v8::Handle<v8::Promise> Instance::reset() {
-  // TODO(widl-nan): fill your code here
+  if (REPLACE_ASYNC)
+    return SlamRunnerDev::GetSlamRunner()->reset();
 }
 
 v8::Handle<v8::Promise> Instance::restartTracking() {

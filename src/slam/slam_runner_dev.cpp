@@ -32,6 +32,8 @@ SlamRunnerDev::~SlamRunnerDev() {
 }
 bool SlamRunnerDev::ShouldPopEvent(SlamEvent event) {
   const char* api_name_string = "listenerCount";
+  if (!js_this_) return false;
+
   v8::Local<v8::String> api_name = Nan::New(api_name_string).ToLocalChecked();
   v8::Local<v8::Object> js_this = Nan::New(*js_this_);
   Nan::Maybe<bool> has_api_maybe = Nan::Has(js_this, api_name);
@@ -105,6 +107,13 @@ v8::Handle<v8::Promise> SlamRunnerDev::stop() {
       new StopTask(),
       new SlamPayload<void>(this),
       "{{STOP MESSAGE}}");
+}
+
+v8::Handle<v8::Promise> SlamRunnerDev::reset() {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new ResetTask(),
+      new SlamPayload<void>(this),
+      "{{RESET MESSAGE}}");
 }
 
 v8::Handle<v8::Promise> SlamRunnerDev::getTrackingResult() {

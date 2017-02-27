@@ -35,12 +35,14 @@ class SlamRunnerDev {
   Nan::Persistent<v8::Object>* js_this() {
     return js_this_;
   }
+
   // ------- JS interfaces implementation --------
   // ------- All the functions name will be JavaScript style ---
   v8::Handle<v8::Promise> getInstanceOptions();
   v8::Handle<v8::Promise> setInstanceOptions(const InstanceOptions& config);
   v8::Handle<v8::Promise> start();
   v8::Handle<v8::Promise> stop();
+  v8::Handle<v8::Promise> reset();
   v8::Handle<v8::Promise> getTrackingResult();
   v8::Handle<v8::Promise> getOccupancyMapUpdate();
   v8::Handle<v8::Promise> getCameraOptions();

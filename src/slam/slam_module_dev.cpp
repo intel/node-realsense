@@ -464,7 +464,22 @@ utils::Status SlamModuleDev::Init() {
   result = SetMotionCallbacks();
   if (result.id() < rs::core::status_no_error) return result;
 
-  // TODO(Donna): 4. get default camera config
+  // 4. apply camera config
+  // set_module_config actually apply configurations for streams and motion,
+  // so it applys to the camera_config_.
+  // TODO(Donna): we need to change module_config_ to a better name, such as
+  // instance_options_, etc.
+  // It's better to move following lines to start function, but there is a
+  // native caused bug(#98) that set_module_config can not been called on one
+  // slam object more than once. So we must create a new slam object if we need
+  // to reset the camera config. The good news is SLAM module supports only a
+  // signle configuration currently.
+  result.set_id(slam_->set_module_config(actual_config_));
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message(
+        "error : failed to set the enabled configuration");
+    return result;
+  }
 
   // 5. get default module config
   QueryCurrentModuleConfig();
@@ -489,11 +504,43 @@ utils::Status SlamModuleDev::Init() {
   return result;
 }
 
-void SlamModuleDev::ResetConfig() {
-  // Reset Camera options.
+void SlamModuleDev::RegisterToCameraHost() {
   CameraOptionsHost* options_host = CameraOptionsHostInstance::GetInstance();
+
+  // Make SLAM default options merged with the generals.
   options_host->SetCameraOptionsDefault(new SlamCameraDefault());
   options_host->ResetDefaultCameraOptions();
+
+  // Register to the camera host.
+  options_host->GetCameraOptionsIO()->Add(this);
+}
+
+void SlamModuleDev::CleanUp() {
+  state_ = SlamState::kIdle;
+  slam_.reset();
+  occupancy_map_.reset();
+  if (process_handler_) {
+    delete process_handler_;
+    process_handler_ = nullptr;
+  }
+
+  if (control_handler_) {
+    delete control_handler_;
+    process_handler_ = nullptr;
+  }
+}
+
+utils::Status SlamModuleDev::Reset() {
+  utils::Status result;
+
+  // Device has been started.
+  if (state_ >= SlamState::kTracking) {
+    result = StopDevice();
+    if (result.id() < rs::core::status_no_error) return result;
+  }
+
+  CleanUp();
+  return Init();
 }
 
 utils::Status SlamModuleDev::Start() {
@@ -502,18 +549,9 @@ utils::Status SlamModuleDev::Start() {
   // 1. check if the module had been initialized.
   if (state_ != SlamState::kReady) {
     result.set_id(SLAM_ADDON_ERROR);
-    result.set_message(
-        "wrong state: try to start without initialization");
-    return result;
-  }
-  // set_module_config actually apply configurations for streams and motion,
-  // so it applys to the camera_config_.
-  // TODO(Donna): we need to change module_config_ to a better name, such as
-  // instance_options_, etc.
-  result.set_id(slam_->set_module_config(actual_config_));
-  if (result.id() < rs::core::status_no_error) {
-    result.set_message(
-        "error : failed to set the enabled configuration");
+    std::string msg = std::string((state_ < SlamState::kReady) ?
+        "try to start without initialization" : "already started");
+    result.set_message("wrong state:" + msg);
     return result;
   }
   // 2. start the device
@@ -664,34 +702,22 @@ utils::Status SlamModuleDev::Stop() {
     return result;
   }
 
-  try {
-    slam_->flush_resources();
-    device_->stop(active_sources_);
-  } catch (rs::error e) {
-    result.set_id(SLAM_ADDON_ERROR);
-    result.set_message(std::string("SlamModuleDev::Stop, ") + e.what());
-    return result;
-  }
+  result = StopDevice();
+  if (result.id() < rs::core::status_no_error) return result;
 
   state_ = SlamState::kReady;
   return result;
 }
 
-utils::Status SlamModuleDev::Destroy() {
+utils::Status SlamModuleDev::StopDevice() {
   utils::Status result;
-
-  // check if the module had been initialized.
-  if (state_ == SlamState::kIdle) {
+  try {
+    slam_->flush_resources();
+    device_->stop(active_sources_);
+  } catch (rs::error e) {
     result.set_id(SLAM_ADDON_ERROR);
-    result.set_message(
-      "wrong state to destroy slam module, not initialized");
+    result.set_message(std::string("SLAM StopDevice, ") + e.what());
     return result;
   }
-
-  result.set_id(slam_->reset_config());
-  // Reset the shared_ptr
-  slam_.reset();
-
-  state_ = SlamState::kIdle;
   return result;
 }

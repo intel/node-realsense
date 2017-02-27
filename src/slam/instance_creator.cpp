@@ -98,10 +98,9 @@ bool InstanceCreator::DoWork() {
   bool success = true;
 
   auto runner = SlamRunnerDev::GetSlamRunner();
-  // TODO(Donna): implement Reset interface and call runner->reset() instread of
-  // call the module init directly.
+  // If there is already an existing instance, we need to reset it.
   if (!instance_) {
-    auto result = runner->slam_module()->Init();
+    auto result = runner->slam_module()->Reset();
     if (result.id() < rs::core::status_no_error) {
       d_->failed_msg_ = result.message();
       return false;
