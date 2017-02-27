@@ -145,6 +145,14 @@ v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMap(
       "{{SAVE_OCCUPANCY_MAP MESSAGE}}");
 }
 
+v8::Handle<v8::Promise> SlamRunnerDev::loadOccupancyMap(
+    const std::string& file_name) {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new LoadOccupancyMapTask(),
+      new SlamPayload<std::string>(this, file_name),
+      "{{LOAD_OCCUPANCY_MAP MESSAGE}}");
+}
+
 v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMapAsPpm(
     const std::string& file_name, bool draw_camera_trajectory) {
   auto wrapper = new ParameterWrapperForSavingPpmMap(

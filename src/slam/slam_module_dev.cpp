@@ -677,6 +677,16 @@ utils::Status SlamModuleDev::SaveOccupancyMap(const std::string& file_name) {
   return result;
 }
 
+utils::Status SlamModuleDev::LoadOccupancyMap(const std::string& file_name) {
+  utils::Status result;
+  result.set_id(slam_->load_occupancy_map(file_name));
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message("failed to load occpuancy map.");
+  }
+
+  return result;
+}
+
 utils::Status SlamModuleDev::RestartTracking() {
   utils::Status result;
 

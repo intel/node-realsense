@@ -49,6 +49,7 @@ class SlamRunnerDev {
   v8::Handle<v8::Promise> setCameraOptions(const CameraOptions& config);
   v8::Handle<v8::Promise> restartTracking();
   v8::Handle<v8::Promise> saveOccupancyMap(const std::string& file_name);
+  v8::Handle<v8::Promise> loadOccupancyMap(const std::string& file_name);
   v8::Handle<v8::Promise> saveOccupancyMapAsPpm(
       const std::string& file_name, bool draw_camera_trajectory);
   v8::Handle<v8::Promise> getOccupancyMapAsRgba(
