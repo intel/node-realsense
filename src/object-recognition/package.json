@@ -1,6 +1,6 @@
 {
   "name": "object-recognition",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Object Recognition Node.js module based on Intel® RealSense™ technology",
   "main": "",
   "scripts": {
