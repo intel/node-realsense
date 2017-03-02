@@ -1,6 +1,6 @@
 # Intel® RealSense™ technology with JavaScript API for Linux OS
 
-[![Build Status](https://travis-ci.com/01org/node-realsense.svg?token=R4frH5duwqgLFqkCuqbn&branch=master)](https://travis-ci.com/01org/node-realsense)
+[![Build Status](https://travis-ci.org/01org/node-realsense.svg?branch=master)](https://travis-ci.org/01org/node-realsense)
 
 [ ![License] [license-image] ] [license]
 
