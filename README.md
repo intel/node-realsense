@@ -11,7 +11,7 @@ This project is offering Node.js modules of [Intel® RealSense™ technology](ht
 
 ## Documents
 
-  * [Spec](./doc/spec) - Javascript specification document. (TODO)
+  * [Spec](./doc/spec) - Javascript specification document.
   * [Get Started](./doc/get_started.md) - A guide how to setup environment and run samples.
   * [Contribution](./doc/contribution.md) - A guide how to contribute code.
   * [BKMs](./doc/bkms.md) - Best known methods.
