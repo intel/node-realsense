@@ -1,6 +1,6 @@
 {
   "name": "person-tracking",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "Person Tracking Node.js module based on Intel® RealSense™ technology",
   "main": "index.js",
   "scripts": {
