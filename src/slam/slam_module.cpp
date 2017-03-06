@@ -681,9 +681,28 @@ utils::Status SlamModule::LoadOccupancyMap(const std::string& file_name) {
   utils::Status result;
   result.set_id(slam_->load_occupancy_map(file_name));
   if (result.id() < rs::core::status_no_error) {
-    result.set_message("failed to load occpuancy map.");
+    result.set_message("failed to load relocalization map.");
   }
+  return result;
+}
 
+utils::Status SlamModule::SaveRelocalizationMap(
+    const std::string& file_name) {
+  utils::Status result;
+  result.set_id(slam_->save_relocalization_map(file_name));
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message("failed to save occpuancy map.");
+  }
+  return result;
+}
+
+utils::Status SlamModule::LoadRelocalizationMap(
+    const std::string& file_name) {
+  utils::Status result;
+  result.set_id(slam_->load_relocalization_map(file_name));
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message("failed to load relocalization map.");
+  }
   return result;
 }
 

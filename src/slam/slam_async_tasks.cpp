@@ -397,3 +397,41 @@ v8::Local<v8::Value> GetOccupancyMapBoundsTask::GetResolved() {
   auto payload = GetPayload();
   return NanOccupancyMapBounds::NewInstance(payload->data());
 }
+/////////////////////////////////////////////////////////////////////////////
+LoadRelocalizationMapTask::LoadRelocalizationMapTask() {
+  task_tag = "relocalizationMap() task";
+}
+
+LoadRelocalizationMapTask::~LoadRelocalizationMapTask() {
+}
+
+void LoadRelocalizationMapTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->LoadRelocalizationMap(
+      payload->data());
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<std::string>* LoadRelocalizationMapTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<std::string>*>(AsyncTask::GetPayload());
+}
+/////////////////////////////////////////////////////////////////////////////
+SaveRelocalizationMapTask::SaveRelocalizationMapTask() {
+  task_tag = "saveRelocalizationMap() task";
+}
+
+SaveRelocalizationMapTask::~SaveRelocalizationMapTask() {
+}
+
+void SaveRelocalizationMapTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->SaveRelocalizationMap(
+      payload->data());
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+SlamPayload<std::string>* SaveRelocalizationMapTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<std::string>*>(AsyncTask::GetPayload());
+}
