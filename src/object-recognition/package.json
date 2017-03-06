@@ -1,7 +1,7 @@
 {
-  "name": "object-recognition",
+  "name": "node-object",
   "version": "0.9.9",
-  "description": "Object Recognition Node.js module based on Intel® RealSense™ technology",
+  "description": "Node.js Object Recognition based on Intel® RealSense™ technology",
   "main": "",
   "scripts": {
     "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
