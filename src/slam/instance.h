@@ -16,8 +16,7 @@
 #include "gen/camera_options.h"
 #include "gen/instance_options.h"
 #include "gen/region_of_interest.h"
-#include "worker/slam_runner.h"
-#include "slam_runner_dev.h"
+#include "slam_runner.h"
 
 class Instance {
  public:
@@ -30,32 +29,8 @@ class Instance {
   Instance& operator=(const Instance& rhs);
 
  public:
-  bool get_enableTrackingEvent() const {
-    return runner_->tracking_event_enabled();
-  }
-
-  void set_enableTrackingEvent(const bool& new_value) {
-    runner_->set_tracking_event_enabled(new_value);
-  }
-
-  bool get_enableErrorEvent() const {
-    return runner_->error_event_enabled();
-  }
-
-  void set_enableErrorEvent(const bool& new_value) {
-    runner_->set_error_event_enabled(new_value);
-  }
-
-  v8::Handle<v8::Promise> createInstance();
-
   std::string get_state() const {
-    if (REPLACE_ASYNC) return SlamRunnerDev::GetSlamRunner()->GetSlamState();
-
-    if (!runner_) {
-      utils::OnSlamError("Null runner when get state.");
-      return "";
-    }
-    return runner_->GetSlamState();
+    return SlamRunner::GetSlamRunner()->GetSlamState();
   }
 
   v8::Handle<v8::Promise> getCameraOptions();
@@ -106,18 +81,10 @@ class Instance {
 
   void SetJavaScriptThis(v8::Local<v8::Object> obj) {
     js_this_.Reset(obj);
-    if (REPLACE_ASYNC)
-      SlamRunnerDev::GetSlamRunner()->SetJavaScriptThis(&js_this_);
-    else
-      runner_->SetJavaScriptThis(&js_this_);
-  }
-
-  std::shared_ptr<SlamRunner> runner() const {
-    return runner_;
+    SlamRunner::GetSlamRunner()->SetJavaScriptThis(&js_this_);
   }
 
  private:
-  std::shared_ptr<SlamRunner> runner_;
   Nan::Persistent<v8::Object> js_this_;
 };
 

@@ -22,22 +22,8 @@
 #include "gen/nan__map_image.h"
 #include "instance_creator.h"
 
-using v8::FunctionCallbackInfo;
-using v8::Value;
-
-static void createInstance(const FunctionCallbackInfo<Value>& info) {
-  // TODO(DonnaWu): get the arguments from info.
-  Instance * instance = new Instance();
-
-  info.GetReturnValue().Set(instance->createInstance());
-}
-
 void initModule(v8::Local<v8::Object> exports) {
-  if (REPLACE_ASYNC) {
-    Nan::Export(exports, "createInstance", CreateSlamInstance);
-  } else {
-    NODE_SET_METHOD(exports, "createInstance", createInstance);
-  }
+  Nan::Export(exports, "createInstance", CreateSlamInstance);
   NanEventInfo::Init(exports);
   NanExtrinsics::Init(exports);
   NanFrameData::Init(exports);

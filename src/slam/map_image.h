@@ -66,16 +66,4 @@ class MapImage {
   std::vector<uint8_t> data_store_;
 };
 
-// TODO(Donna): need to delete this class when deprecate the old implementation.
-class ArgumentUnit {
- public:
-  ArgumentUnit(bool draw_pose_trajectory, bool draw_occupancy_map) {
-    this->draw_pose_trajectory = draw_pose_trajectory;
-    this->draw_occupancy_map = draw_occupancy_map;
-  }
-
- public:
-  bool draw_pose_trajectory;
-  bool draw_occupancy_map;
-};
 #endif  // _MAP_IMAGE_H_

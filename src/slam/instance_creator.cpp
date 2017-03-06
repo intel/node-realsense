@@ -7,7 +7,7 @@
 #include "instance_creator.h"
 
 #include "gen/nan__instance.h"
-#include "slam_runner_dev.h"
+#include "slam_runner.h"
 #include "common/camera-options/camera_options_host_instance.h"
 
 class InstanceCreatorD {
@@ -97,7 +97,7 @@ InstanceCreator::~InstanceCreator() {
 bool InstanceCreator::DoWork() {
   bool success = true;
 
-  auto runner = SlamRunnerDev::GetSlamRunner();
+  auto runner = SlamRunner::GetSlamRunner();
   // If there is already an existing instance, we need to reset it.
   if (!instance_) {
     auto result = runner->slam_module()->Reset();

@@ -9,9 +9,6 @@ const EventEmitter = require('events').EventEmitter;
 const assert = require('assert');
 const utils = require('../../common/tests/testUtils.js');
 
-let trackingEvent = 'tracking';
-let errorEvent = 'error';
-
 function inherits(target, source) {
   // eslint-disable-next-line guard-for-in
   for (let k in source.prototype) {
@@ -19,22 +16,6 @@ function inherits(target, source) {
   }
 }
 inherits(slamAddon.Instance, EventEmitter);
-
-function addListeners(instance) {
-  instance.on('newListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = true;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = true;
-  });
-  instance.on('removeListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = false;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = false;
-  });
-}
-
 
 describe('Slam Instance Test - TrackingResult', function() {
   let slamInstance = null;
@@ -51,7 +32,6 @@ describe('Slam Instance Test - TrackingResult', function() {
     let fDone = false;
     slamAddon.createInstance().then((Instance) => {
       slamInstance = Instance;
-      addListeners(slamInstance);
       slamInstance.on('tracking', (result) => {
         slamInstance.getTrackingResult().then((result) => {
           if(result.frameData.fisheye

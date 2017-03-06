@@ -13,7 +13,7 @@
 #include "common/task/async_task.h"
 #include "gen/camera_options.h"
 #include "gen/instance_options.h"
-#include "slam_runner_dev.h"
+#include "slam_runner.h"
 #include "slam_task_types.h"
 
 using InstanceOptionsTaskPayload = SlamPayload<DictionaryInstanceOptions*>;

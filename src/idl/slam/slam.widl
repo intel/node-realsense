@@ -86,10 +86,6 @@ dictionary InstanceOptions {
 //      Promise<Instance> createInstance();
 // #endif
 interface Instance {
-  // Note: the enablePersonTrackedEvent and enableFrameProcessedEvent events
-  // will not be exposed to user, they are for internal use.
-  attribute bool _enableTrackingEvent;
-  attribute bool _enableErrorEvent;
   readonly attribute SlamState state;
 
   // TODO: Documents should show out all the avalible config values.

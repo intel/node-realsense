@@ -9,14 +9,14 @@
 #include "output_holder.h"
 #include "slam_async_tasks.h"
 
-OutputHolder* SlamEventHandlerDev::MoveResult() {
+OutputHolder* SlamEventHandler::MoveResult() {
   std::lock_guard<std::mutex> lock(mutex_);
   auto copy = output_holder_;
   output_holder_ = nullptr;
   return copy;
 }
 
-void SlamEventHandlerDev::module_output_ready(
+void SlamEventHandler::module_output_ready(
     rs::core::video_module_interface* sender,
     rs::core::correlated_sample_set* sample) {
   // post async to worker
@@ -28,7 +28,7 @@ void SlamEventHandlerDev::module_output_ready(
   auto accuracy = slam->get_tracking_accuracy();
 
   // 2. Notice the main thread to emit "tracking" event.
-  auto payload = new TrackingEventPayload(SlamRunnerDev::GetSlamRunner(),
+  auto payload = new TrackingEventPayload(SlamRunner::GetSlamRunner(),
       new TrackedResultInternal(accuracy, pose));
 
   AsyncTaskRunnerInstance::GetInstance()->PostTask(

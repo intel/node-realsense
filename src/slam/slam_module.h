@@ -20,14 +20,14 @@
 #include "slam_handlers.h"
 #include "utils.h"
 
-class SlamModuleDev : public CameraOptionsIO {
+class SlamModule : public CameraOptionsIO {
  public:
-  SlamModuleDev() {
+  SlamModule() {
     CleanUp();
     RegisterToCameraHost();
   }
 
-  ~SlamModuleDev() {
+  ~SlamModule() {
      CleanUp();
   }
 
@@ -84,8 +84,8 @@ class SlamModuleDev : public CameraOptionsIO {
   SlamState state_;
   std::shared_ptr<rs::slam::occupancy_map> occupancy_map_;
 
-  SlamEventHandlerDev* process_handler_;
-  SlamTrackingEventHandlerDev* control_handler_;
+  SlamEventHandler* process_handler_;
+  SlamTrackingEventHandler* control_handler_;
 };
 
 #endif  // _WORKER_SLAM_MODULE_DEV_H_
