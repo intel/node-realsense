@@ -39,5 +39,5 @@ personModule.createPersonTracker().then(pt => {
 # Document
 Please refer to the [project document home page](https://01org.github.io/node-realsense/), and also the details page listed below:
 - [Concept and terms](https://software.intel.com/sites/products/realsense/person/developer_guide.html#Introduction)
-- [Object Module document](https://01org.github.io/node-realsense/doc/spec/person-tracking.html)
+- [Person Module document](https://01org.github.io/node-realsense/doc/spec/person-tracking.html)
 - [Common API document](https://01org.github.io/node-realsense/doc/spec/common.html)

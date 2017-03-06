@@ -41,5 +41,5 @@ slamModule.createInstance().then(slam => {
 # Document
 Please refer to the [project document home page](https://01org.github.io/node-realsense/), and also the details page listed below:
 - [Concept and terms](https://software.intel.com/sites/products/realsense/slam/developer_guide.html)
-- [Object Module document](https://01org.github.io/node-realsense/doc/spec/slam.html)
+- [SLAM Module document](https://01org.github.io/node-realsense/doc/spec/slam.html)
 - [Common API document](https://01org.github.io/node-realsense/doc/spec/common.html)
