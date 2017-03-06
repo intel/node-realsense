@@ -1,7 +1,7 @@
 {
-  "name": "person-tracking",
-  "version": "0.9.9",
-  "description": "Person Tracking Node.js module based on Intel® RealSense™ technology",
+  "name": "node-person",
+  "version": "0.9.1",
+  "description": "Node.js Person Tracking based on Intel® RealSense™ technology",
   "main": "index.js",
   "scripts": {
     "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
