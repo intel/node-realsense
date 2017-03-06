@@ -9,6 +9,10 @@
     "maketarball": "bash ./common/scripts/make_tarball.sh slam",
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/01org/node-realsense.git"
+  },
   "contributors": [
     "Donna Wu <donna.wu@intel.com> (https://github.com/DonnaWuDongxia)",
     "Lisha Guo <lisha.guo@intel.com> (https://github.com/lisa0314)"

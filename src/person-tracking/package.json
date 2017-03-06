@@ -8,6 +8,10 @@
     "maketarball": "bash ./common/scripts/make_tarball.sh person-tracking",
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/01org/node-realsense.git"
+  },
   "author": "Ting Shao <ting.shao@intel.com>",
   "license": "MIT",
   "dependencies": {
