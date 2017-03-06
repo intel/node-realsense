@@ -1,29 +1,46 @@
-# Developer Guide
+# Intel® RealSense™ technology with JavaScript API for Linux OS
 
-## Build
-To build the addon (incl. auto code generation), simply do the following in console:
+`node-object`: Node.js Object Recognition/Localization/Tracking algorithm module based on Intel® RealSense™ technology.
+
+Please refer to [Release Note](https://github.com/01org/node-realsense/releases) for details of current release.
+
+# Install
+Prepare [environment](https://01org.github.io/node-realsense/doc/setup_environment.html) and then execute the following command in shell:
 ```
-cd src/object-recognition
-npm install
+npm install --save node-object
 ```
 
-## Run
+# Examples
+The following example shows the basic usage of this module. Before executing it, connect an Intel® RealSense™ Camera to your computer or developer board.
 
-To test the addon
-1. Build `librealsense`
-1. Connect R200 camera into your system
-1. Setup LD_LIBRARY_PATH pointing to the path of all the following
-  1. `realsense_sdk` libraries
-  1. `opencv` libraries
-  1. `librealsense_object_recognition` (middleware) libraries
-  1. `librealsense` libraries
-1. Copy `classifiers` directory from `librealsense_object_recognition` and put them into ``<project_root>/src` (i.e. the same level with `object-recognition` directory)
-1. Run `node examples/quick-test.js`
+```
+const objectModule = require('node-object');
 
-Please refer to librealsense_object_recognition docs for the required version of `opencv`/`librealsense`/`realsense_sdk`.
+objectModule.createObjectRecognizer().then(or => {
+  or.on('framecaptured', (evtData) => {
+    // A new frame was captured
+  });
 
+  or.on('frameprocessed', (evtData) => {
+    // A new frame was captured and processed
+  });
 
-## Known Issues
-- Hard-coded include & library directories in source (`binding.gyp`)
-- LD_LIBRARY_PATH must be set to run the addon
-- To enable run addon inside `src/object-recognition` directory, have to put files in `src/classifiers` directory -- expecting native middleware to have an function to configure this runtime behavior
+  or.on('recognition', (evtData) => {
+    // A new frame was captured, processed and then recognized
+    console.log('New object recognized': evtData);
+  });
+
+  // To control how the algorithm works
+  // Call method: or.setObjectRecognitionOptions();
+
+  or.start().then(() => {
+    console.log('Camera + algorithm started...');
+  });
+});
+```
+
+# Document
+Please refer to the [project document home page](https://01org.github.io/node-realsense/), and also the details page listed below:
+- [Concept and terms](https://software.intel.com/sites/products/realsense/object/developer_guide.html)
+- [Object Module document](https://01org.github.io/node-realsense/doc/spec/object-recognition.html)
+- [Common API document](https://01org.github.io/node-realsense/doc/spec/common.html)
