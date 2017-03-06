@@ -8,6 +8,10 @@
     "maketarball": "bash ./common/scripts/make_tarball.sh object-recognition",
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/01org/node-realsense.git"
+  },
   "author": "Kenny Yuan <kaining.yuan@intel.com>",
   "license": "MIT",
   "dependencies": {
