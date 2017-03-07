@@ -4,33 +4,33 @@
 
 #include <string>
 
-#include "slam_runner_dev.h"
+#include "slam_runner.h"
 
 #include "slam_async_tasks.h"
 #include "common/task/async_task_runner_instance.h"
 
-static SlamRunnerDev* g_slam_runner = nullptr;
+static SlamRunner* g_slam_runner = nullptr;
 
-SlamRunnerDev* SlamRunnerDev::GetSlamRunner() {
+SlamRunner* SlamRunner::GetSlamRunner() {
   if (!g_slam_runner)
-    g_slam_runner = new SlamRunnerDev();
+    g_slam_runner = new SlamRunner();
 
   return g_slam_runner;
 }
 
-void SlamRunnerDev::DestroySlamRunner() {
+void SlamRunner::DestroySlamRunner() {
   delete g_slam_runner;
   g_slam_runner = nullptr;
 }
 
-SlamRunnerDev::SlamRunnerDev() {
-  slam_module_ = std::make_shared<SlamModuleDev>();
+SlamRunner::SlamRunner() {
+  slam_module_ = std::make_shared<SlamModule>();
 }
 
-SlamRunnerDev::~SlamRunnerDev() {
+SlamRunner::~SlamRunner() {
   slam_module_.reset();
 }
-bool SlamRunnerDev::ShouldPopEvent(SlamEvent event) {
+bool SlamRunner::ShouldPopEvent(SlamEvent event) {
   const char* api_name_string = "listenerCount";
   if (!js_this_) return false;
 
@@ -53,7 +53,7 @@ bool SlamRunnerDev::ShouldPopEvent(SlamEvent event) {
 /////////////////////////////////////////////////////////////
 // API implementations.
 /////////////////////////////////////////////////////////////
-v8::Handle<v8::Promise> SlamRunnerDev::getInstanceOptions() {
+v8::Handle<v8::Promise> SlamRunner::getInstanceOptions() {
   auto payload = new InstanceOptionsTaskPayload(this,
       new DictionaryInstanceOptions());
 
@@ -63,7 +63,7 @@ v8::Handle<v8::Promise> SlamRunnerDev::getInstanceOptions() {
       "{{GET_INSTANCE_OPTIONS MESSAGE}}");
 }
 
-v8::Local<v8::Promise> SlamRunnerDev::setInstanceOptions(
+v8::Local<v8::Promise> SlamRunner::setInstanceOptions(
     const InstanceOptions& options) {
   auto payload = new InstanceOptionsTaskPayload(this,
       new DictionaryInstanceOptions(options));
@@ -74,7 +74,7 @@ v8::Local<v8::Promise> SlamRunnerDev::setInstanceOptions(
       "{{SET_INSTANCE_OPTIONS MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::getCameraOptions() {
+v8::Handle<v8::Promise> SlamRunner::getCameraOptions() {
   auto payload = new CameraOptionsTaskPayload(this,
       new DictionaryCameraOptions());
 
@@ -84,7 +84,7 @@ v8::Handle<v8::Promise> SlamRunnerDev::getCameraOptions() {
       "{{GET_CAMERA_OPTIONS MESSAGE}}");
 }
 
-v8::Local<v8::Promise> SlamRunnerDev::setCameraOptions(
+v8::Local<v8::Promise> SlamRunner::setCameraOptions(
     const CameraOptions& options) {
   auto payload = new CameraOptionsTaskPayload(this,
       new DictionaryCameraOptions(options));
@@ -95,49 +95,49 @@ v8::Local<v8::Promise> SlamRunnerDev::setCameraOptions(
       "{{SET_CAMERA_OPTIONS MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::start() {
+v8::Handle<v8::Promise> SlamRunner::start() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new StartTask(),
       new SlamPayload<void>(this),
       "{{START MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::stop() {
+v8::Handle<v8::Promise> SlamRunner::stop() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new StopTask(),
       new SlamPayload<void>(this),
       "{{STOP MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::reset() {
+v8::Handle<v8::Promise> SlamRunner::reset() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new ResetTask(),
       new SlamPayload<void>(this),
       "{{RESET MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::getTrackingResult() {
+v8::Handle<v8::Promise> SlamRunner::getTrackingResult() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new GetTrackingResultTask(),
       new TrackingResultPayload(this, nullptr),
       "{{GET_TRACKING_RESULT MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapUpdate() {
+v8::Handle<v8::Promise> SlamRunner::getOccupancyMapUpdate() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new GetOccupancyMapUpdateTask(),
       new SlamPayload<OccupancyMapData*>(this, new OccupancyMapData()),
       "{{GET_OCCUPANCY_MAP_UPDATE MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::restartTracking() {
+v8::Handle<v8::Promise> SlamRunner::restartTracking() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new RestartTrackingTask(),
       new SlamPayload<void>(this),
       "{{RESTART_TRACKING MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMap(
+v8::Handle<v8::Promise> SlamRunner::saveOccupancyMap(
     const std::string& file_name) {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new SaveOccupancyMapTask(),
@@ -145,7 +145,7 @@ v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMap(
       "{{SAVE_OCCUPANCY_MAP MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::loadOccupancyMap(
+v8::Handle<v8::Promise> SlamRunner::loadOccupancyMap(
     const std::string& file_name) {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new LoadOccupancyMapTask(),
@@ -153,7 +153,7 @@ v8::Handle<v8::Promise> SlamRunnerDev::loadOccupancyMap(
       "{{LOAD_OCCUPANCY_MAP MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMapAsPpm(
+v8::Handle<v8::Promise> SlamRunner::saveOccupancyMapAsPpm(
     const std::string& file_name, bool draw_camera_trajectory) {
   auto wrapper = new ParameterWrapperForSavingPpmMap(
       file_name, draw_camera_trajectory);
@@ -163,7 +163,7 @@ v8::Handle<v8::Promise> SlamRunnerDev::saveOccupancyMapAsPpm(
       "{{SAVE_OCCUPANCY_MAP_AS_PPM MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapAsRgba(
+v8::Handle<v8::Promise> SlamRunner::getOccupancyMapAsRgba(
     bool draw_pose_trajectory, bool draw_occupancy_map) {
   auto wrapper = new ParameterWrapperForGetRgbaMap(
       draw_pose_trajectory, draw_occupancy_map);
@@ -173,7 +173,7 @@ v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapAsRgba(
       "{{GET_OCCUPANCY_MAP_AS_RGBA MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunnerDev::getOccupancyMapBounds() {
+v8::Handle<v8::Promise> SlamRunner::getOccupancyMapBounds() {
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new GetOccupancyMapBoundsTask(),
       new SlamPayload<OccupancyMapBounds*>(this, nullptr),

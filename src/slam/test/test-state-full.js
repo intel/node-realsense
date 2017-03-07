@@ -7,8 +7,8 @@
 /* global describe, it */
 const assert = require('assert');
 const addon = require('bindings')('realsense_slam');
-
 const EventEmitter = require('events').EventEmitter;
+
 function inherits(target, source) {
   // eslint-disable-next-line guard-for-in
   for (let k in source.prototype) {
@@ -16,24 +16,6 @@ function inherits(target, source) {
   }
 }
 inherits(addon.Instance, EventEmitter);
-
-let trackingEvent = 'tracking';
-let errorEvent = 'error';
-
-function addListeners(instance) {
-  instance.on('newListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = true;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = true;
-  });
-  instance.on('removeListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = false;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = false;
-  });
-}
 
 describe('SLAM Test Suite - State - full', function() {
   let instance = undefined;
@@ -43,7 +25,6 @@ describe('SLAM Test Suite - State - full', function() {
       instance = undefined;
       addon.createInstance().then((inst) => {
         instance = inst;
-        addListeners(instance);
         resolve();
       }).catch((e) => {
         reject(e);

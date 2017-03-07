@@ -5,64 +5,44 @@
 #include "instance.h"
 
 Instance::Instance() {
-  runner_ = std::make_shared<SlamRunner>();
 }
 
 Instance& Instance::operator=(const Instance& rhs) {
   if (&rhs != this) {
-    this->runner_ = rhs.runner();
+    this->js_this_.Reset(Nan::New(rhs.js_this_));
   }
   return *this;
 }
 
 Instance::~Instance() {
-  runner_.reset();
+  SlamRunner::DestroySlamRunner();
   js_this_.Reset();
-  if (REPLACE_ASYNC) SlamRunnerDev::DestroySlamRunner();
-}
-
-v8::Handle<v8::Promise> Instance::createInstance() {
-  return runner_->createInstance(this);
 }
 
 v8::Handle<v8::Promise> Instance::getCameraOptions() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->getCameraOptions();
+  return SlamRunner::GetSlamRunner()->getCameraOptions();
 }
 
 v8::Handle<v8::Promise> Instance::getInstanceOptions() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->getInstanceOptions();
-  else
-    return runner_->getInstanceOptions();
+  return SlamRunner::GetSlamRunner()->getInstanceOptions();
 }
 
 v8::Handle<v8::Promise> Instance::setCameraOptions(
     const CameraOptions& options) {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->setCameraOptions(options);
+  return SlamRunner::GetSlamRunner()->setCameraOptions(options);
 }
 
 v8::Handle<v8::Promise> Instance::setInstanceOptions(
     const InstanceOptions& options) {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->setInstanceOptions(options);
-  else
-    return runner_->setInstanceOptions(options);
+  return SlamRunner::GetSlamRunner()->setInstanceOptions(options);
 }
 
 v8::Handle<v8::Promise> Instance::start() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->start();
-  else
-    return runner_->start();
+  return SlamRunner::GetSlamRunner()->start();
 }
 
 v8::Handle<v8::Promise> Instance::stop() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->stop();
-  else
-    return runner_->stop();
+  return SlamRunner::GetSlamRunner()->stop();
 }
 
 v8::Handle<v8::Promise> Instance::pause() {
@@ -74,20 +54,15 @@ v8::Handle<v8::Promise> Instance::resume() {
 }
 
 v8::Handle<v8::Promise> Instance::reset() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->reset();
+  return SlamRunner::GetSlamRunner()->reset();
 }
 
 v8::Handle<v8::Promise> Instance::restartTracking() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->restartTracking();
+  return SlamRunner::GetSlamRunner()->restartTracking();
 }
 
 v8::Handle<v8::Promise> Instance::getTrackingResult() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->getTrackingResult();
-  else
-    return runner_->getTrackingResult();
+  return SlamRunner::GetSlamRunner()->getTrackingResult();
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMap(
@@ -97,12 +72,8 @@ v8::Handle<v8::Promise> Instance::getOccupancyMap(
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapAsRgba(
     const bool& drawPoseTrajectory, const bool& drawOccupancyMap) {
-  if (REPLACE_ASYNC) {
-    return SlamRunnerDev::GetSlamRunner()->getOccupancyMapAsRgba(
-        drawPoseTrajectory, drawOccupancyMap);
-  } else {
-    return runner_->getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap);
-  }
+  return SlamRunner::GetSlamRunner()->getOccupancyMapAsRgba(
+      drawPoseTrajectory, drawOccupancyMap);
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate(
@@ -111,42 +82,27 @@ v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate(
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->getOccupancyMapUpdate();
-  else
-    return runner_->getOccupancyMapUpdate();
+  return SlamRunner::GetSlamRunner()->getOccupancyMapUpdate();
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapBounds() {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->getOccupancyMapBounds();
-  else
-    return runner_->getOccupancyMapBounds();
+  return SlamRunner::GetSlamRunner()->getOccupancyMapBounds();
 }
 
 v8::Handle<v8::Promise> Instance::loadOccupancyMap(
     const std::string& mapFileName) {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->loadOccupancyMap(mapFileName);
+  return SlamRunner::GetSlamRunner()->loadOccupancyMap(mapFileName);
 }
 
 v8::Handle<v8::Promise> Instance::saveOccupancyMap(
     const std::string& mapFileName) {
-  if (REPLACE_ASYNC)
-    return SlamRunnerDev::GetSlamRunner()->saveOccupancyMap(mapFileName);
-  else
-    return runner_->saveOccupancyMap(mapFileName);
+  return SlamRunner::GetSlamRunner()->saveOccupancyMap(mapFileName);
 }
 
 v8::Handle<v8::Promise> Instance::saveOccupancyMapAsPpm(
     const std::string& mapFileName, const bool& drawCameraTrajectory) {
-
-  if (REPLACE_ASYNC) {
-    return SlamRunnerDev::GetSlamRunner()->saveOccupancyMapAsPpm(
-        mapFileName, drawCameraTrajectory);
-  } else {
-    return runner_->saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory);
-  }
+  return SlamRunner::GetSlamRunner()->saveOccupancyMapAsPpm(
+      mapFileName, drawCameraTrajectory);
 }
 
 v8::Handle<v8::Promise> Instance::loadRelocalizationMap(

@@ -6,8 +6,6 @@
 
 let slamAddon = require('bindings')('realsense_slam');
 let EventEmitter = require('events').EventEmitter;
-let trackingEvent = 'tracking';
-let errorEvent = 'error';
 
 function inherits(target, source) {
   // eslint-disable-next-line
@@ -17,24 +15,9 @@ function inherits(target, source) {
 }
 inherits(slamAddon.Instance, EventEmitter);
 
-function addListeners(instance) {
-  instance.on('newListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = true;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = true;
-  });
-  instance.on('removeListener', function(event) {
-    if (event === trackingEvent && instance.listenerCount(event) === 0)
-      instance.enableTrackingEvent = false;
-    if (event === errorEvent && instance.listenerCount(event) === 0)
-      instance.enableErrorEvent = false;
-  });
-}
 /** The same work as JavaScript wrapper **/
 
 function instanceHandler(slamInstance) {
-  addListeners(slamInstance);
   let options = {
     enableOccupancyMapBuilding: true,
     occupancyMapHeightOfInterest: {max: 1, min: -0.2},

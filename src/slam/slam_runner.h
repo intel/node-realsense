@@ -2,28 +2,28 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-#ifndef _WORKER_SLAM_RUNNER_DEV_H_
-#define _WORKER_SLAM_RUNNER_DEV_H_
+#ifndef _SLAM_RUNNER_H_
+#define _SLAM_RUNNER_H_
 
 #include <memory>
 #include <string>
 
-#include "slam_module_dev.h"
+#include "slam_module.h"
 
-class SlamRunnerDev {
+class SlamRunner {
  private:
-  std::shared_ptr<SlamModuleDev> slam_module_;
+  std::shared_ptr<SlamModule> slam_module_;
   Nan::Persistent<v8::Object>* js_this_;
-  SlamRunnerDev();
+  SlamRunner();
 
  public:
-  SlamRunnerDev& operator=(const SlamRunnerDev& rhs) = delete;
-  ~SlamRunnerDev();
+  SlamRunner& operator=(const SlamRunner& rhs) = delete;
+  ~SlamRunner();
 
-  static SlamRunnerDev* GetSlamRunner();
+  static SlamRunner* GetSlamRunner();
   static void DestroySlamRunner();
 
-  std::shared_ptr<SlamModuleDev> slam_module() { return slam_module_;}
+  std::shared_ptr<SlamModule> slam_module() { return slam_module_;}
   std::string GetSlamState() {
     return utils::SlamStateToString(slam_module_->state());
   }
@@ -57,4 +57,4 @@ class SlamRunnerDev {
   v8::Handle<v8::Promise> getOccupancyMapBounds();
 };
 
-#endif  // _WORKER_SLAM_RUNNER_DEV_H_
+#endif  // _SLAM_RUNNER_H_

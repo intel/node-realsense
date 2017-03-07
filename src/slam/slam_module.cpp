@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-#include "slam_module_dev.h"
+#include "slam_module.h"
 
 #include <map>
 #include <string>
@@ -38,7 +38,7 @@ class SlamCameraDefault : public CameraOptionsDefault {
 
 // ------------private methods --------------
 
-utils::Status SlamModuleDev::QuerySupportedConfig() {
+utils::Status SlamModule::QuerySupportedConfig() {
   utils::Status result;
   utils::ClearStreams(&supported_config_);
   result.set_id(slam_->query_supported_module_config(0, supported_config_));
@@ -70,7 +70,7 @@ utils::Status SlamModuleDev::QuerySupportedConfig() {
 }
 
 // Check if the module support this option.
-bool SlamModuleDev::IsSupported(const CameraOptionsType* src) const {
+bool SlamModule::IsSupported(const CameraOptionsType* src) const {
   const CameraOptionsType& options = *src;
   if (!options.has_member_depth || !options.has_member_fisheye)
     return false;
@@ -110,7 +110,7 @@ bool SlamModuleDev::IsSupported(const CameraOptionsType* src) const {
   return false;
 }
 
-std::string SlamModuleDev::GetUnsupportedMessage() const {
+std::string SlamModule::GetUnsupportedMessage() const {
   const char* full_msg =
   "You've set CameraOptions to SLAM that are not currently supported." "\n" // NOLINT
   "Try set one of the options in below list:" "\n"
@@ -121,16 +121,16 @@ std::string SlamModuleDev::GetUnsupportedMessage() const {
   return full_msg;
 }
 
-void SlamModuleDev::ApplyToCamera(const CameraOptionsType* src) {
+void SlamModule::ApplyToCamera(const CameraOptionsType* src) {
   camera_options_.CopyFrom(*src);
 }
 
-void SlamModuleDev::PartiallyFillInCameraData(CameraOptionsType* target) {
+void SlamModule::PartiallyFillInCameraData(CameraOptionsType* target) {
   camera_options_.IncrementallyCopyFrom(*target);
 }
 
 void PostErrorEventTask(std::string* str) {
-  auto payload = new ErrorEventPayload(SlamRunnerDev::GetSlamRunner(), str);
+  auto payload = new ErrorEventPayload(SlamRunner::GetSlamRunner(), str);
   AsyncTaskRunnerInstance::GetInstance()->PostTask(
       new ErrorEventTask(),
       payload,
@@ -139,7 +139,7 @@ void PostErrorEventTask(std::string* str) {
 }
 
 // fill out the actual_config_ and setup the stream callbacks.
-utils::Status SlamModuleDev::SetStreamCallbacks() {
+utils::Status SlamModule::SetStreamCallbacks() {
   memcpy(
       actual_config_.device_info.name,
       supported_config_.device_name,
@@ -216,7 +216,7 @@ utils::Status SlamModuleDev::SetStreamCallbacks() {
   return utils::Status();
 }
 
-utils::Status SlamModuleDev::SetMotionCallbacks() {
+utils::Status SlamModule::SetMotionCallbacks() {
   // define callback to the motion events and set it, the callback lifetime
   // assumes the module is available.
   std::function<void(rs::motion_data)> motionCallback;
@@ -265,7 +265,7 @@ utils::Status SlamModuleDev::SetMotionCallbacks() {
   return utils::Status();
 }
 
-utils::Status SlamModuleDev::QueryCurrentModuleConfig() {
+utils::Status SlamModule::QueryCurrentModuleConfig() {
   utils::Status result;
   float min, max;
 
@@ -315,7 +315,7 @@ utils::Status SlamModuleDev::QueryCurrentModuleConfig() {
   return result;
 }
 
-utils::Status SlamModuleDev::ApplyModuleConfig(
+utils::Status SlamModule::ApplyModuleConfig(
     const DictionaryInstanceOptions& external) {
   utils::Status result;
 
@@ -418,11 +418,11 @@ utils::Status SlamModuleDev::ApplyModuleConfig(
 
 // ------------public methods --------------
 
-SlamState SlamModuleDev::state() {
+SlamState SlamModule::state() {
   return state_;
 }
 
-utils::Status SlamModuleDev::ExportModuleConfig(
+utils::Status SlamModule::ExportModuleConfig(
     DictionaryInstanceOptions* module_config) {
   utils::Status result;
 
@@ -437,7 +437,7 @@ utils::Status SlamModuleDev::ExportModuleConfig(
 }
 
 // ------------controllers --------------
-utils::Status SlamModuleDev::Init() {
+utils::Status SlamModule::Init() {
   utils::Status result;
 
   // 0. check the state.
@@ -492,14 +492,14 @@ utils::Status SlamModuleDev::Init() {
   QueryCurrentModuleConfig();
 
   // 6. register MW event handlers
-  process_handler_ = new SlamEventHandlerDev();
+  process_handler_ = new SlamEventHandler();
   result.set_id(slam_->register_event_handler(process_handler_));
   if (result.id() < rs::core::status_no_error) {
     result.set_message("failed to set slamEventHandler");
     return result;
   }
 
-  control_handler_ = new SlamTrackingEventHandlerDev();
+  control_handler_ = new SlamTrackingEventHandler();
   result.set_id(slam_->register_tracking_event_handler(control_handler_));
   if (result.id() < rs::core::status_no_error) {
     result.set_message("failed to set slamTrackingEventHandler");
@@ -511,7 +511,7 @@ utils::Status SlamModuleDev::Init() {
   return result;
 }
 
-void SlamModuleDev::RegisterToCameraHost() {
+void SlamModule::RegisterToCameraHost() {
   CameraOptionsHost* options_host = CameraOptionsHostInstance::GetInstance();
 
   // Make SLAM default options merged with the generals.
@@ -522,7 +522,7 @@ void SlamModuleDev::RegisterToCameraHost() {
   options_host->GetCameraOptionsIO()->Add(this);
 }
 
-void SlamModuleDev::CleanUp() {
+void SlamModule::CleanUp() {
   state_ = SlamState::kIdle;
   slam_.reset();
   occupancy_map_.reset();
@@ -537,7 +537,7 @@ void SlamModuleDev::CleanUp() {
   }
 }
 
-utils::Status SlamModuleDev::Reset() {
+utils::Status SlamModule::Reset() {
   utils::Status result;
 
   // Device has been started.
@@ -550,7 +550,7 @@ utils::Status SlamModuleDev::Reset() {
   return Init();
 }
 
-utils::Status SlamModuleDev::Start() {
+utils::Status SlamModule::Start() {
   utils::Status result;
 
   // 1. check if the module had been initialized.
@@ -571,7 +571,7 @@ utils::Status SlamModuleDev::Start() {
     device_->start(active_sources_);
   } catch (rs::error e) {
     result.set_id(SLAM_ADDON_ERROR);
-    result.set_message(std::string("SlamModuleDev::Start, ") + e.what());
+    result.set_message(std::string("SlamModule::Start, ") + e.what());
     return result;
   }
 
@@ -579,11 +579,11 @@ utils::Status SlamModuleDev::Start() {
   return result;
 }
 
-OutputHolder* SlamModuleDev::MoveTrackingResult() {
+OutputHolder* SlamModule::MoveTrackingResult() {
   return process_handler_->MoveResult();
 }
 
-utils::Status SlamModuleDev::GetOccupancyMapUpdate(OccupancyMapData* map_data) {
+utils::Status SlamModule::GetOccupancyMapUpdate(OccupancyMapData* map_data) {
   utils::Status result;
   if (map_data == nullptr) {
     result.set_id(SLAM_ADDON_ERROR);
@@ -605,7 +605,7 @@ utils::Status SlamModuleDev::GetOccupancyMapUpdate(OccupancyMapData* map_data) {
   return result;
 }
 
-utils::Status SlamModuleDev::GetOccupancyMapAsRgba(
+utils::Status SlamModule::GetOccupancyMapAsRgba(
     MapImage* map_image,
     bool draw_pose_trajectory,
     bool draw_occupancy_map) {
@@ -632,7 +632,7 @@ utils::Status SlamModuleDev::GetOccupancyMapAsRgba(
   return result;
 }
 
-utils::Status SlamModuleDev::GetOccupancyMapBounds(
+utils::Status SlamModule::GetOccupancyMapBounds(
     OccupancyMapBounds* map_bounds) {
   utils::Status result;
   if (map_bounds == nullptr) {
@@ -655,7 +655,7 @@ utils::Status SlamModuleDev::GetOccupancyMapBounds(
   return result;
 }
 
-utils::Status SlamModuleDev::SaveOccupancyMapAsPpm(
+utils::Status SlamModule::SaveOccupancyMapAsPpm(
     const std::string& file_name, bool draw_camera_trajectory) {
   utils::Status result;
   result.set_id(
@@ -667,7 +667,7 @@ utils::Status SlamModuleDev::SaveOccupancyMapAsPpm(
   return result;
 }
 
-utils::Status SlamModuleDev::SaveOccupancyMap(const std::string& file_name) {
+utils::Status SlamModule::SaveOccupancyMap(const std::string& file_name) {
   utils::Status result;
   result.set_id(slam_->save_occupancy_map(file_name));
   if (result.id() < rs::core::status_no_error) {
@@ -677,7 +677,7 @@ utils::Status SlamModuleDev::SaveOccupancyMap(const std::string& file_name) {
   return result;
 }
 
-utils::Status SlamModuleDev::LoadOccupancyMap(const std::string& file_name) {
+utils::Status SlamModule::LoadOccupancyMap(const std::string& file_name) {
   utils::Status result;
   result.set_id(slam_->load_occupancy_map(file_name));
   if (result.id() < rs::core::status_no_error) {
@@ -687,7 +687,7 @@ utils::Status SlamModuleDev::LoadOccupancyMap(const std::string& file_name) {
   return result;
 }
 
-utils::Status SlamModuleDev::RestartTracking() {
+utils::Status SlamModule::RestartTracking() {
   utils::Status result;
 
   // check if the module had been initialized.
@@ -709,7 +709,7 @@ utils::Status SlamModuleDev::RestartTracking() {
 // TODO(Donna): implement reset, check the detination state.
 // utils::Status reset() {}
 
-utils::Status SlamModuleDev::Stop() {
+utils::Status SlamModule::Stop() {
   utils::Status result;
 
   // check if the module had been initialized.
@@ -726,7 +726,7 @@ utils::Status SlamModuleDev::Stop() {
   return result;
 }
 
-utils::Status SlamModuleDev::StopDevice() {
+utils::Status SlamModule::StopDevice() {
   utils::Status result;
   try {
     slam_->flush_resources();

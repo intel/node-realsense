@@ -21,24 +21,24 @@ class SlamPromiseTask : public PromiseTask {
 
 class AsyncTaskPayloadWithRunner : public AsyncTaskPayload {
  public:
-  explicit AsyncTaskPayloadWithRunner(SlamRunnerDev* runner)
+  explicit AsyncTaskPayloadWithRunner(SlamRunner* runner)
       : runner_(runner) {}
 
-  SlamRunnerDev* runner() {
+  SlamRunner* runner() {
     return runner_;
   }
-  std::shared_ptr<SlamModuleDev> GetSlamModule() {
+  std::shared_ptr<SlamModule> GetSlamModule() {
     return runner_->slam_module();
   }
 
  protected:
-  SlamRunnerDev* runner_;
+  SlamRunner* runner_;
 };
 
 template<typename T>
 class SlamPayload : public AsyncTaskPayloadWithRunner{
  public:
-  SlamPayload<T>(SlamRunnerDev* runner, T data)
+  SlamPayload<T>(SlamRunner* runner, T data)
       : AsyncTaskPayloadWithRunner(runner), data_(data) {}
 
   T data() { return data_; }
@@ -53,7 +53,7 @@ class SlamPayload : public AsyncTaskPayloadWithRunner{
 template<>
 class SlamPayload<void> : public AsyncTaskPayloadWithRunner {
  public:
-  SlamPayload<void>(SlamRunnerDev* runner)
+  SlamPayload<void>(SlamRunner* runner)
       : AsyncTaskPayloadWithRunner(runner) {}
 };
 
