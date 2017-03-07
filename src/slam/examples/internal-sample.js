@@ -58,9 +58,8 @@ function instanceHandler(slamInstance) {
 
   function saveOccupancyMapAsPpm() {
     slamInstance.saveOccupancyMapAsPpm( __dirname + '/map.ppm', false)
-    .then(function(str) {
+    .then(function() {
       console.log('JS:save occupancy map as ppm success.');
-      console.log(str);
     })
     .catch(function(e) {
       console.log('error:' + e);

@@ -231,6 +231,10 @@ describe('Slam Test Suite -Run', function() {
     return slamAddon.createInstance()
     .then(function(inst) {
       instance = inst;
+      // Test optional argument.
+      return instance.setInstanceOptions();
+    })
+    .then(function() {
       return instance.setInstanceOptions(InstanceOptions);
     })
     .then(function() {

@@ -301,11 +301,6 @@ void SaveOccupancyMapTask::WorkerThreadExecute() {
 SlamPayload<std::string>* SaveOccupancyMapTask::GetPayload() {
   return reinterpret_cast<SlamPayload<std::string>*>(AsyncTask::GetPayload());
 }
-
-v8::Local<v8::Value> SaveOccupancyMapTask::GetResolved() {
-  auto payload = GetPayload();
-  return Nan::New(payload->data().c_str()).ToLocalChecked();
-}
 /////////////////////////////////////////////////////////////////////////////
 LoadOccupancyMapTask::LoadOccupancyMapTask() {
   task_tag = "loadOccupancyMap() task";
@@ -342,11 +337,6 @@ void SaveOccupancyMapAsPpmTask::WorkerThreadExecute() {
 
 SavePpmMapPayload* SaveOccupancyMapAsPpmTask::GetPayload() {
   return reinterpret_cast<SavePpmMapPayload*>(AsyncTask::GetPayload());
-}
-
-v8::Local<v8::Value> SaveOccupancyMapAsPpmTask::GetResolved() {
-  auto payload = GetPayload();
-  return Nan::New(payload->data()->file_name.c_str()).ToLocalChecked();
 }
 /////////////////////////////////////////////////////////////////////////////
 GetOccupancyMapAsRgbaTask::GetOccupancyMapAsRgbaTask() {

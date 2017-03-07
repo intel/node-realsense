@@ -96,6 +96,9 @@ interface Instance {
 
   // Configs should be set before start at the begining or after reset.
   Promise<void> setCameraOptions(CameraOptions options);
+  // It's required by bikeshed that dictionary with no must-have members should
+  // be optional.
+  Promise<void> setInstanceOptions();
   Promise<void> setInstanceOptions(InstanceOptions options);
 
   Promise<void> start();
@@ -109,24 +112,23 @@ interface Instance {
   Promise<void> restartTracking();
 
   Promise<TrackingResult> getTrackingResult();
-  Promise<OccupancyMapData> getOccupancyMap(optional RegionOfInterest roi);
+  Promise<OccupancyMapData> getOccupancyMap();
+  Promise<OccupancyMapData> getOccupancyMap(RegionOfInterest roi);
   Promise<MapImage> getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap);
-  // TODO(Donna): there is a bug on optional argument from WIDL-NAN
-  //              we will fix the bug and support the parameter next step.
-  // Promise<OccupancyMapData> getOccupancyMapUpdate(optional RegionOfInterest roi);
   Promise<OccupancyMapData> getOccupancyMapUpdate();
+  Promise<OccupancyMapData> getOccupancyMapUpdate(RegionOfInterest roi);
   Promise<OccupancyMapBounds> getOccupancyMapBounds();
 
   //OPEN: Replace file name to file blob, for following 4 APIs.
   Promise<void> loadOccupancyMap(String mapFileName);
 
   //OPEN: no file I/O
-  Promise<String> saveOccupancyMap(optional String mapFileName);
-  Promise<String> saveOccupancyMapAsPpm(optional String mapFileName, optional boolean drawCameraTrajectory);
+  Promise<void> saveOccupancyMap(String mapFileName);
+  Promise<void> saveOccupancyMapAsPpm(String mapFileName, boolean drawCameraTrajectory);
 
   Promise<void> loadRelocalizationMap(String mapFileName);
   //@return the full path of the saved map file.
-  Promise<String> saveRelocalizationMap(optional String mapFileName);
+  Promise<void> saveRelocalizationMap(String mapFileName);
 
   //TODO: float32Array
   Promise<sequence<float>> getRelocalizationPose();

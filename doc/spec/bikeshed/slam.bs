@@ -82,16 +82,16 @@ interface Instance {
   Promise&lt;void&gt; start();
   Promise&lt;void&gt; stop();
   Promise&lt;void> restartTracking();
-  Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMap(optional RegionOfInterest roi);
+  Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMap(optional RegionOfInterest roi); // Note: not supported yet.
   Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMapUpdate(optional RegionOfInterest roi);
   Promise&lt;MapImage&gt; getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap);
   Promise&lt;OccupancyMapBounds&gt; getOccupancyMapBounds();
   Promise&lt;TrackingResult&gt; getTrackingResult();
   Promise&lt;void&gt; loadOccupancyMap(String mapFileName);
-  Promise&lt;String&gt; saveOccupancyMap(optional String mapFileName);
-  Promise&lt;String&gt; saveOccupancyMapAsPpm(optional String mapFileName, optional bool drawCameraTrajectory);
+  Promise&lt;void&gt; saveOccupancyMap(String mapFileName);
+  Promise&lt;void&gt; saveOccupancyMapAsPpm(String mapFileName, bool drawCameraTrajectory);
   Promise&lt;void> loadRelocalizationMap(String mapFileName);  // Note: not supported yet.
-  Promise&lt;String> saveRelocalizationMap(optional String mapFileName);  // Note: not supported yet.
+  Promise&lt;void> saveRelocalizationMap(String mapFileName);  // Note: not supported yet.
   Promise&lt;sequence&lt;float>> getRelocalizationPose();  // Note: not supported yet.
 
   attribute EventHandler ontracking;
@@ -160,7 +160,7 @@ interface Instance {
 :: Set the instance configure.
 :: This method returns a promise. The promise will be fulfilled if there are no errors.The promise will be rejected with the Exception object if there is a failure.
 
-<pre class='argumentdef' for="Instance/setInstanceOptions(CameraOptions options)">
+<pre class='argumentdef' for="Instance/setInstanceOptions(optional InstanceOptions options)">
     options: The InstanceOptions is used to config whether enableOccupancyMapBuilding, enableRelocalizationMapping, enbleForceRelocalozationPose. Besides, it also can set the HeightofInterest and Resolution for occupancy map.
 </pre>
 
@@ -170,22 +170,22 @@ interface Instance {
 :: Saves the occupancy map to a specified file. Saved occupancy map can be loaded later by calling loadOccupancyMap(...).
 :: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
-<pre class='argumentdef' for="Instance/saveOccupancyMap(optional String mapFileName)">
+<pre class='argumentdef' for="Instance/saveOccupancyMap(String mapFileName)">
     mapFileName: The full or relative path name of a file for sorting values of the current occupancy grid that can be later restored.
 </pre>
 
-:: *Return type*:Promise&lt;<a>String</a>&gt;
+:: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{saveOccupancyMapAsPpm}}
 :: Saves the occpuancy map as a PPM file with following color codes. Unknown cells are colored white and 100% occupied cells are colored red. Black(0,0,0) pixels represent traversed but 0% occupied(unoccupied) cells. All values are scaled linearly between 0 to 255.
 :: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
-<pre class='argumentdef' for="Instance/saveOccupancyMapAsPpm(optional String mapFileName)">
+<pre class='argumentdef' for="Instance/saveOccupancyMapAsPpm(String mapFileName)">
   mapFileName: The full or relative path name of a file for sorting values of the current occupancy grid that can be later restored.
   drawCameraTrajectory: A flag to specify whether to include camera trajectory in the occpuancy map image. If enabled, camera trajectory will be drawn in green(0,255,0) color.
 </pre>
 
-:: *Return type*:Promise&lt;<a>String</a>&gt;
+:: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{loadOccupancyMap}}
 :: To load occpuancy map from specified occupancy map file which was created using saveOccupancyMap(...).
@@ -198,6 +198,7 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{getOccupancyMap}}
+:: Note: not supported yet.
 :: getOccupancyMap returns ALL the tiles in the occupancy map construction that have occupancy values within specified region of interest.
 :: This method returns a promise.The promise will be fulfilled with an object of OccupancyMapData which containing all tiles in the occupancy map construction that have occpuancy values if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
@@ -239,11 +240,11 @@ interface Instance {
 :: Saves the current re-localization map data to a given file. Saved re-localization map can be loaded later by calling loadRelocalizationMap(...).
 :: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the           Exception object if there is a failure.
 
-<pre class='argumentdef' for="Instance/saveRelocalizationMap(optional String mapFileName)">
+<pre class='argumentdef' for="Instance/saveRelocalizationMap(String mapFileName)">
   mapFileName: The full or relative path name of a file where to save current re-localization map.
 </pre>
 
-:: *Return type*:Promise&lt;<a>String</a>&gt;
+:: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{loadRelocalizationMap}}
 :: Note: not supported yet.

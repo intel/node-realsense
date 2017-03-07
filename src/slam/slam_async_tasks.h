@@ -187,7 +187,6 @@ class SaveOccupancyMapTask : public SlamPromiseTask {
 
   void WorkerThreadExecute() override;
   SlamPayload<std::string>* GetPayload();
-  v8::Local<v8::Value> GetResolved() override;
 };
 
 //
@@ -212,7 +211,6 @@ class SaveOccupancyMapAsPpmTask : public SlamPromiseTask {
 
   void WorkerThreadExecute() override;
   SavePpmMapPayload* GetPayload();
-  v8::Local<v8::Value> GetResolved() override;
 };
 
 //

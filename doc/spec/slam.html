@@ -1176,7 +1176,7 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed 1.0.0" name="generator">
+  <meta content="Bikeshed version 176d39d5a285c04f57d2f0e078fa69273028eb45" name="generator">
 <style>
 table {
   text-indent: 20px;
@@ -1445,7 +1445,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Simultaneous Localization and Mapping</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-27">27 February 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-07">7 March 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1460,7 +1460,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 27 February 2017,
+In addition, as of 7 March 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1583,16 +1583,16 @@ Parts of this work may be from another specification document.  If so, those par
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="start()" id="dom-instance-start">start<a class="self-link" href="#dom-instance-start"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="stop()" id="dom-instance-stop">stop<a class="self-link" href="#dom-instance-stop"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="restartTracking()" id="dom-instance-restarttracking">restartTracking<a class="self-link" href="#dom-instance-restarttracking"></a></dfn>();
-  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata" id="ref-for-occupancymapdata-1">OccupancyMapData</a>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMap(roi)|getOccupancyMap()" id="dom-instance-getoccupancymap">getOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMap(roi), Instance/getOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymap-roi-roi"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata" id="ref-for-occupancymapdata-1">OccupancyMapData</a>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMap(roi)|getOccupancyMap()" id="dom-instance-getoccupancymap">getOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMap(roi), Instance/getOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymap-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymap-roi-roi"></a></dfn>); // Note: not supported yet.
   <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata" id="ref-for-occupancymapdata-2">OccupancyMapData</a>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapUpdate(roi)|getOccupancyMapUpdate()" id="dom-instance-getoccupancymapupdate">getOccupancyMapUpdate<a class="self-link" href="#dom-instance-getoccupancymapupdate"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapUpdate(roi), Instance/getOccupancyMapUpdate()" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapupdate-roi-roi">roi<a class="self-link" href="#dom-instance-getoccupancymapupdate-roi-roi"></a></dfn>);
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#mapimage0" id="ref-for-mapimage0-1">MapImage</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)" id="dom-instance-getoccupancymapasrgba">getOccupancyMapAsRgba<a class="self-link" href="#dom-instance-getoccupancymapasrgba"></a></dfn>(<span class="kt">boolean</span> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawposetrajectory">drawPoseTrajectory<a class="self-link" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawposetrajectory"></a></dfn>, <span class="kt">boolean</span> <dfn class="nv idl-code" data-dfn-for="Instance/getOccupancyMapAsRgba(drawPoseTrajectory, drawOccupancyMap)" data-dfn-type="argument" data-export="" id="dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawoccupancymap">drawOccupancyMap<a class="self-link" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawoccupancymap"></a></dfn>);
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapbounds0" id="ref-for-occupancymapbounds0-1">OccupancyMapBounds</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getOccupancyMapBounds()" id="dom-instance-getoccupancymapbounds">getOccupancyMapBounds<a class="self-link" href="#dom-instance-getoccupancymapbounds"></a></dfn>();
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#trackingresult0" id="ref-for-trackingresult0-1">TrackingResult</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getTrackingResult()" id="dom-instance-gettrackingresult">getTrackingResult<a class="self-link" href="#dom-instance-gettrackingresult"></a></dfn>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="loadOccupancyMap(mapFileName)" id="dom-instance-loadoccupancymap">loadOccupancyMap<a class="self-link" href="#dom-instance-loadoccupancymap"></a></dfn>(<a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/loadOccupancyMap(mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-loadoccupancymap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-loadoccupancymap-mapfilename-mapfilename"></a></dfn>);
-  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveOccupancyMap(mapFileName)|saveOccupancyMap()" id="dom-instance-saveoccupancymap">saveOccupancyMap<a class="self-link" href="#dom-instance-saveoccupancymap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMap(mapFileName), Instance/saveOccupancyMap()" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymap-mapfilename-mapfilename"></a></dfn>);
-  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory)|saveOccupancyMapAsPpm(mapFileName)|saveOccupancyMapAsPpm()" id="dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm<a class="self-link" href="#dom-instance-saveoccupancymapasppm"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory), Instance/saveOccupancyMapAsPpm(mapFileName), Instance/saveOccupancyMapAsPpm()" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-mapfilename"></a></dfn>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name">bool</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory), Instance/saveOccupancyMapAsPpm(mapFileName), Instance/saveOccupancyMapAsPpm()" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-drawcameratrajectory">drawCameraTrajectory<a class="self-link" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-drawcameratrajectory"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveOccupancyMap(mapFileName)" id="dom-instance-saveoccupancymap">saveOccupancyMap<a class="self-link" href="#dom-instance-saveoccupancymap"></a></dfn>(<a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMap(mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymap-mapfilename-mapfilename"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory)" id="dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm<a class="self-link" href="#dom-instance-saveoccupancymapasppm"></a></dfn>(<a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-mapfilename"></a></dfn>, <a class="n" data-link-type="idl-name">bool</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-drawcameratrajectory">drawCameraTrajectory<a class="self-link" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-drawcameratrajectory"></a></dfn>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="loadRelocalizationMap(mapFileName)" id="dom-instance-loadrelocalizationmap">loadRelocalizationMap<a class="self-link" href="#dom-instance-loadrelocalizationmap"></a></dfn>(<a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/loadRelocalizationMap(mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-loadrelocalizationmap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-loadrelocalizationmap-mapfilename-mapfilename"></a></dfn>);  // Note: not supported yet.
-  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveRelocalizationMap(mapFileName)|saveRelocalizationMap()" id="dom-instance-saverelocalizationmap">saveRelocalizationMap<a class="self-link" href="#dom-instance-saverelocalizationmap"></a></dfn>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveRelocalizationMap(mapFileName), Instance/saveRelocalizationMap()" data-dfn-type="argument" data-export="" id="dom-instance-saverelocalizationmap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saverelocalizationmap-mapfilename-mapfilename"></a></dfn>);  // Note: not supported yet.
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="saveRelocalizationMap(mapFileName)" id="dom-instance-saverelocalizationmap">saveRelocalizationMap<a class="self-link" href="#dom-instance-saverelocalizationmap"></a></dfn>(<a class="n" data-link-type="idl-name">String</a> <dfn class="nv idl-code" data-dfn-for="Instance/saveRelocalizationMap(mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saverelocalizationmap-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saverelocalizationmap-mapfilename-mapfilename"></a></dfn>);  // Note: not supported yet.
   <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">float</span>>> <dfn class="nv idl-code" data-dfn-for="Instance" data-dfn-type="method" data-export="" data-lt="getRelocalizationPose()" id="dom-instance-getrelocalizationpose">getRelocalizationPose<a class="self-link" href="#dom-instance-getrelocalizationpose"></a></dfn>();  // Note: not supported yet.
 
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="Instance" data-dfn-type="attribute" data-export="" data-type="EventHandler" id="dom-instance-ontracking">ontracking</dfn>;
@@ -1705,7 +1705,7 @@ Parts of this work may be from another specification document.  If so, those par
      <p>This method returns a promise. The promise will be fulfilled if there are no errors.The promise will be rejected with the Exception object if there is a failure.</p>
    </dl>
    <table class="argumentdef data">
-    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.setInstanceOptions(CameraOptions options)</a> method.</caption>
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.setInstanceOptions(optional InstanceOptions options)</a> method.</caption>
     <thead>
      <tr>
       <th>Parameter 
@@ -1715,7 +1715,7 @@ Parts of this work may be from another specification document.  If so, those par
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/setInstanceOptions(CameraOptions options)" data-dfn-type="argument" data-export="" id="dom-instance-setinstanceoptions-cameraoptions-options-options">options<a class="self-link" href="#dom-instance-setinstanceoptions-cameraoptions-options-options"></a></dfn> 
+      <td><dfn class="idl-code" data-dfn-for="Instance/setInstanceOptions(optional InstanceOptions options)" data-dfn-type="argument" data-export="" id="dom-instance-setinstanceoptions-optional-instanceoptions-options-options">options<a class="self-link" href="#dom-instance-setinstanceoptions-optional-instanceoptions-options-options"></a></dfn> 
       <td> InstanceOptions 
       <td> <span class="no">✘</span>
       <td> <span class="yes">✔</span>
@@ -1732,7 +1732,7 @@ Parts of this work may be from another specification document.  If so, those par
      <p>This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
    </dl>
    <table class="argumentdef data">
-    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.saveOccupancyMap(optional String mapFileName)</a> method.</caption>
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.saveOccupancyMap(String mapFileName)</a> method.</caption>
     <thead>
      <tr>
       <th>Parameter 
@@ -1742,15 +1742,15 @@ Parts of this work may be from another specification document.  If so, those par
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/saveOccupancyMap(optional String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymap-optional-string-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymap-optional-string-mapfilename-mapfilename"></a></dfn> 
+      <td><dfn class="idl-code" data-dfn-for="Instance/saveOccupancyMap(String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymap-string-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymap-string-mapfilename-mapfilename"></a></dfn> 
       <td> String 
       <td> <span class="no">✘</span>
-      <td> <span class="yes">✔</span>
+      <td> <span class="no">✘</span>
       <td>The full or relative path name of a file for sorting values of the current occupancy grid that can be later restored. 
    </table>
    <dl>
     <dd data-md="">
-     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#string">String</a>></p>
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">saveOccupancyMapAsPpm</a></code></p>
     <dd data-md="">
@@ -1759,7 +1759,7 @@ Parts of this work may be from another specification document.  If so, those par
      <p>This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the Exception object if there is a failure.</p>
    </dl>
    <table class="argumentdef data">
-    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.saveOccupancyMapAsPpm(optional String mapFileName)</a> method.</caption>
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.saveOccupancyMapAsPpm(String mapFileName)</a> method.</caption>
     <thead>
      <tr>
       <th>Parameter 
@@ -1769,21 +1769,21 @@ Parts of this work may be from another specification document.  If so, those par
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(optional String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-optional-string-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymapasppm-optional-string-mapfilename-mapfilename"></a></dfn> 
+      <td><dfn class="idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-string-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saveoccupancymapasppm-string-mapfilename-mapfilename"></a></dfn> 
       <td> String 
       <td> <span class="no">✘</span>
-      <td> <span class="yes">✔</span>
+      <td> <span class="no">✘</span>
       <td>The full or relative path name of a file for sorting values of the current occupancy grid that can be later restored. 
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(optional String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-optional-string-mapfilename-drawcameratrajectory">drawCameraTrajectory<a class="self-link" href="#dom-instance-saveoccupancymapasppm-optional-string-mapfilename-drawcameratrajectory"></a></dfn> 
+      <td><dfn class="idl-code" data-dfn-for="Instance/saveOccupancyMapAsPpm(String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saveoccupancymapasppm-string-mapfilename-drawcameratrajectory">drawCameraTrajectory<a class="self-link" href="#dom-instance-saveoccupancymapasppm-string-mapfilename-drawcameratrajectory"></a></dfn> 
       <td> bool 
       <td> <span class="no">✘</span>
-      <td> <span class="yes">✔</span>
+      <td> <span class="no">✘</span>
       <td>A flag to specify whether to include camera trajectory in the occpuancy map image. If enabled, camera trajectory will be drawn in green(0,255,0) color. 
    </table>
    <dl>
     <dd data-md="">
-     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#string">String</a>></p>
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">loadOccupancyMap</a></code></p>
     <dd data-md="">
@@ -1813,6 +1813,8 @@ Parts of this work may be from another specification document.  If so, those par
      <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">getOccupancyMap</a></code></p>
+    <dd data-md="">
+     <p class="note" role="note">Note: not supported yet.</p>
     <dd data-md="">
      <p>getOccupancyMap returns ALL the tiles in the occupancy map construction that have occupancy values within specified region of interest.</p>
     <dd data-md="">
@@ -1916,7 +1918,7 @@ Parts of this work may be from another specification document.  If so, those par
      <p>This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the           Exception object if there is a failure.</p>
    </dl>
    <table class="argumentdef data">
-    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.saveRelocalizationMap(optional String mapFileName)</a> method.</caption>
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">Instance.saveRelocalizationMap(String mapFileName)</a> method.</caption>
     <thead>
      <tr>
       <th>Parameter 
@@ -1926,15 +1928,15 @@ Parts of this work may be from another specification document.  If so, those par
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="Instance/saveRelocalizationMap(optional String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saverelocalizationmap-optional-string-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saverelocalizationmap-optional-string-mapfilename-mapfilename"></a></dfn> 
+      <td><dfn class="idl-code" data-dfn-for="Instance/saveRelocalizationMap(String mapFileName)" data-dfn-type="argument" data-export="" id="dom-instance-saverelocalizationmap-string-mapfilename-mapfilename">mapFileName<a class="self-link" href="#dom-instance-saverelocalizationmap-string-mapfilename-mapfilename"></a></dfn> 
       <td> String 
       <td> <span class="no">✘</span>
-      <td> <span class="yes">✔</span>
+      <td> <span class="no">✘</span>
       <td>The full or relative path name of a file where to save current re-localization map. 
    </table>
    <dl>
     <dd data-md="">
-     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#string">String</a>></p>
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">loadRelocalizationMap</a></code></p>
     <dd data-md="">
@@ -2533,12 +2535,8 @@ function exit() {
    <li><a href="#dom-slamstate-ready">ready</a><span>, in §4.2</span>
    <li><a href="#dom-instance-reset">reset()</a><span>, in §2.2</span>
    <li><a href="#dom-instance-restarttracking">restartTracking()</a><span>, in §2.2</span>
-   <li><a href="#dom-instance-saveoccupancymap">saveOccupancyMap()</a><span>, in §2.2</span>
-   <li><a href="#dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm()</a><span>, in §2.2</span>
-   <li><a href="#dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm(mapFileName)</a><span>, in §2.2</span>
    <li><a href="#dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm(mapFileName, drawCameraTrajectory)</a><span>, in §2.2</span>
    <li><a href="#dom-instance-saveoccupancymap">saveOccupancyMap(mapFileName)</a><span>, in §2.2</span>
-   <li><a href="#dom-instance-saverelocalizationmap">saveRelocalizationMap()</a><span>, in §2.2</span>
    <li><a href="#dom-instance-saverelocalizationmap">saveRelocalizationMap(mapFileName)</a><span>, in §2.2</span>
    <li><a href="#dom-instance-setcameraoptions">setCameraOptions(options)</a><span>, in §2.2</span>
    <li><a href="#dom-instance-setinstanceoptions">setInstanceOptions()</a><span>, in §2.2</span>
@@ -2614,7 +2612,7 @@ function exit() {
    <dt id="biblio-css-page-floats-3">[CSS-PAGE-FLOATS-3]
    <dd>Johannes Wilm. <a href="http://dev.w3.org/csswg/css-page-floats/">CSS Page Floats</a>. URL: <a href="http://dev.w3.org/csswg/css-page-floats/">http://dev.w3.org/csswg/css-page-floats/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 29 September 2016. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values/">CSS Values and Units Module Level 3</a>. URL: <a href="https://drafts.csswg.org/css-values/">https://drafts.csswg.org/css-values/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Arun Ranganathan; Jonas Sicking. <a href="https://w3c.github.io/FileAPI/">File API</a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-generic-sensor">[GENERIC-SENSOR]
@@ -2641,16 +2639,16 @@ function exit() {
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-start">start</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-stop">stop</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-restarttracking">restartTracking</a>();
-  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata">OccupancyMapData</a>>> <a class="nv" href="#dom-instance-getoccupancymap">getOccupancyMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <a class="nv" href="#dom-instance-getoccupancymap-roi-roi">roi</a>);
+  <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata">OccupancyMapData</a>>> <a class="nv" href="#dom-instance-getoccupancymap">getOccupancyMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <a class="nv" href="#dom-instance-getoccupancymap-roi-roi">roi</a>); // Note: not supported yet.
   <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapdata">OccupancyMapData</a>>> <a class="nv" href="#dom-instance-getoccupancymapupdate">getOccupancyMapUpdate</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">RegionOfInterest</a> <a class="nv" href="#dom-instance-getoccupancymapupdate-roi-roi">roi</a>);
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#mapimage0">MapImage</a>> <a class="nv" href="#dom-instance-getoccupancymapasrgba">getOccupancyMapAsRgba</a>(<span class="kt">boolean</span> <a class="nv" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawposetrajectory">drawPoseTrajectory</a>, <span class="kt">boolean</span> <a class="nv" href="#dom-instance-getoccupancymapasrgba-drawposetrajectory-drawoccupancymap-drawoccupancymap">drawOccupancyMap</a>);
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#occupancymapbounds0">OccupancyMapBounds</a>> <a class="nv" href="#dom-instance-getoccupancymapbounds">getOccupancyMapBounds</a>();
   <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#trackingresult0">TrackingResult</a>> <a class="nv" href="#dom-instance-gettrackingresult">getTrackingResult</a>();
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-loadoccupancymap">loadOccupancyMap</a>(<a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-loadoccupancymap-mapfilename-mapfilename">mapFileName</a>);
-  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <a class="nv" href="#dom-instance-saveoccupancymap">saveOccupancyMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saveoccupancymap-mapfilename-mapfilename">mapFileName</a>);
-  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <a class="nv" href="#dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-mapfilename">mapFileName</a>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name">bool</a> <a class="nv" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-drawcameratrajectory">drawCameraTrajectory</a>);
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-saveoccupancymap">saveOccupancyMap</a>(<a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saveoccupancymap-mapfilename-mapfilename">mapFileName</a>);
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-saveoccupancymapasppm">saveOccupancyMapAsPpm</a>(<a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-mapfilename">mapFileName</a>, <a class="n" data-link-type="idl-name">bool</a> <a class="nv" href="#dom-instance-saveoccupancymapasppm-mapfilename-drawcameratrajectory-drawcameratrajectory">drawCameraTrajectory</a>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-loadrelocalizationmap">loadRelocalizationMap</a>(<a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-loadrelocalizationmap-mapfilename-mapfilename">mapFileName</a>);  // Note: not supported yet.
-  <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name">String</a>> <a class="nv" href="#dom-instance-saverelocalizationmap">saveRelocalizationMap</a>(<span class="kt">optional</span> <a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saverelocalizationmap-mapfilename-mapfilename">mapFileName</a>);  // Note: not supported yet.
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-instance-saverelocalizationmap">saveRelocalizationMap</a>(<a class="n" data-link-type="idl-name">String</a> <a class="nv" href="#dom-instance-saverelocalizationmap-mapfilename-mapfilename">mapFileName</a>);  // Note: not supported yet.
   <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">float</span>>> <a class="nv" href="#dom-instance-getrelocalizationpose">getRelocalizationPose</a>();  // Note: not supported yet.
 
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-instance-ontracking">ontracking</a>;

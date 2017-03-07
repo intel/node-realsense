@@ -32,7 +32,7 @@ describe('Slam Instance Test - loadRelocalizationMap()', function() {
     });
     return slamInstance.stop();
   });
-  it('Should get correct data loadRelocalizationMap() -  Positive - ', function() {
+  it.skip('Should get correct data loadRelocalizationMap() -  Positive - ', function() {
     return new Promise((resolve, reject) => {
       slamAddon.createInstance().then((Instance) => {
         slamInstance = Instance;
@@ -49,7 +49,7 @@ describe('Slam Instance Test - loadRelocalizationMap()', function() {
       });
     });
   });
-  it('Should get correct data loadRelocalizationMap() -  Negative - ', function() {
+  it.skip('Should get correct data loadRelocalizationMap() -  Negative - ', function() {
     return new Promise((resolve, reject) => {
       slamAddon.createInstance().then((Instance) => {
         slamInstance = Instance;

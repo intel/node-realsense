@@ -33,7 +33,7 @@ function inherits(target, source) {
 }
 inherits(slamAddon.Instance, EventEmitter);
 
-function tests(state, options) {
+function tests(state, fileName) {
   describe('Slam Instance Test - saveRelocalizationMap()', function() {
     let slamInstance = null;
     afterEach(() => {
@@ -47,13 +47,9 @@ function tests(state, options) {
           slamInstance = Instance;
           return slamInstance.start();
         }).then(() => {
-            if (options == null ) {
-              return slamInstance.saveRelocalizationMap();
-            }else{
-              return slamInstance.saveRelocalizationMap(options);
-            }
-        }).then((Data) => {
-          return checkFileExist(Data);
+          return slamInstance.saveRelocalizationMap(fileName);
+        }).then(() => {
+          return checkFileExist(fileName);
         }).then(() => {
           resolve();
         }).catch((err) => {
@@ -64,5 +60,4 @@ function tests(state, options) {
   });
 }
 let argv = '/tmp/saveRelocalizationMap.map';
-// tests('Positive - 1', argv);
-// tests('Positive - 2', null);
+tests('Positive - 1', argv);
