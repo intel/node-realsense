@@ -207,7 +207,7 @@ void PersonTrackerRunnerProxy::CleanUp() {
   pt_main_task_ = "";
 }
 
-v8::Handle<v8::Promise> PersonTrackerRunnerProxy::startTrackingPerson(
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::StartTrackingPerson(
     int32_t track_id) {
   std::string error;
   if (!PassStateCheck(kStartOrStopTrackingPerson, &error))
@@ -218,7 +218,7 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::startTrackingPerson(
       "{{StartTrackingPerson}}");
 }
 
-v8::Handle<v8::Promise> PersonTrackerRunnerProxy::stopTrackingPerson(
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::StopTrackingPerson(
     int32_t track_id) {
   std::string error;
   if (!PassStateCheck(kStartOrStopTrackingPerson, &error))
@@ -259,12 +259,123 @@ bool PersonTrackerRunnerProxy::PassStateCheck(
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::GetPersonInfo(
-    int32_t trackID) {
+    int32_t track_id) {
   std::string error;
   if (!PassStateCheck(kGenericRunningOperation, &error))
     return adapter_->CreateRejectedPromise(error);
   return runner_->PostPromiseTask(
       new GetPersonInfoTask(),
-      new GetPersonInfoTaskPayload(adapter_, trackID),
+      new GetPersonInfoTaskPayload(adapter_, track_id),
       "{{GetPersonInfo}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::RegisterPerson(
+    const int32_t track_id) {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new RegisterPersonTask(),
+      new RegisterPersonTaskPayload(adapter_, track_id),
+      "{{RegisterPerson}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::UnRegisterPerson(
+    const int32_t recognition_id) {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new UnRegisterPersonTask(),
+      new UnRegisterPersonTaskPayload(adapter_, recognition_id),
+      "{{UnRegisterPerson}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::GetAllRecognitionIDs() {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new GetAllRecognitionIDsTask(),
+      new GetAllRecognitionIDsTaskPayload(adapter_),
+      "{{GetAllRecognitionIDs}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::RecognizePerson(
+    const int32_t track_id) {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new RecognizePersonTask(),
+      new RecognizePersonTaskPayload(adapter_, track_id),
+      "{{RecognizePerson}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::RecognizeAllPersons() {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new RecognizeAllPersonTask(),
+      new RecognizeAllPersonTaskPayload(adapter_),
+      "{{RecognizePerson}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::RecognitionIDExist(
+    const int32_t recognition_id) {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new RecognitionIDExistTask(),
+      new RecognitionIDExistTaskPayload(adapter_, recognition_id),
+      "{{RecognitionIDExist}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::RemovePersonDescriptor(
+    const int32_t recognition_id, const int32_t descriptor_id) {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new RemovePersonDescriptorTask(),
+      new RemovePersonDescriptorTaskPayload(
+          adapter_, recognition_id, descriptor_id),
+      "{{GetPersonDescriptorIDs}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::GetPersonDescriptorIDs(
+    const int32_t recognition_id) {
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new GetPersonDescriptorIDsTask(),
+      new GetPersonDescriptorIDsTaskPayload(adapter_, recognition_id),
+      "{{GetPersonDescriptorIDs}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ReinforceRegistration(
+    const int32_t tracking_id, const int32_t recognition_id) {
+  // TODO(shaoting) implement this method
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::
+    QuerySimilarityScoreFromPerson(const int32_t tracking_id,
+    const int32_t recognition_id) {
+  // TODO(shaoting) implement this method
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ClearRecognitionDatabase() {
+  // TODO(shaoting) implement this method
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ExportRecognitionDatabase() {
+  // TODO(shaoting) implement this method
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ImportRecognitionDatabase(
+    const ArrayBuffer& buf) {
+  // TODO(shaoting) implement this method
 }

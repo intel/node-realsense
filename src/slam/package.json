@@ -6,7 +6,7 @@
   "repository": {},
   "scripts": {
     "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
-    "maketarball": "bash ./common/scripts/make_tarball.sh slam",
+    "maketarball": "bash ./common/scripts/make_tarball.sh node-slam",
     "test": "mocha"
   },
   "repository": {

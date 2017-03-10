@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
-    "maketarball": "bash ./common/scripts/make_tarball.sh person-tracking",
+    "maketarball": "bash ./common/scripts/make_tarball.sh node-person",
     "test": "mocha"
   },
   "repository": {

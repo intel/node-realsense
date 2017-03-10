@@ -10,13 +10,13 @@
 
 #include <string>
 
-#include "face_recognition.h"
 #include "frame_data.h"
 #include "gen/array_helper.h"
 #include "gen/camera_options.h"
 #include "gen/generator_helper.h"
 #include "gen/person_tracker_options.h"
 #include "lying_pose_recognition.h"
+#include "person_recognition.h"
 #include "person_tracking.h"
 #include "worker/person_tracker_runner_proxy.h"
 
@@ -41,8 +41,8 @@ class PersonTracker {
     return PersonTrackerRunnerProxy::GetInstance()->GetStateString();
   }
 
-  FaceRecognition* get_faceRecognition() const {
-    return &this->faceRecognition_;
+  PersonRecognition* get_personRecognition() const {
+    return &this->personRecognition_;
   }
 
   LyingPoseRecognition* get_lyingPoseRecognition() const {
@@ -86,7 +86,7 @@ class PersonTracker {
  private:
   std::string state_;
 
-  mutable FaceRecognition faceRecognition_;
+  mutable PersonRecognition personRecognition_;
 
   mutable LyingPoseRecognition lyingPoseRecognition_;
 

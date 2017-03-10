@@ -721,23 +721,16 @@ bool PersonTrackerAdapter::ConfigureModule() {
     // recognition
     if (config_.option_helper_.options_->has_member_recognition) {
       auto recogcfg = pt_configuration->QueryRecognition();
-      const DictionaryRecognitionOptions& recoptions =
+      const DictionaryPersonRecognitionOptions& recognitions =
           config_.option_helper_.options_->member_recognition;
 
-      if (recoptions.has_member_enable && recoptions.member_enable
-          || !recoptions.has_member_enable) {
+      if (recognitions.has_member_enable && recognitions.member_enable
+          || !recognitions.has_member_enable) {
         recogcfg->Enable();
 
-        if (recoptions.has_member_policy) {
-          if (!recoptions.member_policy.compare("standard"))
+        if (recognitions.has_member_policy) {
+          if (!recognitions.member_policy.compare("standard"))
             recogcfg->SetPolicy(PT::RecognitionConfiguration::Standard);
-        }
-
-        if (recoptions.has_member_useMultiFrame
-            && recoptions.member_useMultiFrame) {
-          // TODO(shaoting) Add multi frame async support when mw supports it.
-        } else {
-          recogcfg->SetAsyncPolicy(PT::RecognitionConfiguration::SingleFrame);
         }
       } else {
         recogcfg->Disable();
@@ -1545,4 +1538,419 @@ void PersonTrackerAdapter::ReleaseSegmentationImages() {
     img->Release();
   }
   segment_images_.clear();
+}
+
+bool PersonTrackerAdapter::RegisterPerson(
+    int32_t track_id, PersonRegistrationData* result, std::string* err) {
+  // find the Person with the track id.
+  PTDATA::Person* persondata =
+      pt_module_->QueryOutput()->QueryPersonDataById(track_id);
+  if (!persondata) {
+    if (err)
+      *err = "No person found with this track ID";
+    return false;
+  }
+  // register the person
+  PTRECOGNITION* recog = persondata->QueryRecognition();
+  if (!recog) {
+    if (err)
+      *err = "Recognition is not enabled";
+    return false;
+  }
+  PTRECOGNITION::RegistrationStatus status = recog->RegisterUser(
+      &result->recognitionID_, &result->trackID_, &result->descriptorID_);
+  if (status != PTRECOGNITION::RegistrationSuccessful) {
+    if (err)
+      *err = GetRegistrationErrDescription(status);
+    return false;
+  }
+  return true;
+}
+
+std::string PersonTrackerAdapter::GetRegistrationErrDescription(
+    PTRECOGNITION::RegistrationStatus status) {
+  switch (status) {
+    case PTRECOGNITION::RegistrationFailedAlreadyRegistered:
+      return "already registered";
+      break;
+    case PTRECOGNITION::RegistrationFailedFaceNotDetected:
+      return "face not detected";
+      break;
+    case PTRECOGNITION::RegistrationFailedFaceNotClear:
+      return "face not clear";
+      break;
+    case PTRECOGNITION::RegistrationFailedPersonTooFar:
+      return "person too far";
+      break;
+    case PTRECOGNITION::RegistrationFailedPersonTooClose:
+      return "person too close";
+      break;
+    default:
+      return "failed";
+      break;
+  }
+}
+
+bool PersonTrackerAdapter::RecognizePerson(
+    int32_t track_id, PersonRecognizerData* result, std::string* err) {
+  // find the person with the track id.
+  PTDATA::Person* persondata =
+      pt_module_->QueryOutput()->QueryPersonDataById(track_id);
+  if (!persondata) {
+    if (err)
+      *err = "no-person-found-with-the-trackID";
+    return false;
+  }
+  // register the person
+  PTRECOGNITION* recog = persondata->QueryRecognition();
+  if (!recog) {
+    if (err)
+      *err = "recognition-not-enabled";
+    return false;
+  }
+  PTRECOGNITION::RecognizerData data = {0};
+  PTRECOGNITION::RecognitionStatus status = recog->RecognizeUser(&data);
+  if (status != PTRECOGNITION::RecognitionPassedPersonRecognized &&
+      status != PTRECOGNITION::RecognitionPassedPersonNotRecognized) {
+    if (err)
+      *err = GetRecognitionErrDescription(status);
+    return false;
+  }
+  result->recognized_ =
+      (status == PTRECOGNITION::RecognitionPassedPersonRecognized)?true:false;
+  if (result->recognized_) {
+    result->trackID_ = data.trackingId;
+    result->recognitionID_ = data.recognitionId;
+    result->similarityScore_ = data.similarityScore;
+  }
+  return true;
+}
+
+std::string PersonTrackerAdapter::GetRecognitionErrDescription(
+    PTRECOGNITION::RecognitionStatus status) {
+  switch (status) {
+    case PTRECOGNITION::RecognitionPassedPersonRecognized:
+      return "recognized";
+      break;
+    case PTRECOGNITION::RecognitionPassedPersonNotRecognized:
+      return "not-recognized";
+      break;
+    case PTRECOGNITION::RecognitionFailed:
+      return "failed";
+      break;
+    case PTRECOGNITION::RecognitionFailedFaceNotDetected:
+      return "face-not-detected";
+      break;
+    case PTRECOGNITION::RecognitionFailedFaceNotClear:
+      return "face-not-clear";
+      break;
+    case PTRECOGNITION::RecognitionFailedPersonTooFar:
+      return "person-too-far";
+      break;
+    case PTRECOGNITION::RecognitionFailedPersonTooClose:
+      return "person-too-close";
+      break;
+    case PTRECOGNITION::RecognitionFailedFaceAmbiguity:
+      return "face-ambiguity";
+      break;
+    default:
+      return "generic-failure";
+      break;
+  }
+}
+using PTRecModuleData = PTDATA::RecognitionModuleData;
+bool PersonTrackerAdapter::RecognizeAllPersons(
+    std::vector<PersonRecognizerDataWithStatus*>* result_vec,
+    std::string* err) {
+  auto pdata = pt_module_->QueryOutput();
+  if (!pdata)
+    return false;
+  PTRecModuleData* pmodule_data = pdata->QueryRecognitionModuleData();
+  if (!pmodule_data) {
+    if (err)
+      *err = "recognition-not-enabled";
+    return false;
+  }
+  bool success = false;
+  int32_t personCount = kDefaultRecognizePersonCount;
+  PTRecModuleData::RecognizeAllStatus result =
+      PTRecModuleData::RecognizeAllPassed;
+  PTRecModuleData::RecognizerDataWithStatus* status_array = NULL;
+  int32_t actual_count = 0;
+  do {
+    if (status_array) {
+      delete [] status_array;
+      personCount = personCount*2;
+    }
+    status_array = new PTRecModuleData::RecognizerDataWithStatus[personCount];
+    result = pmodule_data->RecognizeAll(
+        status_array, personCount, &actual_count);
+  } while (result ==
+      PTRecModuleData::RecognizeAllUserAllocatedArrayIsSmallerThanExpected);
+
+  if (result == PTRecModuleData::RecognizeAllPassed) {
+    if (actual_count) {
+      for (int32_t i=0; i < actual_count; i++) {
+        auto val = new PersonRecognizerDataWithStatus();
+        val->data_.recognized_ = status_array[i].status ==
+            PTRECOGNITION::RecognitionPassedPersonRecognized?true:false;
+        val->data_.trackID_ = status_array[i].trackingId;
+        val->data_.recognitionID_ = status_array[i].recognitionId;
+        val->data_.similarityScore_ = status_array[i].similarityScore;
+        val->status_ = GetRecognitionErrDescription(status_array[i].status);
+        result_vec->push_back(val);
+      }
+      success = true;
+    }
+  }
+
+  if (status_array)
+    delete [] status_array;
+  if (!success && err)
+    *err = "not-recognized";
+  return success;
+}
+
+bool PersonTrackerAdapter::UnRegisterPerson(
+    int32_t recognition_id, std::string* err) {
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  if (!database) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  database->RemoveEntry(recognition_id);
+  return true;
+}
+
+bool PersonTrackerAdapter::RecognitionIDExist(
+    int32_t recognition_id, bool* exist, std::string* err) {
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  if (!database) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  if (database->Exists(recognition_id))
+    *exist = true;
+  else
+    *exist = false;
+  return true;
+}
+
+bool PersonTrackerAdapter::GetRecognitionIDs(
+    std::vector<int32_t>* id_vec, std::string* err) {
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  if (!database) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  id_vec->clear();
+  int32_t actual_size = 0;
+  int32_t id_count = database->GetNumberOfRegisteredUsers();
+  if (id_count) {
+    int32_t* ids = new int32_t[id_count];
+    database->GetRegisteredUsersIds(ids, id_count, &actual_size);
+    id_vec->assign(ids, ids+actual_size);
+    delete [] ids;
+  }
+  return true;
+}
+
+bool PersonTrackerAdapter::GetRegistrationDescriptorIDs(
+    int32_t recognition_id, std::vector<int32_t>* id_vec, std::string* err) {
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  if (!database) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  id_vec->clear();
+  int32_t actual_size = 0;
+  int32_t id_count = database->GetNumberOfUserDescriptors(recognition_id);
+  bool val = true;
+  if (id_count) {
+    int32_t* ids = new int32_t[id_count];
+    if (!database->GetUserDescriptorIds(recognition_id, ids))
+      val = false;
+    else
+      id_vec->assign(ids, ids+id_count);
+    delete [] ids;
+  }
+  return val;
+}
+
+bool PersonTrackerAdapter::RemoveRegistrationDescriptor(
+    int32_t recognition_id, int32_t descriptor_id, std::string* err) {
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  if (!database) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  database->RemoveDescriptor(recognition_id, descriptor_id);
+  return true;
+}
+
+bool PersonTrackerAdapter::ClearRecognitionDatabase(std::string* err) {
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  if (!database) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  database->Clear();
+  return true;
+}
+
+bool PersonTrackerAdapter::ExportRecognitionDatabase(
+    int32_t* size, unsigned char** buf, std::string* err) {
+  if (!size || !buf)
+    return false;
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  auto utils = recogcfg->QueryDatabaseUtilities();
+  if (!database || !utils) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+
+  int32_t actual_size = utils->GetDatabaseMemorySize(database);
+  int32_t written_size = 0;
+  unsigned char* actual_buf = NULL;
+  if (actual_size) {
+    actual_buf = new unsigned char[actual_size];
+    if (!utils->SerializeDatabase(
+        database, actual_buf, actual_size, &written_size)) {
+      if (err)
+        *err = "Failed to export database";
+      delete [] actual_buf;
+      return false;
+    } else {
+      if (written_size != actual_size) {
+        if (err)
+          *err = "Database corrupted";
+        delete [] actual_buf;
+        return false;
+      }
+    }
+  }
+  *size = written_size;
+  *buf = actual_buf;
+  return true;
+}
+
+bool PersonTrackerAdapter::ImportRecognitionDatabase(
+    int32_t size, unsigned char* buf, std::string* err) {
+  if (!size || !buf)
+    return false;
+  PT::PersonTrackingConfiguration* pt_configuration =
+      pt_module_->QueryConfiguration();
+  auto recogcfg = pt_configuration->QueryRecognition();
+  auto database = recogcfg->QueryDatabase();
+  auto utils = recogcfg->QueryDatabaseUtilities();
+  if (!database || !utils) {
+    if (err)
+      *err = "can't query the database";
+    return false;
+  }
+  if (!utils->DeserializeDatabase(database, buf, size)) {
+    if (err)
+      *err = "Failed to import database";
+    return false;
+  }
+  return true;
+}
+
+bool PersonTrackerAdapter::ReinforcePerson(
+    int32_t track_id, int32_t recognition_id, PersonRegistrationData* result,
+    std::string* err) {
+  // find the Person with the track id.
+  PTDATA::Person* persondata =
+      pt_module_->QueryOutput()->QueryPersonDataById(track_id);
+  if (!persondata) {
+    if (err)
+      *err = "No person found with this track ID";
+    return false;
+  }
+  // register the person
+  PTRECOGNITION* recog = persondata->QueryRecognition();
+  if (!recog) {
+    if (err)
+      *err = "Recognition is not enabled";
+    return false;
+  }
+  int32_t out_track_id = 0;
+  int32_t out_descriptor_id = 0;
+  PTRECOGNITION::RegistrationStatus status = recog->ReinforceUserRegistration(
+      recognition_id, &out_track_id, &out_descriptor_id);
+  if (status != PTRECOGNITION::RegistrationSuccessful) {
+    if (err)
+      *err = GetRegistrationErrDescription(status);
+    return false;
+  }
+  result->trackID_ = out_track_id;
+  result->recognitionID_ = recognition_id;
+  result->descriptorID_ = out_descriptor_id;
+  return true;
+}
+
+bool PersonTrackerAdapter::QueryRecognitionSimilarityScore(
+    int32_t track_id, int32_t recognition_id, float* score, std::string* err) {
+  // find the person with the track id.
+  PTDATA::Person* persondata =
+      pt_module_->QueryOutput()->QueryPersonDataById(track_id);
+  if (!persondata) {
+    if (err)
+      *err = "no-person-found-with-the-trackID";
+    return false;
+  }
+  // register the person
+  PTRECOGNITION* recog = persondata->QueryRecognition();
+  if (!recog) {
+    if (err)
+      *err = "recognition-not-enabled";
+    return false;
+  }
+
+  PTRECOGNITION::RecognizerData data = {0};
+  PTRECOGNITION::RecognitionStatus status = recog->RecognizeUser(&data);
+  if (status != PTRECOGNITION::RecognitionPassedPersonRecognized &&
+      status != PTRECOGNITION::RecognitionPassedPersonNotRecognized) {
+    if (err)
+      *err = GetRecognitionErrDescription(status);
+    return false;
+  }
+
+  if (data.scoreData) {
+    if (score)
+      *score = data.scoreData->QuerySimilarityScoreById(recognition_id);
+    return true;
+  } else {
+    if (err)
+      *err = "Similarity score data not found";
+    return false;
+  }
 }

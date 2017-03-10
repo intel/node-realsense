@@ -28,11 +28,11 @@ PersonTracking& PersonTracking::operator = (const PersonTracking& rhs) {
 
 v8::Handle<v8::Promise> PersonTracking::startTrackingPerson(
     const int32_t& trackID) {
-  return PersonTrackerRunnerProxy::GetInstance()->startTrackingPerson(trackID);
+  return PersonTrackerRunnerProxy::GetInstance()->StartTrackingPerson(trackID);
 }
 
 v8::Handle<v8::Promise> PersonTracking::stopTrackingPerson(
     const int32_t& trackID) {
-  return PersonTrackerRunnerProxy::GetInstance()->stopTrackingPerson(trackID);
+  return PersonTrackerRunnerProxy::GetInstance()->StopTrackingPerson(trackID);
 }
 
