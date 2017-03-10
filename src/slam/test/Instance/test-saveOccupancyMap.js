@@ -33,7 +33,7 @@ function inherits(target, source) {
 }
 inherits(slamAddon.Instance, EventEmitter);
 
-function tests(state, options) {
+function tests(state, fileName) {
   describe('Slam Instance Test - saveOccupancyMap()', function() {
     let slamInstance = null;
     afterEach(() => {
@@ -47,17 +47,13 @@ function tests(state, options) {
           slamInstance = Instance;
           return slamInstance.start();
         }).then(() => {
-          if (options == null) {
-            return slamInstance.saveOccupancyMap();
-          }else{
-            return slamInstance.saveOccupancyMap(options);
-          }
-        }).then((Data) => {
-          return checkFileExist(Data);
+          return slamInstance.saveOccupancyMap(fileName);
+        }).then(() => {
+          return checkFileExist(fileName);
         }).then(( ) => {
           resolve();
         }).catch((err) => {
-          if (options == null ) {
+          if (!fileName) {
             resolve();
           }else{
             reject(err);
@@ -69,4 +65,3 @@ function tests(state, options) {
 }
 let argv = '/tmp/saveOccupancyMap.txt';
 tests('Positive - 1', argv);
-tests('Positive - 2', null);

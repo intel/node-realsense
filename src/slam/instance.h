@@ -39,6 +39,8 @@ class Instance {
 
   v8::Handle<v8::Promise> setCameraOptions(const CameraOptions& options);
 
+  v8::Handle<v8::Promise> setInstanceOptions();
+
   v8::Handle<v8::Promise> setInstanceOptions(const InstanceOptions& options);
 
   v8::Handle<v8::Promise> start();
@@ -55,14 +57,16 @@ class Instance {
 
   v8::Handle<v8::Promise> getTrackingResult();
 
+  v8::Handle<v8::Promise> getOccupancyMap();
+
   v8::Handle<v8::Promise> getOccupancyMap(const RegionOfInterest& roi);
 
   v8::Handle<v8::Promise> getOccupancyMapAsRgba(
       const bool& drawPoseTrajectory, const bool& drawOccupancyMap);
 
-  v8::Handle<v8::Promise> getOccupancyMapUpdate(const RegionOfInterest& roi);
-
   v8::Handle<v8::Promise> getOccupancyMapUpdate();
+
+  v8::Handle<v8::Promise> getOccupancyMapUpdate(const RegionOfInterest& roi);
 
   v8::Handle<v8::Promise> getOccupancyMapBounds();
 

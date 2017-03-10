@@ -4,6 +4,8 @@
 
 #include "instance.h"
 
+#include "gen/promise-helper.h"
+
 Instance::Instance() {
 }
 
@@ -37,6 +39,14 @@ v8::Handle<v8::Promise> Instance::setInstanceOptions(
   return SlamRunner::GetSlamRunner()->setInstanceOptions(options);
 }
 
+v8::Handle<v8::Promise> Instance::setInstanceOptions() {
+  PromiseHelper promise_helper;
+  auto promise = promise_helper.CreatePromise();
+
+  promise_helper.ResolvePromise();
+  return promise;
+}
+
 v8::Handle<v8::Promise> Instance::start() {
   return SlamRunner::GetSlamRunner()->start();
 }
@@ -63,6 +73,10 @@ v8::Handle<v8::Promise> Instance::restartTracking() {
 
 v8::Handle<v8::Promise> Instance::getTrackingResult() {
   return SlamRunner::GetSlamRunner()->getTrackingResult();
+}
+
+v8::Handle<v8::Promise> Instance::getOccupancyMap() {
+  // TODO(widl-nan): fill your code here
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMap(

@@ -49,7 +49,7 @@ describe('Slam Instance Test - loadOccupancyMap()', function() {
       });
     });
   });
-  it('Should get correct data loadOccupancyMap() -  Negative - ', function() {
+  it.skip('Should get correct data loadOccupancyMap() -  Negative - ', function() {
     return new Promise((resolve, reject) => {
       slamAddon.createInstance().then((Instance) => {
         slamInstance = Instance;
