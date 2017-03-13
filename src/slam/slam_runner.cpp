@@ -179,3 +179,19 @@ v8::Handle<v8::Promise> SlamRunner::getOccupancyMapBounds() {
       new SlamPayload<OccupancyMapBounds*>(this, nullptr),
       "{{GET_OCCUPANCY_MAP_BOUNDS MESSAGE}}");
 }
+
+v8::Handle<v8::Promise> SlamRunner::loadRelocalizationMap(
+    const std::string& file_name) {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new LoadRelocalizationMapTask(),
+      new SlamPayload<std::string>(this, file_name),
+      "{{LOAD_RELOCALIZATION_MAP MESSAGE}}");
+}
+
+v8::Handle<v8::Promise> SlamRunner::saveRelocalizationMap(
+    const std::string& file_name) {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new SaveRelocalizationMapTask(),
+      new SlamPayload<std::string>(this, file_name),
+      "{{SAVE_RELOCALIZATION_MAP MESSAGE}}");
+}

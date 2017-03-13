@@ -55,6 +55,8 @@ class SlamRunner {
   v8::Handle<v8::Promise> getOccupancyMapAsRgba(
       bool draw_pose_trajectory, bool draw_occupancy_map);
   v8::Handle<v8::Promise> getOccupancyMapBounds();
+  v8::Handle<v8::Promise> loadRelocalizationMap(const std::string& file_name);
+  v8::Handle<v8::Promise> saveRelocalizationMap(const std::string& file_name);
 };
 
 #endif  // _SLAM_RUNNER_H_

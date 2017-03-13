@@ -21,6 +21,12 @@ function test1() {
     return instance.loadOccupancyMap(__dirname + '/map');
   }).then(function() {
     console.log('success load occupancy map');
+    return instance.saveRelocalizationMap(__dirname + '/relocalizationMap');
+  }).then(function() {
+    console.log('success save relocalization map');
+    return instance.loadRelocalizationMap(__dirname + '/relocalizationMap');
+  }).then(function() {
+    console.log('success load relocalization map');
     return slamInstance.stop();
   });
 }

@@ -239,4 +239,28 @@ class GetOccupancyMapBoundsTask : public SlamPromiseTask {
   v8::Local<v8::Value> GetResolved() override;
 };
 
+//
+// Request for: loadRelocalizationMap
+//
+class LoadRelocalizationMapTask : public SlamPromiseTask {
+ public:
+  LoadRelocalizationMapTask();
+  ~LoadRelocalizationMapTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<std::string>* GetPayload();
+};
+
+//
+// Request for: saveRelocalizationMap
+//
+class SaveRelocalizationMapTask : public SlamPromiseTask {
+ public:
+  SaveRelocalizationMapTask();
+  ~SaveRelocalizationMapTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<std::string>* GetPayload();
+};
+
 #endif  // _WORKER_ALL_REQUESTS_H_

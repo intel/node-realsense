@@ -121,12 +121,12 @@ v8::Handle<v8::Promise> Instance::saveOccupancyMapAsPpm(
 
 v8::Handle<v8::Promise> Instance::loadRelocalizationMap(
     const std::string& mapFileName) {
-  // TODO(widl-nan): fill your code here
+  return SlamRunner::GetSlamRunner()->loadRelocalizationMap(mapFileName);
 }
 
 v8::Handle<v8::Promise> Instance::saveRelocalizationMap(
     const std::string& mapFileName) {
-  // TODO(widl-nan): fill your code here
+  return SlamRunner::GetSlamRunner()->saveRelocalizationMap(mapFileName);
 }
 
 v8::Handle<v8::Promise> Instance::getRelocalizationPose() {
