@@ -67,11 +67,11 @@ let caseResult = {
   tileCount: {type: 'number', writable: false},
   data: {type: 'object', writable: false},
 };
-// let argv = {
-//   minX: 1,
-//   minY: 1,
-//   maxX: 3,
-//   maxY: 3,
-// };
+let argv = {
+  minX: 1,
+  minY: 1,
+  maxX: 3,
+  maxY: 3,
+};
 tests('Positive', null);
-// tests('Negative', argv)
+tests('Negative', argv);

@@ -145,6 +145,19 @@ class GetOccupancyMapUpdateTask : public SlamPromiseTask {
 };
 
 //
+// Request for: getOccupancyMapUpdate
+//
+class GetOccupancyMapTask : public SlamPromiseTask {
+ public:
+  GetOccupancyMapTask();
+  ~GetOccupancyMapTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<ParameterWrapperForOccupancyMap*>* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
+};
+
+//
 // Request for: getCameraOptions
 //
 class GetCameraOptionsTask : public SlamPromiseTask {

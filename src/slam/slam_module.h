@@ -41,8 +41,8 @@ class SlamModule : public CameraOptionsIO {
   utils::Status ApplyModuleConfig(const DictionaryInstanceOptions& external);
   utils::Status QueryCurrentModuleConfig();
   OutputHolder* MoveTrackingResult();
-  utils::Status GetOccupancyMapUpdate(
-      ParameterWrapperForOccupancyMap* args);
+  utils::Status GetOccupancyMapUpdate(ParameterWrapperForOccupancyMap* args);
+  utils::Status GetOccupancyMap(ParameterWrapperForOccupancyMap* args);
   utils::Status GetOccupancyMapAsRgba(
       MapImage* map_image,
       bool draw_pose_trajectory,

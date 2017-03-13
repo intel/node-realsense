@@ -41,7 +41,7 @@ class ParameterWrapperForGetRgbaMap {
 
 class ParameterWrapperForOccupancyMap {
  public:
-  ParameterWrapperForOccupancyMap(const RegionOfInterest* roi) {
+  explicit ParameterWrapperForOccupancyMap(const RegionOfInterest* roi) {
     has_roi = false;
     if (roi != nullptr) {
       has_roi = true;

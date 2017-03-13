@@ -125,12 +125,11 @@ v8::Handle<v8::Promise> SlamRunner::getTrackingResult() {
 
 v8::Handle<v8::Promise> SlamRunner::getOccupancyMap(
     const RegionOfInterest* roi) {
-  /*
+  auto args = new ParameterWrapperForOccupancyMap(roi);
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new GetOccupancyMapTask(),
-      new SlamPayload<OccupancyMapData*>(this, new OccupancyMapData()),
+      new SlamPayload<ParameterWrapperForOccupancyMap*>(this, args),
       "{{GET_OCCUPANCY_MAP MESSAGE}}");
-  */
 }
 
 

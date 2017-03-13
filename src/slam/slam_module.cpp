@@ -588,7 +588,7 @@ utils::Status SlamModule::GetOccupancyMapUpdate(
   utils::Status result;
   if (args == nullptr || args->map_data == nullptr) {
     result.set_id(SLAM_ADDON_ERROR);
-    result.set_message("Null data storage to get map update.");
+    result.set_message("Null data storage to get occupancy map update.");
     return result;
   }
   if (!occupancy_map_) {
@@ -609,6 +609,40 @@ utils::Status SlamModule::GetOccupancyMapUpdate(
   }
   if (result.id() < rs::core::status_no_error) {
     result.set_message("Failed to get occpuancy map update.");
+    return result;
+  }
+
+  args->map_data->SetData(result.id() == rs::core::status_data_pending,
+      occupancy_map_->get_tile_count(), occupancy_map_->get_tile_coordinates());
+  return result;
+}
+
+utils::Status SlamModule::GetOccupancyMap(
+    ParameterWrapperForOccupancyMap* args) {
+  utils::Status result;
+  if (args == nullptr || args->map_data == nullptr) {
+    result.set_id(SLAM_ADDON_ERROR);
+    result.set_message("Null data storage to get occupancy map.");
+    return result;
+  }
+  if (!occupancy_map_) {
+    occupancy_map_ =
+        slam_->create_occupancy_map(DEFAULT_OCCUPANCY_MAP_CAPACITY);
+  }
+
+  if (args->has_roi) {
+    rs::core::pointI32 min_point, max_point;
+    min_point.x = args->roi.member_minX;
+    min_point.y = args->roi.member_minY;
+    max_point.x = args->roi.member_maxX;
+    max_point.y = args->roi.member_maxY;
+    result.set_id(
+        slam_->get_occupancy_map(occupancy_map_, min_point, max_point));
+  } else {
+    result.set_id(slam_->get_occupancy_map(occupancy_map_));
+  }
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message("Failed to get occpuancy map.");
     return result;
   }
 
