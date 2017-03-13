@@ -123,10 +123,23 @@ v8::Handle<v8::Promise> SlamRunner::getTrackingResult() {
       "{{GET_TRACKING_RESULT MESSAGE}}");
 }
 
-v8::Handle<v8::Promise> SlamRunner::getOccupancyMapUpdate() {
+v8::Handle<v8::Promise> SlamRunner::getOccupancyMap(
+    const RegionOfInterest* roi) {
+  /*
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new GetOccupancyMapTask(),
+      new SlamPayload<OccupancyMapData*>(this, new OccupancyMapData()),
+      "{{GET_OCCUPANCY_MAP MESSAGE}}");
+  */
+}
+
+
+v8::Handle<v8::Promise> SlamRunner::getOccupancyMapUpdate(
+    const RegionOfInterest* roi) {
+  auto args = new ParameterWrapperForOccupancyMap(roi);
   return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
       new GetOccupancyMapUpdateTask(),
-      new SlamPayload<OccupancyMapData*>(this, new OccupancyMapData()),
+      new SlamPayload<ParameterWrapperForOccupancyMap*>(this, args),
       "{{GET_OCCUPANCY_MAP_UPDATE MESSAGE}}");
 }
 

@@ -182,14 +182,13 @@ void GetOccupancyMapUpdateTask::WorkerThreadExecute() {
 }
 
 v8::Local<v8::Value> GetOccupancyMapUpdateTask::GetResolved() {
-  auto map_data = GetPayload()->data();
+  auto map_data = GetPayload()->data()->map_data;
   map_data->SetupTypedArray();
   return NanOccupancyMapData::NewInstance(map_data);
 }
 
-SlamPayload<OccupancyMapData*>* GetOccupancyMapUpdateTask::GetPayload() {
-  return reinterpret_cast<SlamPayload<OccupancyMapData*>*>(
-      AsyncTask::GetPayload());
+OccupancyMapPayload* GetOccupancyMapUpdateTask::GetPayload() {
+  return reinterpret_cast<OccupancyMapPayload*>(AsyncTask::GetPayload());
 }
 /////////////////////////////////////////////////////////////////////////////
 GetCameraOptionsTask::GetCameraOptionsTask() {

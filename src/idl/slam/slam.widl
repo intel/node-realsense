@@ -23,10 +23,10 @@ interface OccupancyMapBounds {
 };
 
 dictionary RegionOfInterest {
-  long minX;
-  long minY;
-  long maxX;
-  long maxY;
+  required long minX;
+  required long minY;
+  required long maxX;
+  required long maxY;
 };
 
 interface OccupancyMapData {

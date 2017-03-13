@@ -76,12 +76,12 @@ v8::Handle<v8::Promise> Instance::getTrackingResult() {
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMap() {
-  // TODO(widl-nan): fill your code here
+  return SlamRunner::GetSlamRunner()->getOccupancyMap(nullptr);
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMap(
     const RegionOfInterest& roi) {
-  // TODO(widl-nan): fill your code here
+  return SlamRunner::GetSlamRunner()->getOccupancyMap(&roi);
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapAsRgba(
@@ -92,11 +92,19 @@ v8::Handle<v8::Promise> Instance::getOccupancyMapAsRgba(
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate(
     const RegionOfInterest& roi) {
-  // TODO(widl-nan): fill your code here
+  std::string error;
+  if (!roi.CheckType(&error)) {
+    PromiseHelper promise_helper;
+    auto promise = promise_helper.CreatePromise();
+
+    promise_helper.RejectPromise(error);
+    return promise;
+  }
+  return SlamRunner::GetSlamRunner()->getOccupancyMapUpdate(&roi);
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapUpdate() {
-  return SlamRunner::GetSlamRunner()->getOccupancyMapUpdate();
+  return SlamRunner::GetSlamRunner()->getOccupancyMapUpdate(nullptr);
 }
 
 v8::Handle<v8::Promise> Instance::getOccupancyMapBounds() {
