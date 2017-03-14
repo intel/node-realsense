@@ -82,7 +82,7 @@ interface Instance {
   Promise&lt;void&gt; start();
   Promise&lt;void&gt; stop();
   Promise&lt;void> restartTracking();
-  Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMap(optional RegionOfInterest roi); // Note: not supported yet.
+  Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMap(optional RegionOfInterest roi);
   Promise&lt;sequence&lt;OccupancyMapData>> getOccupancyMapUpdate(optional RegionOfInterest roi);
   Promise&lt;MapImage&gt; getOccupancyMapAsRgba(boolean drawPoseTrajectory, boolean drawOccupancyMap);
   Promise&lt;OccupancyMapBounds&gt; getOccupancyMapBounds();
@@ -90,8 +90,8 @@ interface Instance {
   Promise&lt;void&gt; loadOccupancyMap(String mapFileName);
   Promise&lt;void&gt; saveOccupancyMap(String mapFileName);
   Promise&lt;void&gt; saveOccupancyMapAsPpm(String mapFileName, bool drawCameraTrajectory);
-  Promise&lt;void> loadRelocalizationMap(String mapFileName);  // Note: not supported yet.
-  Promise&lt;void> saveRelocalizationMap(String mapFileName);  // Note: not supported yet.
+  Promise&lt;void> loadRelocalizationMap(String mapFileName);
+  Promise&lt;void> saveRelocalizationMap(String mapFileName);
   Promise&lt;sequence&lt;float>> getRelocalizationPose();  // Note: not supported yet.
 
   attribute EventHandler ontracking;
@@ -198,12 +198,11 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{getOccupancyMap}}
-:: Note: not supported yet.
-:: getOccupancyMap returns ALL the tiles in the occupancy map construction that have occupancy values within specified region of interest.
+:: Gets occupancy map within specified region of interest or returns ALL the tiles in the occupancy map construction that have occupancy values if no region of interest passed.
 :: This method returns a promise.The promise will be fulfilled with an object of OccupancyMapData which containing all tiles in the occupancy map construction that have occpuancy values if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
 <pre class='argumentdef' for="Instance/getOccupancyMap(optional RegionOfInterest roi)">
-  roi: maximum of x and y, minimum of x and y co-ordinate of region of interest.
+  roi: minimum point(minX, minY) and maximum point(maxX, maxY) co-ordinate of region of interest. Range values are in the same unit as the resolution value.
 </pre>
 
 :: *Return type*:Promise&lt;[=OccupancyMap=]&gt;
@@ -213,7 +212,7 @@ interface Instance {
 :: This method returns a promise.The promise will be fulfilled with an object of OccupancyMap which containing all tiles in the occupancy map construction that have occpuancy valuesif there are no errors. The promise will be rejected with the Exception object if there is a failure.
 
 <pre class='argumentdef' for="Instance/getOccupancyMapUpdate(optional RegionOfInterest roi)">
-  roi: maximum of x and y, minimum of x and y co-ordinate of region of interest.
+  roi: minimum point of (minX, minY) and maximum of (maxX, maxY) co-ordinate of region of interest. Range values are in the same unit as the resolution value.
 </pre>
 
 :: *Return type*:Promise&lt;[=OccupancyMap=]&gt;
@@ -236,7 +235,6 @@ interface Instance {
 :: *Return type*:Promise&lt;[=OccupancyMapBounds=]&gt;
 
 : {{saveRelocalizationMap}}
-:: Note: not supported yet.
 :: Saves the current re-localization map data to a given file. Saved re-localization map can be loaded later by calling loadRelocalizationMap(...).
 :: This method returns a promise.The promise will be fulfilled with the full path name of the file if there are no errors. The promise will be rejected with the           Exception object if there is a failure.
 
@@ -247,7 +245,6 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{loadRelocalizationMap}}
-:: Note: not supported yet.
 :: To load re-localization map from a given file which was created using saveRelocalizationMap(...).
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 

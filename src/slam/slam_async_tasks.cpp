@@ -182,14 +182,37 @@ void GetOccupancyMapUpdateTask::WorkerThreadExecute() {
 }
 
 v8::Local<v8::Value> GetOccupancyMapUpdateTask::GetResolved() {
-  auto map_data = GetPayload()->data();
+  auto map_data = GetPayload()->data()->map_data;
   map_data->SetupTypedArray();
   return NanOccupancyMapData::NewInstance(map_data);
 }
 
-SlamPayload<OccupancyMapData*>* GetOccupancyMapUpdateTask::GetPayload() {
-  return reinterpret_cast<SlamPayload<OccupancyMapData*>*>(
-      AsyncTask::GetPayload());
+OccupancyMapPayload* GetOccupancyMapUpdateTask::GetPayload() {
+  return reinterpret_cast<OccupancyMapPayload*>(AsyncTask::GetPayload());
+}
+/////////////////////////////////////////////////////////////////////////////
+GetOccupancyMapTask::GetOccupancyMapTask() {
+  task_tag = "getOccupancyMap() task";
+}
+
+GetOccupancyMapTask::~GetOccupancyMapTask() {
+}
+
+void GetOccupancyMapTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  result_status = payload->GetSlamModule()->GetOccupancyMap(payload->data());
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+}
+
+v8::Local<v8::Value> GetOccupancyMapTask::GetResolved() {
+  auto map_data = GetPayload()->data()->map_data;
+  map_data->SetupTypedArray();
+  return NanOccupancyMapData::NewInstance(map_data);
+}
+
+OccupancyMapPayload* GetOccupancyMapTask::GetPayload() {
+  return reinterpret_cast<OccupancyMapPayload*>(AsyncTask::GetPayload());
 }
 /////////////////////////////////////////////////////////////////////////////
 GetCameraOptionsTask::GetCameraOptionsTask() {

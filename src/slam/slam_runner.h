@@ -44,7 +44,8 @@ class SlamRunner {
   v8::Handle<v8::Promise> stop();
   v8::Handle<v8::Promise> reset();
   v8::Handle<v8::Promise> getTrackingResult();
-  v8::Handle<v8::Promise> getOccupancyMapUpdate();
+  v8::Handle<v8::Promise> getOccupancyMap(const RegionOfInterest* roi);
+  v8::Handle<v8::Promise> getOccupancyMapUpdate(const RegionOfInterest* roi);
   v8::Handle<v8::Promise> getCameraOptions();
   v8::Handle<v8::Promise> setCameraOptions(const CameraOptions& config);
   v8::Handle<v8::Promise> restartTracking();

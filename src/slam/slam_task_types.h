@@ -83,32 +83,4 @@ class SlamEventTask : public DirectEventEmitterTask {
   SlamEvent event_type_;
 };
 
-class ParameterWrapperForSavingPpmMap {
- public:
-  ParameterWrapperForSavingPpmMap(
-      std::string file_name, bool draw_camera_trajectory) {
-    this->file_name = file_name;
-    this->draw_camera_trajectory = draw_camera_trajectory;
-  }
-
- public:
-  std::string file_name;
-  bool draw_camera_trajectory;
-};
-
-class ParameterWrapperForGetRgbaMap {
- public:
-  ParameterWrapperForGetRgbaMap(
-      bool draw_pose_trajectory, bool draw_occupancy_map) {
-    this->draw_pose_trajectory = draw_pose_trajectory;
-    this->draw_occupancy_map = draw_occupancy_map;
-    this->map_image = nullptr;
-  }
-
- public:
-  bool draw_pose_trajectory;
-  bool draw_occupancy_map;
-  MapImage* map_image;
-};
-
 #endif  // _SLAM_TASK_TYPES_H_

@@ -14,7 +14,7 @@
 #include "common/camera-options/camera_options_io.h"
 #include "gen/camera_options.h"
 #include "gen/instance_options.h"
-#include "occupancy_map_data.h"
+#include "parameter_wrappers.h"
 #include "map_image.h"
 #include "occupancy_map_bounds.h"
 #include "slam_handlers.h"
@@ -41,7 +41,8 @@ class SlamModule : public CameraOptionsIO {
   utils::Status ApplyModuleConfig(const DictionaryInstanceOptions& external);
   utils::Status QueryCurrentModuleConfig();
   OutputHolder* MoveTrackingResult();
-  utils::Status GetOccupancyMapUpdate(OccupancyMapData* map_data);
+  utils::Status GetOccupancyMapUpdate(ParameterWrapperForOccupancyMap* args);
+  utils::Status GetOccupancyMap(ParameterWrapperForOccupancyMap* args);
   utils::Status GetOccupancyMapAsRgba(
       MapImage* map_image,
       bool draw_pose_trajectory,

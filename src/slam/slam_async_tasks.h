@@ -13,6 +13,7 @@
 #include "common/task/async_task.h"
 #include "gen/camera_options.h"
 #include "gen/instance_options.h"
+#include "parameter_wrappers.h"
 #include "slam_runner.h"
 #include "slam_task_types.h"
 
@@ -23,6 +24,7 @@ using TrackingResultPayload = SlamPayload<OutputHolder*>;
 using CameraOptionsTaskPayload = SlamPayload<DictionaryCameraOptions*>;
 using SavePpmMapPayload = SlamPayload<ParameterWrapperForSavingPpmMap*>;
 using GetRgbaMapPayload = SlamPayload<ParameterWrapperForGetRgbaMap*>;
+using OccupancyMapPayload = SlamPayload<ParameterWrapperForOccupancyMap*>;
 
 //
 // Request for: getInstanceOptions
@@ -138,7 +140,20 @@ class GetOccupancyMapUpdateTask : public SlamPromiseTask {
   ~GetOccupancyMapUpdateTask();
 
   void WorkerThreadExecute() override;
-  SlamPayload<OccupancyMapData*>* GetPayload();
+  SlamPayload<ParameterWrapperForOccupancyMap*>* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
+};
+
+//
+// Request for: getOccupancyMapUpdate
+//
+class GetOccupancyMapTask : public SlamPromiseTask {
+ public:
+  GetOccupancyMapTask();
+  ~GetOccupancyMapTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<ParameterWrapperForOccupancyMap*>* GetPayload();
   v8::Local<v8::Value> GetResolved() override;
 };
 
