@@ -92,7 +92,7 @@ interface Instance {
   Promise&lt;void&gt; saveOccupancyMapAsPpm(String mapFileName, bool drawCameraTrajectory);
   Promise&lt;void> loadRelocalizationMap(String mapFileName);
   Promise&lt;void> saveRelocalizationMap(String mapFileName);
-  Promise&lt;sequence&lt;float>> getRelocalizationPose();  // Note: not supported yet.
+  Promise&lt;sequence&lt;float>> getRelocalizationPose();
 
   attribute EventHandler ontracking;
   attribute EventHandler onerror;
@@ -255,7 +255,6 @@ interface Instance {
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{getRelocalizationPose}}
-:: Note: not supported yet.
 :: To get the relocalizer pose for the last tracked frame.
 :: This method returns a promise.The promise will be fulfilled with the relocalization pose if there are no errors. The promise will be rejected with the Exception object if there is a failure.
 :: *No parameters.*

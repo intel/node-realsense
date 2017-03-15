@@ -207,3 +207,10 @@ v8::Handle<v8::Promise> SlamRunner::saveRelocalizationMap(
       new SlamPayload<std::string>(this, file_name),
       "{{SAVE_RELOCALIZATION_MAP MESSAGE}}");
 }
+
+v8::Handle<v8::Promise> SlamRunner::getRelocalizationPose() {
+  return AsyncTaskRunnerInstance::GetInstance()->PostPromiseTask(
+      new GetRelocalizationPoseTask(),
+      new SlamPayload<float*>(this, new float[16]),
+      "{{GET_RELOCALIZATION_POSE MESSAGE}}");
+}

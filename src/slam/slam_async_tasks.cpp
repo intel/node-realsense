@@ -458,3 +458,33 @@ void SaveRelocalizationMapTask::WorkerThreadExecute() {
 SlamPayload<std::string>* SaveRelocalizationMapTask::GetPayload() {
   return reinterpret_cast<SlamPayload<std::string>*>(AsyncTask::GetPayload());
 }
+/////////////////////////////////////////////////////////////////////////////
+GetRelocalizationPoseTask::GetRelocalizationPoseTask() {
+  task_tag = "getRelocalizationPose() task";
+}
+
+GetRelocalizationPoseTask::~GetRelocalizationPoseTask() {
+}
+
+void GetRelocalizationPoseTask::WorkerThreadExecute() {
+  auto payload = GetPayload();
+  auto data = payload->data();
+  result_status = payload->GetSlamModule()->GetRelocalizationPose(data);
+  task_state =
+      (result_status.id() >= rs::core::status_no_error) ? Successful : Failed;
+  if (task_state == Failed) {
+    delete[] data;
+  }
+}
+
+SlamPayload<float*>* GetRelocalizationPoseTask::GetPayload() {
+  return reinterpret_cast<SlamPayload<float*>*>(AsyncTask::GetPayload());
+}
+
+v8::Local<v8::Value> GetRelocalizationPoseTask::GetResolved() {
+  auto data = GetPayload()->data();
+  ArrayHelper helper;
+  helper.FromArrayT<float>(data, 16);
+  delete[] data;
+  return static_cast<v8::Local<v8::Array>>(ArrayHelper(helper));
+}

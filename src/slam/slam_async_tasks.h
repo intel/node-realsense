@@ -278,4 +278,16 @@ class SaveRelocalizationMapTask : public SlamPromiseTask {
   SlamPayload<std::string>* GetPayload();
 };
 
+//
+// Request for: getRelocalizationPose
+//
+class GetRelocalizationPoseTask : public SlamPromiseTask {
+ public:
+  GetRelocalizationPoseTask();
+  ~GetRelocalizationPoseTask();
+
+  void WorkerThreadExecute() override;
+  SlamPayload<float*>* GetPayload();
+  v8::Local<v8::Value> GetResolved() override;
+};
 #endif  // _WORKER_ALL_REQUESTS_H_

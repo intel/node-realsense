@@ -138,5 +138,5 @@ v8::Handle<v8::Promise> Instance::saveRelocalizationMap(
 }
 
 v8::Handle<v8::Promise> Instance::getRelocalizationPose() {
-  // TODO(widl-nan): fill your code here
+  return SlamRunner::GetSlamRunner()->getRelocalizationPose();
 }

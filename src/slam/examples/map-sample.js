@@ -27,6 +27,9 @@ function test1() {
     return instance.loadRelocalizationMap(__dirname + '/relocalizationMap');
   }).then(function() {
     console.log('success load relocalization map');
+    return instance.getRelocalizationPose();
+  }).then(function(pose) {
+    console.log('success get pose: ' + pose);
     return slamInstance.stop();
   });
 }
