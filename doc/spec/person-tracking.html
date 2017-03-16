@@ -1446,7 +1446,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Person Tracking</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-15">15 March 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-16">16 March 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1458,7 +1458,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 15 March 2017,
+In addition, as of 16 March 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1974,6 +1974,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="getAllRecognitionIDs()" id="dom-personrecognition-getallrecognitionids">getAllRecognitionIDs<a class="self-link" href="#dom-personrecognition-getallrecognitionids"></a></dfn>();
     <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="removePersonDescriptor(recognitionID, descriptorID)" id="dom-personrecognition-removepersondescriptor">removePersonDescriptor<a class="self-link" href="#dom-personrecognition-removepersondescriptor"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/removePersonDescriptor(recognitionID, descriptorID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-recognitionid"></a></dfn>, <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/removePersonDescriptor(recognitionID, descriptorID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-descriptorid">descriptorID<a class="self-link" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-descriptorid"></a></dfn>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="getPersonDescriptorIDs(recognitionID)" id="dom-personrecognition-getpersondescriptorids">getPersonDescriptorIDs<a class="self-link" href="#dom-personrecognition-getpersondescriptorids"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/getPersonDescriptorIDs(recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-getpersondescriptorids-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-getpersondescriptorids-recognitionid-recognitionid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personregistrationdata0" id="ref-for-personregistrationdata0-2">PersonRegistrationData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="reinforceRegistration(trackID, recognitionID)" id="dom-personrecognition-reinforceregistration">reinforceRegistration<a class="self-link" href="#dom-personrecognition-reinforceregistration"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/reinforceRegistration(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-reinforceregistration-trackid-recognitionid-trackid">trackID<a class="self-link" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-trackid"></a></dfn>, <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/reinforceRegistration(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-reinforceregistration-trackid-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-recognitionid"></a></dfn>);
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0" id="ref-for-personrecognizerdata0-1">PersonRecognizerData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizePerson(trackID)" id="dom-personrecognition-recognizeperson">recognizePerson<a class="self-link" href="#dom-personrecognition-recognizeperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/recognizePerson(trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognizeperson-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-recognizeperson-trackid-trackid"></a></dfn>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0" id="ref-for-personrecognizerdatawithstatus0-1">PersonRecognizerDataWithStatus</a>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizeAllPersons()" id="dom-personrecognition-recognizeallpersons">recognizeAllPersons<a class="self-link" href="#dom-personrecognition-recognizeallpersons"></a></dfn>();
 };
@@ -2129,6 +2130,39 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
     <dd data-md="">
      <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">&lt;sequence&lt;long>></a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">reinforceRegistration</a></code></p>
+    <dd data-md="">
+     <p>Reinforce an already registered person in the Recognition database using the specified person data.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.reinforceRegistration(long trackID, long recognitionID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/reinforceRegistration(long trackID, long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-reinforceregistration-long-trackid-long-recognitionid-trackid">trackID<a class="self-link" href="#dom-personrecognition-reinforceregistration-long-trackid-long-recognitionid-trackid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The tracking ID of the specified person. 
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/reinforceRegistration(long trackID, long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-reinforceregistration-long-trackid-long-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-reinforceregistration-long-trackid-long-recognitionid-recognitionid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The recognition ID of the person already registered. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#personregistrationdata" id="ref-for-personregistrationdata-2">PersonRegistrationData</a>></p>
     <dt data-md="">
      <p><code class="idl"><a data-link-type="idl">recognizePerson</a></code></p>
     <dd data-md="">
@@ -3505,6 +3539,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
    <li><a href="#dom-personrecognition-recognizeperson">recognizePerson(trackID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-boundingbox2dinfo-rect">rect</a><span>, in §2.3.4.2</span>
    <li><a href="#dom-personrecognition-registerperson">registerPerson(trackID)</a><span>, in §2.2.4</span>
+   <li><a href="#dom-personrecognition-reinforceregistration">reinforceRegistration(trackID, recognitionID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-personrecognition-removepersondescriptor">removePersonDescriptor(recognitionID, descriptorID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-persontracker-reset">reset()</a><span>, in §2.2</span>
    <li><a href="#dom-persontracker-resume">resume()</a><span>, in §2.2</span>
@@ -3704,6 +3739,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <a class="nv" href="#dom-personrecognition-getallrecognitionids">getAllRecognitionIDs</a>();
     <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-personrecognition-removepersondescriptor">removePersonDescriptor</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-recognitionid">recognitionID</a>, <span class="kt">long</span> <a class="nv" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-descriptorid">descriptorID</a>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <a class="nv" href="#dom-personrecognition-getpersondescriptorids">getPersonDescriptorIDs</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-getpersondescriptorids-recognitionid-recognitionid">recognitionID</a>);
+    <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personregistrationdata0">PersonRegistrationData</a>> <a class="nv" href="#dom-personrecognition-reinforceregistration">reinforceRegistration</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-trackid">trackID</a>, <span class="kt">long</span> <a class="nv" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-recognitionid">recognitionID</a>);
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0">PersonRecognizerData</a>> <a class="nv" href="#dom-personrecognition-recognizeperson">recognizePerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-recognizeperson-trackid-trackid">trackID</a>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0">PersonRecognizerDataWithStatus</a>>> <a class="nv" href="#dom-personrecognition-recognizeallpersons">recognizeAllPersons</a>();
 };
@@ -4024,13 +4060,13 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
   <aside class="dfn-panel" data-for="personregistrationdata">
    <b><a href="#personregistrationdata">#personregistrationdata</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-personregistrationdata-1">2.2.4.1. Methods</a>
+    <li><a href="#ref-for-personregistrationdata-1">2.2.4.1. Methods</a> <a href="#ref-for-personregistrationdata-2">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="personregistrationdata0">
    <b><a href="#personregistrationdata0">#personregistrationdata0</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-personregistrationdata0-1">2.2.4. PersonRecognition Interface</a>
+    <li><a href="#ref-for-personregistrationdata0-1">2.2.4. PersonRecognition Interface</a> <a href="#ref-for-personregistrationdata0-2">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="personrecognizerdata">

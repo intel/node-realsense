@@ -448,3 +448,27 @@ RemovePersonDescriptorTaskPayload* RemovePersonDescriptorTask::GetPayload() {
   return reinterpret_cast<RemovePersonDescriptorTaskPayload*>(
       AsyncTask::GetPayload());
 }
+
+void ReinforceRegistrationTask::WorkerThreadExecute() {
+  ReinforceRegistrationTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->ReinforceRegistration(payload->track_id_,
+                                     payload->recognition_id_,
+                                     &(payload->result_),
+                                     &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+ReinforceRegistrationTaskPayload* ReinforceRegistrationTask::GetPayload() {
+  return reinterpret_cast<ReinforceRegistrationTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t ReinforceRegistrationTask::GetResolved() {
+  ReinforceRegistrationTaskPayload* payload = GetPayload();
+  return NanPersonRegistrationData::NewInstance(
+      new PersonRegistrationData(payload->result_));
+}

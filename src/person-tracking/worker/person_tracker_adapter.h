@@ -88,7 +88,7 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   bool StopTracking(int32_t track_id);
   bool RegisterPerson(
       int32_t track_id, PersonRegistrationData* result, std::string* err);
-  bool ReinforcePerson(int32_t track_id, int32_t recognition_id,
+  bool ReinforceRegistration(int32_t track_id, int32_t recognition_id,
       PersonRegistrationData* result, std::string* err);
   bool UnRegisterPerson(int32_t recognition_id, std::string* err);
   bool RecognitionIDExist(

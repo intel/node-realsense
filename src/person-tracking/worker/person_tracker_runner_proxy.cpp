@@ -358,7 +358,14 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::GetPersonDescriptorIDs(
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ReinforceRegistration(
     const int32_t tracking_id, const int32_t recognition_id) {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ReinforceRegistrationTask(),
+      new ReinforceRegistrationTaskPayload(
+          adapter_, tracking_id, recognition_id),
+      "{{ReinforceRegistration}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::

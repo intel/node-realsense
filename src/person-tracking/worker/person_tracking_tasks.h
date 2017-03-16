@@ -378,4 +378,29 @@ class RemovePersonDescriptorTask : public PTPromiseTask {
   virtual RemovePersonDescriptorTaskPayload* GetPayload();
 };
 
+class ReinforceRegistrationTaskPayload : public PTAsyncTaskPayload {
+ public:
+  ReinforceRegistrationTaskPayload(PersonTrackerAdapter* adapter,
+                                   int32_t track_id,
+                                   int32_t recognition_id) :
+      PTAsyncTaskPayload(adapter),
+      track_id_(track_id),
+      recognition_id_(recognition_id) {}
+  virtual ~ReinforceRegistrationTaskPayload() {}
+  int32_t track_id_;
+  int32_t recognition_id_;
+  PersonRegistrationData result_;
+};
+
+class ReinforceRegistrationTask : public PTPromiseTask {
+ public:
+  ReinforceRegistrationTask() {
+    task_tag = "ReinforceRegistrationTask";
+  }
+  virtual ~ReinforceRegistrationTask() {}
+  virtual void WorkerThreadExecute();
+  virtual ReinforceRegistrationTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
 #endif  // _WORKER_PERSON_TRACKING_TASKS_H_

@@ -226,4 +226,43 @@ describe('Person Tracking Test Suite - recognition', function() {
       });
     });
   });
+
+  it('reinforce registration', function() {
+    // eslint-disable-next-line no-invalid-this
+    this.timeout(10000);
+    let registerResult;
+    let registered = false;
+    return new Promise(function(resolve, reject) {
+      addon.createPersonTracker(options, cameraOptionsFromFile).then(function(inst) {
+        tracker = inst;
+        tracker.on('persontracked', function(result) {
+          if (registered)
+            return;
+          if (result.persons.length) {
+            tracker.personRecognition.registerPerson(result.persons[0].trackInfo.id).then(
+                function(registerInfo) {
+              registerResult = registerInfo;
+              registered = true;
+              return tracker.personRecognition.getPersonDescriptorIDs(registerResult.recognitionID);
+            }).then(function(ids) {
+              assert.equal(ids.length, 1);
+              assert.equal(ids[0], registerResult.descriptorID);
+              return tracker.personRecognition.reinforceRegistration(
+                  registerResult.trackID, registerResult.recognitionID);
+            }).then(function(reinforceResult) {
+              return tracker.personRecognition.getPersonDescriptorIDs(registerResult.recognitionID);
+            }).then(function(newids) {
+              assert.equal(newids.length, 2);
+              resolve();
+            }).catch((e) => {
+              // Don't reject, as for some frames, we may not be able to register.
+            });
+          }
+        });
+        return tracker.start();
+      }).catch(function(e) {
+        reject(e);
+      });
+    });
+  });
 });

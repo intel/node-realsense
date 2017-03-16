@@ -5,9 +5,9 @@
 #include "person_registration_data.h"
 
 PersonRegistrationData::PersonRegistrationData() :
-    trackID_(0),
-    recognitionID_(0),
-    descriptorID_(0) {
+    trackID_(-1),
+    recognitionID_(-1),
+    descriptorID_(-1) {
 }
 
 PersonRegistrationData::PersonRegistrationData(

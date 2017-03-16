@@ -1892,7 +1892,7 @@ bool PersonTrackerAdapter::ImportRecognitionDatabase(
   return true;
 }
 
-bool PersonTrackerAdapter::ReinforcePerson(
+bool PersonTrackerAdapter::ReinforceRegistration(
     int32_t track_id, int32_t recognition_id, PersonRegistrationData* result,
     std::string* err) {
   // find the Person with the track id.

@@ -73,7 +73,8 @@ v8::Handle<v8::Promise> PersonRecognition::getPersonDescriptorIDs(
 
 v8::Handle<v8::Promise> PersonRecognition::reinforceRegistration(
     const int32_t& trackID, const int32_t& recognitionID) {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->ReinforceRegistration(
+      trackID, recognitionID);
 }
 
 v8::Handle<v8::Promise> PersonRecognition::recognizePerson(
