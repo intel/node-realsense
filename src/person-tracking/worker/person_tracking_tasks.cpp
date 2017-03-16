@@ -7,6 +7,9 @@
 #include "common/camera-options/camera_options_host_instance.h"
 #include "gen/array_helper.h"
 #include "gen/nan__person_info.h"
+#include "gen/nan__person_recognizer_data.h"
+#include "gen/nan__person_recognizer_data_with_status.h"
+#include "gen/nan__person_registration_data.h"
 
 using RecognitionType = PT::PersonTrackingData::PersonRecognition;
 
@@ -280,4 +283,168 @@ v8_value_t GetPersonInfoTask::GetResolved() {
 
 GetPersonInfoTaskPayload* GetPersonInfoTask::GetPayload() {
   return reinterpret_cast<GetPersonInfoTaskPayload*>(AsyncTask::GetPayload());
+}
+
+void RegisterPersonTask::WorkerThreadExecute() {
+  RegisterPersonTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->RegisterPerson(
+      payload->id_, &(payload->result_), &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+RegisterPersonTaskPayload* RegisterPersonTask::GetPayload() {
+  return reinterpret_cast<RegisterPersonTaskPayload*>(AsyncTask::GetPayload());
+}
+
+v8_value_t RegisterPersonTask::GetResolved() {
+  RegisterPersonTaskPayload* payload = GetPayload();
+  return NanPersonRegistrationData::NewInstance(
+      new PersonRegistrationData(payload->result_));
+}
+
+void RecognizePersonTask::WorkerThreadExecute() {
+  RecognizePersonTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->RecognizePerson(
+      payload->id_, &(payload->result_), &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+RecognizePersonTaskPayload* RecognizePersonTask::GetPayload() {
+  return reinterpret_cast<RecognizePersonTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t RecognizePersonTask::GetResolved() {
+  RecognizePersonTaskPayload* payload = GetPayload();
+  auto wrapper = NanPersonRecognizerData::NewInstance(
+      new PersonRecognizerData(payload->result_));
+  return wrapper;
+}
+
+void RecognizeAllPersonTask::WorkerThreadExecute() {
+  RecognizeAllPersonTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->RecognizeAllPersons(&(payload->result_), &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+RecognizeAllPersonTaskPayload* RecognizeAllPersonTask::GetPayload() {
+  return reinterpret_cast<RecognizeAllPersonTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t RecognizeAllPersonTask::GetResolved() {
+  RecognizeAllPersonTaskPayload* payload = GetPayload();
+  ArrayHelper results;
+  results.FromArrayOfImplT<NanPersonRecognizerDataWithStatus>(
+      payload->result_.begin(), payload->result_.end());
+  return (v8::Local<v8::Array>)results;
+}
+
+void UnRegisterPersonTask::WorkerThreadExecute() {
+  UnRegisterPersonTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->UnRegisterPerson(payload->id_, &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+UnRegisterPersonTaskPayload* UnRegisterPersonTask::GetPayload() {
+  return reinterpret_cast<UnRegisterPersonTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+void GetAllRecognitionIDsTask::WorkerThreadExecute() {
+  GetAllRecognitionIDsTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->GetRecognitionIDs(&payload->result_, &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+v8_value_t GetAllRecognitionIDsTask::GetResolved() {
+  GetAllRecognitionIDsTaskPayload* payload = GetPayload();
+  ArrayHelper results;
+  results.FromArrayT(payload->result_.begin(), payload->result_.end());
+  return (v8::Local<v8::Array>)results;
+}
+
+GetAllRecognitionIDsTaskPayload* GetAllRecognitionIDsTask::GetPayload() {
+  return reinterpret_cast<GetAllRecognitionIDsTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+void RecognitionIDExistTask::WorkerThreadExecute() {
+  RecognitionIDExistTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->RecognitionIDExist(
+      payload->id_, &payload->exist_, &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+RecognitionIDExistTaskPayload* RecognitionIDExistTask::GetPayload() {
+  return reinterpret_cast<RecognitionIDExistTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t RecognitionIDExistTask::GetResolved() {
+  RecognitionIDExistTaskPayload* payload = GetPayload();
+  return Nan::New(payload->exist_);
+}
+
+void GetPersonDescriptorIDsTask::WorkerThreadExecute() {
+  GetPersonDescriptorIDsTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->GetRegistrationDescriptorIDs(
+      payload->id_, &payload->result_, &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+v8_value_t GetPersonDescriptorIDsTask::GetResolved() {
+  GetPersonDescriptorIDsTaskPayload* payload = GetPayload();
+  ArrayHelper results;
+  results.FromArrayT(payload->result_.begin(), payload->result_.end());
+  return (v8::Local<v8::Array>)results;
+}
+
+GetPersonDescriptorIDsTaskPayload* GetPersonDescriptorIDsTask::GetPayload() {
+  return reinterpret_cast<GetPersonDescriptorIDsTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+void RemovePersonDescriptorTask::WorkerThreadExecute() {
+  RemovePersonDescriptorTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->RemoveRegistrationDescriptor(
+      payload->id_, payload->descriptor_id_, &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+RemovePersonDescriptorTaskPayload* RemovePersonDescriptorTask::GetPayload() {
+  return reinterpret_cast<RemovePersonDescriptorTaskPayload*>(
+      AsyncTask::GetPayload());
 }

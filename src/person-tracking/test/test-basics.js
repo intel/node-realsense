@@ -25,12 +25,11 @@ describe('Person Tracking Test Suite - Basics', function() {
 
   it('Make sure methods are all there', function(done) {
     let g = {
-      LyingPoseRecognition: ['setRecognitionState', 'getRecognitionState',
-                             'getCandidatesCount', 'getCandidatesData'],
-      FaceRecognition: ['getRegisteredIDs', 'clearDatabase', 'exportDatabase',
-                        'importDatabase', 'recognizeAll', 'registerPerson', 'unRegisterPerson',
-                        'isPersonRegistered', 'reinforceRegistration', 'recognize',
-                        'querySimilarityScoreByID'],
+      PersonRecognition: ['getAllRecognitionIDs', 'clearDatabase', 'exportDatabase',
+                        'importDatabase', 'recognizeAllPersons', 'registerPerson',
+                        'unRegisterPerson', 'recognitionIDExist', 'reinforceRegistration',
+                        'recognizePerson', 'querySimilarityScoreFromPerson',
+                        'removePersonDescriptor', 'getPersonDescriptorIDs'],
       PersonTracking: ['startTrackingPerson', 'stopTrackingPerson'],
       PersonTracker: ['start', 'stop', 'getPersonTrackerOptions',
                       'setPersonTrackerOptions', 'pause', 'resume', 'reset',
@@ -53,8 +52,7 @@ describe('Person Tracking Test Suite - Basics', function() {
       addon.createPersonTracker().then(function(instance) {
         let g = {
           // attributeName: [type, writable]
-          faceRecognition: ['object', false],
-          lyingPoseRecognition: ['object', false],
+          personRecognition: ['object', false],
           personTracking: ['object', false],
           state: ['string', false],
         };

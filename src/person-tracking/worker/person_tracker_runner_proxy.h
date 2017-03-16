@@ -26,9 +26,25 @@ class PersonTrackerRunnerProxy {
   v8::Handle<v8::Promise> SetCameraOptions(
       const CameraOptions& options);
   v8::Handle<v8::Promise> GetCameraOptions();
-  v8::Handle<v8::Promise> startTrackingPerson(int32_t trackID);
-  v8::Handle<v8::Promise> stopTrackingPerson(int32_t trackID);
-  v8::Handle<v8::Promise> GetPersonInfo(int32_t trackID);
+  v8::Handle<v8::Promise> StartTrackingPerson(const int32_t track_id);
+  v8::Handle<v8::Promise> StopTrackingPerson(const int32_t track_id);
+  v8::Handle<v8::Promise> GetPersonInfo(const int32_t track_id);
+  v8::Handle<v8::Promise> RegisterPerson(const int32_t track_id);
+  v8::Handle<v8::Promise> UnRegisterPerson(const int32_t recognition_id);
+  v8::Handle<v8::Promise> GetAllRecognitionIDs();
+  v8::Handle<v8::Promise> RecognizePerson(const int32_t track_id);
+  v8::Handle<v8::Promise> RecognizeAllPersons();
+  v8::Handle<v8::Promise> RecognitionIDExist(const int32_t recognition_id);
+  v8::Handle<v8::Promise> RemovePersonDescriptor(
+      const int32_t recognition_id, const int32_t descriptor_id);
+  v8::Handle<v8::Promise> GetPersonDescriptorIDs(const int32_t recognition_id);
+  v8::Handle<v8::Promise> ReinforceRegistration(
+      const int32_t tracking_id, const int32_t recognition_id);
+  v8::Handle<v8::Promise> QuerySimilarityScoreFromPerson(
+      const int32_t tracking_id, const int32_t recognition_id);
+  v8::Handle<v8::Promise> ClearRecognitionDatabase();
+  v8::Handle<v8::Promise> ExportRecognitionDatabase();
+  v8::Handle<v8::Promise> ImportRecognitionDatabase(const ArrayBuffer& buf);
   // The below two method apply these options directly to adapter
   // without posting tasks.
   bool SetPersonTrackerOptionsDirectly(

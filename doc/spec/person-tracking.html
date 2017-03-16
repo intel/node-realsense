@@ -1446,7 +1446,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Person Tracking</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-02-23">23 February 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-15">15 March 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1458,7 +1458,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 23 February 2017,
+In addition, as of 15 March 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1490,6 +1490,26 @@ Parts of this work may be from another specification document.  If so, those par
          <a href="#tracking-interface"><span class="secno">2.2.3</span> <span class="content"><span>PersonTracking</span> Interface</span></a>
          <ol class="toc">
           <li><a href="#methods-person-tracking"><span class="secno">2.2.3.1</span> <span class="content">Methods</span></a>
+         </ol>
+        <li>
+         <a href="#recognition-interface"><span class="secno">2.2.4</span> <span class="content"><span>PersonRecognition</span> Interface</span></a>
+         <ol class="toc">
+          <li><a href="#methods-person-recognition"><span class="secno">2.2.4.1</span> <span class="content">Methods</span></a>
+         </ol>
+        <li>
+         <a href="#registrationinfo"><span class="secno">2.2.5</span> <span class="content"><span>PersonRegistrationData</span> Interface</span></a>
+         <ol class="toc">
+          <li><a href="#attrs-registrationinfo"><span class="secno">2.2.5.1</span> <span class="content">Attributes</span></a>
+         </ol>
+        <li>
+         <a href="#recognizerdata"><span class="secno">2.2.6</span> <span class="content"><span>PersonRecognizerData</span> Interface</span></a>
+         <ol class="toc">
+          <li><a href="#attrs-recognitioninfo"><span class="secno">2.2.6.1</span> <span class="content">Attributes</span></a>
+         </ol>
+        <li>
+         <a href="#recognizerdata-with-status"><span class="secno">2.2.7</span> <span class="content"><span>PersonRecognizerDataWithStatus</span> Interface</span></a>
+         <ol class="toc">
+          <li><a href="#attrs-recognitioninfo0"><span class="secno">2.2.7.1</span> <span class="content">Attributes</span></a>
          </ol>
        </ol>
       <li>
@@ -1602,6 +1622,11 @@ Parts of this work may be from another specification document.  If so, those par
            <ol class="toc">
             <li><a href="#members-tracking-options"><span class="secno">3.1.1.4.1</span> <span class="content">Dictionary <span>TrackingOptions</span> Members</span></a>
            </ol>
+          <li>
+           <a href="#recognition-options"><span class="secno">3.1.1.5</span> <span class="content"><span>PersonRecognitionOptions</span></span></a>
+           <ol class="toc">
+            <li><a href="#members-recognition-options"><span class="secno">3.1.1.5.1</span> <span class="content">Dictionary <span>PersonRecognitionOptions</span> Members</span></a>
+           </ol>
          </ol>
        </ol>
      </ol>
@@ -1615,6 +1640,8 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#tracking-state"><span class="secno">4.5</span> <span class="content"><span>TrackingState</span> enum</span></a>
       <li><a href="#access-order"><span class="secno">4.6</span> <span class="content"><span>AccessOrder</span> enum</span></a>
       <li><a href="#joint-type"><span class="secno">4.7</span> <span class="content"><span>JointType</span> enum</span></a>
+      <li><a href="#recognition-policy"><span class="secno">4.8</span> <span class="content"><span>PersonRecognitionPolicy</span> enum</span></a>
+      <li><a href="#recognition-status"><span class="secno">4.9</span> <span class="content"><span>PersonRecognizerStatus</span> enum</span></a>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -1634,7 +1661,7 @@ Parts of this work may be from another specification document.  If so, those par
   <main>
    <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
    <p>The JavaScript API of the Person Tracking module is based on Intel® and RealSense™ technology, and provide Person
-Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functionalities.</p>
+Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Recognition functionalities.</p>
    <h2 class="heading settled" data-level="2" id="interface"><span class="secno">2. </span><span class="content">Interface</span><a class="self-link" href="#interface"></a></h2>
    <h3 class="heading settled" data-level="2.1" id="module"><span class="secno">2.1. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="module0">Module<a class="self-link" href="#module0"></a></dfn></span><a class="self-link" href="#module"></a></h3>
 <pre class="idl highlight def"><span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface">Module</a> {
@@ -1697,6 +1724,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
 
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#enumdef-trackingstate" id="ref-for-enumdef-trackingstate-1">TrackingState</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTracker" data-dfn-type="attribute" data-export="" data-readonly="" data-type="TrackingState" id="dom-persontracker-state">state</dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#persontracking0" id="ref-for-persontracking0-1">PersonTracking</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTracker" data-dfn-type="attribute" data-export="" data-readonly="" data-type="PersonTracking" id="dom-persontracker-persontracking">personTracking</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#personrecognition0" id="ref-for-personrecognition0-1">PersonRecognition</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTracker" data-dfn-type="attribute" data-export="" data-readonly="" data-type="PersonRecognition" id="dom-persontracker-personrecognition">personRecognition</dfn>;
 
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTracker" data-dfn-type="attribute" data-export="" data-type="EventHandler" id="dom-persontracker-onpersontracked">onpersontracked</dfn>;
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTracker" data-dfn-type="attribute" data-export="" data-type="EventHandler" id="dom-persontracker-onframeprocessed">onframeprocessed</dfn>;
@@ -1712,6 +1740,10 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <p><code class="idl"><a data-link-type="idl" href="#dom-persontracker-persontracking" id="ref-for-dom-persontracker-persontracking-1">personTracking</a></code> of type <a data-link-type="dfn" href="#persontracking" id="ref-for-persontracking-1">PersonTracking</a>, readonly</p>
     <li data-md="">
      <p>    The person tracking controller.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-persontracker-personrecognition" id="ref-for-dom-persontracker-personrecognition-1">personRecognition</a></code> of type <a data-link-type="dfn" href="#personrecognition" id="ref-for-personrecognition-1">PersonRecognition</a>, readonly</p>
+    <li data-md="">
+     <p>    The person recognition controller, including registration and recognition related methods.</p>
     <li data-md="">
      <p><code class="idl"><a data-link-type="idl" href="#dom-persontracker-onpersontracked" id="ref-for-dom-persontracker-onpersontracked-1">onpersontracked</a></code> of type <a data-link-type="dfn">EventHandler</a></p>
     <li data-md="">
@@ -1859,7 +1891,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
       <th>Description 
     <tbody>
      <tr>
-      <td><dfn class="idl-code" data-dfn-for="PersonTracker/getPersonInfo(long trackID)" data-dfn-type="argument" data-export="" id="dom-persontracker-getpersoninfo-long-trackid-trackid">trackID<a class="self-link" href="#dom-persontracker-getpersoninfo-long-trackid-trackid"></a></dfn> 
+      <td><dfn class="dfn-paneled idl-code" data-dfn-for="PersonTracker/getPersonInfo(long trackID)" data-dfn-type="argument" data-export="" id="dom-persontracker-getpersoninfo-long-trackid-trackid">trackID</dfn> 
       <td> long 
       <td> <span class="no">✘</span>
       <td> <span class="no">✘</span>
@@ -1934,6 +1966,271 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
     <dd data-md="">
      <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
    </dl>
+   <h4 class="heading settled" data-level="2.2.4" id="recognition-interface"><span class="secno">2.2.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personrecognition">PersonRecognition</dfn> Interface</span><a class="self-link" href="#recognition-interface"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="personrecognition0">PersonRecognition</dfn> {
+    <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personregistrationdata0" id="ref-for-personregistrationdata0-1">PersonRegistrationData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="registerPerson(trackID)" id="dom-personrecognition-registerperson">registerPerson<a class="self-link" href="#dom-personrecognition-registerperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/registerPerson(trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-registerperson-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-registerperson-trackid-trackid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="unRegisterPerson(recognitionID)" id="dom-personrecognition-unregisterperson">unRegisterPerson<a class="self-link" href="#dom-personrecognition-unregisterperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/unRegisterPerson(recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-unregisterperson-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-unregisterperson-recognitionid-recognitionid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<span class="kt">boolean</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognitionIDExist(recognitionID)" id="dom-personrecognition-recognitionidexist">recognitionIDExist<a class="self-link" href="#dom-personrecognition-recognitionidexist"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/recognitionIDExist(recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognitionidexist-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-recognitionidexist-recognitionid-recognitionid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="getAllRecognitionIDs()" id="dom-personrecognition-getallrecognitionids">getAllRecognitionIDs<a class="self-link" href="#dom-personrecognition-getallrecognitionids"></a></dfn>();
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="removePersonDescriptor(recognitionID, descriptorID)" id="dom-personrecognition-removepersondescriptor">removePersonDescriptor<a class="self-link" href="#dom-personrecognition-removepersondescriptor"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/removePersonDescriptor(recognitionID, descriptorID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-recognitionid"></a></dfn>, <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/removePersonDescriptor(recognitionID, descriptorID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-descriptorid">descriptorID<a class="self-link" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-descriptorid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="getPersonDescriptorIDs(recognitionID)" id="dom-personrecognition-getpersondescriptorids">getPersonDescriptorIDs<a class="self-link" href="#dom-personrecognition-getpersondescriptorids"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/getPersonDescriptorIDs(recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-getpersondescriptorids-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-getpersondescriptorids-recognitionid-recognitionid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0" id="ref-for-personrecognizerdata0-1">PersonRecognizerData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizePerson(trackID)" id="dom-personrecognition-recognizeperson">recognizePerson<a class="self-link" href="#dom-personrecognition-recognizeperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/recognizePerson(trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognizeperson-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-recognizeperson-trackid-trackid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0" id="ref-for-personrecognizerdatawithstatus0-1">PersonRecognizerDataWithStatus</a>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizeAllPersons()" id="dom-personrecognition-recognizeallpersons">recognizeAllPersons<a class="self-link" href="#dom-personrecognition-recognizeallpersons"></a></dfn>();
+};
+</pre>
+   <h5 class="heading settled" data-level="2.2.4.1" id="methods-person-recognition"><span class="secno">2.2.4.1. </span><span class="content">Methods</span><a class="self-link" href="#methods-person-recognition"></a></h5>
+   <dl>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">registerPerson</a></code></p>
+    <dd data-md="">
+     <p>Registers a person in the Recognition database.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.registerPerson(long trackID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/registerPerson(long trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-registerperson-long-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-registerperson-long-trackid-trackid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The tracking ID of the person. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#personregistrationdata" id="ref-for-personregistrationdata-1">PersonRegistrationData</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">unRegisterPerson</a></code></p>
+    <dd data-md="">
+     <p>Unregisters a person in the Recognition database.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.unRegisterPerson(long recognitionID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="dfn-paneled idl-code" data-dfn-for="PersonRecognition/unRegisterPerson(long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-unregisterperson-long-recognitionid-recognitionid">recognitionID</dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The recognition ID of the registered person. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">recognitionIDExist</a></code></p>
+    <dd data-md="">
+     <p>Judge whether the provided recognition ID exists in the database.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.recognitionIDExist(long recognitionID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/recognitionIDExist(long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognitionidexist-long-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-recognitionidexist-long-recognitionid-recognitionid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The recognition ID of the registered person. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">boolean</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">getAllRecognitionIDs</a></code></p>
+    <dd data-md="">
+     <p>Get all of the recognition IDs in the recognition database.</p>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">&lt;sequence&lt;long>></a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">removePersonDescriptor</a></code></p>
+    <dd data-md="">
+     <p>Remove the descriptor associated with the person in the Recognition database.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.removePersonDescriptor(long recognitionID, long descriptorID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/removePersonDescriptor(long recognitionID, long descriptorID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-recognitionid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The recognition ID of the registered person. 
+     <tr>
+      <td><dfn class="dfn-paneled idl-code" data-dfn-for="PersonRecognition/removePersonDescriptor(long recognitionID, long descriptorID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid">descriptorID</dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The descriptor ID. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">getPersonDescriptorIDs</a></code></p>
+    <dd data-md="">
+     <p>Get all of the descriptor IDs of the registered person.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.getPersonDescriptorIDs(long recognitionID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/getPersonDescriptorIDs(long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-getpersondescriptorids-long-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-getpersondescriptorids-long-recognitionid-recognitionid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The recognition ID of the registered person. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">&lt;sequence&lt;long>></a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">recognizePerson</a></code></p>
+    <dd data-md="">
+     <p>Recognize a person using the database.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.recognizePerson(long trackID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/recognizePerson(long trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognizeperson-long-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-recognizeperson-long-trackid-trackid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The tracking ID of the person. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#personrecognizerdata" id="ref-for-personrecognizerdata-1">PersonRecognizerData</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">recognizeAllPersons</a></code></p>
+    <dd data-md="">
+     <p>Recognize all persons in the camera.</p>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#personrecognizerdatawithstatus" id="ref-for-personrecognizerdatawithstatus-1">PersonRecognizerDataWithStatus</a>></p>
+   </dl>
+   <h4 class="heading settled" data-level="2.2.5" id="registrationinfo"><span class="secno">2.2.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personregistrationdata">PersonRegistrationData</dfn> Interface</span><a class="self-link" href="#registrationinfo"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="personregistrationdata0">PersonRegistrationData</dfn> {
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRegistrationData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-personregistrationdata-trackid">trackID<a class="self-link" href="#dom-personregistrationdata-trackid"></a></dfn>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRegistrationData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-personregistrationdata-recognitionid">recognitionID<a class="self-link" href="#dom-personregistrationdata-recognitionid"></a></dfn>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRegistrationData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-personregistrationdata-descriptorid">descriptorID<a class="self-link" href="#dom-personregistrationdata-descriptorid"></a></dfn>;
+};
+</pre>
+   <h5 class="heading settled" data-level="2.2.5.1" id="attrs-registrationinfo"><span class="secno">2.2.5.1. </span><span class="content">Attributes</span><a class="self-link" href="#attrs-registrationinfo"></a></h5>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-persontracker-getpersoninfo-long-trackid-trackid" id="ref-for-dom-persontracker-getpersoninfo-long-trackid-trackid-1">trackID</a></code> of type long, readonly</p>
+    <li data-md="">
+     <p>    The tracking ID of the person.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognition-unregisterperson-long-recognitionid-recognitionid" id="ref-for-dom-personrecognition-unregisterperson-long-recognitionid-recognitionid-1">recognitionID</a></code> of type long, readonly</p>
+    <li data-md="">
+     <p>    The recognition ID of the person.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid" id="ref-for-dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid-1">descriptorID</a></code> of type long, readonly</p>
+    <li data-md="">
+     <p>    The descriptor ID.</p>
+   </ul>
+   <h4 class="heading settled" data-level="2.2.6" id="recognizerdata"><span class="secno">2.2.6. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personrecognizerdata">PersonRecognizerData</dfn> Interface</span><a class="self-link" href="#recognizerdata"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="personrecognizerdata0">PersonRecognizerData</dfn> {
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">boolean</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonRecognizerData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="boolean" id="dom-personrecognizerdata-recognized">recognized</dfn>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognizerData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-personrecognizerdata-trackid">trackID<a class="self-link" href="#dom-personrecognizerdata-trackid"></a></dfn>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognizerData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-personrecognizerdata-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognizerdata-recognitionid"></a></dfn>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonRecognizerData" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long" id="dom-personrecognizerdata-similarityscore">similarityScore</dfn>;
+};
+</pre>
+   <h5 class="heading settled" data-level="2.2.6.1" id="attrs-recognitioninfo"><span class="secno">2.2.6.1. </span><span class="content">Attributes</span><a class="self-link" href="#attrs-recognitioninfo"></a></h5>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerdata-recognized" id="ref-for-dom-personrecognizerdata-recognized-1">recognized</a></code> of type boolean, readonly</p>
+    <li data-md="">
+     <p>    Whether the person has been recognized.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-persontracker-getpersoninfo-long-trackid-trackid" id="ref-for-dom-persontracker-getpersoninfo-long-trackid-trackid-2">trackID</a></code> of type long, readonly</p>
+    <li data-md="">
+     <p>    The tracking ID of the person.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognition-unregisterperson-long-recognitionid-recognitionid" id="ref-for-dom-personrecognition-unregisterperson-long-recognitionid-recognitionid-2">recognitionID</a></code> of type long, readonly</p>
+    <li data-md="">
+     <p>    The recognitionID of the recognized person, valid only if the person is successfully recognized.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerdata-similarityscore" id="ref-for-dom-personrecognizerdata-similarityscore-1">similarityScore</a></code> of type long, readonly</p>
+    <li data-md="">
+     <p>    The similarity score of the recognized person, valid only if the person is successfully recognized.</p>
+   </ul>
+   <h4 class="heading settled" data-level="2.2.7" id="recognizerdata-with-status"><span class="secno">2.2.7. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personrecognizerdatawithstatus">PersonRecognizerDataWithStatus</dfn> Interface</span><a class="self-link" href="#recognizerdata-with-status"></a></h4>
+<pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="personrecognizerdatawithstatus0">PersonRecognizerDataWithStatus</dfn> {
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#personrecognizerdata0" id="ref-for-personrecognizerdata0-2">PersonRecognizerData</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonRecognizerDataWithStatus" data-dfn-type="attribute" data-export="" data-readonly="" data-type="PersonRecognizerData" id="dom-personrecognizerdatawithstatus-data">data</dfn>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#enumdef-personrecognizerstatus" id="ref-for-enumdef-personrecognizerstatus-1">PersonRecognizerStatus</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonRecognizerDataWithStatus" data-dfn-type="attribute" data-export="" data-readonly="" data-type="PersonRecognizerStatus" id="dom-personrecognizerdatawithstatus-status">status</dfn>;
+};
+</pre>
+   <h5 class="heading settled" data-level="2.2.7.1" id="attrs-recognitioninfo0"><span class="secno">2.2.7.1. </span><span class="content">Attributes</span><a class="self-link" href="#attrs-recognitioninfo0"></a></h5>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerdatawithstatus-data" id="ref-for-dom-personrecognizerdatawithstatus-data-1">data</a></code> of type <a data-link-type="dfn" href="#personrecognizerdata" id="ref-for-personrecognizerdata-2">PersonRecognizerData</a>, readonly</p>
+    <li data-md="">
+     <p>    The recognition result data.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerdatawithstatus-status" id="ref-for-dom-personrecognizerdatawithstatus-status-1">status</a></code> of type <a data-link-type="dfn" href="#personrecognizerstatus" id="ref-for-personrecognizerstatus-1">PersonRecognizerStatus</a>, readonly</p>
+    <li data-md="">
+     <p>    Status of the recognition result.</p>
+   </ul>
    <h3 class="heading settled" data-level="2.3" id="tracking-result"><span class="secno">2.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="persontrackingresult">PersonTrackingResult</dfn> Interface</span><a class="self-link" href="#tracking-result"></a></h3>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv idl-code" data-dfn-type="interface" data-export="" id="persontrackingresult0">PersonTrackingResult<a class="self-link" href="#persontrackingresult0"></a></dfn> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#personinfo1" id="ref-for-personinfo1-2">PersonInfo</a>[] <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTrackingResult" data-dfn-type="attribute" data-export="" data-readonly="" data-type="PersonInfo[]" id="dom-persontrackingresult-persons">persons</dfn>;
@@ -2260,6 +2557,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
   <a class="n" data-link-type="idl-name" href="#dictdef-personfaceoptions" id="ref-for-dictdef-personfaceoptions-1">PersonFaceOptions</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTrackerOptions" data-dfn-type="dict-member" data-export="" data-type="PersonFaceOptions " id="dom-persontrackeroptions-personface">personFace</dfn>;
   <a class="n" data-link-type="idl-name" href="#dictdef-skeletonrecognitionoptions" id="ref-for-dictdef-skeletonrecognitionoptions-1">SkeletonRecognitionOptions</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTrackerOptions" data-dfn-type="dict-member" data-export="" data-type="SkeletonRecognitionOptions " id="dom-persontrackeroptions-skeleton">skeleton</dfn>;
   <a class="n" data-link-type="idl-name" href="#dictdef-trackingoptions" id="ref-for-dictdef-trackingoptions-1">TrackingOptions</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTrackerOptions" data-dfn-type="dict-member" data-export="" data-type="TrackingOptions " id="dom-persontrackeroptions-tracking">tracking</dfn>;
+  <a class="n" data-link-type="idl-name" href="#dictdef-personrecognitionoptions" id="ref-for-dictdef-personrecognitionoptions-1">PersonRecognitionOptions</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonTrackerOptions" data-dfn-type="dict-member" data-export="" data-type="PersonRecognitionOptions " id="dom-persontrackeroptions-recognition">recognition</dfn>;
 };
 </pre>
    <h4 class="heading settled" data-level="3.1.1" id="members-tracker-options"><span class="secno">3.1.1. </span><span class="content">Dictionary <a data-link-type="dfn" href="#persontrackeroptions" id="ref-for-persontrackeroptions-2">PersonTrackerOptions</a> Members</span><a class="self-link" href="#members-tracker-options"></a></h4>
@@ -2280,6 +2578,10 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <p><code class="idl"><a data-link-type="idl" href="#dom-persontrackeroptions-tracking" id="ref-for-dom-persontrackeroptions-tracking-1">tracking</a></code> of type <a data-link-type="dfn" href="#trackingoptions" id="ref-for-trackingoptions-1">TrackingOptions</a></p>
     <li data-md="">
      <p>    Tracking related options.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-persontrackeroptions-recognition" id="ref-for-dom-persontrackeroptions-recognition-1">recognition</a></code> of type <a data-link-type="dfn" href="#personrecognitionoptions" id="ref-for-personrecognitionoptions-1">PersonRecognitionOptions</a></p>
+    <li data-md="">
+     <p>    Person recognition related options.</p>
    </ul>
    <h5 class="heading settled" data-level="3.1.1.1" id="gesture-options"><span class="secno">3.1.1.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="gesturerecognitionoptions">GestureRecognitionOptions</dfn></span><a class="self-link" href="#gesture-options"></a></h5>
 <pre class="idl highlight def"><span class="kt">dictionary</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-gesturerecognitionoptions">GestureRecognitionOptions</dfn> {
@@ -2368,6 +2670,23 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <p><code class="idl"><a data-link-type="idl" href="#dom-trackingoptions-trackingmode" id="ref-for-dom-trackingoptions-trackingmode-1">trackingMode</a></code> of type <a data-link-type="dfn" href="#trackingmode" id="ref-for-trackingmode-1">TrackingMode</a></p>
     <li data-md="">
      <p>    The tracking mode.</p>
+   </ul>
+   <h5 class="heading settled" data-level="3.1.1.5" id="recognition-options"><span class="secno">3.1.1.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personrecognitionoptions">PersonRecognitionOptions</dfn></span><a class="self-link" href="#recognition-options"></a></h5>
+<pre class="idl highlight def"><span class="kt">dictionary</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-personrecognitionoptions">PersonRecognitionOptions</dfn> {
+    <span class="kt">boolean</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognitionOptions" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-personrecognitionoptions-enable">enable<a class="self-link" href="#dom-personrecognitionoptions-enable"></a></dfn>;
+    <a class="n" data-link-type="idl-name" href="#enumdef-personrecognitionpolicy" id="ref-for-enumdef-personrecognitionpolicy-1">PersonRecognitionPolicy</a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="PersonRecognitionOptions" data-dfn-type="dict-member" data-export="" data-type="PersonRecognitionPolicy " id="dom-personrecognitionoptions-policy">policy</dfn>;
+};
+</pre>
+   <h6 class="heading settled" data-level="3.1.1.5.1" id="members-recognition-options"><span class="secno">3.1.1.5.1. </span><span class="content">Dictionary <a data-link-type="dfn" href="#personrecognitionoptions" id="ref-for-personrecognitionoptions-2">PersonRecognitionOptions</a> Members</span><a class="self-link" href="#members-recognition-options"></a></h6>
+   <ul>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-gesturerecognitionoptions-enable" id="ref-for-dom-gesturerecognitionoptions-enable-4">enable</a></code> of type boolean</p>
+    <li data-md="">
+     <p>    Whether enables person recognition feature.</p>
+    <li data-md="">
+     <p><code class="idl"><a data-link-type="idl" href="#dom-personrecognitionoptions-policy" id="ref-for-dom-personrecognitionoptions-policy-1">policy</a></code> of type <a data-link-type="dfn" href="#personrecognitionpolicy" id="ref-for-personrecognitionpolicy-1">PersonRecognitionPolicy</a></p>
+    <li data-md="">
+     <p>    Recognition policy.</p>
    </ul>
    <h2 class="heading settled" data-level="4" id="enumerators"><span class="secno">4. </span><span class="content">Enumerators</span><a class="self-link" href="#enumerators"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="skeleton-area"><span class="secno">4.1. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport="" id="skeletonarea">SkeletonArea<a class="self-link" href="#skeletonarea"></a></dfn> enum</span><a class="self-link" href="#skeleton-area"></a></h3>
@@ -2615,6 +2934,72 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
       <td><code class="idl"><a data-link-type="idl" href="#dom-jointtype-wrist-right" id="ref-for-dom-jointtype-wrist-right-1">"wrist-right"</a></code> 
       <td>Right wrist. 
    </table>
+   <h3 class="heading settled" data-level="4.8" id="recognition-policy"><span class="secno">4.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personrecognitionpolicy">PersonRecognitionPolicy</dfn> enum</span><a class="self-link" href="#recognition-policy"></a></h3>
+<pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-personrecognitionpolicy">PersonRecognitionPolicy</dfn> {
+    <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognitionPolicy" data-dfn-type="enum-value" data-export="" data-lt="&quot;standard&quot;|standard" id="dom-personrecognitionpolicy-standard">"standard"</dfn>,
+};
+</pre>
+   <table class="data">
+    <thead>
+     <tr>
+      <th>Member
+      <th>Definition 
+    <tbody>
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognitionpolicy-standard" id="ref-for-dom-personrecognitionpolicy-standard-1">"standard"</a></code> 
+      <td>The standard recognition policy. 
+   </table>
+   <h3 class="heading settled" data-level="4.9" id="recognition-status"><span class="secno">4.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personrecognizerstatus">PersonRecognizerStatus</dfn> enum</span><a class="self-link" href="#recognition-status"></a></h3>
+<pre class="idl highlight def"><span class="kt">enum</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="enum" data-export="" id="enumdef-personrecognizerstatus">PersonRecognizerStatus</dfn> {
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;recognized&quot;|recognized" id="dom-personrecognizerstatus-recognized">"recognized"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;not-recognized&quot;|not-recognized" id="dom-personrecognizerstatus-not-recognized">"not-recognized"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;generic-failure&quot;|generic-failure" id="dom-personrecognizerstatus-generic-failure">"generic-failure"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;no-person-found-with-the-trackID&quot;|no-person-found-with-the-trackID" id="dom-personrecognizerstatus-no-person-found-with-the-trackid">"no-person-found-with-the-trackID"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;recognition-not-enabled&quot;|recognition-not-enabled" id="dom-personrecognizerstatus-recognition-not-enabled">"recognition-not-enabled"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;face-not-detected&quot;|face-not-detected" id="dom-personrecognizerstatus-face-not-detected">"face-not-detected"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;face-not-clear&quot;|face-not-clear" id="dom-personrecognizerstatus-face-not-clear">"face-not-clear"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;person-too-far&quot;|person-too-far" id="dom-personrecognizerstatus-person-too-far">"person-too-far"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;person-too-close&quot;|person-too-close" id="dom-personrecognizerstatus-person-too-close">"person-too-close"</dfn>,
+  <dfn class="s dfn-paneled idl-code" data-dfn-for="PersonRecognizerStatus" data-dfn-type="enum-value" data-export="" data-lt="&quot;face-ambiguity&quot;|face-ambiguity" id="dom-personrecognizerstatus-face-ambiguity">"face-ambiguity"</dfn>
+};
+</pre>
+   <table class="data">
+    <thead>
+     <tr>
+      <th>Member
+      <th>Definition 
+    <tbody>
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-recognized" id="ref-for-dom-personrecognizerstatus-recognized-1">"recognized"</a></code> 
+      <td>the person was recognized. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-not-recognized" id="ref-for-dom-personrecognizerstatus-not-recognized-1">"not-recognized"</a></code> 
+      <td>The person was not recognized. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-generic-failure" id="ref-for-dom-personrecognizerstatus-generic-failure-1">"generic-failure"</a></code> 
+      <td>Error happened in the recognition process. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-no-person-found-with-the-trackid" id="ref-for-dom-personrecognizerstatus-no-person-found-with-the-trackid-1">"no-person-found-with-the-trackID"</a></code> 
+      <td>The person with the specified trackID was not found. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-recognition-not-enabled" id="ref-for-dom-personrecognizerstatus-recognition-not-enabled-1">"recognition-not-enabled"</a></code> 
+      <td>The Person Recognition feature was not enabled. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-face-not-detected" id="ref-for-dom-personrecognizerstatus-face-not-detected-1">"face-not-detected"</a></code> 
+      <td>Didn’t detect the face. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-face-not-clear" id="ref-for-dom-personrecognizerstatus-face-not-clear-1">"face-not-clear"</a></code> 
+      <td>The face of the person was not clear. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-person-too-far" id="ref-for-dom-personrecognizerstatus-person-too-far-1">"person-too-far"</a></code> 
+      <td>The person was too far to recognize. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-person-too-close" id="ref-for-dom-personrecognizerstatus-person-too-close-1">"person-too-close"</a></code> 
+      <td>The person was too close to recognize. 
+     <tr>
+      <td><code class="idl"><a data-link-type="idl" href="#dom-personrecognizerstatus-face-ambiguity" id="ref-for-dom-personrecognizerstatus-face-ambiguity-1">"face-ambiguity"</a></code> 
+      <td>There was ambiguity in the recognition process. 
+   </table>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -2800,6 +3185,8 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <li><a href="#dom-module-createpersontracker">createPersonTracker()</a><span>, in §2.1</span>
    <li><a href="#dom-module-createpersontracker">createPersonTracker(personTrackerOptions)</a><span>, in §2.1</span>
    <li><a href="#dom-module-createpersontracker">createPersonTracker(personTrackerOptions, cameraOptions)</a><span>, in §2.1</span>
+   <li><a href="#dom-personrecognizerdatawithstatus-data">data</a><span>, in §2.2.7</span>
+   <li><a href="#dom-personregistrationdata-descriptorid">descriptorID</a><span>, in §2.2.5</span>
    <li><a href="#dom-trackingstate-detecting">"detecting"</a><span>, in §4.5</span>
    <li><a href="#dom-trackingstate-detecting">detecting</a><span>, in §4.5</span>
    <li><a href="#dom-trackingoptions-detectionmode">detectionMode</a><span>, in §3.1.1.4</span>
@@ -2826,6 +3213,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <li><a href="#dom-gesturerecognitionoptions-enable">dict-member for GestureRecognitionOptions</a><span>, in §3.1.1.1</span>
      <li><a href="#dom-skeletonrecognitionoptions-enable">dict-member for SkeletonRecognitionOptions</a><span>, in §3.1.1.3</span>
      <li><a href="#dom-trackingoptions-enable">dict-member for TrackingOptions</a><span>, in §3.1.1.4</span>
+     <li><a href="#dom-personrecognitionoptions-enable">dict-member for PersonRecognitionOptions</a><span>, in §3.1.1.5</span>
     </ul>
    <li><a href="#dom-gesturerecognitionoptions-enableallgestures">enableAllGestures</a><span>, in §3.1.1.1</span>
    <li><a href="#dom-trackingoptions-enabledetectionfromfar">enableDetectionFromFar</a><span>, in §3.1.1.4</span>
@@ -2835,6 +3223,8 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <li><a href="#dom-gesturerecognitionoptions-enablepointing">enablePointing</a><span>, in §3.1.1.1</span>
    <li><a href="#dom-trackingstate-errored">errored</a><span>, in §4.5</span>
    <li><a href="#dom-trackingstate-errored">"errored"</a><span>, in §4.5</span>
+   <li><a href="#dom-personrecognizerstatus-face-ambiguity">face-ambiguity</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-face-ambiguity">"face-ambiguity"</a><span>, in §4.9</span>
    <li><a href="#dom-personinfo-faceinfo">faceInfo</a><span>, in §2.3.2</span>
    <li>
     FaceLandmark
@@ -2848,6 +3238,10 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <li><a href="#facelandmarkinfo">definition of</a><span>, in §2.3.6.2</span>
      <li><a href="#facelandmarkinfo0">(interface)</a><span>, in §2.3.6.2</span>
     </ul>
+   <li><a href="#dom-personrecognizerstatus-face-not-clear">"face-not-clear"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-face-not-clear">face-not-clear</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-face-not-detected">face-not-detected</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-face-not-detected">"face-not-detected"</a><span>, in §4.9</span>
    <li><a href="#dom-detectionmode-far-range">far-range</a><span>, in §4.3</span>
    <li><a href="#dom-detectionmode-far-range">"far-range"</a><span>, in §4.3</span>
    <li><a href="#dom-trackingmode-following">"following"</a><span>, in §4.2</span>
@@ -2858,8 +3252,10 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <li><a href="#dom-jointtype-foot-right">foot-right</a><span>, in §4.7</span>
    <li><a href="#dom-skeletonarea-full-body">full-body</a><span>, in §4.1</span>
    <li><a href="#dom-skeletonarea-full-body">"full-body"</a><span>, in §4.1</span>
-   <li><a href="#dom-detectionmode-full-range">full-range</a><span>, in §4.3</span>
    <li><a href="#dom-detectionmode-full-range">"full-range"</a><span>, in §4.3</span>
+   <li><a href="#dom-detectionmode-full-range">full-range</a><span>, in §4.3</span>
+   <li><a href="#dom-personrecognizerstatus-generic-failure">"generic-failure"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-generic-failure">generic-failure</a><span>, in §4.9</span>
    <li><a href="#dom-persontrackeroptions-gesture">gesture</a><span>, in §3.1</span>
    <li><a href="#dom-personinfo-gestureinfo">gestureInfo</a><span>, in §2.3.2</span>
    <li>
@@ -2881,8 +3277,10 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <li><a href="#gesturetype">definition of</a><span>, in §4.4</span>
      <li><a href="#enumdef-gesturetype">(enum)</a><span>, in §4.4</span>
     </ul>
+   <li><a href="#dom-personrecognition-getallrecognitionids">getAllRecognitionIDs()</a><span>, in §2.2.4</span>
    <li><a href="#dom-persontracker-getcameraoptions">getCameraOptions()</a><span>, in §2.2</span>
    <li><a href="#dom-persontracker-getframedata">getFrameData()</a><span>, in §2.2</span>
+   <li><a href="#dom-personrecognition-getpersondescriptorids">getPersonDescriptorIDs(recognitionID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-persontracker-getpersoninfo">getPersonInfo(trackID)</a><span>, in §2.2</span>
    <li><a href="#dom-persontracker-getpersontrackeroptions">getPersonTrackerOptions()</a><span>, in §2.2</span>
    <li><a href="#dom-jointtype-hand-left">hand-left</a><span>, in §4.7</span>
@@ -2942,6 +3340,10 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <li><a href="#module0">Module</a><span>, in §2.1</span>
    <li><a href="#dom-jointtype-neck">"neck"</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-neck">neck</a><span>, in §4.7</span>
+   <li><a href="#dom-personrecognizerstatus-no-person-found-with-the-trackid">"no-person-found-with-the-trackID"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-no-person-found-with-the-trackid">no-person-found-with-the-trackID</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-not-recognized">"not-recognized"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-not-recognized">not-recognized</a><span>, in §4.9</span>
    <li><a href="#dom-persontracker-onframeprocessed">onframeprocessed</a><span>, in §2.2</span>
    <li><a href="#dom-persontracker-onpersontracked">onpersontracked</a><span>, in §2.2</span>
    <li>
@@ -2972,7 +3374,54 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <li><a href="#personinfo0">definition of</a><span>, in §2.3.2</span>
      <li><a href="#personinfo1">(interface)</a><span>, in §2.3.2</span>
     </ul>
+   <li>
+    PersonRecognition
+    <ul>
+     <li><a href="#personrecognition">definition of</a><span>, in §2.2.4</span>
+     <li><a href="#personrecognition0">(interface)</a><span>, in §2.2.4</span>
+    </ul>
+   <li><a href="#dom-persontracker-personrecognition">personRecognition</a><span>, in §2.2</span>
+   <li>
+    PersonRecognitionOptions
+    <ul>
+     <li><a href="#personrecognitionoptions">definition of</a><span>, in §3.1.1.5</span>
+     <li><a href="#dictdef-personrecognitionoptions">(dictionary)</a><span>, in §3.1.1.5</span>
+    </ul>
+   <li>
+    PersonRecognitionPolicy
+    <ul>
+     <li><a href="#personrecognitionpolicy">definition of</a><span>, in §4.8</span>
+     <li><a href="#enumdef-personrecognitionpolicy">(enum)</a><span>, in §4.8</span>
+    </ul>
+   <li>
+    PersonRecognizerData
+    <ul>
+     <li><a href="#personrecognizerdata">definition of</a><span>, in §2.2.6</span>
+     <li><a href="#personrecognizerdata0">(interface)</a><span>, in §2.2.6</span>
+    </ul>
+   <li>
+    PersonRecognizerDataWithStatus
+    <ul>
+     <li><a href="#personrecognizerdatawithstatus">definition of</a><span>, in §2.2.7</span>
+     <li><a href="#personrecognizerdatawithstatus0">(interface)</a><span>, in §2.2.7</span>
+    </ul>
+   <li>
+    PersonRecognizerStatus
+    <ul>
+     <li><a href="#personrecognizerstatus">definition of</a><span>, in §4.9</span>
+     <li><a href="#enumdef-personrecognizerstatus">(enum)</a><span>, in §4.9</span>
+    </ul>
+   <li>
+    PersonRegistrationData
+    <ul>
+     <li><a href="#personregistrationdata">definition of</a><span>, in §2.2.5</span>
+     <li><a href="#personregistrationdata0">(interface)</a><span>, in §2.2.5</span>
+    </ul>
    <li><a href="#dom-persontrackingresult-persons">persons</a><span>, in §2.3</span>
+   <li><a href="#dom-personrecognizerstatus-person-too-close">person-too-close</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-person-too-close">"person-too-close"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-person-too-far">"person-too-far"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-person-too-far">person-too-far</a><span>, in §4.9</span>
    <li>
     PersonTracker
     <ul>
@@ -3026,6 +3475,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <li><a href="#pointinginfo">definition of</a><span>, in §2.3.5.2</span>
      <li><a href="#pointinginfo0">(interface)</a><span>, in §2.3.5.2</span>
     </ul>
+   <li><a href="#dom-personrecognitionoptions-policy">policy</a><span>, in §3.1.1.5</span>
    <li>
     PoseEulerAngles
     <ul>
@@ -3034,7 +3484,28 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
     </ul>
    <li><a href="#dom-trackingstate-ready">"ready"</a><span>, in §4.5</span>
    <li><a href="#dom-trackingstate-ready">ready</a><span>, in §4.5</span>
+   <li><a href="#dom-persontrackeroptions-recognition">recognition</a><span>, in §3.1</span>
+   <li>
+    recognitionID
+    <ul>
+     <li><a href="#dom-personregistrationdata-recognitionid">attribute for PersonRegistrationData</a><span>, in §2.2.5</span>
+     <li><a href="#dom-personrecognizerdata-recognitionid">attribute for PersonRecognizerData</a><span>, in §2.2.6</span>
+    </ul>
+   <li><a href="#dom-personrecognition-recognitionidexist">recognitionIDExist(recognitionID)</a><span>, in §2.2.4</span>
+   <li><a href="#dom-personrecognizerstatus-recognition-not-enabled">"recognition-not-enabled"</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognizerstatus-recognition-not-enabled">recognition-not-enabled</a><span>, in §4.9</span>
+   <li><a href="#dom-personrecognition-recognizeallpersons">recognizeAllPersons()</a><span>, in §2.2.4</span>
+   <li><a href="#dom-personrecognizerstatus-recognized">"recognized"</a><span>, in §4.9</span>
+   <li>
+    recognized
+    <ul>
+     <li><a href="#dom-personrecognizerdata-recognized">attribute for PersonRecognizerData</a><span>, in §2.2.6</span>
+     <li><a href="#dom-personrecognizerstatus-recognized">enum-value for PersonRecognizerStatus</a><span>, in §4.9</span>
+    </ul>
+   <li><a href="#dom-personrecognition-recognizeperson">recognizePerson(trackID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-boundingbox2dinfo-rect">rect</a><span>, in §2.3.4.2</span>
+   <li><a href="#dom-personrecognition-registerperson">registerPerson(trackID)</a><span>, in §2.2.4</span>
+   <li><a href="#dom-personrecognition-removepersondescriptor">removePersonDescriptor(recognitionID, descriptorID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-persontracker-reset">reset()</a><span>, in §2.2</span>
    <li><a href="#dom-persontracker-resume">resume()</a><span>, in §2.2</span>
    <li><a href="#dom-poseeulerangles-roll">roll</a><span>, in §2.3.6.4</span>
@@ -3047,6 +3518,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <li><a href="#dom-jointtype-shoulder-left">"shoulder-left"</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-shoulder-right">"shoulder-right"</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-shoulder-right">shoulder-right</a><span>, in §4.7</span>
+   <li><a href="#dom-personrecognizerdata-similarityscore">similarityScore</a><span>, in §2.2.6</span>
    <li><a href="#dom-persontrackeroptions-skeleton">skeleton</a><span>, in §3.1</span>
    <li>
     SkeletonArea
@@ -3080,15 +3552,24 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <li><a href="#dom-jointtype-spine-mid">spine-mid</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-spine-shoulder">spine-shoulder</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-spine-shoulder">"spine-shoulder"</a><span>, in §4.7</span>
+   <li><a href="#dom-personrecognitionpolicy-standard">"standard"</a><span>, in §4.8</span>
+   <li><a href="#dom-personrecognitionpolicy-standard">standard</a><span>, in §4.8</span>
    <li><a href="#dom-persontracker-start">start()</a><span>, in §2.2</span>
    <li><a href="#dom-persontracking-starttrackingperson">startTrackingPerson(trackID)</a><span>, in §2.2.3</span>
    <li><a href="#dom-persontracker-state">state</a><span>, in §2.2</span>
+   <li><a href="#dom-personrecognizerdatawithstatus-status">status</a><span>, in §2.2.7</span>
    <li><a href="#dom-persontracker-stop">stop()</a><span>, in §2.2</span>
    <li><a href="#dom-persontracking-stoptrackingperson">stopTrackingPerson(trackID)</a><span>, in §2.2.3</span>
    <li><a href="#dom-jointtype-thumb-left">"thumb-left"</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-thumb-left">thumb-left</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-thumb-right">thumb-right</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-thumb-right">"thumb-right"</a><span>, in §4.7</span>
+   <li>
+    trackID
+    <ul>
+     <li><a href="#dom-personregistrationdata-trackid">attribute for PersonRegistrationData</a><span>, in §2.2.5</span>
+     <li><a href="#dom-personrecognizerdata-trackid">attribute for PersonRecognizerData</a><span>, in §2.2.6</span>
+    </ul>
    <li><a href="#dom-personinfo-trackinfo">trackInfo</a><span>, in §2.3.2</span>
    <li><a href="#dom-trackingstate-tracking">"tracking"</a><span>, in §4.5</span>
    <li>
@@ -3122,6 +3603,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
      <li><a href="#trackingstate">definition of</a><span>, in §4.5</span>
      <li><a href="#enumdef-trackingstate">(enum)</a><span>, in §4.5</span>
     </ul>
+   <li><a href="#dom-personrecognition-unregisterperson">unRegisterPerson(recognitionID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-skeletonarea-upper-body">upper-body</a><span>, in §4.1</span>
    <li><a href="#dom-skeletonarea-upper-body">"upper-body"</a><span>, in §4.1</span>
    <li><a href="#dom-skeletonarea-upper-body-rough">"upper-body-rough"</a><span>, in §4.1</span>
@@ -3204,6 +3686,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
 
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#enumdef-trackingstate">TrackingState</a> <a class="nv" data-readonly="" data-type="TrackingState" href="#dom-persontracker-state">state</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#persontracking0">PersonTracking</a> <a class="nv" data-readonly="" data-type="PersonTracking" href="#dom-persontracker-persontracking">personTracking</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#personrecognition0">PersonRecognition</a> <a class="nv" data-readonly="" data-type="PersonRecognition" href="#dom-persontracker-personrecognition">personRecognition</a>;
 
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-persontracker-onpersontracked">onpersontracked</a>;
   <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler">EventHandler</a> <a class="nv" data-type="EventHandler" href="#dom-persontracker-onframeprocessed">onframeprocessed</a>;
@@ -3212,6 +3695,35 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
 <span class="kt">interface</span> <a class="nv" href="#persontracking0">PersonTracking</a> {
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-persontracking-starttrackingperson">startTrackingPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-persontracking-starttrackingperson-trackid-trackid">trackID</a>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-persontracking-stoptrackingperson">stopTrackingPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-persontracking-stoptrackingperson-trackid-trackid">trackID</a>);
+};
+
+<span class="kt">interface</span> <a class="nv" href="#personrecognition0">PersonRecognition</a> {
+    <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personregistrationdata0">PersonRegistrationData</a>> <a class="nv" href="#dom-personrecognition-registerperson">registerPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-registerperson-trackid-trackid">trackID</a>);
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-personrecognition-unregisterperson">unRegisterPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-unregisterperson-recognitionid-recognitionid">recognitionID</a>);
+    <span class="kt">Promise</span>&lt;<span class="kt">boolean</span>> <a class="nv" href="#dom-personrecognition-recognitionidexist">recognitionIDExist</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-recognitionidexist-recognitionid-recognitionid">recognitionID</a>);
+    <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <a class="nv" href="#dom-personrecognition-getallrecognitionids">getAllRecognitionIDs</a>();
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-personrecognition-removepersondescriptor">removePersonDescriptor</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-recognitionid">recognitionID</a>, <span class="kt">long</span> <a class="nv" href="#dom-personrecognition-removepersondescriptor-recognitionid-descriptorid-descriptorid">descriptorID</a>);
+    <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<span class="kt">long</span>>> <a class="nv" href="#dom-personrecognition-getpersondescriptorids">getPersonDescriptorIDs</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-getpersondescriptorids-recognitionid-recognitionid">recognitionID</a>);
+    <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0">PersonRecognizerData</a>> <a class="nv" href="#dom-personrecognition-recognizeperson">recognizePerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-recognizeperson-trackid-trackid">trackID</a>);
+    <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0">PersonRecognizerDataWithStatus</a>>> <a class="nv" href="#dom-personrecognition-recognizeallpersons">recognizeAllPersons</a>();
+};
+
+<span class="kt">interface</span> <a class="nv" href="#personregistrationdata0">PersonRegistrationData</a> {
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-personregistrationdata-trackid">trackID</a>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-personregistrationdata-recognitionid">recognitionID</a>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-personregistrationdata-descriptorid">descriptorID</a>;
+};
+
+<span class="kt">interface</span> <a class="nv" href="#personrecognizerdata0">PersonRecognizerData</a> {
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">boolean</span> <a class="nv" data-readonly="" data-type="boolean" href="#dom-personrecognizerdata-recognized">recognized</a>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-personrecognizerdata-trackid">trackID</a>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-personrecognizerdata-recognitionid">recognitionID</a>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">long</span> <a class="nv" data-readonly="" data-type="long" href="#dom-personrecognizerdata-similarityscore">similarityScore</a>;
+};
+
+<span class="kt">interface</span> <a class="nv" href="#personrecognizerdatawithstatus0">PersonRecognizerDataWithStatus</a> {
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#personrecognizerdata0">PersonRecognizerData</a> <a class="nv" data-readonly="" data-type="PersonRecognizerData" href="#dom-personrecognizerdatawithstatus-data">data</a>;
+    <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#enumdef-personrecognizerstatus">PersonRecognizerStatus</a> <a class="nv" data-readonly="" data-type="PersonRecognizerStatus" href="#dom-personrecognizerdatawithstatus-status">status</a>;
 };
 
 <span class="kt">interface</span> <a class="nv" href="#persontrackingresult0">PersonTrackingResult</a> {
@@ -3310,6 +3822,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
   <a class="n" data-link-type="idl-name" href="#dictdef-personfaceoptions">PersonFaceOptions</a> <a class="nv" data-type="PersonFaceOptions " href="#dom-persontrackeroptions-personface">personFace</a>;
   <a class="n" data-link-type="idl-name" href="#dictdef-skeletonrecognitionoptions">SkeletonRecognitionOptions</a> <a class="nv" data-type="SkeletonRecognitionOptions " href="#dom-persontrackeroptions-skeleton">skeleton</a>;
   <a class="n" data-link-type="idl-name" href="#dictdef-trackingoptions">TrackingOptions</a> <a class="nv" data-type="TrackingOptions " href="#dom-persontrackeroptions-tracking">tracking</a>;
+  <a class="n" data-link-type="idl-name" href="#dictdef-personrecognitionoptions">PersonRecognitionOptions</a> <a class="nv" data-type="PersonRecognitionOptions " href="#dom-persontrackeroptions-recognition">recognition</a>;
 };
 
 <span class="kt">dictionary</span> <a class="nv" href="#dictdef-gesturerecognitionoptions">GestureRecognitionOptions</a> {
@@ -3334,6 +3847,11 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
   <span class="kt">boolean</span> <a class="nv" data-type="boolean " href="#dom-trackingoptions-enableheadboundingbox">enableHeadBoundingBox</a>;
   <a class="n" data-link-type="idl-name" href="#enumdef-detectionmode">DetectionMode</a> <a class="nv" data-type="DetectionMode " href="#dom-trackingoptions-detectionmode">detectionMode</a>;
   <a class="n" data-link-type="idl-name" href="#enumdef-trackingmode">TrackingMode</a> <a class="nv" data-type="TrackingMode " href="#dom-trackingoptions-trackingmode">trackingMode</a>;
+};
+
+<span class="kt">dictionary</span> <a class="nv" href="#dictdef-personrecognitionoptions">PersonRecognitionOptions</a> {
+    <span class="kt">boolean</span> <a class="nv" data-type="boolean " href="#dom-personrecognitionoptions-enable">enable</a>;
+    <a class="n" data-link-type="idl-name" href="#enumdef-personrecognitionpolicy">PersonRecognitionPolicy</a> <a class="nv" data-type="PersonRecognitionPolicy " href="#dom-personrecognitionoptions-policy">policy</a>;
 };
 
 <span class="kt">enum</span> <a class="nv" href="#enumdef-skeletonarea">SkeletonArea</a> {
@@ -3399,6 +3917,23 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
   <a class="s" href="#dom-jointtype-wrist-right">"wrist-right"</a>
 };
 
+<span class="kt">enum</span> <a class="nv" href="#enumdef-personrecognitionpolicy">PersonRecognitionPolicy</a> {
+    <a class="s" href="#dom-personrecognitionpolicy-standard">"standard"</a>,
+};
+
+<span class="kt">enum</span> <a class="nv" href="#enumdef-personrecognizerstatus">PersonRecognizerStatus</a> {
+  <a class="s" href="#dom-personrecognizerstatus-recognized">"recognized"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-not-recognized">"not-recognized"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-generic-failure">"generic-failure"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-no-person-found-with-the-trackid">"no-person-found-with-the-trackID"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-recognition-not-enabled">"recognition-not-enabled"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-face-not-detected">"face-not-detected"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-face-not-clear">"face-not-clear"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-person-too-far">"person-too-far"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-person-too-close">"person-too-close"</a>,
+  <a class="s" href="#dom-personrecognizerstatus-face-ambiguity">"face-ambiguity"</a>
+};
+
 </pre>
   <aside class="dfn-panel" data-for="persontracker">
    <b><a href="#persontracker">#persontracker</a></b><b>Referenced in:</b>
@@ -3424,6 +3959,12 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
     <li><a href="#ref-for-dom-persontracker-persontracking-1">2.2.1. Attributes</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="dom-persontracker-personrecognition">
+   <b><a href="#dom-persontracker-personrecognition">#dom-persontracker-personrecognition</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-persontracker-personrecognition-1">2.2.1. Attributes</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="dom-persontracker-onpersontracked">
    <b><a href="#dom-persontracker-onpersontracked">#dom-persontracker-onpersontracked</a></b><b>Referenced in:</b>
    <ul>
@@ -3436,6 +3977,13 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
     <li><a href="#ref-for-dom-persontracker-onframeprocessed-1">2.2.1. Attributes</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="dom-persontracker-getpersoninfo-long-trackid-trackid">
+   <b><a href="#dom-persontracker-getpersoninfo-long-trackid-trackid">#dom-persontracker-getpersoninfo-long-trackid-trackid</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-persontracker-getpersoninfo-long-trackid-trackid-1">2.2.5.1. Attributes</a>
+    <li><a href="#ref-for-dom-persontracker-getpersoninfo-long-trackid-trackid-2">2.2.6.1. Attributes</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="persontracking">
    <b><a href="#persontracking">#persontracking</a></b><b>Referenced in:</b>
    <ul>
@@ -3446,6 +3994,93 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <b><a href="#persontracking0">#persontracking0</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-persontracking0-1">2.2. PersonTracker</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognition">
+   <b><a href="#personrecognition">#personrecognition</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognition-1">2.2.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognition0">
+   <b><a href="#personrecognition0">#personrecognition0</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognition0-1">2.2. PersonTracker</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognition-unregisterperson-long-recognitionid-recognitionid">
+   <b><a href="#dom-personrecognition-unregisterperson-long-recognitionid-recognitionid">#dom-personrecognition-unregisterperson-long-recognitionid-recognitionid</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognition-unregisterperson-long-recognitionid-recognitionid-1">2.2.5.1. Attributes</a>
+    <li><a href="#ref-for-dom-personrecognition-unregisterperson-long-recognitionid-recognitionid-2">2.2.6.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid">
+   <b><a href="#dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid">#dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognition-removepersondescriptor-long-recognitionid-long-descriptorid-descriptorid-1">2.2.5.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personregistrationdata">
+   <b><a href="#personregistrationdata">#personregistrationdata</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personregistrationdata-1">2.2.4.1. Methods</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personregistrationdata0">
+   <b><a href="#personregistrationdata0">#personregistrationdata0</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personregistrationdata0-1">2.2.4. PersonRecognition Interface</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognizerdata">
+   <b><a href="#personrecognizerdata">#personrecognizerdata</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognizerdata-1">2.2.4.1. Methods</a>
+    <li><a href="#ref-for-personrecognizerdata-2">2.2.7.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognizerdata0">
+   <b><a href="#personrecognizerdata0">#personrecognizerdata0</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognizerdata0-1">2.2.4. PersonRecognition Interface</a>
+    <li><a href="#ref-for-personrecognizerdata0-2">2.2.7. PersonRecognizerDataWithStatus Interface</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerdata-recognized">
+   <b><a href="#dom-personrecognizerdata-recognized">#dom-personrecognizerdata-recognized</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerdata-recognized-1">2.2.6.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerdata-similarityscore">
+   <b><a href="#dom-personrecognizerdata-similarityscore">#dom-personrecognizerdata-similarityscore</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerdata-similarityscore-1">2.2.6.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognizerdatawithstatus">
+   <b><a href="#personrecognizerdatawithstatus">#personrecognizerdatawithstatus</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognizerdatawithstatus-1">2.2.4.1. Methods</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognizerdatawithstatus0">
+   <b><a href="#personrecognizerdatawithstatus0">#personrecognizerdatawithstatus0</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognizerdatawithstatus0-1">2.2.4. PersonRecognition Interface</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerdatawithstatus-data">
+   <b><a href="#dom-personrecognizerdatawithstatus-data">#dom-personrecognizerdatawithstatus-data</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerdatawithstatus-data-1">2.2.7.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerdatawithstatus-status">
+   <b><a href="#dom-personrecognizerdatawithstatus-status">#dom-personrecognizerdatawithstatus-status</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerdatawithstatus-status-1">2.2.7.1. Attributes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="persontrackingresult">
@@ -3868,6 +4503,12 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
     <li><a href="#ref-for-dom-persontrackeroptions-tracking-1">3.1.1. Dictionary PersonTrackerOptions Members</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="dom-persontrackeroptions-recognition">
+   <b><a href="#dom-persontrackeroptions-recognition">#dom-persontrackeroptions-recognition</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-persontrackeroptions-recognition-1">3.1.1. Dictionary PersonTrackerOptions Members</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="gesturerecognitionoptions">
    <b><a href="#gesturerecognitionoptions">#gesturerecognitionoptions</a></b><b>Referenced in:</b>
    <ul>
@@ -3887,6 +4528,7 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
     <li><a href="#ref-for-dom-gesturerecognitionoptions-enable-1">3.1.1.1.1. Dictionary GestureRecognitionOptions Members</a>
     <li><a href="#ref-for-dom-gesturerecognitionoptions-enable-2">3.1.1.3.1. Dictionary SkeletonRecognitionOptions Members</a>
     <li><a href="#ref-for-dom-gesturerecognitionoptions-enable-3">3.1.1.4.1. Dictionary TrackingOptions Members</a>
+    <li><a href="#ref-for-dom-gesturerecognitionoptions-enable-4">3.1.1.5.1. Dictionary PersonRecognitionOptions Members</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-gesturerecognitionoptions-enableallgestures">
@@ -3980,6 +4622,25 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <b><a href="#dom-trackingoptions-trackingmode">#dom-trackingoptions-trackingmode</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-trackingoptions-trackingmode-1">3.1.1.4.1. Dictionary TrackingOptions Members</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognitionoptions">
+   <b><a href="#personrecognitionoptions">#personrecognitionoptions</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognitionoptions-1">3.1.1. Dictionary PersonTrackerOptions Members</a>
+    <li><a href="#ref-for-personrecognitionoptions-2">3.1.1.5.1. Dictionary PersonRecognitionOptions Members</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dictdef-personrecognitionoptions">
+   <b><a href="#dictdef-personrecognitionoptions">#dictdef-personrecognitionoptions</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dictdef-personrecognitionoptions-1">3.1. PersonTrackerOptions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognitionoptions-policy">
+   <b><a href="#dom-personrecognitionoptions-policy">#dom-personrecognitionoptions-policy</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognitionoptions-policy-1">3.1.1.5.1. Dictionary PersonRecognitionOptions Members</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-skeletonarea-upper-body">
@@ -4280,6 +4941,96 @@ Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functional
    <b><a href="#dom-jointtype-wrist-right">#dom-jointtype-wrist-right</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-jointtype-wrist-right-1">4.7. JointType enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognitionpolicy">
+   <b><a href="#personrecognitionpolicy">#personrecognitionpolicy</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognitionpolicy-1">3.1.1.5.1. Dictionary PersonRecognitionOptions Members</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="enumdef-personrecognitionpolicy">
+   <b><a href="#enumdef-personrecognitionpolicy">#enumdef-personrecognitionpolicy</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-enumdef-personrecognitionpolicy-1">3.1.1.5. PersonRecognitionOptions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognitionpolicy-standard">
+   <b><a href="#dom-personrecognitionpolicy-standard">#dom-personrecognitionpolicy-standard</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognitionpolicy-standard-1">4.8. PersonRecognitionPolicy enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="personrecognizerstatus">
+   <b><a href="#personrecognizerstatus">#personrecognizerstatus</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-personrecognizerstatus-1">2.2.7.1. Attributes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="enumdef-personrecognizerstatus">
+   <b><a href="#enumdef-personrecognizerstatus">#enumdef-personrecognizerstatus</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-enumdef-personrecognizerstatus-1">2.2.7. PersonRecognizerDataWithStatus Interface</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-recognized">
+   <b><a href="#dom-personrecognizerstatus-recognized">#dom-personrecognizerstatus-recognized</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-recognized-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-not-recognized">
+   <b><a href="#dom-personrecognizerstatus-not-recognized">#dom-personrecognizerstatus-not-recognized</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-not-recognized-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-generic-failure">
+   <b><a href="#dom-personrecognizerstatus-generic-failure">#dom-personrecognizerstatus-generic-failure</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-generic-failure-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-no-person-found-with-the-trackid">
+   <b><a href="#dom-personrecognizerstatus-no-person-found-with-the-trackid">#dom-personrecognizerstatus-no-person-found-with-the-trackid</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-no-person-found-with-the-trackid-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-recognition-not-enabled">
+   <b><a href="#dom-personrecognizerstatus-recognition-not-enabled">#dom-personrecognizerstatus-recognition-not-enabled</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-recognition-not-enabled-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-face-not-detected">
+   <b><a href="#dom-personrecognizerstatus-face-not-detected">#dom-personrecognizerstatus-face-not-detected</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-face-not-detected-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-face-not-clear">
+   <b><a href="#dom-personrecognizerstatus-face-not-clear">#dom-personrecognizerstatus-face-not-clear</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-face-not-clear-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-person-too-far">
+   <b><a href="#dom-personrecognizerstatus-person-too-far">#dom-personrecognizerstatus-person-too-far</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-person-too-far-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-person-too-close">
+   <b><a href="#dom-personrecognizerstatus-person-too-close">#dom-personrecognizerstatus-person-too-close</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-person-too-close-1">4.9. PersonRecognizerStatus enum</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-personrecognizerstatus-face-ambiguity">
+   <b><a href="#dom-personrecognizerstatus-face-ambiguity">#dom-personrecognizerstatus-face-ambiguity</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-personrecognizerstatus-face-ambiguity-1">4.9. PersonRecognizerStatus enum</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */

@@ -2,50 +2,42 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-#ifndef _RECOGNITION_INFO_H_
-#define _RECOGNITION_INFO_H_
+#ifndef _PERSON_RECOGNIZER_DATA_H_
+#define _PERSON_RECOGNIZER_DATA_H_
 
 #include <node.h>
 #include <v8.h>
 
 #include <string>
 
-#include "gen/array_helper.h"
 #include "gen/generator_helper.h"
+#include "gen/array_helper.h"
 
-class RecognitionInfo {
+class PersonRecognizerData {
  public:
-  RecognitionInfo();
+  PersonRecognizerData();
 
-  RecognitionInfo(const RecognitionInfo& rhs);
+  PersonRecognizerData(const PersonRecognizerData& rhs);
 
-  ~RecognitionInfo();
+  ~PersonRecognizerData();
 
-  RecognitionInfo& operator = (const RecognitionInfo& rhs);
+  PersonRecognizerData& operator = (const PersonRecognizerData& rhs);
 
  public:
-  int32_t get_trackID() const {
-    return this->trackID_;
+  bool get_recognized() const {
+    return this->recognized_;
   }
 
-  void set_trackID(const int32_t& new_value) {
-    this->trackID_ = new_value;
+  int32_t get_trackID() const {
+    return this->trackID_;
   }
 
   int32_t get_recognitionID() const {
     return this->recognitionID_;
   }
 
-  void set_recognitionID(const int32_t& new_value) {
-    this->recognitionID_ = new_value;
-  }
-
   int32_t get_similarityScore() const {
     return this->similarityScore_;
-  }
-
-  void set_similarityScore(const int32_t& new_value) {
-    this->similarityScore_ = new_value;
   }
 
   void SetJavaScriptThis(v8::Local<v8::Object> obj) {
@@ -54,11 +46,14 @@ class RecognitionInfo {
   }
 
  private:
+  bool recognized_;
+
   int32_t trackID_;
 
   int32_t recognitionID_;
 
   int32_t similarityScore_;
+  friend class PersonTrackerAdapter;
 };
 
-#endif  // _RECOGNITION_INFO_H_
+#endif  // _PERSON_RECOGNIZER_DATA_H_

@@ -7,9 +7,9 @@
 #include <iostream>
 
 void DebugInfoMessage() {
-  std::cout << std::endl;
+  std::cout << std::endl << std::flush;
 }
 
 void DebugErrorMessage() {
-  std::cerr << std::endl;
+  std::cerr << std::endl << std::flush;
 }

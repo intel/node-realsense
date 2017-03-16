@@ -212,4 +212,170 @@ class GetPersonInfoTask : public PTPromiseTask {
   virtual GetPersonInfoTaskPayload* GetPayload();
 };
 
+class RegisterPersonTaskPayload : public PTAsyncTaskPayload {
+ public:
+  RegisterPersonTaskPayload(PersonTrackerAdapter* adapter, int32_t id)
+      : PTAsyncTaskPayload(adapter),
+        id_(id) {}
+  virtual ~RegisterPersonTaskPayload() {}
+  int32_t id_;
+  PersonRegistrationData result_;
+};
+
+class RegisterPersonTask : public PTPromiseTask {
+ public:
+  RegisterPersonTask() {
+    task_tag = "RegisterPersonTask";
+  }
+  virtual ~RegisterPersonTask() {}
+  virtual void WorkerThreadExecute();
+  virtual RegisterPersonTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class RecognizePersonTaskPayload : public PTAsyncTaskPayload {
+ public:
+  RecognizePersonTaskPayload(PersonTrackerAdapter* adapter, int32_t id)
+      : PTAsyncTaskPayload(adapter),
+        id_(id) {}
+  virtual ~RecognizePersonTaskPayload() {}
+  int32_t id_;
+  PersonRecognizerData result_;
+};
+
+class RecognizePersonTask : public PTPromiseTask {
+ public:
+  RecognizePersonTask() {
+    task_tag = "RecognizePersonTask";
+  }
+  virtual ~RecognizePersonTask() {}
+  virtual void WorkerThreadExecute();
+  virtual RecognizePersonTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class RecognizeAllPersonTaskPayload : public PTAsyncTaskPayload {
+ public:
+  explicit RecognizeAllPersonTaskPayload(PersonTrackerAdapter* adapter)
+      : PTAsyncTaskPayload(adapter) {}
+  virtual ~RecognizeAllPersonTaskPayload() {}
+  std::vector<PersonRecognizerDataWithStatus*> result_;
+};
+
+class RecognizeAllPersonTask : public PTPromiseTask {
+ public:
+  RecognizeAllPersonTask() {
+    task_tag = "RecognizeAllPersonTask";
+  }
+  virtual ~RecognizeAllPersonTask() {}
+  virtual void WorkerThreadExecute();
+  virtual RecognizeAllPersonTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class UnRegisterPersonTaskPayload : public PTAsyncTaskPayload {
+ public:
+  UnRegisterPersonTaskPayload(PersonTrackerAdapter* adapter, int32_t id)
+      : PTAsyncTaskPayload(adapter),
+        id_(id) {}
+  virtual ~UnRegisterPersonTaskPayload() {}
+  int32_t id_;
+};
+
+class UnRegisterPersonTask : public PTPromiseTask {
+ public:
+  UnRegisterPersonTask() {
+    task_tag = "UnRegisterPersonTask";
+  }
+  virtual ~UnRegisterPersonTask() {}
+  virtual void WorkerThreadExecute();
+  virtual UnRegisterPersonTaskPayload* GetPayload();
+};
+
+class GetAllRecognitionIDsTaskPayload : public PTAsyncTaskPayload {
+ public:
+  explicit GetAllRecognitionIDsTaskPayload(PersonTrackerAdapter* adapter)
+      : PTAsyncTaskPayload(adapter) {}
+  virtual ~GetAllRecognitionIDsTaskPayload() {}
+  std::vector<int32_t> result_;
+};
+
+class GetAllRecognitionIDsTask : public PTPromiseTask {
+ public:
+  GetAllRecognitionIDsTask() {
+    task_tag = "GetAllRecognitionIDsTask";
+  }
+  virtual ~GetAllRecognitionIDsTask() {}
+  virtual void WorkerThreadExecute();
+  virtual GetAllRecognitionIDsTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class RecognitionIDExistTaskPayload : public PTAsyncTaskPayload {
+ public:
+  RecognitionIDExistTaskPayload(PersonTrackerAdapter* adapter, int32_t id)
+      : PTAsyncTaskPayload(adapter),
+        id_(id),
+        exist_(false) {}
+  virtual ~RecognitionIDExistTaskPayload() {}
+  int32_t id_;
+  bool exist_;
+};
+
+class RecognitionIDExistTask : public PTPromiseTask {
+ public:
+  RecognitionIDExistTask() {
+    task_tag = "RecognitionIDExistTask";
+  }
+  virtual ~RecognitionIDExistTask() {}
+  virtual void WorkerThreadExecute();
+  virtual RecognitionIDExistTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class GetPersonDescriptorIDsTaskPayload : public PTAsyncTaskPayload {
+ public:
+  explicit GetPersonDescriptorIDsTaskPayload(PersonTrackerAdapter* adapter,
+                                             int32_t recognition_id) :
+      PTAsyncTaskPayload(adapter),
+      id_(recognition_id) {}
+  virtual ~GetPersonDescriptorIDsTaskPayload() {}
+  int32_t id_;
+  std::vector<int32_t> result_;
+};
+
+class GetPersonDescriptorIDsTask : public PTPromiseTask {
+ public:
+  GetPersonDescriptorIDsTask() {
+    task_tag = "GetPersonDescriptorIDsTask";
+  }
+  virtual ~GetPersonDescriptorIDsTask() {}
+  virtual void WorkerThreadExecute();
+  virtual GetPersonDescriptorIDsTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class RemovePersonDescriptorTaskPayload : public PTAsyncTaskPayload {
+ public:
+  explicit RemovePersonDescriptorTaskPayload(PersonTrackerAdapter* adapter,
+                                             int32_t recognition_id,
+                                             int32_t descriptor_id) :
+      PTAsyncTaskPayload(adapter),
+      id_(recognition_id),
+      descriptor_id_(descriptor_id) {}
+  virtual ~RemovePersonDescriptorTaskPayload() {}
+  int32_t id_;
+  int32_t descriptor_id_;
+};
+
+class RemovePersonDescriptorTask : public PTPromiseTask {
+ public:
+  RemovePersonDescriptorTask() {
+    task_tag = "RemovePersonDescriptorTask";
+  }
+  virtual ~RemovePersonDescriptorTask() {}
+  virtual void WorkerThreadExecute();
+  virtual RemovePersonDescriptorTaskPayload* GetPayload();
+};
+
 #endif  // _WORKER_PERSON_TRACKING_TASKS_H_

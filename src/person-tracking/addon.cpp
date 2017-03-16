@@ -7,7 +7,6 @@
 #include "gen/nan__expression_info_collection.h"
 #include "gen/nan__face_landmark.h"
 #include "gen/nan__face_landmark_info.h"
-#include "gen/nan__face_recognition.h"
 #include "gen/nan__frame_data.h"
 #include "gen/nan__gesture_info.h"
 #include "gen/nan__image.h"
@@ -18,6 +17,10 @@
 #include "gen/nan__orientation_info.h"
 #include "gen/nan__person_face_info.h"
 #include "gen/nan__person_info.h"
+#include "gen/nan__person_recognition.h"
+#include "gen/nan__person_recognizer_data.h"
+#include "gen/nan__person_recognizer_data_with_status.h"
+#include "gen/nan__person_registration_data.h"
 #include "gen/nan__person_tracker.h"
 #include "gen/nan__person_tracking.h"
 #include "gen/nan__person_tracking_result.h"
@@ -30,7 +33,6 @@
 #include "gen/nan__pose_euler_angles.h"
 #include "gen/nan__pose_info.h"
 #include "gen/nan__range.h"
-#include "gen/nan__recognition_info.h"
 #include "gen/nan__rect2d.h"
 #include "gen/nan__size2d.h"
 #include "gen/nan__skeleton_info.h"
@@ -44,7 +46,6 @@ void initModule(v8::Local<v8::Object> exports) {
   NanExpressionInfoCollection::Init(exports);
   NanFaceLandmark::Init(exports);
   NanFaceLandmarkInfo::Init(exports);
-  NanFaceRecognition::Init(exports);
   NanFrameData::Init(exports);
   NanGestureInfo::Init(exports);
   NanImage::Init(exports);
@@ -54,6 +55,10 @@ void initModule(v8::Local<v8::Object> exports) {
   NanMotionSample::Init(exports);
   NanOrientationInfo::Init(exports);
   NanPersonFaceInfo::Init(exports);
+  NanPersonRecognition::Init(exports);
+  NanPersonRecognizerData::Init(exports);
+  NanPersonRecognizerDataWithStatus::Init(exports);
+  NanPersonRegistrationData::Init(exports);
   NanPersonInfo::Init(exports);
   NanPersonTracker::Init(exports);
   NanPersonTracking::Init(exports);
@@ -67,7 +72,6 @@ void initModule(v8::Local<v8::Object> exports) {
   NanPoseEulerAngles::Init(exports);
   NanPoseInfo::Init(exports);
   NanRange::Init(exports);
-  NanRecognitionInfo::Init(exports);
   NanRect2D::Init(exports);
   NanSize2D::Init(exports);
   NanSkeletonPointInfo::Init(exports);

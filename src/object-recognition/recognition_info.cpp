@@ -32,4 +32,3 @@ void RecognitionInfo::CopyFrom(const RecognitionInfo& rhs) {
     probability_ = rhs.probability_;
   }
 }
-

@@ -4,7 +4,7 @@ dictionary PersonTrackerOptions {
     LyingPoseRecognitionOptions lying;  // Not supported yet
     PersonFaceOptions personFace;
     PersonPoseRecognitionOptions pose;  // Not supported yet
-    RecognitionOptions recognition;  // Not supported yet
+    PersonRecognitionOptions recognition;
     SkeletonRecognitionOptions skeleton;
     TrackingOptions tracking;
 };
@@ -89,40 +89,76 @@ dictionary PersonPoseRecognitionOptions {
     long maxTrackedPerson;
 };
 
-/////////////////// Face Regocnition (Not supported) //////////////////
-enum FaceRecognitionPolicy {
+/////////////////// Person Regocnition //////////////////
+enum PersonRecognitionPolicy {
     "standard",
     //"strict"
 };
 
-dictionary RecognitionOptions {
+//enum PersonRecognitionAsyncPolicy {
+//    "single-frame",
+//    //"multi-frame"
+//};
+
+dictionary PersonRecognitionOptions {
     boolean enable;
-    FaceRecognitionPolicy policy;
-    boolean useMultiFrame; //is multiple frame recognization or single frame.
+    PersonRecognitionPolicy policy;
+    //PersonRecognitionAsyncPolicy asyncPolicy; //is multiple frame recognization or single frame.
 };
 
-interface RecognitionInfo {
-    attribute long trackID; //track id
-    attribute long recognitionID; //recognition id
-    attribute long similarityScore;
+interface PersonRegistrationData {
+    readonly attribute long trackID;
+    readonly attribute long recognitionID;
+    readonly attribute long descriptorID;
+};
+
+enum PersonRecognizerStatus {
+  "recognized",
+  "not-recognized",
+  "generic-failure",
+  "no-person-found-with-the-trackID",
+  "recognition-not-enabled",
+  "face-not-detected",
+  "face-not-clear",
+  "person-too-far",
+  "person-too-close",
+  "face-ambiguity"
+};
+
+interface PersonRecognizerData {
+    readonly attribute boolean recognized;
+    readonly attribute long trackID;
+    readonly attribute long recognitionID;
+    readonly attribute long similarityScore;
+};
+
+interface PersonRecognizerDataWithStatus {
+    readonly attribute PersonRecognizerData data;
+    readonly attribute PersonRecognizerStatus status;
 };
 
 //interface to manipulate recognition
-interface FaceRecognition {
-    Promise<sequence<long>> getRegisteredIDs();
+interface PersonRecognition {
+    //Database related API
     Promise<void> clearDatabase();
     Promise<ArrayBuffer> exportDatabase();
     Promise<void> importDatabase(ArrayBuffer buf);
-    Promise<sequence<RecognitionInfo>> recognizeAll();
 
-    //API for specific person
-    Promise<long> registerPerson(long trackID); //return recognition ID.
+    //Register related API
+    Promise<PersonRegistrationData> registerPerson(long trackID);
     Promise<void> unRegisterPerson(long recognitionID);
-    Promise<bool> isPersonRegistered(long recognitionID);
-    Promise<void> reinforceRegistration(long trackID, long recognitionID);
-    Promise<FaceRecognitionInfo> recognize(long trackID);
-    //try to recognize a person indicated by trackID and if recognized, get the similarity score with the person indicated by recogID.
-    Promise<float> querySimilarityScoreByID(long trackID, long recognitionID);
+    Promise<boolean> recognitionIDExist(long recognitionID);
+    Promise<sequence<long>> getAllRecognitionIDs();
+    Promise<void> removePersonDescriptor(long recognitionID, long descriptorID);
+    Promise<sequence<long>> getPersonDescriptorIDs(long recognitionID);
+    Promise<PersonRegistrationData> reinforceRegistration(long trackID, long recognitionID);
+
+    //recognize related API
+    Promise<PersonRecognizerData> recognizePerson(long trackID);
+    //try to recognize a person indicated by trackID and if recognized, get the similarity score with the person indicated by recognitionID.
+    Promise<float> querySimilarityScoreFromPerson(long trackID, long recognitionID);
+    //recognize all persons detected by the camera
+    Promise<sequence<PersonRecognizerDataWithStatus>> recognizeAllPersons();
 };
 
 //////////////// Gesture Recognition /////////////////
@@ -207,7 +243,7 @@ interface PersonTracker {
     Promise<PersonInfo> getPersonInfo(long trackID);
 
     readonly attribute TrackingState state;
-    readonly attribute FaceRecognition faceRecognition;  // Not supported yet
+    readonly attribute PersonRecognition personRecognition;
     readonly attribute LyingPoseRecognition lyingPoseRecognition;  // Not supported yet
     readonly attribute PersonTracking personTracking;
 

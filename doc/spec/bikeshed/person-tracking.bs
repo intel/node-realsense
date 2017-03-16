@@ -46,7 +46,7 @@ Introduction {#introduction}
 ========================
 
 The JavaScript API of the Person Tracking module is based on Intel® and RealSense™ technology, and provide Person
-Detection, Person Tracking, Skeleton Recognition, Gesture Recognition functionalities.
+Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Recognition functionalities.
 
 Interface {#interface}
 ========================
@@ -93,6 +93,7 @@ interface PersonTracker {
 
   readonly attribute TrackingState state;
   readonly attribute PersonTracking personTracking;
+  readonly attribute PersonRecognition personRecognition;
 
   attribute EventHandler onpersontracked;
   attribute EventHandler onframeprocessed;
@@ -104,6 +105,8 @@ interface PersonTracker {
 * &nbsp;&nbsp;&nbsp;&nbsp;Current working state of the person tracking module.
 * {{personTracking}} of type [=PersonTracking=], readonly
 * &nbsp;&nbsp;&nbsp;&nbsp;The person tracking controller.
+* {{personRecognition}} of type [=PersonRecognition=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The person recognition controller, including registration and recognition related methods.
 * {{onpersontracked}} of type [=EventHandler=]
 * &nbsp;&nbsp;&nbsp;&nbsp;The event handler for 'persontracked' event, the event data is of type [=PersonTrackingResult=]. This event is only triggerd when there is a person actually tracked.
 * {{onframeprocessed}} of type [=EventHandler=]
@@ -222,6 +225,156 @@ interface PersonTracking {
 
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
 :: *Return type*:Promise&lt;<a>void</a>&gt;
+
+### <dfn>PersonRecognition</dfn> Interface ### {#recognition-interface}
+
+<pre class='idl'>
+interface PersonRecognition {
+    Promise&lt;PersonRegistrationData> registerPerson(long trackID);
+    Promise&lt;void> unRegisterPerson(long recognitionID);
+    Promise&lt;boolean> recognitionIDExist(long recognitionID);
+    Promise&lt;sequence&lt;long>> getAllRecognitionIDs();
+    Promise&lt;void> removePersonDescriptor(long recognitionID, long descriptorID);
+    Promise&lt;sequence&lt;long>> getPersonDescriptorIDs(long recognitionID);
+    Promise&lt;PersonRecognizerData> recognizePerson(long trackID);
+    Promise&lt;sequence&lt;PersonRecognizerDataWithStatus>> recognizeAllPersons();
+};
+</pre>
+
+#### Methods #### {#methods-person-recognition}
+
+: {{registerPerson}}
+:: Registers a person in the Recognition database.
+
+<pre class='argumentdef' for="PersonRecognition/registerPerson(long trackID)">
+  trackID: The tracking ID of the person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>PersonRegistrationData</a>&gt;
+
+: {{unRegisterPerson}}
+:: Unregisters a person in the Recognition database.
+
+<pre class='argumentdef' for="PersonRecognition/unRegisterPerson(long recognitionID)">
+  recognitionID: The recognition ID of the registered person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{recognitionIDExist}}
+:: Judge whether the provided recognition ID exists in the database.
+
+<pre class='argumentdef' for="PersonRecognition/recognitionIDExist(long recognitionID)">
+  recognitionID: The recognition ID of the registered person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>boolean</a>&gt;
+
+: {{getAllRecognitionIDs}}
+:: Get all of the recognition IDs in the recognition database.
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>&lt;sequence&lt;long>></a>&gt;
+
+: {{removePersonDescriptor}}
+:: Remove the descriptor associated with the person in the Recognition database.
+
+<pre class='argumentdef' for="PersonRecognition/removePersonDescriptor(long recognitionID, long descriptorID)">
+  recognitionID: The recognition ID of the registered person.
+  descriptorID: The descriptor ID.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{getPersonDescriptorIDs}}
+:: Get all of the descriptor IDs of the registered person.
+
+<pre class='argumentdef' for="PersonRecognition/getPersonDescriptorIDs(long recognitionID)">
+  recognitionID: The recognition ID of the registered person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>&lt;sequence&lt;long>></a>&gt;
+
+: {{recognizePerson}}
+:: Recognize a person using the database.
+
+<pre class='argumentdef' for="PersonRecognition/recognizePerson(long trackID)">
+  trackID: The tracking ID of the person.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>PersonRecognizerData</a>&gt;
+
+: {{recognizeAllPersons}}
+:: Recognize all persons in the camera.
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>PersonRecognizerDataWithStatus</a>&gt;
+
+### <dfn>PersonRegistrationData</dfn> Interface ### {#registrationinfo}
+
+<pre class='idl'>
+interface PersonRegistrationData {
+    readonly attribute long trackID;
+    readonly attribute long recognitionID;
+    readonly attribute long descriptorID;
+};
+</pre>
+
+#### Attributes #### {#attrs-registrationinfo}
+* {{trackID}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The tracking ID of the person.
+
+* {{recognitionID}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The recognition ID of the person.
+
+* {{descriptorID}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The descriptor ID.
+
+### <dfn>PersonRecognizerData</dfn> Interface ### {#recognizerdata}
+
+<pre class='idl'>
+interface PersonRecognizerData {
+    readonly attribute boolean recognized;
+    readonly attribute long trackID;
+    readonly attribute long recognitionID;
+    readonly attribute long similarityScore;
+};
+</pre>
+
+#### Attributes #### {#attrs-recognitioninfo}
+* {{recognized}} of type boolean, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether the person has been recognized.
+
+* {{trackID}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The tracking ID of the person.
+
+* {{recognitionID}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The recognitionID of the recognized person, valid only if the person is successfully recognized.
+
+* {{similarityScore}} of type long, readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The similarity score of the recognized person, valid only if the person is successfully recognized.
+
+### <dfn>PersonRecognizerDataWithStatus</dfn> Interface ### {#recognizerdata-with-status}
+
+<pre class='idl'>
+interface PersonRecognizerDataWithStatus {
+    readonly attribute PersonRecognizerData data;
+    readonly attribute PersonRecognizerStatus status;
+};
+</pre>
+
+#### Attributes #### {#attrs-recognitioninfo}
+* {{data}} of type [=PersonRecognizerData=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;The recognition result data.
+
+* {{status}} of type [=PersonRecognizerStatus=], readonly
+* &nbsp;&nbsp;&nbsp;&nbsp;Status of the recognition result.
 
 <dfn>PersonTrackingResult</dfn> Interface {#tracking-result}
 ----------------------------
@@ -506,6 +659,7 @@ dictionary PersonTrackerOptions {
   PersonFaceOptions personFace;
   SkeletonRecognitionOptions skeleton;
   TrackingOptions tracking;
+  PersonRecognitionOptions recognition;
 };
 </pre>
 
@@ -522,6 +676,9 @@ dictionary PersonTrackerOptions {
 
 * {{tracking}} of type [=TrackingOptions=]
 * &nbsp;&nbsp;&nbsp;&nbsp;Tracking related options.
+
+* {{recognition}} of type [=PersonRecognitionOptions=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Person recognition related options.
 
 #### <dfn>GestureRecognitionOptions</dfn> #### {#gesture-options}
 
@@ -601,6 +758,22 @@ dictionary TrackingOptions {
 * &nbsp;&nbsp;&nbsp;&nbsp;The range related detection mode.
 * {{trackingMode}} of type [=TrackingMode=]
 * &nbsp;&nbsp;&nbsp;&nbsp;The tracking mode.
+
+#### <dfn>PersonRecognitionOptions</dfn> #### {#recognition-options}
+
+<pre class='idl'>
+dictionary PersonRecognitionOptions {
+    boolean enable;
+    PersonRecognitionPolicy policy;
+};
+</pre>
+
+##### Dictionary [=PersonRecognitionOptions=] Members ##### {#members-recognition-options}
+
+* {{enable}} of type boolean
+* &nbsp;&nbsp;&nbsp;&nbsp;Whether enables person recognition feature.
+* {{policy}} of type [=PersonRecognitionPolicy=]
+* &nbsp;&nbsp;&nbsp;&nbsp;Recognition policy.
 
 Enumerators {#enumerators}
 ========================
@@ -864,3 +1037,72 @@ enum JointType {
        <td>Right wrist.
 </table>
 
+<dfn>PersonRecognitionPolicy</dfn> enum {#recognition-policy}
+----------------------------
+
+<pre class='idl'>
+enum PersonRecognitionPolicy {
+    "standard",
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"standard"}}
+       <td>The standard recognition policy.
+</table>
+
+<dfn>PersonRecognizerStatus</dfn> enum {#recognition-status}
+----------------------------
+
+<pre class='idl'>
+enum PersonRecognizerStatus {
+  "recognized",
+  "not-recognized",
+  "generic-failure",
+  "no-person-found-with-the-trackID",
+  "recognition-not-enabled",
+  "face-not-detected",
+  "face-not-clear",
+  "person-too-far",
+  "person-too-close",
+  "face-ambiguity"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"recognized"}}
+       <td>the person was recognized.
+    <tr>
+       <td>{{"not-recognized"}}
+       <td>The person was not recognized.
+    <tr>
+       <td>{{"generic-failure"}}
+       <td>Error happened in the recognition process.
+    <tr>
+       <td>{{"no-person-found-with-the-trackID"}}
+       <td>The person with the specified trackID was not found.
+    <tr>
+       <td>{{"recognition-not-enabled"}}
+       <td>The Person Recognition feature was not enabled.
+    <tr>
+       <td>{{"face-not-detected"}}
+       <td>Didn't detect the face.
+    <tr>
+       <td>{{"face-not-clear"}}
+       <td>The face of the person was not clear.
+    <tr>
+       <td>{{"person-too-far"}}
+       <td>The person was too far to recognize.
+    <tr>
+       <td>{{"person-too-close"}}
+       <td>The person was too close to recognize.
+    <tr>
+       <td>{{"face-ambiguity"}}
+       <td>There was ambiguity in the recognition process.
+</table>
