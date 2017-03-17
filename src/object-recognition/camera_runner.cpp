@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "camera_runner.h"
+#include "common/camera-options/camera_options_coprocessor.h"
 
 #include <fstream>
 
@@ -25,17 +26,15 @@ bool CameraRunner::StartCamera(image_info& colorInfo,  // NOLINT(*)
   rs::core::status st = rs::core::status_no_error;
   frame_number_ = 0;
 
-  // Create contex object
+  ctx_ = CameraDelegateInstance::GetInstance();
+
+  // Check if there is request to use playback file as virtual camera
   if (expected_camera_config_.has_member_playbackPathForTesting) {
     const char* playback_filename =
         expected_camera_config_.member_playbackPathForTesting.c_str();
     std::ifstream playback_file(playback_filename);
     if (playback_file.good())
-      ctx_.reset(new rs::playback::context(playback_filename));
-    else
-      ctx_.reset(new rs::core::context());
-  } else {
-    ctx_.reset(new rs::core::context());
+      ctx_->ConnectToVirtualCamera(playback_filename);
   }
 
   if (ctx_ == nullptr) {
@@ -88,13 +87,18 @@ bool CameraRunner::StartCamera(image_info& colorInfo,  // NOLINT(*)
   depthInfo.format = rs::core::pixel_format::z16;
   depthInfo.pitch = depthInfo.width * 2;
 
-  device_->start();
+  CameraOptionsCoProcessor cop(expected_camera_config_,
+    CameraOptionsCoProcessor::ObjectRecognition);
+  cop.TryEnableExtraChannels(device_);
+  cop.TrySetExtraOptions(device_);
 
   // Enable auto exposure for color stream
   device_->set_option(rs::option::color_enable_auto_exposure, 1);
 
   // Enable auto exposure for Depth camera stream
   device_->set_option(rs::option::r200_lr_auto_exposure_enabled, 1);
+
+  device_->start(cop.GetCameraStartOptions(device_));
 
   // Get the extrisics paramters from the camera
   rs::extrinsics ext  = device_->get_extrinsics(rs::stream::depth,
@@ -210,8 +214,9 @@ void CameraRunner::StopCamera() {
     camera_running_ = false;
   }
 
+  delete device_;
   device_ = nullptr;
-  ctx_.reset();
+  ctx_ = nullptr;  // No need to delete singleton object
   ReleaseImages();
   delete sample_set_;
   sample_set_ = nullptr;

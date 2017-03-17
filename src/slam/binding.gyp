@@ -43,6 +43,8 @@
         "common/extrinsics.cpp",
         "common/frame_data_assembler.cpp",
         "common/frame_data.cpp",
+        "common/camera-delegate/camera_delegate.cpp",
+        "common/camera-delegate/camera_delegate_instance.cpp",
         "common/camera-options/camera_options_host.cpp",
         "common/camera-options/camera_options_host_instance.cpp",
         "common/geometry/point2d.cpp",

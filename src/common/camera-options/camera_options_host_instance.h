@@ -7,10 +7,6 @@
 
 #include "camera_options_host.h"
 
-//
-// TODO(Kenny): to share the same instance across different add-ons (*.so)
-//              maybe: shm_open("<unique_name>+<pid>")
-//
 class CameraOptionsHostInstance {
   CameraOptionsHostInstance();
   ~CameraOptionsHostInstance();

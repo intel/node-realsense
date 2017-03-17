@@ -1,0 +1,18 @@
+{
+  "name": "multiple-addon-test",
+  "version": "0.0.1",
+  "description": "Only for test cases",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "bindings": "^1.2.1",
+    "tmp": "0.0.31"
+  }
+}

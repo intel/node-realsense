@@ -38,6 +38,8 @@
       ],
       "sources": [
         "addon.cpp",
+        "common/camera-delegate/camera_delegate.cpp",
+        "common/camera-delegate/camera_delegate_instance.cpp",
         "common/camera-options/camera_options_host.cpp",
         "common/camera-options/camera_options_host_instance.cpp",
         "common/extrinsics.cpp",

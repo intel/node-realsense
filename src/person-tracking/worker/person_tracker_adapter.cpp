@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "common/camera-options/camera_options_host_instance.h"
+#include "common/camera-options/camera_options_coprocessor.h"
 #include "common/geometry/rect2d.h"
 #include "person_info.h"
 #include "person_tracker.h"
@@ -274,6 +275,12 @@ void PersonTrackerAdapter::ConfigureCameraUsingSpecifiedData() {
       depth.member_height,
       rs::format::z16,
       depth.member_frameRate);
+
+  CameraOptionsCoProcessor cop(*config_.camera_options_,
+    CameraOptionsCoProcessor::PersonTracking);
+  cop.TryEnableExtraChannels(device_);
+  cop.TrySetExtraOptions(device_);
+
   rs::core::video_module_interface::actual_image_stream_config&
       actual_stream_config_depth = actual_module_config_[rs::core::stream_type::depth];  // NOLINT
   actual_stream_config_depth.size.width = depth.member_width;
@@ -289,17 +296,15 @@ void PersonTrackerAdapter::ConfigureCameraUsingSpecifiedData() {
 bool PersonTrackerAdapter::ConfigureCamera() {
   actual_module_config_ = {};
 
-  // Create contex object
+  ctx_ = CameraDelegateInstance::GetInstance();
+
+  // Check if there is request to use playback file as virtual camera
   if (config_.camera_options_->has_member_playbackPathForTesting) {
     const char* playback_filename =
         config_.camera_options_->member_playbackPathForTesting.c_str();
     std::ifstream playback_file(playback_filename);
     if (playback_file.good())
-      ctx_.reset(new rs::playback::context(playback_filename));
-    else
-      ctx_.reset(new rs::core::context());
-  } else {
-    ctx_.reset(new rs::core::context());
+      ctx_->ConnectToVirtualCamera(playback_filename);
   }
 
   if (ctx_->get_device_count() == 0) {
@@ -360,7 +365,9 @@ bool PersonTrackerAdapter::Start() {
 
   if (!device_started_) {
     try {
-      device_->start();
+      CameraOptionsCoProcessor cop(*config_.camera_options_,
+        CameraOptionsCoProcessor::ObjectRecognition);
+      device_->start(cop.GetCameraStartOptions(device_));
       SetState(kStateRunning);
     } catch (std::exception& e) {
       DEBUG_ERROR("start device failed,", e.what());
@@ -430,6 +437,7 @@ void PersonTrackerAdapter::StopCamera() {
     if (device_ && device_started_)
       device_->stop();
     device_started_ = false;
+    delete device_;
     device_ = nullptr;
     camera_configured_ = false;
   } catch (std::exception& e) {
@@ -445,7 +453,7 @@ void PersonTrackerAdapter::ResetStateData() {
 
 void PersonTrackerAdapter::ResetInternalData() {
   config_.Reset();
-  ctx_.reset();
+  ctx_ = nullptr;  // No need to delete singleton object
   pt_module_.reset(
       rs::person_tracking::person_tracking_video_module_factory::create_person_tracking_video_module(GetDataFilesPath().c_str())); //NOLINT
   actual_module_config_ = {};

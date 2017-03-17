@@ -12,6 +12,7 @@
 
 #include "common/camera-options/camera_options_host_instance.h"
 #include "common/camera-options/camera_options_io.h"
+#include "common/camera-delegate/camera_delegate_instance.h"
 #include "gen/camera_options.h"
 #include "gen/instance_options.h"
 #include "parameter_wrappers.h"
@@ -22,13 +23,15 @@
 
 class SlamModule : public CameraOptionsIO {
  public:
-  SlamModule() {
+  SlamModule() : rs_context_(nullptr) {
+    rs_context_ = CameraDelegateInstance::GetInstance();
     CleanUp();
     RegisterToCameraHost();
   }
 
   ~SlamModule() {
-     CleanUp();
+    CleanUp();
+    rs_context_ = nullptr;  // No need to delete singleton object here
   }
 
   utils::Status Start();
@@ -71,8 +74,10 @@ class SlamModule : public CameraOptionsIO {
   utils::Status SetMotionCallbacks();
 
   // These should only be accessible to worker.
-  rs::context rs_context_;
-  rs::device* device_;
+  // rs::context* rs_context_;
+  // rs::device* device_;
+  CameraDelegate* rs_context_;
+  CameraDelegateDevice* device_;
   std::shared_ptr<rs::slam::slam> slam_;
 
   rs::core::video_module_interface::supported_module_config
