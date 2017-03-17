@@ -74,8 +74,6 @@ class SlamModule : public CameraOptionsIO {
   utils::Status SetMotionCallbacks();
 
   // These should only be accessible to worker.
-  // rs::context* rs_context_;
-  // rs::device* device_;
   CameraDelegate* rs_context_;
   CameraDelegateDevice* device_;
   std::shared_ptr<rs::slam::slam> slam_;

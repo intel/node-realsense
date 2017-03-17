@@ -80,8 +80,6 @@ class CameraRunner {
   std::string GetLastErrorInfo() const;
 
  private:
-  // std::shared_ptr<rs::core::context_interface> ctx_;
-  // rs::device* device_;
   CameraDelegate* ctx_;
   CameraDelegateDevice* device_;
 
