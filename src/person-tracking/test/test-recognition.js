@@ -265,4 +265,38 @@ describe('Person Tracking Test Suite - recognition', function() {
       });
     });
   });
+
+  it('Query similairty score', function() {
+    // eslint-disable-next-line no-invalid-this
+    this.timeout(10000);
+    let registerResult;
+    let registered = false;
+    return new Promise(function(resolve, reject) {
+      addon.createPersonTracker(options, cameraOptionsFromFile).then(function(inst) {
+        tracker = inst;
+        tracker.on('persontracked', function(result) {
+          if (registered)
+            return;
+          if (result.persons.length) {
+            tracker.personRecognition.registerPerson(result.persons[0].trackInfo.id).then(
+                function(registerInfo) {
+              registerResult = registerInfo;
+              registered = true;
+              return tracker.personRecognition.querySimilarityScoreFromPerson(
+                  registerResult.trackID,
+                  registerResult.recognitionID);
+            }).then(function(score) {
+              assert.notEqual(score, 0);
+              resolve();
+            }).catch((e) => {
+              // Don't reject, as for some frames, we may not be able to register.
+            });
+          }
+        });
+        return tracker.start();
+      }).catch(function(e) {
+        reject(e);
+      });
+    });
+  });
 });

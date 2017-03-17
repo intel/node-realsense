@@ -1925,7 +1925,7 @@ bool PersonTrackerAdapter::ReinforceRegistration(
   return true;
 }
 
-bool PersonTrackerAdapter::QueryRecognitionSimilarityScore(
+bool PersonTrackerAdapter::QuerySimilarityScore(
     int32_t track_id, int32_t recognition_id, float* score, std::string* err) {
   // find the person with the track id.
   PTDATA::Person* persondata =

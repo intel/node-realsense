@@ -239,6 +239,7 @@ interface PersonRecognition {
     Promise&lt;PersonRegistrationData> reinforceRegistration(long trackID, long recognitionID);
     Promise&lt;PersonRecognizerData> recognizePerson(long trackID);
     Promise&lt;sequence&lt;PersonRecognizerDataWithStatus>> recognizeAllPersons();
+    Promise&lt;float> querySimilarityScoreFromPerson(long trackID, long recognitionID);
 };
 </pre>
 
@@ -327,6 +328,17 @@ interface PersonRecognition {
 
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
 :: *Return type*:Promise&lt;<a>PersonRecognizerDataWithStatus</a>&gt;
+
+: {{querySimilarityScoreFromPerson}}
+:: Compare a person specified by trackID with a registered person specified by the recognitionID, and get the similarity score.
+
+<pre class='argumentdef' for="PersonRecognition/querySimilarityScoreFromPerson(long trackID, long recognitionID)">
+  trackID: The tracking ID of the specified person.
+  recognitionID: The recognition ID of the person already registered.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>float</a>&gt;
 
 ### <dfn>PersonRegistrationData</dfn> Interface ### {#registrationinfo}
 

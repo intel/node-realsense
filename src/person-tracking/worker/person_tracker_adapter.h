@@ -103,7 +103,7 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   bool RecognizeAllPersons(
       std::vector<PersonRecognizerDataWithStatus*>* result_vec,
       std::string* err);
-  bool QueryRecognitionSimilarityScore(
+  bool QuerySimilarityScore(
       int32_t track_id, int32_t recognition_id, float* score,
       std::string* err);
   bool ClearRecognitionDatabase(std::string* err);

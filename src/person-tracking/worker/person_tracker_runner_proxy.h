@@ -40,7 +40,7 @@ class PersonTrackerRunnerProxy {
   v8::Handle<v8::Promise> GetPersonDescriptorIDs(const int32_t recognition_id);
   v8::Handle<v8::Promise> ReinforceRegistration(
       const int32_t tracking_id, const int32_t recognition_id);
-  v8::Handle<v8::Promise> QuerySimilarityScoreFromPerson(
+  v8::Handle<v8::Promise> QuerySimilarityScore(
       const int32_t tracking_id, const int32_t recognition_id);
   v8::Handle<v8::Promise> ClearRecognitionDatabase();
   v8::Handle<v8::Promise> ExportRecognitionDatabase();

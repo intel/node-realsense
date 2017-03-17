@@ -472,3 +472,26 @@ v8_value_t ReinforceRegistrationTask::GetResolved() {
   return NanPersonRegistrationData::NewInstance(
       new PersonRegistrationData(payload->result_));
 }
+
+void QuerySimilarityScoreTask::WorkerThreadExecute() {
+  QuerySimilarityScoreTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->QuerySimilarityScore(payload->track_id_,
+                                    payload->recognition_id_,
+                                    &(payload->score_),
+                                    &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+QuerySimilarityScoreTaskPayload* QuerySimilarityScoreTask::GetPayload() {
+  return reinterpret_cast<QuerySimilarityScoreTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t QuerySimilarityScoreTask::GetResolved() {
+  QuerySimilarityScoreTaskPayload* payload = GetPayload();
+  return Nan::New<v8::Number>(payload->score_);
+}

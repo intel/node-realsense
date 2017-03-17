@@ -369,9 +369,16 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ReinforceRegistration(
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::
-    QuerySimilarityScoreFromPerson(const int32_t tracking_id,
+    QuerySimilarityScore(const int32_t tracking_id,
     const int32_t recognition_id) {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new QuerySimilarityScoreTask(),
+      new QuerySimilarityScoreTaskPayload(
+          adapter_, tracking_id, recognition_id),
+      "{{QuerySimilarityScore}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ClearRecognitionDatabase() {

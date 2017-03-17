@@ -1446,7 +1446,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Person Tracking</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-16">16 March 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-17">17 March 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1458,7 +1458,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 16 March 2017,
+In addition, as of 17 March 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1977,6 +1977,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personregistrationdata0" id="ref-for-personregistrationdata0-2">PersonRegistrationData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="reinforceRegistration(trackID, recognitionID)" id="dom-personrecognition-reinforceregistration">reinforceRegistration<a class="self-link" href="#dom-personrecognition-reinforceregistration"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/reinforceRegistration(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-reinforceregistration-trackid-recognitionid-trackid">trackID<a class="self-link" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-trackid"></a></dfn>, <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/reinforceRegistration(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-reinforceregistration-trackid-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-recognitionid"></a></dfn>);
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0" id="ref-for-personrecognizerdata0-1">PersonRecognizerData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizePerson(trackID)" id="dom-personrecognition-recognizeperson">recognizePerson<a class="self-link" href="#dom-personrecognition-recognizeperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/recognizePerson(trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognizeperson-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-recognizeperson-trackid-trackid"></a></dfn>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0" id="ref-for-personrecognizerdatawithstatus0-1">PersonRecognizerDataWithStatus</a>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizeAllPersons()" id="dom-personrecognition-recognizeallpersons">recognizeAllPersons<a class="self-link" href="#dom-personrecognition-recognizeallpersons"></a></dfn>();
+    <span class="kt">Promise</span>&lt;<span class="kt">float</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="querySimilarityScoreFromPerson(trackID, recognitionID)" id="dom-personrecognition-querysimilarityscorefromperson">querySimilarityScoreFromPerson<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/querySimilarityScoreFromPerson(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-trackid">trackID<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-trackid"></a></dfn>, <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/querySimilarityScoreFromPerson(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-recognitionid"></a></dfn>);
 };
 </pre>
    <h5 class="heading settled" data-level="2.2.4.1" id="methods-person-recognition"><span class="secno">2.2.4.1. </span><span class="content">Methods</span><a class="self-link" href="#methods-person-recognition"></a></h5>
@@ -2198,6 +2199,39 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
     <dd data-md="">
      <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="#personrecognizerdatawithstatus" id="ref-for-personrecognizerdatawithstatus-1">PersonRecognizerDataWithStatus</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">querySimilarityScoreFromPerson</a></code></p>
+    <dd data-md="">
+     <p>Compare a person specified by trackID with a registered person specified by the recognitionID, and get the similarity score.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.querySimilarityScoreFromPerson(long trackID, long recognitionID)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/querySimilarityScoreFromPerson(long trackID, long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-querysimilarityscorefromperson-long-trackid-long-recognitionid-trackid">trackID<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson-long-trackid-long-recognitionid-trackid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The tracking ID of the specified person. 
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/querySimilarityScoreFromPerson(long trackID, long recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-querysimilarityscorefromperson-long-trackid-long-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson-long-trackid-long-recognitionid-recognitionid"></a></dfn> 
+      <td> long 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The recognition ID of the person already registered. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="https://drafts.csswg.org/css-page-floats-3/#float">float</a>></p>
    </dl>
    <h4 class="heading settled" data-level="2.2.5" id="registrationinfo"><span class="secno">2.2.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personregistrationdata">PersonRegistrationData</dfn> Interface</span><a class="self-link" href="#registrationinfo"></a></h4>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="personregistrationdata0">PersonRegistrationData</dfn> {
@@ -3349,13 +3383,13 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <li><a href="#dom-facelandmark-imagecoordinate">attribute for FaceLandmark</a><span>, in §2.3.6.3</span>
     </ul>
    <li><a href="#dom-gestureinfo-ispointing">isPointing</a><span>, in §2.3.5</span>
-   <li><a href="#dom-skeletonpointinfo-jointtype">jointType</a><span>, in §2.3.3.2</span>
    <li>
     JointType
     <ul>
      <li><a href="#jointtype">definition of</a><span>, in §4.7</span>
      <li><a href="#enumdef-jointtype">(enum)</a><span>, in §4.7</span>
     </ul>
+   <li><a href="#dom-skeletonpointinfo-jointtype">jointType</a><span>, in §2.3.3.2</span>
    <li><a href="#dom-jointtype-knee-left">"knee-left"</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-knee-left">knee-left</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-knee-right">knee-right</a><span>, in §4.7</span>
@@ -3516,6 +3550,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <li><a href="#poseeulerangles">definition of</a><span>, in §2.3.6.4</span>
      <li><a href="#poseeulerangles0">(interface)</a><span>, in §2.3.6.4</span>
     </ul>
+   <li><a href="#dom-personrecognition-querysimilarityscorefromperson">querySimilarityScoreFromPerson(trackID, recognitionID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-trackingstate-ready">"ready"</a><span>, in §4.5</span>
    <li><a href="#dom-trackingstate-ready">ready</a><span>, in §4.5</span>
    <li><a href="#dom-persontrackeroptions-recognition">recognition</a><span>, in §3.1</span>
@@ -3667,6 +3702,11 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
+    <a data-link-type="biblio">[css-page-floats-3]</a> defines the following terms:
+    <ul>
+     <li><a href="https://drafts.csswg.org/css-page-floats-3/#float">float</a>
+    </ul>
+   <li>
     <a data-link-type="biblio">[FileAPI]</a> defines the following terms:
     <ul>
      <li><a href="https://w3c.github.io/FileAPI/#dfn-start">start</a>
@@ -3690,6 +3730,8 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-css-page-floats-3">[CSS-PAGE-FLOATS-3]
+   <dd>Johannes Wilm. <a href="http://dev.w3.org/csswg/css-page-floats/">CSS Page Floats</a>. URL: <a href="http://dev.w3.org/csswg/css-page-floats/">http://dev.w3.org/csswg/css-page-floats/</a>
    <dt id="biblio-fileapi">[FileAPI]
    <dd>Arun Ranganathan; Jonas Sicking. <a href="https://w3c.github.io/FileAPI/">File API</a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-generic-sensor">[GENERIC-SENSOR]
@@ -3742,6 +3784,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personregistrationdata0">PersonRegistrationData</a>> <a class="nv" href="#dom-personrecognition-reinforceregistration">reinforceRegistration</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-trackid">trackID</a>, <span class="kt">long</span> <a class="nv" href="#dom-personrecognition-reinforceregistration-trackid-recognitionid-recognitionid">recognitionID</a>);
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0">PersonRecognizerData</a>> <a class="nv" href="#dom-personrecognition-recognizeperson">recognizePerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-recognizeperson-trackid-trackid">trackID</a>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0">PersonRecognizerDataWithStatus</a>>> <a class="nv" href="#dom-personrecognition-recognizeallpersons">recognizeAllPersons</a>();
+    <span class="kt">Promise</span>&lt;<span class="kt">float</span>> <a class="nv" href="#dom-personrecognition-querysimilarityscorefromperson">querySimilarityScoreFromPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-trackid">trackID</a>, <span class="kt">long</span> <a class="nv" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-recognitionid">recognitionID</a>);
 };
 
 <span class="kt">interface</span> <a class="nv" href="#personregistrationdata0">PersonRegistrationData</a> {

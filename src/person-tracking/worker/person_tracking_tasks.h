@@ -403,4 +403,30 @@ class ReinforceRegistrationTask : public PTPromiseTask {
   virtual v8_value_t GetResolved();
 };
 
+class QuerySimilarityScoreTaskPayload : public PTAsyncTaskPayload {
+ public:
+  QuerySimilarityScoreTaskPayload(PersonTrackerAdapter* adapter,
+                                   int32_t track_id,
+                                   int32_t recognition_id) :
+      PTAsyncTaskPayload(adapter),
+      track_id_(track_id),
+      recognition_id_(recognition_id),
+      score_(0) {}
+  virtual ~QuerySimilarityScoreTaskPayload() {}
+  int32_t track_id_;
+  int32_t recognition_id_;
+  float score_;
+};
+
+class QuerySimilarityScoreTask : public PTPromiseTask {
+ public:
+  QuerySimilarityScoreTask() {
+    task_tag = "QuerySimilarityScoreTask";
+  }
+  virtual ~QuerySimilarityScoreTask() {}
+  virtual void WorkerThreadExecute();
+  virtual QuerySimilarityScoreTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
 #endif  // _WORKER_PERSON_TRACKING_TASKS_H_
