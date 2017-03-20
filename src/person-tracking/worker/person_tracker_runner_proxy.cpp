@@ -382,14 +382,32 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ClearRecognitionDatabase() {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ClearRecognitionDatabaseTask(),
+      new PTAsyncTaskPayload(adapter_),
+      "{{ClearRecognitionDatabase}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ExportRecognitionDatabase() {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ExportRecognitionDatabaseTask(),
+      new ExportRecognitionDatabaseTaskPayload(adapter_),
+      "{{ExportRecognitionDatabase}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ImportRecognitionDatabase(
     const ArrayBuffer& buf) {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ImportRecognitionDatabaseTask(),
+      new ImportRecognitionDatabaseTaskPayload(adapter_, buf),
+      "{{ImportRecognitionDatabase}}");
 }

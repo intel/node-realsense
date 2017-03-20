@@ -495,3 +495,59 @@ v8_value_t QuerySimilarityScoreTask::GetResolved() {
   QuerySimilarityScoreTaskPayload* payload = GetPayload();
   return Nan::New<v8::Number>(payload->score_);
 }
+
+void ClearRecognitionDatabaseTask::WorkerThreadExecute() {
+  auto adapter = GetAdapter();
+  if (adapter->ClearRecognitionDatabase(&reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+void ImportRecognitionDatabaseTask::WorkerThreadExecute() {
+  ImportRecognitionDatabaseTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->ImportRecognitionDatabase(payload->buf_.size,
+                                         (unsigned char*)payload->buf_.data,
+                                         &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+ImportRecognitionDatabaseTaskPayload* ImportRecognitionDatabaseTask::
+    GetPayload() {
+  return reinterpret_cast<ImportRecognitionDatabaseTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+void ExportRecognitionDatabaseTask::WorkerThreadExecute() {
+  ExportRecognitionDatabaseTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->ExportRecognitionDatabase(&payload->result_.size,
+      (unsigned char**)&(payload->result_.data), &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+ExportRecognitionDatabaseTaskPayload* ExportRecognitionDatabaseTask::
+    GetPayload() {
+  return reinterpret_cast<ExportRecognitionDatabaseTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t ExportRecognitionDatabaseTask::GetResolved() {
+  ExportRecognitionDatabaseTaskPayload* payload = GetPayload();
+  if (payload->result_.size) {
+    v8::Local<v8::Object> value;
+    if (Nan::NewBuffer(
+        payload->result_.data, payload->result_.size).ToLocal(&value)) {
+      return value;
+    }
+  }
+  return Nan::Undefined();
+}

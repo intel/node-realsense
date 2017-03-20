@@ -1831,7 +1831,7 @@ bool PersonTrackerAdapter::ClearRecognitionDatabase(std::string* err) {
 }
 
 bool PersonTrackerAdapter::ExportRecognitionDatabase(
-    int32_t* size, unsigned char** buf, std::string* err) {
+    uint32_t* size, unsigned char** buf, std::string* err) {
   if (!size || !buf)
     return false;
   PT::PersonTrackingConfiguration* pt_configuration =
@@ -1865,15 +1865,18 @@ bool PersonTrackerAdapter::ExportRecognitionDatabase(
       }
     }
   }
-  *size = written_size;
+  *size = (uint32_t)written_size;
   *buf = actual_buf;
   return true;
 }
 
 bool PersonTrackerAdapter::ImportRecognitionDatabase(
     int32_t size, unsigned char* buf, std::string* err) {
-  if (!size || !buf)
+  if (!size || !buf) {
+    if (err)
+      *err = "Invalid database data for import";
     return false;
+  }
   PT::PersonTrackingConfiguration* pt_configuration =
       pt_module_->QueryConfiguration();
   auto recogcfg = pt_configuration->QueryRecognition();

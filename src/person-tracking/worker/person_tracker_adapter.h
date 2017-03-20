@@ -108,7 +108,7 @@ class PersonTrackerAdapter : public CameraOptionsIO {
       std::string* err);
   bool ClearRecognitionDatabase(std::string* err);
   bool ExportRecognitionDatabase(
-      int32_t* size, unsigned char** buf, std::string* err);
+      uint32_t* size, unsigned char** buf, std::string* err);
   bool ImportRecognitionDatabase(
       int32_t size, unsigned char* buf, std::string* err);
   std::string GetRegistrationErrDescription(

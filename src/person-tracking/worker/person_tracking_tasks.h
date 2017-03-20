@@ -429,4 +429,61 @@ class QuerySimilarityScoreTask : public PTPromiseTask {
   virtual v8_value_t GetResolved();
 };
 
+class ClearRecognitionDatabaseTask : public PTPromiseTask {
+ public:
+  ClearRecognitionDatabaseTask() {}
+  virtual ~ClearRecognitionDatabaseTask() {}
+  virtual void WorkerThreadExecute();
+};
+
+class ImportRecognitionDatabaseTaskPayload : public PTAsyncTaskPayload {
+ public:
+  ImportRecognitionDatabaseTaskPayload(PersonTrackerAdapter* adapter,
+                                       const ArrayBuffer& buf) :
+      PTAsyncTaskPayload(adapter) {
+        if (buf.size) {
+          buf_.data = static_cast<char*>(malloc(buf.size));
+          memcpy(buf_.data, buf.data, buf.size);
+          buf_.size = buf.size;
+        }
+      }
+  virtual ~ImportRecognitionDatabaseTaskPayload() {
+    if (buf_.data)
+      free(buf_.data);
+  }
+  ArrayBuffer buf_;
+};
+
+class ImportRecognitionDatabaseTask : public PTPromiseTask {
+ public:
+  ImportRecognitionDatabaseTask() {
+    task_tag = "ImportRecognitionDatabaseTask";
+  }
+  virtual ~ImportRecognitionDatabaseTask() {}
+  virtual void WorkerThreadExecute();
+  virtual ImportRecognitionDatabaseTaskPayload* GetPayload();
+};
+
+class ExportRecognitionDatabaseTaskPayload : public PTAsyncTaskPayload {
+ public:
+  explicit ExportRecognitionDatabaseTaskPayload(PersonTrackerAdapter* adapter) :
+      PTAsyncTaskPayload(adapter) {
+        result_.data = nullptr;
+        result_.size = 0;
+      }
+  virtual ~ExportRecognitionDatabaseTaskPayload() {}
+  ArrayBuffer result_;
+};
+
+class ExportRecognitionDatabaseTask : public PTPromiseTask {
+ public:
+  ExportRecognitionDatabaseTask() {
+    task_tag = "ExportRecognitionDatabaseTask";
+  }
+  virtual ~ExportRecognitionDatabaseTask() {}
+  virtual void WorkerThreadExecute();
+  virtual ExportRecognitionDatabaseTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
 #endif  // _WORKER_PERSON_TRACKING_TASKS_H_

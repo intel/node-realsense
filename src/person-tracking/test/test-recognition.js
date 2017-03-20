@@ -299,4 +299,95 @@ describe('Person Tracking Test Suite - recognition', function() {
       });
     });
   });
+
+  it('Clear database', function() {
+    // eslint-disable-next-line no-invalid-this
+    this.timeout(10000);
+    let registered = false;
+    return new Promise(function(resolve, reject) {
+      addon.createPersonTracker(options, cameraOptionsFromFile).then(function(inst) {
+        tracker = inst;
+        tracker.on('persontracked', function(result) {
+          if (registered)
+            return;
+          if (result.persons.length) {
+            tracker.personRecognition.registerPerson(result.persons[0].trackInfo.id).then(
+                function(registerInfo) {
+              registered = true;
+              return tracker.personRecognition.getAllRecognitionIDs();
+            }).then(function(ids) {
+              assert.equal(ids.length, 1);
+              return tracker.personRecognition.clearDatabase();
+            }).then(function() {
+              return tracker.personRecognition.getAllRecognitionIDs();
+            }).then(function(newids) {
+              assert.equal(newids.length, 0);
+              resolve();
+            }).catch((e) => {
+              // Don't reject, as for some frames, we may not be able to register.
+            });
+          }
+        });
+        return tracker.start();
+      }).catch(function(e) {
+        reject(e);
+      });
+    });
+  });
+
+  it('Export and import database', function() {
+    // eslint-disable-next-line no-invalid-this
+    this.timeout(10000);
+    let needRegister = true;
+    let needCheckRecognition = false;
+    let olddb;
+    return new Promise(function(resolve, reject) {
+      addon.createPersonTracker(options, cameraOptionsFromFile).then(function(inst) {
+        tracker = inst;
+        tracker.on('persontracked', function(result) {
+          if (needRegister) {
+            if (result.persons.length) {
+              tracker.personRecognition.registerPerson(result.persons[0].trackInfo.id).then(
+                  function(registerInfo) {
+                needRegister = false;
+                return tracker.personRecognition.getAllRecognitionIDs();
+              }).then(function(ids) {
+                assert.equal(ids.length, 1);
+                return tracker.personRecognition.exportDatabase();
+              }).then(function(db) {
+                olddb = db;
+                return tracker.personRecognition.clearDatabase();
+              }).then(function() {
+                return tracker.personRecognition.getAllRecognitionIDs();
+              }).then(function(newids) {
+                assert.equal(newids.length, 0);
+                return tracker.personRecognition.importDatabase(olddb);
+              }).then(function() {
+                return tracker.personRecognition.getAllRecognitionIDs();
+              }).then(function(ids) {
+                assert.equal(ids.length, 1);
+                needCheckRecognition = true;
+                // return tracker.personRecognition.recognizePerson(result.persons[0].trackInfo.id);
+              }).catch((e) => {
+                // Don't reject, as for some frames, we may not be able to register.
+              });
+            }
+          }
+          // this is only performed after the above work is done.
+          if (needCheckRecognition) {
+            tracker.personRecognition.recognizePerson(result.persons[0].trackInfo.id).then(
+                function(recognizeInfo) {
+              assert.equal(recognizeInfo.recognized, true);
+              resolve();
+            }).catch((e) => {
+              // Don't reject, as for some frames, we may not be able to register.
+            });
+          }
+        });
+        return tracker.start();
+      }).catch(function(e) {
+        reject(e);
+      });
+    });
+  });
 });

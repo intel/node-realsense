@@ -26,16 +26,17 @@ PersonRecognition& PersonRecognition::operator = (
 }
 
 v8::Handle<v8::Promise> PersonRecognition::clearDatabase() {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->ClearRecognitionDatabase();
 }
 
 v8::Handle<v8::Promise> PersonRecognition::exportDatabase() {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->ExportRecognitionDatabase();
 }
 
 v8::Handle<v8::Promise> PersonRecognition::importDatabase(
     const ArrayBuffer& buf) {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->
+      ImportRecognitionDatabase(buf);
 }
 
 v8::Handle<v8::Promise> PersonRecognition::registerPerson(

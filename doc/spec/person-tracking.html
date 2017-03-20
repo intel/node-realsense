@@ -1446,7 +1446,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Person Tracking</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-17">17 March 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-20">20 March 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1458,7 +1458,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 17 March 2017,
+In addition, as of 20 March 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1978,6 +1978,9 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0" id="ref-for-personrecognizerdata0-1">PersonRecognizerData</a>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizePerson(trackID)" id="dom-personrecognition-recognizeperson">recognizePerson<a class="self-link" href="#dom-personrecognition-recognizeperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/recognizePerson(trackID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-recognizeperson-trackid-trackid">trackID<a class="self-link" href="#dom-personrecognition-recognizeperson-trackid-trackid"></a></dfn>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0" id="ref-for-personrecognizerdatawithstatus0-1">PersonRecognizerDataWithStatus</a>>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="recognizeAllPersons()" id="dom-personrecognition-recognizeallpersons">recognizeAllPersons<a class="self-link" href="#dom-personrecognition-recognizeallpersons"></a></dfn>();
     <span class="kt">Promise</span>&lt;<span class="kt">float</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="querySimilarityScoreFromPerson(trackID, recognitionID)" id="dom-personrecognition-querysimilarityscorefromperson">querySimilarityScoreFromPerson<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/querySimilarityScoreFromPerson(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-trackid">trackID<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-trackid"></a></dfn>, <span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/querySimilarityScoreFromPerson(trackID, recognitionID)" data-dfn-type="argument" data-export="" id="dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-recognitionid">recognitionID<a class="self-link" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-recognitionid"></a></dfn>);
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="clearDatabase()" id="dom-personrecognition-cleardatabase">clearDatabase<a class="self-link" href="#dom-personrecognition-cleardatabase"></a></dfn>();
+    <span class="kt">Promise</span>&lt;<span class="kt">ArrayBuffer</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="exportDatabase()" id="dom-personrecognition-exportdatabase">exportDatabase<a class="self-link" href="#dom-personrecognition-exportdatabase"></a></dfn>();
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonRecognition" data-dfn-type="method" data-export="" data-lt="importDatabase(buf)" id="dom-personrecognition-importdatabase">importDatabase<a class="self-link" href="#dom-personrecognition-importdatabase"></a></dfn>(<span class="kt">ArrayBuffer</span> <dfn class="nv idl-code" data-dfn-for="PersonRecognition/importDatabase(buf)" data-dfn-type="argument" data-export="" id="dom-personrecognition-importdatabase-buf-buf">buf<a class="self-link" href="#dom-personrecognition-importdatabase-buf-buf"></a></dfn>);
 };
 </pre>
    <h5 class="heading settled" data-level="2.2.4.1" id="methods-person-recognition"><span class="secno">2.2.4.1. </span><span class="content">Methods</span><a class="self-link" href="#methods-person-recognition"></a></h5>
@@ -2232,6 +2235,49 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
     <dd data-md="">
      <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn" href="https://drafts.csswg.org/css-page-floats-3/#float">float</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">clearDatabase</a></code></p>
+    <dd data-md="">
+     <p>Clears the recognition database.</p>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">exportDatabase</a></code></p>
+    <dd data-md="">
+     <p>Export the recognition database into an ArrayBuffer.</p>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">ArrayBuffer</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">importDatabase</a></code></p>
+    <dd data-md="">
+     <p>Import an external ArrayBuffer as the recognition database.</p>
+   </dl>
+   <table class="argumentdef data">
+    <caption>Arguments for the <a class="idl-code" data-link-type="method">PersonRecognition.importDatabase(ArrayBuffer buf)</a> method.</caption>
+    <thead>
+     <tr>
+      <th>Parameter 
+      <th>Type 
+      <th>Nullable 
+      <th>Optional 
+      <th>Description 
+    <tbody>
+     <tr>
+      <td><dfn class="idl-code" data-dfn-for="PersonRecognition/importDatabase(ArrayBuffer buf)" data-dfn-type="argument" data-export="" id="dom-personrecognition-importdatabase-arraybuffer-buf-buf">buf<a class="self-link" href="#dom-personrecognition-importdatabase-arraybuffer-buf-buf"></a></dfn> 
+      <td> ArrayBuffer 
+      <td> <span class="no">✘</span>
+      <td> <span class="no">✘</span>
+      <td>The external ArrayBuffer containing the recognition database. 
+   </table>
+   <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
    </dl>
    <h4 class="heading settled" data-level="2.2.5" id="registrationinfo"><span class="secno">2.2.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="personregistrationdata">PersonRegistrationData</dfn> Interface</span><a class="self-link" href="#registrationinfo"></a></h4>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="personregistrationdata0">PersonRegistrationData</dfn> {
@@ -3240,6 +3286,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <li><a href="#boundingbox2dinfo0">(interface)</a><span>, in §2.3.4.2</span>
     </ul>
    <li><a href="#dom-trackinginfo-center">center</a><span>, in §2.3.4</span>
+   <li><a href="#dom-personrecognition-cleardatabase">clearDatabase()</a><span>, in §2.2.4</span>
    <li><a href="#dom-detectionmode-close-range">close-range</a><span>, in §4.3</span>
    <li><a href="#dom-detectionmode-close-range">"close-range"</a><span>, in §4.3</span>
    <li><a href="#dom-pointinginfo-colorpointingdata">colorPointingData</a><span>, in §2.3.5.2</span>
@@ -3273,8 +3320,8 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
    <li><a href="#dom-gesturerecognitionoptions-disableallgestures">disableAllGestures</a><span>, in §3.1.1.1</span>
    <li><a href="#dom-jointtype-elbow-left">elbow-left</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-elbow-left">"elbow-left"</a><span>, in §4.7</span>
-   <li><a href="#dom-jointtype-elbow-right">elbow-right</a><span>, in §4.7</span>
    <li><a href="#dom-jointtype-elbow-right">"elbow-right"</a><span>, in §4.7</span>
+   <li><a href="#dom-jointtype-elbow-right">elbow-right</a><span>, in §4.7</span>
    <li>
     enable
     <ul>
@@ -3291,6 +3338,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
    <li><a href="#dom-gesturerecognitionoptions-enablepointing">enablePointing</a><span>, in §3.1.1.1</span>
    <li><a href="#dom-trackingstate-errored">errored</a><span>, in §4.5</span>
    <li><a href="#dom-trackingstate-errored">"errored"</a><span>, in §4.5</span>
+   <li><a href="#dom-personrecognition-exportdatabase">exportDatabase()</a><span>, in §2.2.4</span>
    <li><a href="#dom-personrecognizerstatus-face-ambiguity">face-ambiguity</a><span>, in §4.9</span>
    <li><a href="#dom-personrecognizerstatus-face-ambiguity">"face-ambiguity"</a><span>, in §4.9</span>
    <li><a href="#dom-personinfo-faceinfo">faceInfo</a><span>, in §2.3.2</span>
@@ -3382,6 +3430,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
      <li><a href="#dom-pointcombinedinfo-imagecoordinate">attribute for PointCombinedInfo</a><span>, in §2.3.4.3</span>
      <li><a href="#dom-facelandmark-imagecoordinate">attribute for FaceLandmark</a><span>, in §2.3.6.3</span>
     </ul>
+   <li><a href="#dom-personrecognition-importdatabase">importDatabase(buf)</a><span>, in §2.2.4</span>
    <li><a href="#dom-gestureinfo-ispointing">isPointing</a><span>, in §2.3.5</span>
    <li>
     JointType
@@ -3785,6 +3834,9 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
     <span class="kt">Promise</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdata0">PersonRecognizerData</a>> <a class="nv" href="#dom-personrecognition-recognizeperson">recognizePerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-recognizeperson-trackid-trackid">trackID</a>);
     <span class="kt">Promise</span>&lt;<span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#personrecognizerdatawithstatus0">PersonRecognizerDataWithStatus</a>>> <a class="nv" href="#dom-personrecognition-recognizeallpersons">recognizeAllPersons</a>();
     <span class="kt">Promise</span>&lt;<span class="kt">float</span>> <a class="nv" href="#dom-personrecognition-querysimilarityscorefromperson">querySimilarityScoreFromPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-trackid">trackID</a>, <span class="kt">long</span> <a class="nv" href="#dom-personrecognition-querysimilarityscorefromperson-trackid-recognitionid-recognitionid">recognitionID</a>);
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-personrecognition-cleardatabase">clearDatabase</a>();
+    <span class="kt">Promise</span>&lt;<span class="kt">ArrayBuffer</span>> <a class="nv" href="#dom-personrecognition-exportdatabase">exportDatabase</a>();
+    <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-personrecognition-importdatabase">importDatabase</a>(<span class="kt">ArrayBuffer</span> <a class="nv" href="#dom-personrecognition-importdatabase-buf-buf">buf</a>);
 };
 
 <span class="kt">interface</span> <a class="nv" href="#personregistrationdata0">PersonRegistrationData</a> {
