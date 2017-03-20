@@ -54,6 +54,7 @@ class SlamModule : public CameraOptionsIO {
   utils::Status LoadOccupancyMap(const std::string& file_name);
   utils::Status SaveRelocalizationMap(const std::string& file_name);
   utils::Status LoadRelocalizationMap(const std::string& file_name);
+  utils::Status GetRelocalizationPose(float* relocalization_pose);
 
   // CameraOptionsIO methods
   bool IsSupported(const CameraOptionsType* src) const override;

@@ -752,6 +752,20 @@ utils::Status SlamModule::LoadRelocalizationMap(
   return result;
 }
 
+utils::Status SlamModule::GetRelocalizationPose(float* relocalization_pose) {
+  utils::Status result;
+  rs::slam::PoseMatrix4f pose;
+  result.set_id(slam_->get_relocalization_pose(pose));
+
+  for (int i = 0; i < 16; i++) {
+    relocalization_pose[i] = pose.m_data[i];
+  }
+  if (result.id() < rs::core::status_no_error) {
+    result.set_message("failed to get relocalization pose.");
+  }
+  return result;
+}
+
 utils::Status SlamModule::RestartTracking() {
   utils::Status result;
 
