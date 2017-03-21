@@ -31,11 +31,25 @@ v8::Handle<v8::Promise> Instance::getInstanceOptions() {
 
 v8::Handle<v8::Promise> Instance::setCameraOptions(
     const CameraOptions& options) {
+  std::string error;
+  if (!options.CheckType(&error)) {
+    PromiseHelper promise_helper;
+    auto promise = promise_helper.CreatePromise();
+    promise_helper.RejectPromise(error);
+    return promise;
+  }
   return SlamRunner::GetSlamRunner()->setCameraOptions(options);
 }
 
 v8::Handle<v8::Promise> Instance::setInstanceOptions(
     const InstanceOptions& options) {
+  std::string error;
+  if (!options.CheckType(&error)) {
+    PromiseHelper promise_helper;
+    auto promise = promise_helper.CreatePromise();
+    promise_helper.RejectPromise(error);
+    return promise;
+  }
   return SlamRunner::GetSlamRunner()->setInstanceOptions(options);
 }
 
@@ -81,6 +95,13 @@ v8::Handle<v8::Promise> Instance::getOccupancyMap() {
 
 v8::Handle<v8::Promise> Instance::getOccupancyMap(
     const RegionOfInterest& roi) {
+  std::string error;
+  if (!roi.CheckType(&error)) {
+    PromiseHelper promise_helper;
+    auto promise = promise_helper.CreatePromise();
+    promise_helper.RejectPromise(error);
+    return promise;
+  }
   return SlamRunner::GetSlamRunner()->getOccupancyMap(&roi);
 }
 
