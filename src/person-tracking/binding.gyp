@@ -61,6 +61,8 @@
       "sources": [
         "addon.cpp",
         "bounding_box2d_info.cpp",
+        "common/camera-delegate/camera_delegate.cpp",
+        "common/camera-delegate/camera_delegate_instance.cpp",
         "common/camera-options/camera_options_host.cpp",
         "common/camera-options/camera_options_host_instance.cpp",
         "common/extrinsics.cpp",

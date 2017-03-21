@@ -8,6 +8,7 @@
 #include <string>
 
 #include "common/camera-options/camera_options_host_instance.h"
+#include "common/camera-options/camera_options_coprocessor.h"
 #include "common/task/async_task_runner_instance.h"
 #include "slam_async_tasks.h"
 
@@ -33,8 +34,20 @@ class SlamCameraDefault : public CameraOptionsDefault {
     target->member_fisheye.member_frameRate = 30;
     target->member_fisheye.has_member_isEnabled = true;
     target->member_fisheye.member_isEnabled = true;
+
+    target->has_member_color = true;
+    target->member_color.has_member_width = true;
+    target->member_color.member_width = 640;
+    target->member_color.has_member_height = true;
+    target->member_color.member_height = 480;
+    target->member_color.has_member_frameRate = true;
+    target->member_color.member_frameRate = 30;
+    target->member_color.has_member_isEnabled = true;
+    target->member_color.member_isEnabled = true;
   }
 };
+
+static SlamCameraDefault DEFAULT_SLAM_CAMERA_OPTIONS;
 
 // ------------private methods --------------
 
@@ -61,10 +74,10 @@ utils::Status SlamModule::QuerySupportedConfig() {
   }
   active_sources_ = utils::GetSourceType(&supported_config_);
   if (!utils::CheckMotionSensorCapabilityIfRequired(
-      device_, active_sources_)) {
+      device_->get_device(), active_sources_)) {
     result.set_id(SLAM_ADDON_ERROR);
     result.set_message(
-        "error : current device is not supported motion events");
+        "error : current device does not support 'motion events'");
   }
   return result;
 }
@@ -213,6 +226,11 @@ utils::Status SlamModule::SetStreamCallbacks() {
       PostErrorEventTask(new std::string(error.what()));
     }
   }  // end of for
+
+  CameraOptionsCoProcessor cop(camera_options_,
+    CameraOptionsCoProcessor::SLAM);
+  cop.TryEnableExtraChannels(device_);
+
   return utils::Status();
 }
 
@@ -452,12 +470,12 @@ utils::Status SlamModule::Init() {
   slam_ = std::make_shared<rs::slam::slam>();
 
   // 1. Get device ready.
-  if (rs_context_.get_device_count() == 0) {
+  if (rs_context_->get_device_count() == 0) {
     result.set_id(rs::core::status_device_lost);
     return result;
   }
 
-  device_ = rs_context_.get_device(0);
+  device_ = rs_context_->get_device(0);
 
   // 2. Query supported config.
   result = QuerySupportedConfig();
@@ -515,7 +533,7 @@ void SlamModule::RegisterToCameraHost() {
   CameraOptionsHost* options_host = CameraOptionsHostInstance::GetInstance();
 
   // Make SLAM default options merged with the generals.
-  options_host->SetCameraOptionsDefault(new SlamCameraDefault());
+  options_host->SetCameraOptionsDefault(&DEFAULT_SLAM_CAMERA_OPTIONS);
   options_host->ResetDefaultCameraOptions();
 
   // Register to the camera host.
@@ -539,6 +557,52 @@ void SlamModule::CleanUp() {
 
 utils::Status SlamModule::Reset() {
   utils::Status result;
+
+  // Temp workaround
+  // CameraOptions can't be set by user, because the following
+  //  function call happens too early
+  //
+  // Init() -> SetStreamCallbacks() -> enable_stream(rs::stream::color, ...)
+  //
+  // Solution:
+  //  1. split "writing camera options" & "starting camera" into 2 functions
+  //  2. write camera options when user is requesting
+  //     to do so -- in SlamModule::ApplyToCamera()
+  //
+  {
+    camera_options_.has_member_color = true;
+    auto& color_stream = camera_options_.member_color;
+    color_stream.has_member_width = true;
+    color_stream.has_member_height = true;
+    color_stream.has_member_frameRate = true;
+    color_stream.has_member_isEnabled = true;
+    color_stream.member_isEnabled = true;
+    color_stream.member_width = 640;
+    color_stream.member_height = 480;
+    color_stream.member_frameRate = 30;
+
+    camera_options_.has_member_fisheye = true;
+    auto& fisheye_stream = camera_options_.member_fisheye;
+    fisheye_stream.has_member_width = true;
+    fisheye_stream.has_member_height = true;
+    fisheye_stream.has_member_frameRate = true;
+    fisheye_stream.has_member_isEnabled = true;
+    fisheye_stream.member_isEnabled = true;
+    fisheye_stream.member_width = 640;
+    fisheye_stream.member_height = 480;
+    fisheye_stream.member_frameRate = 30;
+
+    camera_options_.has_member_depth = true;
+    auto& depth_stream = camera_options_.member_depth;
+    depth_stream.has_member_width = true;
+    depth_stream.has_member_height = true;
+    depth_stream.has_member_frameRate = true;
+    depth_stream.has_member_isEnabled = true;
+    depth_stream.member_isEnabled = true;
+    depth_stream.member_width = 320;
+    depth_stream.member_height = 240;
+    depth_stream.member_frameRate = 30;
+  }
 
   // Device has been started.
   if (state_ >= SlamState::kTracking) {
@@ -566,8 +630,14 @@ utils::Status SlamModule::Start() {
     // enable fisheye strobe
     device_->set_option(rs::option::fisheye_strobe, 1);
     device_->set_option(rs::option::r200_lr_auto_exposure_enabled, 1);
+
     // Enable auto exposure for fisheye camera stream
     device_->set_option(rs::option::fisheye_color_auto_exposure, 1);
+
+    CameraOptionsCoProcessor cop(camera_options_,
+      CameraOptionsCoProcessor::SLAM);
+    cop.TrySetExtraOptions(device_);
+
     device_->start(active_sources_);
   } catch (rs::error e) {
     result.set_id(SLAM_ADDON_ERROR);

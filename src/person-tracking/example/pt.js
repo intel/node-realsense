@@ -4,7 +4,7 @@
 
 'use strict';
 
-let pt = require('person-tracking');
+let pt = require('..');
 let trackerOptions = {
   skeleton: {
     enable: true,

@@ -23,6 +23,7 @@
 
 #include "common/camera-options/camera_options_io.h"
 #include "common/frame_data.h"
+#include "common/camera-delegate/camera_delegate_instance.h"
 #include "gen/camera_options.h"
 #include "gen/person_tracker_options.h"
 #include "gen/nan__person_tracking_result.h"
@@ -213,8 +214,8 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   void ResetStateData();
 
   PersonTrackingConfig config_;
-  std::shared_ptr<rs::core::context_interface> ctx_;
-  rs::device* device_;
+  CameraDelegate* ctx_;
+  CameraDelegateDevice* device_;
   std::shared_ptr<rs::person_tracking::person_tracking_video_module_interface> pt_module_; //NOLINT
   rs::core::video_module_interface::actual_module_config actual_module_config_;
   std::mutex result_mutex_;

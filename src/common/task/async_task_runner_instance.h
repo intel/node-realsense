@@ -7,10 +7,6 @@
 
 #include "async_task_runner.h"
 
-//
-// TODO(Kenny): make this a seperate *.so
-// to share the same instance across different add-on(s)
-//
 class AsyncTaskRunnerInstance {
   AsyncTaskRunnerInstance();
   ~AsyncTaskRunnerInstance();

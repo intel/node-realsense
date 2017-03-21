@@ -3,18 +3,34 @@
 // found in the LICENSE file.
 
 #include "async_task_runner_instance.h"
+#include <string>
+#include "../process-singleton/process_singleton.h"
+
+struct AsyncTaskRunnerTraits {
+  static constexpr const char* shm_name = "node-realsense-shm-task_runner:";
+};
+
+typedef ProcessSingleton<AsyncTaskRunner,
+    AsyncTaskRunnerTraits> runner_singleton_t;
+
+static const int required_dummy = runner_singleton_t::SetupCleanupHooks();
 
 class AsyncTaskRunnerInstanceD {
   friend class AsyncTaskRunnerInstance;
 
   static void DestroyInstance() {
+    runner_singleton_t::Cleanup();
     delete runner_;
     runner_ = nullptr;
   }
 
   static AsyncTaskRunner* GetInstance() {
     if (!runner_) {
-      runner_ = new AsyncTaskRunner();
+      if (!runner_singleton_t::QueryExistence()) {
+        // Create one instance per one single OS process
+        runner_singleton_t::SetInstance(new AsyncTaskRunner());
+      }
+      runner_ = runner_singleton_t::GetInstance();
     }
 
     return runner_;

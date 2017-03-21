@@ -17,6 +17,7 @@
 #include <string>
 
 #include "common/camera-options/camera_options_type.h"
+#include "common/camera-delegate/camera_delegate_instance.h"
 
 using namespace rs::core;  // NOLINT(*)
 using namespace rs::object_recognition;  // NOLINT(*)
@@ -79,8 +80,9 @@ class CameraRunner {
   std::string GetLastErrorInfo() const;
 
  private:
-  std::shared_ptr<rs::core::context_interface> ctx_;
-  rs::device* device_;
+  CameraDelegate* ctx_;
+  CameraDelegateDevice* device_;
+
   rs::core::correlated_sample_set* sample_set_;
   rs::core::image_info color_info_;
 
