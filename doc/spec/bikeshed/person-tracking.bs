@@ -201,6 +201,7 @@ interface PersonTracker {
 interface PersonTracking {
   Promise&lt;void> startTrackingPerson(long trackID);
   Promise&lt;void> stopTrackingPerson(long trackID);
+  Promise&lt;void> resetTracking();
 };
 </pre>
 
@@ -222,6 +223,12 @@ interface PersonTracking {
 <pre class='argumentdef' for="PersonTracking/stopTrackingPerson(long trackID)">
   trackID: The tracking ID of the person.
 </pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{resetTracking}}
+:: Reset the Person Tracking module.
 
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
 :: *Return type*:Promise&lt;<a>void</a>&gt;

@@ -234,25 +234,28 @@ void ResetTask::WorkerThreadExecute() {
   task_state = AsyncTask::Successful;
 }
 
-void StartOrStopTrackingOnePersonTask::WorkerThreadExecute() {
+void StartStopResetTrackingOnePersonTask::WorkerThreadExecute() {
   auto adapter = GetAdapter();
-  StartOrStopTrackingOnePersonTaskPayload* payload = GetPayload();
+  StartStopResetTrackingOnePersonTaskPayload* payload = GetPayload();
   if (payload->is_start_) {
     if (adapter->StartTracking(payload->id_))
       task_state = AsyncTask::Successful;
     else
       task_state = AsyncTask::Failed;
-  } else {
+  } else if (!payload->is_reset_) {
     if (adapter->StopTracking(payload->id_))
       task_state = AsyncTask::Successful;
     else
       task_state = AsyncTask::Failed;
+  } else if (payload->is_reset_) {
+    adapter->ResetTracking();
+    task_state = AsyncTask::Successful;
   }
 }
 
-StartOrStopTrackingOnePersonTaskPayload* StartOrStopTrackingOnePersonTask
+StartStopResetTrackingOnePersonTaskPayload* StartStopResetTrackingOnePersonTask
     ::GetPayload() {
-  return reinterpret_cast<StartOrStopTrackingOnePersonTaskPayload*>(
+  return reinterpret_cast<StartStopResetTrackingOnePersonTaskPayload*>(
       AsyncTask::GetPayload());
 }
 

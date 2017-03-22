@@ -28,6 +28,7 @@ class PersonTrackerRunnerProxy {
   v8::Handle<v8::Promise> GetCameraOptions();
   v8::Handle<v8::Promise> StartTrackingPerson(const int32_t track_id);
   v8::Handle<v8::Promise> StopTrackingPerson(const int32_t track_id);
+  v8::Handle<v8::Promise> ResetTracking();
   v8::Handle<v8::Promise> GetPersonInfo(const int32_t track_id);
   v8::Handle<v8::Promise> RegisterPerson(const int32_t track_id);
   v8::Handle<v8::Promise> UnRegisterPerson(const int32_t recognition_id);
@@ -69,7 +70,7 @@ class PersonTrackerRunnerProxy {
     kReset,
     kStop,
     kGenericRunningOperation,  // generic operation in running state.
-    kStartOrStopTrackingPerson,
+    kStartStopResetTrackingPerson,
     kSetOptions,
     kOperationCount
   };

@@ -36,3 +36,6 @@ v8::Handle<v8::Promise> PersonTracking::stopTrackingPerson(
   return PersonTrackerRunnerProxy::GetInstance()->StopTrackingPerson(trackID);
 }
 
+v8::Handle<v8::Promise> PersonTracking::resetTracking() {
+  return PersonTrackerRunnerProxy::GetInstance()->ResetTracking();
+}

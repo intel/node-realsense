@@ -125,33 +125,36 @@ class StartPersonTrackingTask : public PTPromiseTask {
   virtual void WorkerThreadExecute();
 };
 
-class StartOrStopTrackingOnePersonTaskPayload : public PTAsyncTaskPayload {
-  StartOrStopTrackingOnePersonTaskPayload(
-      const StartOrStopTrackingOnePersonTaskPayload& ) = delete;
-  StartOrStopTrackingOnePersonTaskPayload& operator=(
-      const StartOrStopTrackingOnePersonTaskPayload&) = delete;
+class StartStopResetTrackingOnePersonTaskPayload : public PTAsyncTaskPayload {
+  StartStopResetTrackingOnePersonTaskPayload(
+      const StartStopResetTrackingOnePersonTaskPayload& ) = delete;
+  StartStopResetTrackingOnePersonTaskPayload& operator=(
+      const StartStopResetTrackingOnePersonTaskPayload&) = delete;
 
  public:
-  StartOrStopTrackingOnePersonTaskPayload(
+  StartStopResetTrackingOnePersonTaskPayload(
       PersonTrackerAdapter* adapter,
       int32_t track_id,
-      bool is_start)
+      bool is_start,
+      bool is_reset)
           : PTAsyncTaskPayload(adapter),
             id_(track_id),
-            is_start_(is_start) {}
-  virtual ~StartOrStopTrackingOnePersonTaskPayload() {}
+            is_start_(is_start),
+            is_reset_(is_reset) {}
+  virtual ~StartStopResetTrackingOnePersonTaskPayload() {}
   int32_t id_;
   bool is_start_;
+  bool is_reset_;
 };
 
-class StartOrStopTrackingOnePersonTask : public PTPromiseTask {
+class StartStopResetTrackingOnePersonTask : public PTPromiseTask {
  public:
-  StartOrStopTrackingOnePersonTask() {
-    task_tag = "StartOrStopTrackingOnePersonTask";
+  StartStopResetTrackingOnePersonTask() {
+    task_tag = "StartStopResetTrackingOnePersonTask";
   }
-  virtual ~StartOrStopTrackingOnePersonTask() {}
+  virtual ~StartStopResetTrackingOnePersonTask() {}
   virtual void WorkerThreadExecute();
-  virtual StartOrStopTrackingOnePersonTaskPayload* GetPayload();
+  virtual StartStopResetTrackingOnePersonTaskPayload* GetPayload();
 };
 
 class RunPersonTrackingTask : public PTEventEmitterTask {

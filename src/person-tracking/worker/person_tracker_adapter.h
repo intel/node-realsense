@@ -86,6 +86,7 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   void Reset();
   bool StartTracking(int32_t track_id);
   bool StopTracking(int32_t track_id);
+  void ResetTracking();
   bool RegisterPerson(
       int32_t track_id, PersonRegistrationData* result, std::string* err);
   bool ReinforceRegistration(int32_t track_id, int32_t recognition_id,
@@ -165,7 +166,6 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   void StopCamera();
   void ConfigureCameraUsingSpecifiedData();
   void ResetInternalData();
-  void ResetTracking();
   v8::Local<v8::Object> CreateResultObject();
 
   // If clean_all is true, clears everything, otherwise, only clear

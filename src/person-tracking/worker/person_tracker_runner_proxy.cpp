@@ -210,23 +210,35 @@ void PersonTrackerRunnerProxy::CleanUp() {
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::StartTrackingPerson(
     int32_t track_id) {
   std::string error;
-  if (!PassStateCheck(kStartOrStopTrackingPerson, &error))
+  if (!PassStateCheck(kStartStopResetTrackingPerson, &error))
     return adapter_->CreateRejectedPromise(error);
   return runner_->PostPromiseTask(
-      new StartOrStopTrackingOnePersonTask(),
-      new StartOrStopTrackingOnePersonTaskPayload(adapter_, track_id, true),
+      new StartStopResetTrackingOnePersonTask(),
+      new StartStopResetTrackingOnePersonTaskPayload(
+          adapter_, track_id, true, false),
       "{{StartTrackingPerson}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::StopTrackingPerson(
     int32_t track_id) {
   std::string error;
-  if (!PassStateCheck(kStartOrStopTrackingPerson, &error))
+  if (!PassStateCheck(kStartStopResetTrackingPerson, &error))
     return adapter_->CreateRejectedPromise(error);
   return runner_->PostPromiseTask(
-      new StartOrStopTrackingOnePersonTask(),
-      new StartOrStopTrackingOnePersonTaskPayload(adapter_, track_id, false),
+      new StartStopResetTrackingOnePersonTask(),
+      new StartStopResetTrackingOnePersonTaskPayload(
+          adapter_, track_id, false, false),
       "{{StopTrackingPerson}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ResetTracking() {
+  std::string error;
+  if (!PassStateCheck(kStartStopResetTrackingPerson, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new StartStopResetTrackingOnePersonTask(),
+      new StartStopResetTrackingOnePersonTaskPayload(adapter_, 0, false, true),
+      "{{ResetTracking}}");
 }
 
 bool PersonTrackerRunnerProxy::PassStateCheck(

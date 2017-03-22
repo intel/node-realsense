@@ -168,4 +168,36 @@ describe('Person Tracking Test Suite - tracking', function() {
       });
     });
   });
+
+  it('start/stop/reset tracking', function() {
+    // eslint-disable-next-line no-invalid-this
+    this.timeout(5000);
+    let optionsNew = {
+      tracking: {
+        enable: true,
+      },
+    };
+    return new Promise(function(resolve, reject) {
+      addon.createPersonTracker(optionsNew).then(function(inst) {
+        tracker = inst;
+        return tracker.setCameraOptions(cameraOptionsFromFile);
+      }).then(function() {
+        tracker.on('persontracked', function(result) {
+          tracker.personTracking.startTrackingPerson(result.persons[0].trackInfo.id).then(
+              function() {
+            return tracker.personTracking.stopTrackingPerson(result.persons[0].trackInfo.id);
+          }).then(function() {
+            return tracker.personTracking.resetTracking();
+          }).then(function() {
+            resolve();
+          }).catch(function() {
+            reject();
+          });
+        });
+        return tracker.start();
+      }).catch(function(e) {
+        reject(e);
+      });
+    });
+  });
 });

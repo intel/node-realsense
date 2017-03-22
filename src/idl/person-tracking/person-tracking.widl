@@ -214,6 +214,7 @@ dictionary ExpressionRecognitionOptions {
 interface PersonTracking {
     Promise<void> startTrackingPerson(long trackID);
     Promise<void> stopTrackingPerson(long trackID);
+    Promise<void> resetTracking();
 };
 
 enum TrackingState {

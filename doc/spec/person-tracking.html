@@ -1446,7 +1446,7 @@ pre.idl.highlight { color: #708090; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Person Tracking</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-20">20 March 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2017-03-22">22 March 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1458,7 +1458,7 @@ pre.idl.highlight { color: #708090; }
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 20 March 2017,
+In addition, as of 22 March 2017,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1907,6 +1907,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="persontracking0">PersonTracking</dfn> {
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonTracking" data-dfn-type="method" data-export="" data-lt="startTrackingPerson(trackID)" id="dom-persontracking-starttrackingperson">startTrackingPerson<a class="self-link" href="#dom-persontracking-starttrackingperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonTracking/startTrackingPerson(trackID)" data-dfn-type="argument" data-export="" id="dom-persontracking-starttrackingperson-trackid-trackid">trackID<a class="self-link" href="#dom-persontracking-starttrackingperson-trackid-trackid"></a></dfn>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonTracking" data-dfn-type="method" data-export="" data-lt="stopTrackingPerson(trackID)" id="dom-persontracking-stoptrackingperson">stopTrackingPerson<a class="self-link" href="#dom-persontracking-stoptrackingperson"></a></dfn>(<span class="kt">long</span> <dfn class="nv idl-code" data-dfn-for="PersonTracking/stopTrackingPerson(trackID)" data-dfn-type="argument" data-export="" id="dom-persontracking-stoptrackingperson-trackid-trackid">trackID<a class="self-link" href="#dom-persontracking-stoptrackingperson-trackid-trackid"></a></dfn>);
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <dfn class="nv idl-code" data-dfn-for="PersonTracking" data-dfn-type="method" data-export="" data-lt="resetTracking()" id="dom-persontracking-resettracking">resetTracking<a class="self-link" href="#dom-persontracking-resettracking"></a></dfn>();
 };
 </pre>
    <h5 class="heading settled" data-level="2.2.3.1" id="methods-person-tracking"><span class="secno">2.2.3.1. </span><span class="content">Methods</span><a class="self-link" href="#methods-person-tracking"></a></h5>
@@ -1961,6 +1962,14 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
       <td>The tracking ID of the person. 
    </table>
    <dl>
+    <dd data-md="">
+     <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
+    <dd data-md="">
+     <p><em>Return type</em>:Promise&lt;<a data-link-type="dfn">void</a>></p>
+    <dt data-md="">
+     <p><code class="idl"><a data-link-type="idl">resetTracking</a></code></p>
+    <dd data-md="">
+     <p>Reset the Person Tracking module.</p>
     <dd data-md="">
      <p>This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.</p>
     <dd data-md="">
@@ -3626,6 +3635,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
    <li><a href="#dom-personrecognition-reinforceregistration">reinforceRegistration(trackID, recognitionID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-personrecognition-removepersondescriptor">removePersonDescriptor(recognitionID, descriptorID)</a><span>, in §2.2.4</span>
    <li><a href="#dom-persontracker-reset">reset()</a><span>, in §2.2</span>
+   <li><a href="#dom-persontracking-resettracking">resetTracking()</a><span>, in §2.2.3</span>
    <li><a href="#dom-persontracker-resume">resume()</a><span>, in §2.2</span>
    <li><a href="#dom-poseeulerangles-roll">roll</a><span>, in §2.3.6.4</span>
    <li><a href="#dom-trackingstate-running">"running"</a><span>, in §4.5</span>
@@ -3821,6 +3831,7 @@ Detection, Person Tracking, Person Recognition, Skeleton Recognition, Gesture Re
 <span class="kt">interface</span> <a class="nv" href="#persontracking0">PersonTracking</a> {
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-persontracking-starttrackingperson">startTrackingPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-persontracking-starttrackingperson-trackid-trackid">trackID</a>);
   <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-persontracking-stoptrackingperson">stopTrackingPerson</a>(<span class="kt">long</span> <a class="nv" href="#dom-persontracking-stoptrackingperson-trackid-trackid">trackID</a>);
+  <span class="kt">Promise</span>&lt;<span class="kt">void</span>> <a class="nv" href="#dom-persontracking-resettracking">resetTracking</a>();
 };
 
 <span class="kt">interface</span> <a class="nv" href="#personrecognition0">PersonRecognition</a> {
