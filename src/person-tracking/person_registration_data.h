@@ -36,6 +36,10 @@ class PersonRegistrationData {
     return this->descriptorID_;
   }
 
+  std::string get_status() const {
+    return this->status_;
+  }
+
   void SetJavaScriptThis(v8::Local<v8::Object> obj) {
     // Ignore this if you don't need it
     // Typical usage: emit an event on `obj`
@@ -47,6 +51,9 @@ class PersonRegistrationData {
   int32_t recognitionID_;
 
   int32_t descriptorID_;
+
+
+  std::string status_;
   friend class PersonTrackerAdapter;
 };
 

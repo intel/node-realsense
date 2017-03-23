@@ -1565,8 +1565,10 @@ bool PersonTrackerAdapter::RegisterPerson(
       *err = "Recognition is not enabled";
     return false;
   }
+  result->trackID_ = track_id;
   PTRECOGNITION::RegistrationStatus status = recog->RegisterUser(
       &result->recognitionID_, &result->trackID_, &result->descriptorID_);
+  result->status_ = GetRegistrationErrDescription(status);
   if (status != PTRECOGNITION::RegistrationSuccessful) {
     if (err)
       *err = GetRegistrationErrDescription(status);
@@ -1578,20 +1580,23 @@ bool PersonTrackerAdapter::RegisterPerson(
 std::string PersonTrackerAdapter::GetRegistrationErrDescription(
     PTRECOGNITION::RegistrationStatus status) {
   switch (status) {
+    case PTRECOGNITION::RegistrationSuccessful:
+      return "registered";
+      break;
     case PTRECOGNITION::RegistrationFailedAlreadyRegistered:
-      return "already registered";
+      return "already-registered";
       break;
     case PTRECOGNITION::RegistrationFailedFaceNotDetected:
-      return "face not detected";
+      return "face-not-detected";
       break;
     case PTRECOGNITION::RegistrationFailedFaceNotClear:
-      return "face not clear";
+      return "face-not-clear";
       break;
     case PTRECOGNITION::RegistrationFailedPersonTooFar:
-      return "person too far";
+      return "person-too-far";
       break;
     case PTRECOGNITION::RegistrationFailedPersonTooClose:
-      return "person too close";
+      return "person-too-close";
       break;
     default:
       return "failed";

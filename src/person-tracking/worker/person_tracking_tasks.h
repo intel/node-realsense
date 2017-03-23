@@ -234,6 +234,7 @@ class RegisterPersonTask : public PTPromiseTask {
   virtual void WorkerThreadExecute();
   virtual RegisterPersonTaskPayload* GetPayload();
   virtual v8_value_t GetResolved();
+  virtual v8_value_t GetRejected();
 };
 
 class RecognizePersonTaskPayload : public PTAsyncTaskPayload {

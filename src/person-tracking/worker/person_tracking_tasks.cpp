@@ -309,6 +309,12 @@ v8_value_t RegisterPersonTask::GetResolved() {
       new PersonRegistrationData(payload->result_));
 }
 
+v8_value_t RegisterPersonTask::GetRejected() {
+  RegisterPersonTaskPayload* payload = GetPayload();
+  return NanPersonRegistrationData::NewInstance(
+      new PersonRegistrationData(payload->result_));
+}
+
 void RecognizePersonTask::WorkerThreadExecute() {
   RecognizePersonTaskPayload* payload = GetPayload();
   auto adapter = GetAdapter();

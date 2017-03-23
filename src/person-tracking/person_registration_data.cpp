@@ -15,6 +15,7 @@ PersonRegistrationData::PersonRegistrationData(
   trackID_ = rhs.trackID_;
   recognitionID_ = rhs.recognitionID_;
   descriptorID_ = rhs.descriptorID_;
+  status_ = rhs.status_;
 }
 
 PersonRegistrationData::~PersonRegistrationData() {
@@ -27,6 +28,7 @@ PersonRegistrationData& PersonRegistrationData::operator = (
     trackID_ = rhs.trackID_;
     recognitionID_ = rhs.recognitionID_;
     descriptorID_ = rhs.descriptorID_;
+    status_ = rhs.status_;
   }
   return *this;
 }
