@@ -29,6 +29,8 @@ class PersonTracking {
 
   v8::Handle<v8::Promise> stopTrackingPerson(const int32_t& trackID);
 
+  v8::Handle<v8::Promise> resetTracking();
+
   void SetJavaScriptThis(v8::Local<v8::Object> obj) {
     // Ignore this if you don't need it
     // Typical usage: emit an event on `obj`

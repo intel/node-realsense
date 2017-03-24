@@ -106,10 +106,21 @@ dictionary PersonRecognitionOptions {
     //PersonRecognitionAsyncPolicy asyncPolicy; //is multiple frame recognization or single frame.
 };
 
+enum PersonRegistrationStatus {
+  "registered",
+  "already-registered",
+  "face-not-detected",
+  "face-not-clear",
+  "person-too-far",
+  "person-too-close",
+  "failed"
+};
+
 interface PersonRegistrationData {
     readonly attribute long trackID;
     readonly attribute long recognitionID;
     readonly attribute long descriptorID;
+    readonly attribute PersonRegistrationStatus status;
 };
 
 enum PersonRecognizerStatus {
@@ -214,6 +225,7 @@ dictionary ExpressionRecognitionOptions {
 interface PersonTracking {
     Promise<void> startTrackingPerson(long trackID);
     Promise<void> stopTrackingPerson(long trackID);
+    Promise<void> resetTracking();
 };
 
 enum TrackingState {

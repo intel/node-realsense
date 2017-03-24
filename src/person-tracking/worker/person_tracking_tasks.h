@@ -125,33 +125,36 @@ class StartPersonTrackingTask : public PTPromiseTask {
   virtual void WorkerThreadExecute();
 };
 
-class StartOrStopTrackingOnePersonTaskPayload : public PTAsyncTaskPayload {
-  StartOrStopTrackingOnePersonTaskPayload(
-      const StartOrStopTrackingOnePersonTaskPayload& ) = delete;
-  StartOrStopTrackingOnePersonTaskPayload& operator=(
-      const StartOrStopTrackingOnePersonTaskPayload&) = delete;
+class StartStopResetTrackingOnePersonTaskPayload : public PTAsyncTaskPayload {
+  StartStopResetTrackingOnePersonTaskPayload(
+      const StartStopResetTrackingOnePersonTaskPayload& ) = delete;
+  StartStopResetTrackingOnePersonTaskPayload& operator=(
+      const StartStopResetTrackingOnePersonTaskPayload&) = delete;
 
  public:
-  StartOrStopTrackingOnePersonTaskPayload(
+  StartStopResetTrackingOnePersonTaskPayload(
       PersonTrackerAdapter* adapter,
       int32_t track_id,
-      bool is_start)
+      bool is_start,
+      bool is_reset)
           : PTAsyncTaskPayload(adapter),
             id_(track_id),
-            is_start_(is_start) {}
-  virtual ~StartOrStopTrackingOnePersonTaskPayload() {}
+            is_start_(is_start),
+            is_reset_(is_reset) {}
+  virtual ~StartStopResetTrackingOnePersonTaskPayload() {}
   int32_t id_;
   bool is_start_;
+  bool is_reset_;
 };
 
-class StartOrStopTrackingOnePersonTask : public PTPromiseTask {
+class StartStopResetTrackingOnePersonTask : public PTPromiseTask {
  public:
-  StartOrStopTrackingOnePersonTask() {
-    task_tag = "StartOrStopTrackingOnePersonTask";
+  StartStopResetTrackingOnePersonTask() {
+    task_tag = "StartStopResetTrackingOnePersonTask";
   }
-  virtual ~StartOrStopTrackingOnePersonTask() {}
+  virtual ~StartStopResetTrackingOnePersonTask() {}
   virtual void WorkerThreadExecute();
-  virtual StartOrStopTrackingOnePersonTaskPayload* GetPayload();
+  virtual StartStopResetTrackingOnePersonTaskPayload* GetPayload();
 };
 
 class RunPersonTrackingTask : public PTEventEmitterTask {
@@ -231,6 +234,7 @@ class RegisterPersonTask : public PTPromiseTask {
   virtual void WorkerThreadExecute();
   virtual RegisterPersonTaskPayload* GetPayload();
   virtual v8_value_t GetResolved();
+  virtual v8_value_t GetRejected();
 };
 
 class RecognizePersonTaskPayload : public PTAsyncTaskPayload {
@@ -376,6 +380,114 @@ class RemovePersonDescriptorTask : public PTPromiseTask {
   virtual ~RemovePersonDescriptorTask() {}
   virtual void WorkerThreadExecute();
   virtual RemovePersonDescriptorTaskPayload* GetPayload();
+};
+
+class ReinforceRegistrationTaskPayload : public PTAsyncTaskPayload {
+ public:
+  ReinforceRegistrationTaskPayload(PersonTrackerAdapter* adapter,
+                                   int32_t track_id,
+                                   int32_t recognition_id) :
+      PTAsyncTaskPayload(adapter),
+      track_id_(track_id),
+      recognition_id_(recognition_id) {}
+  virtual ~ReinforceRegistrationTaskPayload() {}
+  int32_t track_id_;
+  int32_t recognition_id_;
+  PersonRegistrationData result_;
+};
+
+class ReinforceRegistrationTask : public PTPromiseTask {
+ public:
+  ReinforceRegistrationTask() {
+    task_tag = "ReinforceRegistrationTask";
+  }
+  virtual ~ReinforceRegistrationTask() {}
+  virtual void WorkerThreadExecute();
+  virtual ReinforceRegistrationTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class QuerySimilarityScoreTaskPayload : public PTAsyncTaskPayload {
+ public:
+  QuerySimilarityScoreTaskPayload(PersonTrackerAdapter* adapter,
+                                   int32_t track_id,
+                                   int32_t recognition_id) :
+      PTAsyncTaskPayload(adapter),
+      track_id_(track_id),
+      recognition_id_(recognition_id),
+      score_(0) {}
+  virtual ~QuerySimilarityScoreTaskPayload() {}
+  int32_t track_id_;
+  int32_t recognition_id_;
+  float score_;
+};
+
+class QuerySimilarityScoreTask : public PTPromiseTask {
+ public:
+  QuerySimilarityScoreTask() {
+    task_tag = "QuerySimilarityScoreTask";
+  }
+  virtual ~QuerySimilarityScoreTask() {}
+  virtual void WorkerThreadExecute();
+  virtual QuerySimilarityScoreTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
+};
+
+class ClearRecognitionDatabaseTask : public PTPromiseTask {
+ public:
+  ClearRecognitionDatabaseTask() {}
+  virtual ~ClearRecognitionDatabaseTask() {}
+  virtual void WorkerThreadExecute();
+};
+
+class ImportRecognitionDatabaseTaskPayload : public PTAsyncTaskPayload {
+ public:
+  ImportRecognitionDatabaseTaskPayload(PersonTrackerAdapter* adapter,
+                                       const ArrayBuffer& buf) :
+      PTAsyncTaskPayload(adapter) {
+        if (buf.size) {
+          buf_.data = static_cast<char*>(malloc(buf.size));
+          memcpy(buf_.data, buf.data, buf.size);
+          buf_.size = buf.size;
+        }
+      }
+  virtual ~ImportRecognitionDatabaseTaskPayload() {
+    if (buf_.data)
+      free(buf_.data);
+  }
+  ArrayBuffer buf_;
+};
+
+class ImportRecognitionDatabaseTask : public PTPromiseTask {
+ public:
+  ImportRecognitionDatabaseTask() {
+    task_tag = "ImportRecognitionDatabaseTask";
+  }
+  virtual ~ImportRecognitionDatabaseTask() {}
+  virtual void WorkerThreadExecute();
+  virtual ImportRecognitionDatabaseTaskPayload* GetPayload();
+};
+
+class ExportRecognitionDatabaseTaskPayload : public PTAsyncTaskPayload {
+ public:
+  explicit ExportRecognitionDatabaseTaskPayload(PersonTrackerAdapter* adapter) :
+      PTAsyncTaskPayload(adapter) {
+        result_.data = nullptr;
+        result_.size = 0;
+      }
+  virtual ~ExportRecognitionDatabaseTaskPayload() {}
+  ArrayBuffer result_;
+};
+
+class ExportRecognitionDatabaseTask : public PTPromiseTask {
+ public:
+  ExportRecognitionDatabaseTask() {
+    task_tag = "ExportRecognitionDatabaseTask";
+  }
+  virtual ~ExportRecognitionDatabaseTask() {}
+  virtual void WorkerThreadExecute();
+  virtual ExportRecognitionDatabaseTaskPayload* GetPayload();
+  virtual v8_value_t GetResolved();
 };
 
 #endif  // _WORKER_PERSON_TRACKING_TASKS_H_

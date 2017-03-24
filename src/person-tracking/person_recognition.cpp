@@ -26,16 +26,17 @@ PersonRecognition& PersonRecognition::operator = (
 }
 
 v8::Handle<v8::Promise> PersonRecognition::clearDatabase() {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->ClearRecognitionDatabase();
 }
 
 v8::Handle<v8::Promise> PersonRecognition::exportDatabase() {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->ExportRecognitionDatabase();
 }
 
 v8::Handle<v8::Promise> PersonRecognition::importDatabase(
     const ArrayBuffer& buf) {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->
+      ImportRecognitionDatabase(buf);
 }
 
 v8::Handle<v8::Promise> PersonRecognition::registerPerson(
@@ -73,7 +74,8 @@ v8::Handle<v8::Promise> PersonRecognition::getPersonDescriptorIDs(
 
 v8::Handle<v8::Promise> PersonRecognition::reinforceRegistration(
     const int32_t& trackID, const int32_t& recognitionID) {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->ReinforceRegistration(
+      trackID, recognitionID);
 }
 
 v8::Handle<v8::Promise> PersonRecognition::recognizePerson(
@@ -83,7 +85,8 @@ v8::Handle<v8::Promise> PersonRecognition::recognizePerson(
 
 v8::Handle<v8::Promise> PersonRecognition::querySimilarityScoreFromPerson(
     const int32_t& trackID, const int32_t& recognitionID) {
-  // TODO(widl-nan): fill your code here
+  return PersonTrackerRunnerProxy::GetInstance()->QuerySimilarityScore(
+      trackID, recognitionID);
 }
 
 v8::Handle<v8::Promise> PersonRecognition::recognizeAllPersons() {

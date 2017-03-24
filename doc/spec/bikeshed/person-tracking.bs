@@ -201,6 +201,7 @@ interface PersonTracker {
 interface PersonTracking {
   Promise&lt;void> startTrackingPerson(long trackID);
   Promise&lt;void> stopTrackingPerson(long trackID);
+  Promise&lt;void> resetTracking();
 };
 </pre>
 
@@ -226,6 +227,12 @@ interface PersonTracking {
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
+: {{resetTracking}}
+:: Reset the Person Tracking module.
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
 ### <dfn>PersonRecognition</dfn> Interface ### {#recognition-interface}
 
 <pre class='idl'>
@@ -236,8 +243,13 @@ interface PersonRecognition {
     Promise&lt;sequence&lt;long>> getAllRecognitionIDs();
     Promise&lt;void> removePersonDescriptor(long recognitionID, long descriptorID);
     Promise&lt;sequence&lt;long>> getPersonDescriptorIDs(long recognitionID);
+    Promise&lt;PersonRegistrationData> reinforceRegistration(long trackID, long recognitionID);
     Promise&lt;PersonRecognizerData> recognizePerson(long trackID);
     Promise&lt;sequence&lt;PersonRecognizerDataWithStatus>> recognizeAllPersons();
+    Promise&lt;float> querySimilarityScoreFromPerson(long trackID, long recognitionID);
+    Promise&lt;void> clearDatabase();
+    Promise&lt;ArrayBuffer> exportDatabase();
+    Promise&lt;void> importDatabase(ArrayBuffer buf);
 };
 </pre>
 
@@ -250,7 +262,7 @@ interface PersonRecognition {
   trackID: The tracking ID of the person.
 </pre>
 
-:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with also a PersonRegistrationData object with its status member describing the failure reason. If the status is 'already-registered', the recognitionID can be fetched from the PersonRegistrationData object.
 :: *Return type*:Promise&lt;<a>PersonRegistrationData</a>&gt;
 
 : {{unRegisterPerson}}
@@ -300,6 +312,17 @@ interface PersonRecognition {
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
 :: *Return type*:Promise&lt;<a>&lt;sequence&lt;long>></a>&gt;
 
+: {{reinforceRegistration}}
+:: Reinforce an already registered person in the Recognition database using the specified person data.
+
+<pre class='argumentdef' for="PersonRecognition/reinforceRegistration(long trackID, long recognitionID)">
+  trackID: The tracking ID of the specified person.
+  recognitionID: The recognition ID of the person already registered.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>PersonRegistrationData</a>&gt;
+
 : {{recognizePerson}}
 :: Recognize a person using the database.
 
@@ -316,6 +339,39 @@ interface PersonRecognition {
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
 :: *Return type*:Promise&lt;<a>PersonRecognizerDataWithStatus</a>&gt;
 
+: {{querySimilarityScoreFromPerson}}
+:: Compare a person specified by trackID with a registered person specified by the recognitionID, and get the similarity score.
+
+<pre class='argumentdef' for="PersonRecognition/querySimilarityScoreFromPerson(long trackID, long recognitionID)">
+  trackID: The tracking ID of the specified person.
+  recognitionID: The recognition ID of the person already registered.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>float</a>&gt;
+
+: {{clearDatabase}}
+:: Clears the recognition database.
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
+: {{exportDatabase}}
+:: Export the recognition database into an Buffer.
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>Buffer</a>&gt;. Please note: the return type is Buffer instead of ArrayBuffer.
+
+: {{importDatabase}}
+:: Import an external buffer as the recognition database.
+
+<pre class='argumentdef' for="PersonRecognition/importDatabase(ArrayBuffer buf)">
+  buf: The external buffer containing the recognition database. Please note: the type is Buffer instead of ArrayBuffer.
+</pre>
+
+:: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
+:: *Return type*:Promise&lt;<a>void</a>&gt;
+
 ### <dfn>PersonRegistrationData</dfn> Interface ### {#registrationinfo}
 
 <pre class='idl'>
@@ -323,6 +379,7 @@ interface PersonRegistrationData {
     readonly attribute long trackID;
     readonly attribute long recognitionID;
     readonly attribute long descriptorID;
+    readonly attribute PersonRegistrationStatus status;
 };
 </pre>
 
@@ -515,8 +572,8 @@ interface MaskInfo {
 * &nbsp;&nbsp;&nbsp;&nbsp;The width of the mask info data.
 * {{height}} of type long, readonly
 * &nbsp;&nbsp;&nbsp;&nbsp;The height of the mask info data.
-* {{maskData}} of type [=ArrayBuffer=], readonly
-* &nbsp;&nbsp;&nbsp;&nbsp;The mask info data. A non-zero value identifies that point is occupied.
+* {{maskData}} of type [=Buffer=], readonly.
+* &nbsp;&nbsp;&nbsp;&nbsp;The mask info data. A non-zero value identifies that point is occupied. Please note: the type is Buffer instead of ArrayBuffer.
 
 ### <dfn>GestureInfo</dfn> Interface ### {#gestureinfo}
 
@@ -1052,6 +1109,47 @@ enum PersonRecognitionPolicy {
     <tr>
        <td>{{"standard"}}
        <td>The standard recognition policy.
+</table>
+
+<dfn>PersonRegistrationStatus</dfn> enum {#registration-status}
+----------------------------
+
+<pre class='idl'>
+enum PersonRegistrationStatus {
+  "registered",
+  "already-registered",
+  "face-not-detected",
+  "face-not-clear",
+  "person-too-far",
+  "person-too-close",
+  "failed"
+};
+</pre>
+
+<table class='data'>
+  <thead><tr><th>Member<th>Definition
+  <tbody>
+    <tr>
+       <td>{{"registered"}}
+       <td>the person was registered successfully.
+    <tr>
+       <td>{{"already-registered"}}
+       <td>The person was already registered.
+    <tr>
+       <td>{{"face-not-detected"}}
+       <td>Didn't detect the face.
+    <tr>
+       <td>{{"face-not-clear"}}
+       <td>The face of the person was not clear.
+    <tr>
+       <td>{{"person-too-far"}}
+       <td>The person was too far to recognize.
+    <tr>
+       <td>{{"person-too-close"}}
+       <td>The person was too close to recognize.
+    <tr>
+       <td>{{"failed"}}
+       <td>The operation failed.
 </table>
 
 <dfn>PersonRecognizerStatus</dfn> enum {#recognition-status}

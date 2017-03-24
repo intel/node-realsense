@@ -234,25 +234,28 @@ void ResetTask::WorkerThreadExecute() {
   task_state = AsyncTask::Successful;
 }
 
-void StartOrStopTrackingOnePersonTask::WorkerThreadExecute() {
+void StartStopResetTrackingOnePersonTask::WorkerThreadExecute() {
   auto adapter = GetAdapter();
-  StartOrStopTrackingOnePersonTaskPayload* payload = GetPayload();
+  StartStopResetTrackingOnePersonTaskPayload* payload = GetPayload();
   if (payload->is_start_) {
     if (adapter->StartTracking(payload->id_))
       task_state = AsyncTask::Successful;
     else
       task_state = AsyncTask::Failed;
-  } else {
+  } else if (!payload->is_reset_) {
     if (adapter->StopTracking(payload->id_))
       task_state = AsyncTask::Successful;
     else
       task_state = AsyncTask::Failed;
+  } else if (payload->is_reset_) {
+    adapter->ResetTracking();
+    task_state = AsyncTask::Successful;
   }
 }
 
-StartOrStopTrackingOnePersonTaskPayload* StartOrStopTrackingOnePersonTask
+StartStopResetTrackingOnePersonTaskPayload* StartStopResetTrackingOnePersonTask
     ::GetPayload() {
-  return reinterpret_cast<StartOrStopTrackingOnePersonTaskPayload*>(
+  return reinterpret_cast<StartStopResetTrackingOnePersonTaskPayload*>(
       AsyncTask::GetPayload());
 }
 
@@ -301,6 +304,12 @@ RegisterPersonTaskPayload* RegisterPersonTask::GetPayload() {
 }
 
 v8_value_t RegisterPersonTask::GetResolved() {
+  RegisterPersonTaskPayload* payload = GetPayload();
+  return NanPersonRegistrationData::NewInstance(
+      new PersonRegistrationData(payload->result_));
+}
+
+v8_value_t RegisterPersonTask::GetRejected() {
   RegisterPersonTaskPayload* payload = GetPayload();
   return NanPersonRegistrationData::NewInstance(
       new PersonRegistrationData(payload->result_));
@@ -447,4 +456,107 @@ void RemovePersonDescriptorTask::WorkerThreadExecute() {
 RemovePersonDescriptorTaskPayload* RemovePersonDescriptorTask::GetPayload() {
   return reinterpret_cast<RemovePersonDescriptorTaskPayload*>(
       AsyncTask::GetPayload());
+}
+
+void ReinforceRegistrationTask::WorkerThreadExecute() {
+  ReinforceRegistrationTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->ReinforceRegistration(payload->track_id_,
+                                     payload->recognition_id_,
+                                     &(payload->result_),
+                                     &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+ReinforceRegistrationTaskPayload* ReinforceRegistrationTask::GetPayload() {
+  return reinterpret_cast<ReinforceRegistrationTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t ReinforceRegistrationTask::GetResolved() {
+  ReinforceRegistrationTaskPayload* payload = GetPayload();
+  return NanPersonRegistrationData::NewInstance(
+      new PersonRegistrationData(payload->result_));
+}
+
+void QuerySimilarityScoreTask::WorkerThreadExecute() {
+  QuerySimilarityScoreTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->QuerySimilarityScore(payload->track_id_,
+                                    payload->recognition_id_,
+                                    &(payload->score_),
+                                    &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+QuerySimilarityScoreTaskPayload* QuerySimilarityScoreTask::GetPayload() {
+  return reinterpret_cast<QuerySimilarityScoreTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t QuerySimilarityScoreTask::GetResolved() {
+  QuerySimilarityScoreTaskPayload* payload = GetPayload();
+  return Nan::New<v8::Number>(payload->score_);
+}
+
+void ClearRecognitionDatabaseTask::WorkerThreadExecute() {
+  auto adapter = GetAdapter();
+  if (adapter->ClearRecognitionDatabase(&reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+void ImportRecognitionDatabaseTask::WorkerThreadExecute() {
+  ImportRecognitionDatabaseTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->ImportRecognitionDatabase(payload->buf_.size,
+                                         (unsigned char*)payload->buf_.data,
+                                         &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+ImportRecognitionDatabaseTaskPayload* ImportRecognitionDatabaseTask::
+    GetPayload() {
+  return reinterpret_cast<ImportRecognitionDatabaseTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+void ExportRecognitionDatabaseTask::WorkerThreadExecute() {
+  ExportRecognitionDatabaseTaskPayload* payload = GetPayload();
+  auto adapter = GetAdapter();
+  if (adapter->ExportRecognitionDatabase(&payload->result_.size,
+      (unsigned char**)&(payload->result_.data), &reject_reason_)) {
+    task_state = Successful;
+  } else {
+    task_state = Failed;
+  }
+}
+
+ExportRecognitionDatabaseTaskPayload* ExportRecognitionDatabaseTask::
+    GetPayload() {
+  return reinterpret_cast<ExportRecognitionDatabaseTaskPayload*>(
+      AsyncTask::GetPayload());
+}
+
+v8_value_t ExportRecognitionDatabaseTask::GetResolved() {
+  ExportRecognitionDatabaseTaskPayload* payload = GetPayload();
+  if (payload->result_.size) {
+    v8::Local<v8::Object> value;
+    if (Nan::NewBuffer(
+        payload->result_.data, payload->result_.size).ToLocal(&value)) {
+      return value;
+    }
+  }
+  return Nan::Undefined();
 }

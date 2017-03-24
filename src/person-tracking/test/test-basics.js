@@ -30,7 +30,7 @@ describe('Person Tracking Test Suite - Basics', function() {
                         'unRegisterPerson', 'recognitionIDExist', 'reinforceRegistration',
                         'recognizePerson', 'querySimilarityScoreFromPerson',
                         'removePersonDescriptor', 'getPersonDescriptorIDs'],
-      PersonTracking: ['startTrackingPerson', 'stopTrackingPerson'],
+      PersonTracking: ['startTrackingPerson', 'stopTrackingPerson', 'resetTracking'],
       PersonTracker: ['start', 'stop', 'getPersonTrackerOptions',
                       'setPersonTrackerOptions', 'pause', 'resume', 'reset',
                       'getCameraOptions', 'setCameraOptions', 'getPersonInfo'],

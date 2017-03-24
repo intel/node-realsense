@@ -1565,8 +1565,10 @@ bool PersonTrackerAdapter::RegisterPerson(
       *err = "Recognition is not enabled";
     return false;
   }
+  result->trackID_ = track_id;
   PTRECOGNITION::RegistrationStatus status = recog->RegisterUser(
       &result->recognitionID_, &result->trackID_, &result->descriptorID_);
+  result->status_ = GetRegistrationErrDescription(status);
   if (status != PTRECOGNITION::RegistrationSuccessful) {
     if (err)
       *err = GetRegistrationErrDescription(status);
@@ -1578,20 +1580,23 @@ bool PersonTrackerAdapter::RegisterPerson(
 std::string PersonTrackerAdapter::GetRegistrationErrDescription(
     PTRECOGNITION::RegistrationStatus status) {
   switch (status) {
+    case PTRECOGNITION::RegistrationSuccessful:
+      return "registered";
+      break;
     case PTRECOGNITION::RegistrationFailedAlreadyRegistered:
-      return "already registered";
+      return "already-registered";
       break;
     case PTRECOGNITION::RegistrationFailedFaceNotDetected:
-      return "face not detected";
+      return "face-not-detected";
       break;
     case PTRECOGNITION::RegistrationFailedFaceNotClear:
-      return "face not clear";
+      return "face-not-clear";
       break;
     case PTRECOGNITION::RegistrationFailedPersonTooFar:
-      return "person too far";
+      return "person-too-far";
       break;
     case PTRECOGNITION::RegistrationFailedPersonTooClose:
-      return "person too close";
+      return "person-too-close";
       break;
     default:
       return "failed";
@@ -1831,7 +1836,7 @@ bool PersonTrackerAdapter::ClearRecognitionDatabase(std::string* err) {
 }
 
 bool PersonTrackerAdapter::ExportRecognitionDatabase(
-    int32_t* size, unsigned char** buf, std::string* err) {
+    uint32_t* size, unsigned char** buf, std::string* err) {
   if (!size || !buf)
     return false;
   PT::PersonTrackingConfiguration* pt_configuration =
@@ -1865,15 +1870,18 @@ bool PersonTrackerAdapter::ExportRecognitionDatabase(
       }
     }
   }
-  *size = written_size;
+  *size = (uint32_t)written_size;
   *buf = actual_buf;
   return true;
 }
 
 bool PersonTrackerAdapter::ImportRecognitionDatabase(
     int32_t size, unsigned char* buf, std::string* err) {
-  if (!size || !buf)
+  if (!size || !buf) {
+    if (err)
+      *err = "Invalid database data for import";
     return false;
+  }
   PT::PersonTrackingConfiguration* pt_configuration =
       pt_module_->QueryConfiguration();
   auto recogcfg = pt_configuration->QueryRecognition();
@@ -1892,7 +1900,7 @@ bool PersonTrackerAdapter::ImportRecognitionDatabase(
   return true;
 }
 
-bool PersonTrackerAdapter::ReinforcePerson(
+bool PersonTrackerAdapter::ReinforceRegistration(
     int32_t track_id, int32_t recognition_id, PersonRegistrationData* result,
     std::string* err) {
   // find the Person with the track id.
@@ -1925,7 +1933,7 @@ bool PersonTrackerAdapter::ReinforcePerson(
   return true;
 }
 
-bool PersonTrackerAdapter::QueryRecognitionSimilarityScore(
+bool PersonTrackerAdapter::QuerySimilarityScore(
     int32_t track_id, int32_t recognition_id, float* score, std::string* err) {
   // find the person with the track id.
   PTDATA::Person* persondata =

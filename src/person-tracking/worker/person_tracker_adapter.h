@@ -86,9 +86,10 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   void Reset();
   bool StartTracking(int32_t track_id);
   bool StopTracking(int32_t track_id);
+  void ResetTracking();
   bool RegisterPerson(
       int32_t track_id, PersonRegistrationData* result, std::string* err);
-  bool ReinforcePerson(int32_t track_id, int32_t recognition_id,
+  bool ReinforceRegistration(int32_t track_id, int32_t recognition_id,
       PersonRegistrationData* result, std::string* err);
   bool UnRegisterPerson(int32_t recognition_id, std::string* err);
   bool RecognitionIDExist(
@@ -103,12 +104,12 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   bool RecognizeAllPersons(
       std::vector<PersonRecognizerDataWithStatus*>* result_vec,
       std::string* err);
-  bool QueryRecognitionSimilarityScore(
+  bool QuerySimilarityScore(
       int32_t track_id, int32_t recognition_id, float* score,
       std::string* err);
   bool ClearRecognitionDatabase(std::string* err);
   bool ExportRecognitionDatabase(
-      int32_t* size, unsigned char** buf, std::string* err);
+      uint32_t* size, unsigned char** buf, std::string* err);
   bool ImportRecognitionDatabase(
       int32_t size, unsigned char* buf, std::string* err);
   std::string GetRegistrationErrDescription(
@@ -165,7 +166,6 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   void StopCamera();
   void ConfigureCameraUsingSpecifiedData();
   void ResetInternalData();
-  void ResetTracking();
   v8::Local<v8::Object> CreateResultObject();
 
   // If clean_all is true, clears everything, otherwise, only clear

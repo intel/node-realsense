@@ -210,23 +210,35 @@ void PersonTrackerRunnerProxy::CleanUp() {
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::StartTrackingPerson(
     int32_t track_id) {
   std::string error;
-  if (!PassStateCheck(kStartOrStopTrackingPerson, &error))
+  if (!PassStateCheck(kStartStopResetTrackingPerson, &error))
     return adapter_->CreateRejectedPromise(error);
   return runner_->PostPromiseTask(
-      new StartOrStopTrackingOnePersonTask(),
-      new StartOrStopTrackingOnePersonTaskPayload(adapter_, track_id, true),
+      new StartStopResetTrackingOnePersonTask(),
+      new StartStopResetTrackingOnePersonTaskPayload(
+          adapter_, track_id, true, false),
       "{{StartTrackingPerson}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::StopTrackingPerson(
     int32_t track_id) {
   std::string error;
-  if (!PassStateCheck(kStartOrStopTrackingPerson, &error))
+  if (!PassStateCheck(kStartStopResetTrackingPerson, &error))
     return adapter_->CreateRejectedPromise(error);
   return runner_->PostPromiseTask(
-      new StartOrStopTrackingOnePersonTask(),
-      new StartOrStopTrackingOnePersonTaskPayload(adapter_, track_id, false),
+      new StartStopResetTrackingOnePersonTask(),
+      new StartStopResetTrackingOnePersonTaskPayload(
+          adapter_, track_id, false, false),
       "{{StopTrackingPerson}}");
+}
+
+v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ResetTracking() {
+  std::string error;
+  if (!PassStateCheck(kStartStopResetTrackingPerson, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new StartStopResetTrackingOnePersonTask(),
+      new StartStopResetTrackingOnePersonTaskPayload(adapter_, 0, false, true),
+      "{{ResetTracking}}");
 }
 
 bool PersonTrackerRunnerProxy::PassStateCheck(
@@ -358,24 +370,56 @@ v8::Handle<v8::Promise> PersonTrackerRunnerProxy::GetPersonDescriptorIDs(
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ReinforceRegistration(
     const int32_t tracking_id, const int32_t recognition_id) {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ReinforceRegistrationTask(),
+      new ReinforceRegistrationTaskPayload(
+          adapter_, tracking_id, recognition_id),
+      "{{ReinforceRegistration}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::
-    QuerySimilarityScoreFromPerson(const int32_t tracking_id,
+    QuerySimilarityScore(const int32_t tracking_id,
     const int32_t recognition_id) {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new QuerySimilarityScoreTask(),
+      new QuerySimilarityScoreTaskPayload(
+          adapter_, tracking_id, recognition_id),
+      "{{QuerySimilarityScore}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ClearRecognitionDatabase() {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ClearRecognitionDatabaseTask(),
+      new PTAsyncTaskPayload(adapter_),
+      "{{ClearRecognitionDatabase}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ExportRecognitionDatabase() {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ExportRecognitionDatabaseTask(),
+      new ExportRecognitionDatabaseTaskPayload(adapter_),
+      "{{ExportRecognitionDatabase}}");
 }
 
 v8::Handle<v8::Promise> PersonTrackerRunnerProxy::ImportRecognitionDatabase(
     const ArrayBuffer& buf) {
-  // TODO(shaoting) implement this method
+  std::string error;
+  if (!PassStateCheck(kGenericRunningOperation, &error))
+    return adapter_->CreateRejectedPromise(error);
+  return runner_->PostPromiseTask(
+      new ImportRecognitionDatabaseTask(),
+      new ImportRecognitionDatabaseTaskPayload(adapter_, buf),
+      "{{ImportRecognitionDatabase}}");
 }
