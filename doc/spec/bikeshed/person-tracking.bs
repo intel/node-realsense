@@ -357,16 +357,16 @@ interface PersonRecognition {
 :: *Return type*:Promise&lt;<a>void</a>&gt;
 
 : {{exportDatabase}}
-:: Export the recognition database into an ArrayBuffer.
+:: Export the recognition database into an Buffer.
 
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
-:: *Return type*:Promise&lt;<a>ArrayBuffer</a>&gt;
+:: *Return type*:Promise&lt;<a>Buffer</a>&gt;. Please note: the return type is Buffer instead of ArrayBuffer.
 
 : {{importDatabase}}
-:: Import an external ArrayBuffer as the recognition database.
+:: Import an external buffer as the recognition database.
 
 <pre class='argumentdef' for="PersonRecognition/importDatabase(ArrayBuffer buf)">
-  buf: The external ArrayBuffer containing the recognition database.
+  buf: The external buffer containing the recognition database. Please note: the type is Buffer instead of ArrayBuffer.
 </pre>
 
 :: This method returns a promise.The promise will be fulfilled if there are no errors. The promise will be rejected with the string object describing the failure.
@@ -572,8 +572,8 @@ interface MaskInfo {
 * &nbsp;&nbsp;&nbsp;&nbsp;The width of the mask info data.
 * {{height}} of type long, readonly
 * &nbsp;&nbsp;&nbsp;&nbsp;The height of the mask info data.
-* {{maskData}} of type [=ArrayBuffer=], readonly
-* &nbsp;&nbsp;&nbsp;&nbsp;The mask info data. A non-zero value identifies that point is occupied.
+* {{maskData}} of type [=Buffer=], readonly.
+* &nbsp;&nbsp;&nbsp;&nbsp;The mask info data. A non-zero value identifies that point is occupied. Please note: the type is Buffer instead of ArrayBuffer.
 
 ### <dfn>GestureInfo</dfn> Interface ### {#gestureinfo}
 
