@@ -11,10 +11,10 @@ This project is offering Node.js modules of [Intel® RealSense™ technology](ht
 
 ## Documents
 
-  * [Spec](./doc/spec) - Javascript specification document.
-  * [Get Started](./doc/get_started.md) - A guide how to setup environment and run samples.
-  * [Contribution](./doc/contribution.md) - A guide how to contribute code.
-  * [BKMs](./doc/bkms.md) - Best known methods.
+  * [API Specification](./doc/spec) - This specification describes the `JavaScript` API provided by the `Node.js` C++ add-ons of this repository.
+  * [Getting Started](./doc/getting_started.md) - A guide on how to setup build environment, how to build one or many `Node.js` C++ add-on(s) residing in this repository and/or how to use, debug & change API definition to the C++ add-on(s).
+  * [Contribution](./doc/contribution.md) - A guide on how to contribute code to this repository.
+  * [BKMs](./doc/bkms.md) - Listing Best Known Methods (BKMs) for common issues.
 
 ## License
 The MIT License (MIT)
@@ -38,4 +38,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
