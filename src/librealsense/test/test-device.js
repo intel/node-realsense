@@ -40,6 +40,7 @@ describe('Test Device interfaces', function() {
   it('Get the depth scale', function() {
     return new Promise((resolve, reject) => {
       device.getDepthScale().then((scale) => {
+        assert.equal(typeof scale, 'number');
         console.log('The depth scale is ' + scale);
         resolve();
       }).catch((e) => {
@@ -51,6 +52,7 @@ describe('Test Device interfaces', function() {
   it('Get firmware version', function() {
     return new Promise((resolve, reject) => {
       device.getFirmwareVersion().then((firmware) => {
+        assert.equal(typeof firmware, 'string');
         console.log('The firmware version is ' + firmware);
         resolve();
       }).catch((e) => {
@@ -62,6 +64,7 @@ describe('Test Device interfaces', function() {
   it('Get serial', function() {
     return new Promise((resolve, reject) => {
       device.getSerial().then((serial) => {
+        assert.equal(typeof serial, 'string');
         console.log('The serial is ' + serial);
         resolve();
       }).catch((e) => {
@@ -73,6 +76,7 @@ describe('Test Device interfaces', function() {
   it('Get streaming status', function() {
     return new Promise((resolve, reject) => {
       device.isStreaming().then((isStreaming) => {
+        assert.equal(typeof isStreaming, 'boolean');
         console.log('The device streaming status ' + isStreaming);
         resolve();
       }).catch((e) => {
@@ -84,6 +88,7 @@ describe('Test Device interfaces', function() {
   it('Option support status', function() {
     return new Promise((resolve, reject) => {
       device.supportsOption('r200_depth_units').then((isSupport) => {
+        assert.equal(typeof isSupport, 'boolean');
         console.log('The device r200_depth_units option status ' + isSupport);
         resolve();
       }).catch((e) => {
@@ -103,7 +108,7 @@ describe('Test Device interfaces', function() {
 
       device.enableStream('color', mode).then(() => {
         device.isStreamEnabled('color').then((enable) => {
-          if (enable)
+            assert.equal(typeof enable, 'boolean');
             console.log('The color stream has been enabled.');
           resolve();
         });
@@ -116,6 +121,7 @@ describe('Test Device interfaces', function() {
   it('Get stream mode count', function() {
     return new Promise((resolve, reject) => {
       device.getStreamModeCount('color').then((count) => {
+        assert.equal(typeof count, 'number');
         console.log('The color stream count is ' + count);
         resolve();
       }).catch((e) => {
@@ -139,6 +145,7 @@ describe('Test Device interfaces', function() {
   it('Get stream width', function() {
     return new Promise((resolve, reject) => {
       device.getStreamWidth('color').then((width) => {
+        assert.equal(typeof width, 'number');
         console.log('The stream width is ' + width);
         resolve();
       }).catch((e) => {
@@ -150,6 +157,7 @@ describe('Test Device interfaces', function() {
   it('Get stream height', function() {
     return new Promise((resolve, reject) => {
       device.getStreamHeight('color').then((height) => {
+        assert.equal(typeof height, 'number');
         console.log('The stream height is ' + height);
         resolve();
       }).catch((e) => {
@@ -161,6 +169,11 @@ describe('Test Device interfaces', function() {
   it('Get stream mode', function() {
     return new Promise((resolve, reject) => {
       device.getStreamMode('color', 0).then((mode) => {
+        assert.equal(typeof mode, 'object');
+        assert.equal(typeof mode.width, 'number');
+        assert.equal(typeof mode.height, 'number');
+        assert.equal(typeof mode.format, 'string');
+        assert.equal(typeof mode.framerate, 'number');
         console.log('width is ' + mode.width);
         console.log('height is ' + mode.height);
         console.log('format is ' + mode.format);
@@ -174,12 +187,16 @@ describe('Test Device interfaces', function() {
 
   it('Start/Stop the device, and frame timestamp', function() {
     return new Promise((resolve, reject) => {
-      device.enableStream('color', mode).then((enable) => {
-        device.start().then(() => {
+      device.enableStream('color', mode).then((voidData) => {
+        assert.equal(typeof voidData, 'undefined');
+        device.start().then((voidData) => {
+          assert.equal(typeof voidData, 'undefined');
           console.log('Device starts.');
           device.getFrameTimeStamp('color').then((timestamp) => {
+            assert.equal(typeof timestamp, 'number');
             console.log('The stream timestamp is ' + timestamp);
-              device.stop().then(() => {
+            device.stop().then(() => {
+              assert.equal(typeof voidData, 'undefined');
               console.log('Device stopped.');
               resolve();
             });
