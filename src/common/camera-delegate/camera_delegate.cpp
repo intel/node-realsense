@@ -232,16 +232,24 @@ void CameraDelegateDevice::enable_motion_tracking(
     std::function<void(rs::timestamp_data)> timestamp_handler) {
   if (!d_->motion_handler_set) {
     d_->device->enable_motion_tracking([this](rs::motion_data data){
-      for (auto i = this->d_->motion_handlers.begin();
-        i != this->d_->motion_handlers.end();
-        ++i) {
-        i->operator () (data);
+      try {
+        for (auto i = this->d_->motion_handlers.begin();
+          i != this->d_->motion_handlers.end();
+          ++i) {
+          i->operator () (data);
+        }
+      } catch (...) {
+        // Absorb all exceptions
       }
     }, [this](rs::timestamp_data data){
-      for (auto i = this->d_->timestamp_handlers.begin();
-        i != this->d_->timestamp_handlers.end();
-        ++i) {
-        i->operator () (data);
+      try {
+        for (auto i = this->d_->timestamp_handlers.begin();
+          i != this->d_->timestamp_handlers.end();
+          ++i) {
+          i->operator () (data);
+        }
+      } catch (...) {
+        // Absorb all exceptions
       }
     });
     d_->motion_handler_set = true;
@@ -255,10 +263,14 @@ void CameraDelegateDevice::enable_motion_tracking(
     std::function<void(rs::motion_data)> motion_handler) {
   if (!d_->motion_handler_set) {
     d_->device->enable_motion_tracking([this](rs::motion_data data){
-      for (auto i = this->d_->motion_handlers.begin();
-        i != this->d_->motion_handlers.end();
-        ++i) {
-        i->operator () (data);
+      try {
+        for (auto i = this->d_->motion_handlers.begin();
+          i != this->d_->motion_handlers.end();
+          ++i) {
+          i->operator () (data);
+        }
+      } catch (...) {
+        // Absorb all exceptions
       }
     });
     d_->motion_handler_set = true;
@@ -269,10 +281,16 @@ void CameraDelegateDevice::enable_motion_tracking(
 
 void CameraDelegateDevice::disable_motion_tracking(void) {
   d_->motion_handler_set = false;
-  d_->motion_handlers.resize(0);
-  d_->timestamp_handlers.resize(0);
 
-  return d_->device->disable_motion_tracking();
+  try {
+    d_->device->disable_motion_tracking();
+
+    d_->motion_handlers.resize(0);
+    d_->timestamp_handlers.resize(0);
+  } catch (...) {
+    d_->motion_handlers.resize(0);
+    d_->timestamp_handlers.resize(0);
+  }
 }
 
 int CameraDelegateDevice::is_motion_tracking_active() {

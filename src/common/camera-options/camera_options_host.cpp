@@ -37,7 +37,7 @@ class CameraOptionsHostD {
     fisheye_stream.has_member_height = true;
     fisheye_stream.has_member_frameRate = true;
     fisheye_stream.has_member_isEnabled = true;
-    fisheye_stream.member_isEnabled = true;
+    fisheye_stream.member_isEnabled = false;
     fisheye_stream.member_width = 640;
     fisheye_stream.member_height = 480;
     fisheye_stream.member_frameRate = 30;

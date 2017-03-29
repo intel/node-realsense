@@ -216,6 +216,7 @@ class PersonTrackerAdapter : public CameraOptionsIO {
   PersonTrackingConfig config_;
   CameraDelegate* ctx_;
   CameraDelegateDevice* device_;
+  class CameraOptionsCoProcessor* cop_;
   std::shared_ptr<rs::person_tracking::person_tracking_video_module_interface> pt_module_; //NOLINT
   rs::core::video_module_interface::actual_module_config actual_module_config_;
   std::mutex result_mutex_;

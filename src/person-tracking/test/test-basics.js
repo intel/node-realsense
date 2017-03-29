@@ -16,7 +16,7 @@ describe('Person Tracking Test Suite - Basics', function() {
     return testNpmInstall.makeTarball();
   });
 
-  it('Make sure can be installed via npm install <tarball>', function() {
+  it.skip('Make sure can be installed via npm install <tarball>', function() {
     // eslint-disable-next-line
     this.timeout(600*1000);
 

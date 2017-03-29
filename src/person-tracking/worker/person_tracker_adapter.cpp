@@ -42,6 +42,7 @@ const char* PersonTrackerAdapter::event_names_[2] = {
 PersonTrackerAdapter::PersonTrackerAdapter()
     : device_started_(false),
       device_(nullptr),
+      cop_(nullptr),
       frame_data_for_user_(nullptr) {
   ResetInternalData();
   CameraOptionsHost* host = CameraOptionsHostInstance::GetInstance();
@@ -50,6 +51,8 @@ PersonTrackerAdapter::PersonTrackerAdapter()
 
 PersonTrackerAdapter::~PersonTrackerAdapter() {
   actual_module_config_.projection->release();
+  delete cop_;
+  cop_ = nullptr;
   js_this_.Reset();
 }
 
@@ -276,10 +279,11 @@ void PersonTrackerAdapter::ConfigureCameraUsingSpecifiedData() {
       rs::format::z16,
       depth.member_frameRate);
 
-  CameraOptionsCoProcessor cop(*config_.camera_options_,
+  delete cop_;
+  cop_ = new CameraOptionsCoProcessor(*config_.camera_options_,
     CameraOptionsCoProcessor::PersonTracking);
-  cop.TryEnableExtraChannels(device_);
-  cop.TrySetExtraOptions(device_);
+  cop_->TryEnableExtraChannels(device_);
+  cop_->TrySetExtraOptions(device_);
 
   rs::core::video_module_interface::actual_image_stream_config&
       actual_stream_config_depth = actual_module_config_[rs::core::stream_type::depth];  // NOLINT
@@ -308,7 +312,7 @@ bool PersonTrackerAdapter::ConfigureCamera() {
   }
 
   if (ctx_->get_device_count() == 0) {
-    DEBUG_ERROR("cant find devices");
+    DEBUG_ERROR("Can't find any devices");
     return false;
   }
 
@@ -365,12 +369,10 @@ bool PersonTrackerAdapter::Start() {
 
   if (!device_started_) {
     try {
-      CameraOptionsCoProcessor cop(*config_.camera_options_,
-        CameraOptionsCoProcessor::ObjectRecognition);
-      device_->start(cop.GetCameraStartOptions(device_));
+      device_->start(cop_->GetCameraStartOptions(device_));
       SetState(kStateRunning);
     } catch (std::exception& e) {
-      DEBUG_ERROR("start device failed,", e.what());
+      DEBUG_ERROR("Failed to start camera: ", e.what());
       SetErrorDescription("Failed to start camera");
       SetState(kStateError);
       return false;
@@ -434,8 +436,10 @@ void PersonTrackerAdapter::Reset() {
 
 void PersonTrackerAdapter::StopCamera() {
   try {
-    if (device_ && device_started_)
-      device_->stop();
+    if (device_ && device_started_) {
+      cop_->TryUnsetExtraOptions(device_);
+      device_->stop(cop_->GetPreviousCameraStartOptions());
+    }
     device_started_ = false;
     delete device_;
     device_ = nullptr;

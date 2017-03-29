@@ -82,6 +82,7 @@ class CameraRunner {
  private:
   CameraDelegate* ctx_;
   CameraDelegateDevice* device_;
+  class CameraOptionsCoProcessor* cop_;
 
   rs::core::correlated_sample_set* sample_set_;
   rs::core::image_info color_info_;
