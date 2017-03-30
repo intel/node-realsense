@@ -11,6 +11,7 @@ MOUDLES="
 object-recognition
 person-tracking
 slam
+librealsense
 "
 
 pushd $(dirname $0) > /dev/null
