@@ -5,6 +5,25 @@
 'use strict';
 
 let pt = require('..');
+let testTracking;
+let testSkeleton;
+let testGesture;
+let testPersonFace;
+let testRecognition;
+
+process.argv.forEach((val, index) => {
+  if (val === 'tracking') {
+    testTracking = true;
+  } else if (val === 'skeleton') {
+    testSkeleton = true;
+  } else if (val === 'gesture') {
+    testGesture = true;
+  } else if (val === 'face') {
+    testPersonFace = true;
+  } else if (val === 'recognition') {
+    testRecognition = true;
+  }
+});
 let trackerOptions = {
   skeleton: {
     enable: true,
@@ -16,7 +35,6 @@ let trackerOptions = {
   recognition: {
     enable: true,
     policy: 'standard',
-    useMultiFrame: false,
   },
   gesture: {
     enable: true,
@@ -50,7 +68,7 @@ let registerPerformed = false;
 let intervalId = null;
 pt.createPersonTracker(trackerOptions, cameraOptions).then((personTracker) => {
   tracker = personTracker;
-  recogCtl = tracker.faceRecognition;
+  recogCtl = tracker.personRecognition;
   intervalId = setInterval(function() {
     console.log('------------------ state: ', tracker.state);
   }, 500);
@@ -65,46 +83,45 @@ pt.createPersonTracker(trackerOptions, cameraOptions).then((personTracker) => {
 function registerTestWork() {
   tracker.on('persontracked', function(result) {
     result.persons.forEach(function(person) {
-      skeletonTest(person);
-      trackingTest(person);
-      personFaceTest(person);
-      gestureTest(person);
-      // Comment register test as it's not formally supported yet.
-      // registerAndReinforceTest(person);
+      if (testSkeleton)
+        skeletonTest(person);
+      if (testTracking)
+        trackingTest(person);
+      if (testPersonFace)
+        personFaceTest(person);
+      if (testGesture)
+        gestureTest(person);
+      if (testRecognition)
+        registerAndReinforceTest(person);
     });
   });
 }
 // eslint-disable-next-line
 function registerAndReinforceTest(person) {
   console.log('-- registration result begin');
-  let ids = null;
   if (person.trackInfo) {
     if (registerPerformed === false) {
       if (registerOngoing === false) {
         registerOngoing = true;
-        recogCtl.registerPerson(person.trackInfo.id).then(function(recogID) {
-          console.log('--register person success track ID, recog ID:',
-              person.trackInfo.id, recogID);
+        recogCtl.registerPerson(person.trackInfo.id).then(function(ret) {
+          console.log('--register person success track ID, recog ID, descriptor ID:',
+              ret.trackID, ret.recognitionID, ret.descriptorID);
           registerPerformed = true;
-          return recogCtl.reinforceRegistration(person.trackInfo.id, recogID, 'manual-add');
-        }).then(function() {
-          console.log('--reinforce person success');
-        }).then(function() {
-          return recogCtl.getRegisteredIDs();
-        }).then(function(theIds) {
-          console.log('--registered IDS:', theIds);
-          ids = theIds;
-          return recogCtl.isPersonRegistered(ids[0]);
-        }).then(function(exist) {
-          console.log('--ids[0] registered? :', exist);
-          console.log('--unRegister ids[0]:', ids[0]);
+          return recogCtl.recognizePerson(ret.trackID);
+        }).then(function(recogresult) {
+          console.log('--recognizePerson result:', recogresult);
+          return recogCtl.recognizeAllPersons();
+        }).then(function(allret) {
+          console.log('--recognizeAll result ', allret);
+          return recogCtl.getAllRecognitionIDs();
+        }).then(function(ids) {
+          console.log('---- ids: ', ids);
           return recogCtl.unRegisterPerson(ids[0]);
         }).then(function() {
-          console.log('--ids[0] unregistered:', ids[0]);
-        }).then(function() {
-          return recogCtl.getRegisteredIDs();
+          console.log('--- unrigistered');
+          return recogCtl.getAllRecognitionIDs();
         }).then(function(newids) {
-          console.log('--final registered ids: ', newids);
+          console.log('---- ids: ', newids);
           registerOngoing = false;
         }).catch(function(err) {
           console.log('--register person test failed, track ID:' + person.trackInfo.id +
