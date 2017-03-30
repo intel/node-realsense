@@ -16,12 +16,16 @@ class CameraOptionsCoProcessor {
 
   CameraOptionsCoProcessor(const CameraOptionsType& cameraOptions,
       Caller caller) {
+    prev_start_source_ = rs::source::video;
+    motion_events_enabled_ = false;
+    fisheye_request_ = false;
+
     expected_camera_config_ = cameraOptions;
     caller_ = caller;
 
     const auto& expected = expected_camera_config_;
     if (expected.has_member_fisheye) {
-      const auto& fisheye =  expected.member_fisheye;
+      const auto& fisheye = expected.member_fisheye;
       if (fisheye.has_member_isEnabled && fisheye.member_isEnabled) {
         // Yes, we're probably working with SLAM add-on
         fisheye_request_ = true;
@@ -81,6 +85,8 @@ class CameraOptionsCoProcessor {
         }
 
         if (device->supports(rs::capabilities::motion_events)) {
+          motion_events_enabled_ = true;
+
           // CameraDelegateDevice will maintain an internal list of callbacks
           device->enable_motion_tracking([](rs::motion_data){
             // NOP
@@ -92,18 +98,30 @@ class CameraOptionsCoProcessor {
     }
   }
 
+  void TryUnsetExtraOptions(CameraDelegateDevice* device) {
+    if (motion_events_enabled_) {
+      motion_events_enabled_ = false;
+      device->disable_motion_tracking();
+    }
+  }
+
   rs::source GetCameraStartOptions(CameraDelegateDevice* device) const {
+    prev_start_source_ = rs::source::video;
     if (caller_ == Caller::SLAM) {
-      return rs::source::all_sources;
+      prev_start_source_ = rs::source::all_sources;
     } else {
       if (fisheye_request_) {
         if (device->supports(rs::capabilities::motion_events)) {
           // Only in this case we consider request for SLAM addon
-          return rs::source::all_sources;
+          prev_start_source_ = rs::source::all_sources;
         }
       }
     }
-    return rs::source::video;
+    return prev_start_source_;
+  }
+
+  rs::source GetPreviousCameraStartOptions() const {
+    return prev_start_source_;
   }
 
  private:
@@ -111,4 +129,7 @@ class CameraOptionsCoProcessor {
   Caller caller_;
   bool   fisheye_request_;
   bool   color_request_;
+
+  mutable rs::source prev_start_source_;
+  bool   motion_events_enabled_;
 };

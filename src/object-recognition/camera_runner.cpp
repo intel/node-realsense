@@ -13,9 +13,12 @@ CameraRunner::CameraRunner() {
   color_buffer_ = nullptr;
   camera_running_ = false;
   last_error_ = rs::core::status_no_error;
+  cop_ = nullptr;
 }
 
 CameraRunner::~CameraRunner() {
+  delete cop_;
+  cop_ = nullptr;
 }
 
 bool CameraRunner::StartCamera(image_info& colorInfo,  // NOLINT(*)
@@ -87,10 +90,11 @@ bool CameraRunner::StartCamera(image_info& colorInfo,  // NOLINT(*)
   depthInfo.format = rs::core::pixel_format::z16;
   depthInfo.pitch = depthInfo.width * 2;
 
-  CameraOptionsCoProcessor cop(expected_camera_config_,
+  delete cop_;
+  cop_ = new CameraOptionsCoProcessor(expected_camera_config_,
     CameraOptionsCoProcessor::ObjectRecognition);
-  cop.TryEnableExtraChannels(device_);
-  cop.TrySetExtraOptions(device_);
+  cop_->TryEnableExtraChannels(device_);
+  cop_->TrySetExtraOptions(device_);
 
   // Enable auto exposure for color stream
   device_->set_option(rs::option::color_enable_auto_exposure, 1);
@@ -98,7 +102,7 @@ bool CameraRunner::StartCamera(image_info& colorInfo,  // NOLINT(*)
   // Enable auto exposure for Depth camera stream
   device_->set_option(rs::option::r200_lr_auto_exposure_enabled, 1);
 
-  device_->start(cop.GetCameraStartOptions(device_));
+  device_->start(cop_->GetCameraStartOptions(device_));
 
   // Get the extrisics paramters from the camera
   rs::extrinsics ext  = device_->get_extrinsics(rs::stream::depth,
@@ -210,7 +214,8 @@ void CameraRunner::TouchSampleSet() {
 
 void CameraRunner::StopCamera() {
   if (camera_running_) {
-    device_->stop();
+    cop_->TryUnsetExtraOptions(device_);
+    device_->stop(cop_->GetPreviousCameraStartOptions());
     camera_running_ = false;
   }
 
