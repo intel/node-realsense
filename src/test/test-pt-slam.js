@@ -6,53 +6,58 @@
 'use strict';
 
 /* global describe, it */
-const orModule = require('../object-recognition');
 const ptModule = require('../person-tracking');
+const slamModule = require('../slam');
+const cameraOptions = {
+  fisheye: {
+    width: 640,
+    height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
+};
 
 describe('Multiple node-realsense addons test suite', function() {
-  function runOR(or) {
-    return or.setObjectRecognitionOptions({
-      mode: 'single-recognition',
-      confidenceThreshold: 0.3,
-      computeEngine: 'CPU',
-      enableSegmentation: true,
-      maxReturnObjectCount: 2,
-      enableObjectCenterEstimation: false,
-    }).then(function() {
-      // console.log('run OR');
-      return or.start();
+  function runSLAM(slam) {
+    // console.log('run SLAM');
+    return slam.setCameraOptions(cameraOptions).then(function() {
+      return slam.start();
     });
   }
 
   function runPT(pt) {
     // console.log('run PT');
-    return pt.start();
+    return pt.setCameraOptions(cameraOptions).then(function() {
+      return pt.start();
+    });
   }
 
-  function verifyOR(runNumOfFrames) {
+  function verifySLAM(runNumOfFrames) {
     return new Promise(function(resolve, reject) {
       let counter = 0;
-      orModule.createObjectRecognizer().then(function(or) {
-        or.on('recognition', function(eventData) {
+      slamModule.createInstance().then(function(slam) {
+        slam.on('tracking', function(eventData) {
           if (counter >= 0) {
             ++ counter;
           }
 
           if (counter > runNumOfFrames) {
             counter = -1;
-            // console.log('stopping OR');
-            or.stop().then(function() {
-              // console.log('OR is stopped');
-              resolve('Yes, OR works');
+            // console.log('stopping SLAM');
+            slam.stop().then(function() {
+              // console.log('SLAM is stopped');
+              resolve('Yes, SLAM works');
             }).catch(function(e) {
               reject(e);
             });
           }
         });
 
-        return runOR(or).catch(function(e) {
-          reject('Failed to run OR');
+        return runSLAM(slam).catch(function(e) {
+          reject('Failed to run SLAM');
         });
+      }).catch(function(e) {
+        reject(e);
       });
     });
   }
@@ -85,10 +90,10 @@ describe('Multiple node-realsense addons test suite', function() {
     });
   }
 
-  function delayRunOR(runNumOfFrames, delay) {
+  function delayRunSLAM(runNumOfFrames, delay) {
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
-        verifyOR(runNumOfFrames).then(function(v) {
+        verifySLAM(runNumOfFrames).then(function(v) {
           resolve(v);
         }).catch(function(e) {
           reject(e);
@@ -109,33 +114,33 @@ describe('Multiple node-realsense addons test suite', function() {
     });
   }
 
-  it('Make sure OR + PT can be run/stop at (almost) the same time', function() {
+  it('Make sure SLAM + PT can be run/stop at (almost) the same time', function() {
     // eslint-disable-next-line
     this.timeout(60 * 1000);
-    return Promise.all([verifyOR(100), verifyPT(100)]);
+    return Promise.all([verifySLAM(100), verifyPT(100)]);
   });
 
-  it('Make sure OR can be still working after PT is stopped', function() {
+  it('Make sure SLAM can be still working after PT is stopped', function() {
     // eslint-disable-next-line
     this.timeout(60 * 1000);
-    return Promise.all([verifyOR(100), verifyPT(50)]);
+    return Promise.all([verifySLAM(100), verifyPT(50)]);
   });
 
-  it('Make sure PT can be still working after OR is stopped', function() {
+  it('Make sure PT can be still working after SLAM is stopped', function() {
     // eslint-disable-next-line
     this.timeout(30 * 1000);
-    return Promise.all([verifyOR(50), verifyPT(100)]);
+    return Promise.all([verifySLAM(50), verifyPT(100)]);
   });
 
-  it('Make sure PT can be started while OR is running', function() {
+  it('Make sure PT can be started while SLAM is running', function() {
     // eslint-disable-next-line
     this.timeout(90 * 1000);
-    return Promise.all([delayRunOR(240, 0), delayRunPT(120, 5000)]);
+    return Promise.all([delayRunSLAM(240, 0), delayRunPT(120, 5000)]);
   });
 
-  it('Make sure OR can be started while PT is running', function() {
+  it('Make sure SLAM can be started while PT is running', function() {
     // eslint-disable-next-line
     this.timeout(60 * 1000);
-    return Promise.all([delayRunOR(120, 5000), delayRunPT(240, 0)]);
+    return Promise.all([delayRunSLAM(120, 5000), delayRunPT(240, 0)]);
   });
 });
