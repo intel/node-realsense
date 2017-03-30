@@ -50,7 +50,9 @@ describe('Person Tracking Test Suite - recognition', function() {
     this.timeout(60 * 1000);
     return new Promise(function(resolve, reject) {
       if (tracker) {
-        tracker.reset().then(function() {
+        tracker.personRecognition.clearDatabase().then(() => {
+          return tracker.reset();
+        }).then(function() {
           resolve();
         }).catch(function(e) {
           reject(e);
@@ -61,7 +63,7 @@ describe('Person Tracking Test Suite - recognition', function() {
 
   it('register', function() {
     // eslint-disable-next-line no-invalid-this
-    this.timeout(5000);
+    this.timeout(10000);
     return new Promise(function(resolve, reject) {
       addon.createPersonTracker(options, cameraOptionsFromFile).then(function(inst) {
         tracker = inst;
