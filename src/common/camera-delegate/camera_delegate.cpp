@@ -22,6 +22,20 @@ class CameraDelegateDeviceD {
     motion_handler_set = false;
   }
 
+  void disable_motion_tracking() {
+    try {
+      motion_handler_set = false;
+      device->disable_motion_tracking();
+
+      motion_handlers.resize(0);
+      timestamp_handlers.resize(0);
+    } catch (...) {
+      motion_handler_set = false;
+      motion_handlers.resize(0);
+      timestamp_handlers.resize(0);
+    }
+  }
+
   rs::device* device;  // No need to delete this pointer
   int streaming_counter;
 
@@ -280,16 +294,11 @@ void CameraDelegateDevice::enable_motion_tracking(
 }
 
 void CameraDelegateDevice::disable_motion_tracking(void) {
-  d_->motion_handler_set = false;
-
-  try {
-    d_->device->disable_motion_tracking();
-
-    d_->motion_handlers.resize(0);
-    d_->timestamp_handlers.resize(0);
-  } catch (...) {
-    d_->motion_handlers.resize(0);
-    d_->timestamp_handlers.resize(0);
+  if (is_streaming()) {
+    // Wait for full stop of the camera device
+    //  This enables "camera sharing" usage by multiple clients
+  } else {
+    d_->disable_motion_tracking();
   }
 }
 
@@ -310,6 +319,9 @@ void CameraDelegateDevice::stop(rs::source source) {
 
   if (d_->streaming_counter <= 0) {
     d_->streaming_counter = 0;
+
+    d_->disable_motion_tracking();
+
     // It's time to stop it for real
     return d_->device->stop(source);
   }
