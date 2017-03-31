@@ -1,6 +1,6 @@
 {
   "name": "node-librealsense",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "description": "librealsense Node.js module based on Intel® RealSense™ technology",
   "main": "index.js",
   "scripts": {

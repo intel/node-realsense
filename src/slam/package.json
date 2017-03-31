@@ -1,17 +1,16 @@
 {
   "name": "node-slam",
-  "version": "0.9.9",
+  "version": "0.10.0",
   "description": "Node.js SLAM based on Intel® RealSense™ technology",
   "main": "index.js",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/01org/node-realsense.git"
+  },
   "scripts": {
     "install": "node -e \"require('./common/scripts/build_utils.js').runNodeGyp();\"",
     "maketarball": "bash ./common/scripts/make_tarball.sh node-slam",
     "test": "mocha"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/01org/node-realsense.git"
   },
   "contributors": [
     "Donna Wu <donna.wu@intel.com> (https://github.com/DonnaWuDongxia)",
