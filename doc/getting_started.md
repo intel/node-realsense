@@ -29,6 +29,8 @@ make: Leaving directory '<your local dir>/src/person-tracking/build'
 gyp info ok
 ```
 
+Note: if error encounterred during the build process saied missing `boostXXX` file, please install the libboost using `sudo apt-get install libboost-all-dev`
+
 # Use C++ Add-on in Node.js Program
 After building it, it's time to test it in your `Node.js` program.  Unlike the standard `npm install <module-name>` way of using a module/add-on, you need to explicitly specify the directory in your `Node.js` program, e.g.
 
