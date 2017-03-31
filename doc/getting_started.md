@@ -86,3 +86,12 @@ Pleaes refer to [Contribution Guide](./contribution.md) for more information.
 # Misc
 - You might want to read the [Best Known Methods (BKM) document](./bkms.md) to addressing known issues.
 - Current API definition is described in [specification](https://01org.github.io/node-realsense/doc/spec/).
+
+# Troubleshooting
+- `rs::error` with `what(): uvcvideo kernel module is not loaded`
+
+    The uvcvideo module needed to be loaded into the kernal.
+    ```
+    sudo modprobe uvcvideo
+    ```
+
