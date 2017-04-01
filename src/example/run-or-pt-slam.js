@@ -131,11 +131,3 @@ function runSLAM() {
 runOR();
 runPT();
 runSLAM();
-
-// setTimeout(() => {runOR();   }, 2000);
-// setTimeout(() => {runPT();   }, 1000);
-// setTimeout(() => {runSLAM(); }, 0);
-
-// setTimeout(() => {runOR();   }, 0);
-// setTimeout(() => {runPT();   }, 1000);
-// setTimeout(() => {runSLAM(); }, 5000);
