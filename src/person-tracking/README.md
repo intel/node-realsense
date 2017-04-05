@@ -24,7 +24,7 @@ personModule.createPersonTracker().then(pt => {
 
   pt.on('persontracked', (evtData) => {
     // A new frame was processed and then there is person detected
-    console.log('Person tracked': evtData);
+    console.log('Person tracked:', evtData);
   });
 
   // To control how the algorithm works

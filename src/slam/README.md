@@ -19,7 +19,7 @@ const slamModule = require('node-slam');
 slamModule.createInstance().then(slam => {
   slam.on('tracking', (evtData) => {
     // Update on camera pose and etc.
-    console.log('Camera tracking': evtData.cameraPose, evtData.accuracy);
+    console.log('Camera tracking:', evtData.cameraPose, evtData.accuracy);
 
     slam.getOccupancyMapUpdate().then((mapData) => {
       // mapData is updated
