@@ -27,7 +27,7 @@ objectModule.createObjectRecognizer().then(or => {
 
   or.on('recognition', (evtData) => {
     // A new frame was captured, processed and then recognized
-    console.log('New object recognized': evtData);
+    console.log('New object recognized:', evtData);
   });
 
   // To control how the algorithm works
