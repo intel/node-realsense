@@ -29,6 +29,7 @@ class FrameData {
   }
 
   ArrayBuffer get_data() const {
+    own_data_ = false;
     return this->data_;
   }
 
@@ -41,6 +42,8 @@ class FrameData {
   std::string stream_;
 
   ArrayBuffer data_;
+
+  mutable bool own_data_;
 
   friend class DeviceRunner;
 };
