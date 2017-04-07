@@ -5,8 +5,6 @@
 #ifndef _CONTEXT_RUNNER_H_
 #define _CONTEXT_RUNNER_H_
 
-#include <memory>
-
 namespace rs {
 class context;
 class device;
@@ -22,9 +20,6 @@ class ContextRunner {
 
  protected:
   rs::context* GetRSContext();
-
- private:
-  std::unique_ptr<rs::context> context_;
 };
 
 #endif  // _CONTEXT_RUNNER_H_
