@@ -9,9 +9,21 @@
 const orModule = require('../object-recognition');
 const slamModule = require('../slam');
 const cameraOptions = {
+  color: {
+    width: 640,
+    height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
   fisheye: {
     width: 640,
     height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
+  depth: {
+    width: 320,
+    height: 240,
     frameRate: 30,
     isEnabled: true,
   },
@@ -132,7 +144,7 @@ describe('Multiple node-realsense addons test suite', function() {
   it('Make sure SLAM can be still working after OR is stopped', function() {
     // eslint-disable-next-line
     this.timeout(60 * 1000);
-    return Promise.all([verifySLAM(100), verifyOR(50)]);
+    return Promise.all([verifySLAM(200), verifyOR(20)]);
   });
 
   it('Make sure OR can be still working after SLAM is stopped', function() {

@@ -10,9 +10,21 @@ const orModule = require('../object-recognition');
 const ptModule = require('../person-tracking');
 const slamModule = require('../slam');
 const cameraOptions = {
+  color: {
+    width: 640,
+    height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
   fisheye: {
     width: 640,
     height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
+  depth: {
+    width: 320,
+    height: 240,
     frameRate: 30,
     isEnabled: true,
   },

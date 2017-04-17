@@ -9,9 +9,21 @@
 const ptModule = require('../person-tracking');
 const slamModule = require('../slam');
 const cameraOptions = {
+  color: {
+    width: 640,
+    height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
   fisheye: {
     width: 640,
     height: 480,
+    frameRate: 30,
+    isEnabled: true,
+  },
+  depth: {
+    width: 320,
+    height: 240,
     frameRate: 30,
     isEnabled: true,
   },
@@ -135,7 +147,7 @@ describe('Multiple node-realsense addons test suite', function() {
   it('Make sure PT can be started while SLAM is running', function() {
     // eslint-disable-next-line
     this.timeout(90 * 1000);
-    return Promise.all([delayRunSLAM(240, 0), delayRunPT(120, 5000)]);
+    return Promise.all([delayRunSLAM(240, 0), delayRunPT(50, 5000)]);
   });
 
   it('Make sure SLAM can be started while PT is running', function() {
