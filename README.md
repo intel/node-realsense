@@ -7,7 +7,21 @@
 [license-image]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat
 [license]: LICENSE
 
-This project is offering Node.js modules of [Intel® RealSense™ technology](http://www.intel.com/content/www/us/en/architecture-and-technology/realsense-overview.html) including Person Tracaking, Object Recognization, and SLAM capabilities. The target is [Intel® Joule™](https://software.intel.com/en-us/iot/hardware/joule) and ZR300 camera on top of Ubuntu 16.04 DT.
+This project is offering Node.js modules of [Intel® RealSense™ technology](http://www.intel.com/content/www/us/en/architecture-and-technology/realsense-overview.html) including Librealsense, Person Tracaking, Object Recognization, and SLAM capabilities. The target is [Intel® Joule™](https://software.intel.com/en-us/iot/hardware/joule) and ZR300 camera on top of Ubuntu 16.04 DT.
+
+These modules have been registered as NPM packages, listed as below.
+  * Librealsense module, [node-librealsense](https://www.npmjs.com/package/node-librealsense)
+  * Person Tracking module, [node-person](https://www.npmjs.com/package/node-person)
+  * Object Recognition module, [node-object](https://www.npmjs.com/package/node-object)
+  * SLAM module, [node-slam](https://www.npmjs.com/package/node-slam)
+
+For example, Person tracking module can be installed by following command.
+    
+    npm install --save node-person
+
+*[Note] The target platform of these modules is [Intel® Joule™](https://software.intel.com/en-us/iot/hardware/joule) and ZR300 camera on top of Ubuntu 16.04 DT, please prepare the hardware devices and [setup proper environment](https://github.com/01org/node-realsense/blob/master/doc/setup_environment.md) before install and use these modules.*
+
+Besides the [API Specification](./doc/spec) and NPM package site, [JavaScript samples](https://github.com/01org/node-realsense/releases/download/v0.10.0/realsense_samples-0.10.0-node-realsense.tar.gz) are also good examples demonstrating how to use these modules.
 
 ## Documents
 
