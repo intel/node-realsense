@@ -4,7 +4,7 @@
 
 #include "frame_data.h"
 
-FrameData::FrameData() {
+FrameData::FrameData() : own_data_(true) {
   data_.data = nullptr;
 }
 
@@ -14,7 +14,8 @@ FrameData::FrameData(const FrameData& rhs) {
 }
 
 FrameData::~FrameData() {
-  free(data_.data);
+  if (own_data_)
+    free(data_.data);
 }
 
 FrameData& FrameData::operator = (const FrameData& rhs) {
