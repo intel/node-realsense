@@ -40,8 +40,6 @@ context.getDevice(0).then((device) => {
       console.log(e);
     });
   });
-
-  device.context = context;
 }).catch((e) => {
   console.log(e);
 });

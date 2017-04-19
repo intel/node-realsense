@@ -5,9 +5,11 @@
 #include "context_runner.h"
 
 #include <librealsense/rs.hpp>
+#include <memory>
 
-ContextRunner::ContextRunner()
-  : context_(nullptr) {
+static std::unique_ptr<rs::context> g_context = nullptr;
+
+ContextRunner::ContextRunner() {
 }
 
 ContextRunner::~ContextRunner() {
@@ -22,8 +24,8 @@ rs::device* ContextRunner::GetRSDevice(int index) {
 }
 
 rs::context* ContextRunner::GetRSContext() {
-  if (!context_) {
-    context_.reset(new rs::context());
+  if (!g_context) {
+    g_context.reset(new rs::context());
   }
-  return context_.get();
+  return g_context.get();
 }
