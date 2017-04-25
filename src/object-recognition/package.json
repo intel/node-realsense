@@ -1,6 +1,6 @@
 {
   "name": "node-object",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Node.js Object Recognition based on Intel® RealSense™ technology",
   "main": "index.js",
   "scripts": {

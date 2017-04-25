@@ -1,8 +1,7 @@
 [
 Constructor,
 Constructor(float x, float y),
-Constructor(sequence<float> coords)
-]
+Constructor(sequence<float> coords)]
 interface Point2D {
   attribute float x;
   attribute float y;
@@ -22,8 +21,7 @@ interface Point2D {
 [
 Constructor,
 Constructor(float x, float y, float z),
-Constructor(sequence<float> coords)
-]
+Constructor(sequence<float> coords)]
 interface Point3D {
   attribute float x;
   attribute float y;
@@ -41,8 +39,7 @@ interface Point3D {
 
 [
 Constructor,
-Constructor(float begin, float end)
-]
+Constructor(float begin, float end)]
 interface Range {
   attribute float begin;
   attribute float end;
@@ -66,8 +63,7 @@ interface Range {
 
 [
 Constructor,
-Constructor(float width, float height)
-]
+Constructor(float width, float height)]
 interface Size2D {
   attribute float width;
   attribute float height;
@@ -88,8 +84,7 @@ interface Size2D {
 Constructor,
 Constructor(float x, float y, float width, float height),
 Constructor(Point2D topLeft, Size2D size),
-Constructor(sequence<float> coords)
-]
+Constructor(sequence<float> coords)]
 interface Rect2D {
   attribute float x;
   attribute float y;

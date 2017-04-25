@@ -1,6 +1,6 @@
 {
   "name": "node-slam",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Node.js SLAM based on Intel® RealSense™ technology",
   "main": "index.js",
   "repository": {
