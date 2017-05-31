@@ -104,6 +104,48 @@ v8::Handle<v8::Promise> Device::getFrameTimeStamp(const std::string& stream) {
       {{GET_FRAME_TIMESTAMP MESSAGE}}, stream);
 }
 
+v8::Handle<v8::Promise> Device::getUSBPortId() {
+  POST_DEVICE_PROMISE_TASK(std::string, GetUSBPortId,
+      {{GET_USB_PORT_ID MESSAGE}});
+}
+
+v8::Handle<v8::Promise> Device::getInfo(const std::string& info) {
+  POST_DEVICE_PROMISE_TASK(std::string, GetInfo,
+      {{GET_INFO MESSAGE}}, info);
+}
+
+v8::Handle<v8::Promise> Device::getExtrinsics(const std::string& from,
+                                      const std::string& to) {
+  POST_DEVICE_PROMISE_TASK(RSExtrinsics*, GetExtrinsics,
+      {{GET_EXTRINSICS MESSAGE}}, from, to);
+}
+
+v8::Handle<v8::Promise> Device::getMotionExtrinsicsFrom(
+    const std::string& from) {
+  POST_DEVICE_PROMISE_TASK(RSExtrinsics*, GetMotionExtrinsicsFrom,
+      {{GET_MOTION_EXTRINSICS MESSAGE}}, from);
+}
+
+v8::Handle<v8::Promise> Device::disableStream(const std::string& stream) {
+  POST_DEVICE_PROMISE_TASK(void, DisableStream, {{DISABLE_STREAM MESSAGE}},
+    stream);
+}
+
+v8::Handle<v8::Promise> Device::getStreamFormat(const std::string& stream) {
+  POST_DEVICE_PROMISE_TASK(std::string, GetStreamFormat,
+      {{GET_STREAM_FORMAT MESSAGE}}, stream);
+}
+
+v8::Handle<v8::Promise> Device::getStreamFramerate(const std::string& stream) {
+  POST_DEVICE_PROMISE_TASK(int, GetStreamFramerate,
+      {{GET_STREAM_FRAMERATE MESSAGE}}, stream);
+}
+
+v8::Handle<v8::Promise> Device::getFrameNumber(const std::string& stream) {
+    POST_DEVICE_PROMISE_TASK(int, GetFrameNumber,
+      {{GET_FRAME_NUMBER MESSAGE}}, stream);
+}
+
 v8::Handle<v8::Promise> Device::start() {
   POST_DEVICE_PROMISE_TASK(void, Start, {{START_DEVICE MESSAGE}});
 }

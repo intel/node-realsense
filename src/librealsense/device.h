@@ -56,6 +56,23 @@ class Device {
 
   v8::Handle<v8::Promise> getFrameTimeStamp(const std::string& stream);
 
+  v8::Handle<v8::Promise> getUSBPortId();
+
+  v8::Handle<v8::Promise> getInfo(const std::string& info);
+
+  v8::Handle<v8::Promise> getExtrinsics(const std::string& from,
+                                        const std::string& to);
+
+  v8::Handle<v8::Promise> getMotionExtrinsicsFrom(const std::string& from);
+
+  v8::Handle<v8::Promise> disableStream(const std::string& stream);
+
+  v8::Handle<v8::Promise> getStreamFormat(const std::string& stream);
+
+  v8::Handle<v8::Promise> getStreamFramerate(const std::string& stream);
+
+  v8::Handle<v8::Promise> getFrameNumber(const std::string& stream);
+
   v8::Handle<v8::Promise> start();
 
   v8::Handle<v8::Promise> stop();

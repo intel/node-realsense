@@ -9,10 +9,13 @@
 #include <string>
 
 #include "common/task/async_task.h"
+#include "extrinsics.h"
 #include "frame_data.h"
 #include "gen/mode.h"
 #include "gen/nan__frame_data.h"
 #include "rs_payload.h"
+
+class RSExtrinsics;
 
 class RSFrameReadyEventTask : public DirectEventEmitterTask {
  public:
@@ -100,4 +103,6 @@ v8::Local<v8::Value> RSPromiseTask<void>::GetResolved();
 template<>
 v8::Local<v8::Value> RSPromiseTask<rs::device*>::GetResolved();
 
+template<>
+v8::Local<v8::Value> RSPromiseTask<RSExtrinsics*>::GetResolved();
 #endif  // _RS_TASK_H_

@@ -8,6 +8,7 @@
 
 #include "common/task/async_task_runner_instance.h"
 #include "gen/nan__frame_data.h"
+#include "rs_extrinsics.h"
 #include "rs_payload.h"
 #include "rs_task.h"
 #include "utils.h"
@@ -105,6 +106,61 @@ DictionaryMode DeviceRunner::GetStreamMode(const std::string& stream,
   mode.member_framerate = framerate;
 
   return mode;
+}
+
+std::string DeviceRunner::GetUSBPortId() {
+  return device_->get_usb_port_id();
+}
+
+std::string DeviceRunner::GetInfo(const std::string& info) {
+  rs::camera_info rs_camera_info = GetCameraInfoFromString(info);
+  return device_->get_info(rs_camera_info);
+}
+
+RSExtrinsics* DeviceRunner::GetExtrinsics(const std::string& from,
+                                       const std::string& to) {
+  rs::stream from_stream = GetRSStreamFromString(from);
+  rs::stream to_stream = GetRSStreamFromString(to);
+  rs::extrinsics rs_extrinsics =
+      device_->get_extrinsics(from_stream, to_stream);
+
+  return new RSExtrinsics(rs_extrinsics);
+}
+
+RSExtrinsics* DeviceRunner::GetMotionExtrinsicsFrom(const std::string& from) {
+  rs::stream from_stream = GetRSStreamFromString(from);
+  rs::extrinsics rs_extrinsics =
+    device_->get_motion_extrinsics_from(from_stream);
+
+  return new RSExtrinsics(rs_extrinsics);
+}
+
+void DeviceRunner::DisableStream(const std::string& stream) {
+  rs::stream rs_stream = GetRSStreamFromString(stream);
+  std::vector<rs::stream>::iterator it =
+      std::find(enabled_streams_vector_.begin(),
+                enabled_streams_vector_.end(),
+                rs_stream);
+
+  if (it != enabled_streams_vector_.end()) {
+    device_->disable_stream(rs_stream);
+    enabled_streams_vector_.erase(it);
+  }
+}
+
+std::string DeviceRunner::GetStreamFormat(const std::string& stream) {
+  rs::stream rs_stream = GetRSStreamFromString(stream);
+  return GetStringFromRSFormat(device_->get_stream_format(rs_stream));
+}
+
+int DeviceRunner::GetStreamFramerate(const std::string& stream) {
+  rs::stream rs_stream = GetRSStreamFromString(stream);
+  return device_->get_stream_framerate(rs_stream);
+}
+
+int DeviceRunner::GetFrameNumber(const std::string& stream) {
+  rs::stream rs_stream = GetRSStreamFromString(stream);
+  return device_->get_frame_number(rs_stream);
 }
 
 void DeviceRunner::GetFrameDataFromRSFrame(rs::frame frame) {

@@ -23,13 +23,13 @@ getFrameTimeStamp | √ | retrieve the time at which the frame was captured
 start | √ | begin streaming on all enabled streams for this device
 stop | √ | end streaming on all streams for this device
 getFrameData | √ (supported by event) | retrieve the contents of the latest frame on a stream
-getUSBPortId | x | retrieve the USB port number
-getInfo | x | retrieve camera specific information like the versions of the various componnents
-getExtrinsics | x | retrieve extrinsic transformation between the viewpoints of two different streams
-getMotionExtrinsicsFrom | x | retrieve extrinsic transformation between the viewpoints of specific stream and the motion module
-disableStream | x | disable a specific stream
-getStreamFormat | x | retrieve the pixel format for a specific stream
-getStreamFramerate | x | retrieve the framerate for a specific stream
+getUSBPortId | √ | retrieve the USB port number
+getInfo | √ | retrieve camera specific information like the versions of the various componnents
+getExtrinsics | √ | retrieve extrinsic transformation between the viewpoints of two different streams
+getMotionExtrinsicsFrom | √ | retrieve extrinsic transformation between the viewpoints of specific stream and the motion module
+disableStream | √ | disable a specific stream
+getStreamFormat | √ | retrieve the pixel format for a specific stream
+getStreamFramerate | √ | retrieve the framerate for a specific stream
 getStreamIntrinsics | x | retrieve intrinsic camera parameters for a specific stream
 getMotionIntrinsics | x | retrieve intrinsic camera parameters for the motion module
 getOptionRange | x | retrieve the available range of values of a supported option
@@ -37,7 +37,7 @@ getOption(s) | x | retrieve the value of an arbitrary number of options
 setOptions(s) | x | set the value of an arbitrary number of options
 getOptionDescription | x | retrieve the device specific option description
 supports | x | determine device capabilities
-getFrameNumber | x | retrieve the time at which the latest frame on a stream was captured
+getFrameNumber | √ | retrieve the time at which the latest frame on a stream was captured
 sendBlobToDevice | x |send device specific data to the device
 enableMotionTracking | x | enable motion module event
 disableMotionTracking | x | disable motion module event

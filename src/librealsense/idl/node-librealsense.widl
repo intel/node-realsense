@@ -96,6 +96,44 @@ enum OptionType {
   "r200_depth_control_lr_threshold"
 };
 
+enum CameraInfo {
+  "device_name",
+  "serial_number",
+  "camera_firmware_version",
+  "adapter_board_firmware_version",
+  "motion_module_firmware_version",
+  "camera_type",
+  "oem_id",
+  "isp_fw_version",
+  "content_version",
+  "module_version",
+  "imager_model_number",
+  "build_date",
+  "calibration_date",
+  "program_date",
+  "focus_alignment_date",
+  "emitter_type",
+  "focus_value",
+  "lens_type",
+  "third_lens_type",
+  "lens_coating_type",
+  "third_lens_coating_type",
+  "lens_nominal_baseline",
+  "third_lens_nominal_baseline"
+};
+
+enum Capabilities {
+  "depth",
+  "color",
+  "infrared",
+  "infrared2",
+  "fish_eye",
+  "motion_events",
+  "motion_module_fw_update",
+  "adapter_board",
+  "enumeration"
+};
+
 dictionary Mode {
   long width;
   long height;
@@ -132,6 +170,14 @@ interface Device {
   Promise<long> getStreamWidth(StreamType stream);
   Promise<long> getStreamHeight(StreamType stream);
   Promise<long> getFrameTimeStamp(StreamType stream);
+  Promise<String> getUSBPortId();
+  Promise<String> getInfo(CameraInfo info);
+  Promise<RSExtrinsics> getExtrinsics(StreamType from, StreamType to);
+  Promise<RSExtrinsics> getMotionExtrinsicsFrom(StreamType from);
+  Promise<void> disableStream(StreamType stream);
+  Promise<FormatType> getStreamFormat(StreamType stream);
+  Promise<long> getStreamFramerate(StreamType stream);
+  Promise<long> getFrameNumber(StreamType stream);
 
   Promise<void> start();
   Promise<void> stop();
@@ -140,4 +186,11 @@ interface Device {
 interface FrameData {
   readonly attribute StreamType stream;
   readonly attribute ArrayBuffer data;
+};
+
+interface RSExtrinsics {
+  readonly attribute boolean isIdentity;
+  readonly attribute Float32Array rotation;
+  readonly attribute Float32Array translation;
+  Float32Array transform(Float32Array point);
 };

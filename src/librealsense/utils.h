@@ -16,6 +16,8 @@ rs::option GetRSOptionFromString(const std::string& option);
 
 std::string GetStringFromRSFormat(const rs::format format);
 
+rs::camera_info GetCameraInfoFromString(const std::string& info);
+
 rs::format GetRSFormatFromString(const std::string& format);
 
 #endif  // _UTILS_H
