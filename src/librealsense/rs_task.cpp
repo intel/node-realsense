@@ -7,6 +7,7 @@
 #include "device.h"
 #include "device_runner.h"
 #include "gen/nan__device.h"
+#include "gen/nan__rs_extrinsics.h"
 
 bool RSFrameReadyEventTask::ShouldPopEvent(size_t event_index) {
   const char* api_name_string = "listenerCount";
@@ -70,4 +71,9 @@ v8::Local<v8::Value> RSPromiseTask<rs::device*>::GetResolved() {
   device->SetDeviceRunner(new DeviceRunner(GetPayload()->GetPayloadData()));
   return static_cast<v8::Local<v8::Object>>(
       NanDevice::NewInstance(device));
+}
+
+template<>
+v8::Local<v8::Value> RSPromiseTask<RSExtrinsics*>::GetResolved() {
+  return NanRSExtrinsics::NewInstance(GetPayload()->GetPayloadData());
 }

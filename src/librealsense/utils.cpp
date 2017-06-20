@@ -235,3 +235,54 @@ rs::format GetRSFormatFromString(const std::string& format) {
   else
     return rs::format::any;
 }
+
+rs::camera_info GetCameraInfoFromString(const std::string& info) {
+  if (info == "device_name")
+    return rs::camera_info::device_name;
+  else if (info == "serial_number")
+    return rs::camera_info::serial_number;
+  else if (info == "camera_firmware_version")
+    return rs::camera_info::camera_firmware_version;
+  else if (info == "adapter_board_firmware_version")
+    return rs::camera_info::adapter_board_firmware_version;
+  else if (info == "motion_module_firmware_version")
+    return rs::camera_info::motion_module_firmware_version;
+  else if (info == "camera_type")
+    return rs::camera_info::camera_type;
+  else if (info == "oem_id")
+    return rs::camera_info::oem_id;
+  else if (info == "isp_fw_version")
+    return rs::camera_info::isp_fw_version;
+  else if (info == "content_version")
+    return rs::camera_info::content_version;
+  else if (info == "module_version")
+    return rs::camera_info::module_version;
+  else if (info == "imager_model_number")
+    return rs::camera_info::imager_model_number;
+  else if (info == "build_date")
+    return rs::camera_info::build_date;
+  else if (info == "calibration_date")
+    return rs::camera_info::calibration_date;
+  else if (info == "program_date")
+    return rs::camera_info::program_date;
+  else if (info == "focus_alignment_date")
+    return rs::camera_info::focus_alignment_date;
+  else if (info == "emitter_type")
+    return rs::camera_info::emitter_type;
+  else if (info == "focus_value")
+    return rs::camera_info::focus_value;
+  else if (info == "lens_type")
+    return rs::camera_info::lens_type;
+  else if (info == "third_lens_type")
+    return rs::camera_info::third_lens_type;
+  else if (info == "lens_coating_type")
+    return rs::camera_info::lens_coating_type;
+  else if (info == "third_lens_coating_type")
+    return rs::camera_info::third_lens_coating_type;
+  else if (info == "lens_nominal_baseline")
+    return rs::camera_info::lens_nominal_baseline;
+  else if (info == "third_lens_nominal_baseline")
+    return rs::camera_info::third_lens_nominal_baseline;
+  else
+    return rs::camera_info::device_name;
+}

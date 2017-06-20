@@ -11,6 +11,7 @@
           "<(INTERMEDIATE_DIR)/gen/nan__context.cpp",
           "<(INTERMEDIATE_DIR)/gen/nan__device.cpp",
           "<(INTERMEDIATE_DIR)/gen/nan__frame_data.cpp",
+          "<(INTERMEDIATE_DIR)/gen/nan__rs_extrinsics.cpp",
           "<(INTERMEDIATE_DIR)/gen/thread-event-helper.cpp",
         ],
         "widl_files": [
@@ -22,6 +23,7 @@
       ],
       "sources": [
         "addon.cpp",
+        "common/extrinsics.cpp",
         "common/task/async_task.cpp",
         "common/task/async_task_runner.cpp",
         "common/task/async_task_runner_instance.cpp",
@@ -30,6 +32,7 @@
         "device.cpp",
         "device_runner.cpp",
         "frame_data.cpp",
+        "rs_extrinsics.cpp",
         "rs_task.cpp",
         "utils.cpp",
       ],
