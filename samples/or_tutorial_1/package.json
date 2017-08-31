@@ -1,0 +1,11 @@
+{
+  "name": "or_tutorial_1",
+  "version": "0.0.1",
+  "description": "The JavaScript version of or_tutorial_1",
+  "main": "main.js",
+  "author": "Ningxin Hu <ningxin.hu@intel.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "node-object": ">=0.10.1"
+  }
+}
