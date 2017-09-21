@@ -1,0 +1,10 @@
+{
+  "name": "ocf-servers",
+  "version": "0.0.1",
+  "description": "The JavaScript version of ocf-servers",
+  "author": "Hongjuan Wang <hongjuan.wang@intel.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "uuid": "^2.0.1"
+  }
+}

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if test "x${API_SERVER_PORT}x" == "xx"; then
+    API_SERVER_PORT=8000
+fi
+
+if test "x${API_SERVER_HOST}x" == "xx"; then
+    API_SERVER_HOST=localhost
+fi
+
+if test "x${API_SERVER_HTTPS}x" == "xx"; then
+  API_SERVER_PROTO=http
+  CERT=""
+else
+  API_SERVER_PROTO=https
+  CERT="--cacert ../config/certificate.pem "
+fi
+
+if test "x$1x" == "xx"; then
+    API_SERVER_URL="/a/light"
+else
+    API_SERVER_URL=$1
+fi
+
+if test "x$2x" == "xx"; then
+  API_SERVER_FILE="put-light-values.json"
+else
+  API_SERVER_FILE=$2
+fi
+
+
+echo $API_SERVER_HOST":"$API_SERVER_PORT $API_SERVER_URL
+
+curl -X PUT --noproxy "*" -w "\nHTTP: %{http_code}\n" -H "Content-Type: application/json" -T ${API_SERVER_FILE} ${CERT} \
+${API_SERVER_PROTO}://${API_SERVER_HOST}:${API_SERVER_PORT}/api/oic${API_SERVER_URL}
