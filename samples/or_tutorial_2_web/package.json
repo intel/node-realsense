@@ -1,0 +1,14 @@
+{
+  "name": "or_tutorial_2_web",
+  "version": "0.0.1",
+  "description": "The JavaScript version of or_tutorial_2_web",
+  "main": "main.js",
+  "author": "Ningxin Hu <ningxin.hu@intel.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.14.0",
+    "jpeg-turbo": "^0.4.0",
+    "node-object": ">=0.10.1",
+    "ws": "^1.1.1"
+  }
+}
