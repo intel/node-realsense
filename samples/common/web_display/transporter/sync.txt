@@ -1,1 +1,0 @@
-rsync -av /home/msteinx/Projects/GT-Sample-Apps/samples/ScenePerception/src/ui-browser/src web/
