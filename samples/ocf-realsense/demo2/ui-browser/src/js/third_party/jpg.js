@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable */
 function loadURLasArrayBuffer(path, callback) {
     if (path.indexOf("data:") === 0) {
         var offset = path.indexOf("base64,") + 7;

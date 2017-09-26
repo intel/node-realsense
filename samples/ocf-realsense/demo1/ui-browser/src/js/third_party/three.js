@@ -3,6 +3,7 @@
 /**
  * @author mrdoob / http://mrdoob.com/
  */
+/* eslint-disable */
 
 var THREE = { REVISION: '79' };
 

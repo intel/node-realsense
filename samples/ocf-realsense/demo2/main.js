@@ -1,5 +1,6 @@
-// License: Apache 2.0. See LICENSE file in root directory.
-// Copyright(c) 2016 Intel Corporation. All Rights Reserved.
+// Copyright (c) 2016 Intel Corporation. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
 
 'use strict';
 
@@ -11,8 +12,7 @@ let server = require('http').createServer(app);
 let WsServer = require('ws').Server;
 let ptModule = require('node-person');
 let fs = require('fs');
-var childProcess = require('child_process');
-var colors = require('colors');
+let childProcess = require('child_process');
 
 let dbPath = './person_recognition_id.db';
 let ptConfig = {
@@ -27,23 +27,23 @@ let ptConfig = {
 let cameraConfig = {color: {width: 320, height: 240, frameRate: 30, isEnabled: true},
                     depth: {width: 320, height: 240, frameRate: 30, isEnabled: true}};
 let pt;
-let prev_result;
+let prevResult;
 let ledList = {};
 
 function initialLED() {
-  childProcess.execFile('./test/oic-get', ['/res'], function(err,stdout,stderr){
+  childProcess.execFile('./test/oic-get', ['/res'], function(err, stdout, stderr) {
     if(err) {
       console.log('Failed to get led id with error:'+stderr);
       process.exit();
     } else {
       stdout = stdout.split('\n')[0];
-      var data = JSON.parse(stdout);
-      data.forEach(function (item){
+      let data = JSON.parse(stdout);
+      data.forEach(function(item) {
         if(item.links[0].href.indexOf('/a/rgbled') > -1 ||
-          item.links[0].href.indexOf('/a/buzzer') > -1){
-          ledList[item.links[0].href] = item.di;  
+          item.links[0].href.indexOf('/a/buzzer') > -1) {
+          ledList[item.links[0].href] = item.di;
         }
-      })
+      });
       closeAllLED();
     }
   });
@@ -63,25 +63,25 @@ function closeAllLED() {
 function updateLedStatus(url, state) {
     let serverFile;
     if(state && state === true) {
-        serverFile = './test/buzzer-on.json'
+        serverFile = './test/buzzer-on.json';
     } else if (state && state === 'green') {
-        serverFile = './test/rgbled-green.json'
+        serverFile = './test/rgbled-green.json';
     } else if (state && state === 'red') {
-        serverFile = './test/rgbled-red.json'
+        serverFile = './test/rgbled-red.json';
     } else if (state && state === 'off') {
-        serverFile = './test/rgbled-off.json'
+        serverFile = './test/rgbled-off.json';
     } else {
-        serverFile = './test/buzzer-off.json'
+        serverFile = './test/buzzer-off.json';
     }
     url = [url, '?di=', ledList[url]].join('');
-    console.log("./test/oic-post "+ url + " " + serverFile);
-    childProcess.execFile('./test/oic-post', [url, serverFile], function(err, stdout, stderr){
+    console.log('./test/oic-post '+ url + ' ' + serverFile);
+    childProcess.execFile('./test/oic-post', [url, serverFile], function(err, stdout, stderr) {
         if(err) {
             console.log('Failed to update led status with error: '+stderr);
         } else {
            // console.log('Turn', state, ['led', ledNum].join(''))
         }
-    })
+    });
 }
 ptModule.createPersonTracker(ptConfig, cameraConfig).then((instance) => {
   pt = instance;
@@ -97,7 +97,7 @@ ptModule.createPersonTracker(ptConfig, cameraConfig).then((instance) => {
     }
   });
   pt.on('persontracked', function(result) {
-    prev_result = result;
+    prevResult = result;
     sendTrackingAndRecognitionData(result);
   });
 
@@ -127,19 +127,19 @@ function exit() {
       closeAllLED();
       setTimeout(() => {
         process.exit();
-      }, 2000)
+      }, 2000);
     }).catch((error) => {
       console.log('error: ' + error);
       closeAllLED();
       setTimeout(() => {
         process.exit();
-      }, 2000)
+      }, 2000);
     });
   } else {
       closeAllLED();
       setTimeout(() => {
         process.exit();
-      }, 2000)
+      }, 2000);
   }
 }
 
@@ -264,7 +264,7 @@ function sendTrackingAndRecognitionData(result) {
 
   Promise.all(promises).then(() => {
   if(rgbFlgOld !== rgbFlg) {
-    if (rgbFlg){
+    if (rgbFlg) {
       console.log(('update led with' + rgbFlg).blue.bold);
     } else {
       console.log(('update led with' + rgbFlg).blue.inverse);
@@ -272,13 +272,13 @@ function sendTrackingAndRecognitionData(result) {
     updateLedStatus('/a/rgbled', rgbFlg); rgbFlgOld = rgbFlg;
   }
   if(buzzerFlgOld !== buzzerFlg) {
-    if (buzzerFlg){
+    if (buzzerFlg) {
       console.log(('update buzzer with' + buzzerFlg).red.bold);
     } else {
       console.log(('update buzzer with' + buzzerFlg).red.inverse);
     }
     updateLedStatus('/a/buzzer', buzzerFlg); buzzerFlgOld = buzzerFlg;
-  } 
+  }
     let resultToDisplay = {
       Object_result: resultArray,
       type: 'person_tracking',
@@ -436,7 +436,7 @@ function saveDatabase() {
     });
   }).catch((e) => {
     console.log(e);
-  })
+  });
 }
 
 function loadDatabase() {
@@ -503,7 +503,7 @@ function startServer() {
             work = pt.personTracking.resetTracking();
           }
           work.then(() => {
-            sendTrackingAndRecognitionData2(prev_result, id);
+            sendTrackingAndRecognitionData2(prevResult, id);
             return saveDatabase();
           }).then(()=>{
           }).catch(() => {

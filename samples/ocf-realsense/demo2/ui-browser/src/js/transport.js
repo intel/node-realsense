@@ -1,16 +1,19 @@
-// License: Apache 2.0. See LICENSE file in root directory.
-// Copyright(c) 2016 Intel Corporation. All Rights Reserved.
+// Copyright (c) 2016 Intel Corporation. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
 /**
  * @param {string} websocketUrl - endpoint to connect e.g. 'ws://foo:8080/'
  */
+
 function SpTransport(websocketUrl) {
     this._url = websocketUrl;
     this.onOpen = () => {};
     this.onClose = () => {};
 
-    //this.onFisheyeFrame = (timestamp, width, height, data) => {};
+    // this.onFisheyeFrame = (timestamp, width, height, data) => {};
     this.onColorFrame = (width, height, data) => {};
-    this.onPTDataUpdate = (timestamp, pt_data) => {};
+    this.onPTDataUpdate = (timestamp, ptData) => {};
     this.onClearData = (timestamp) => {};
      /** @param {Int32Array} buf */
 /*    this.onMapUpdate = (scale_mm, buf) => {}; */
@@ -36,26 +39,26 @@ SpTransport.prototype.ackMessage = function ack(type) {
 };
 
 SpTransport.prototype.handleMessageBinary = (function() {
-    const MSG_MAP_UPDATE = 1;
-    const MSG_FISHEYE = 2;
+    const MSG_MAP_UPDATE = 1; // eslint-disable-line
+    const MSG_FISHEYE = 2; // eslint-disable-line
     const MSG_RGB = 3;
-    const MSG_PTINFO = 4;
-    const MSG_ORINFO = 5;
+    const MSG_PTINFO = 4; // eslint-disable-line
+    const MSG_ORINFO = 5; // eslint-disable-line
     const TWO_TO_THE_32 = Math.pow(2, 32);
 
     const FrameFormat = {
         Raw: 0,
-        Jpeg: 1 
+        Jpeg: 1 // eslint-disable-line
     };
 
     const decoder = new JpegDecoder();
     function decodeJpeg(data, callback) {
         decoder.parse(data);
-        var numComponents = decoder.numComponents;
-        var downscale_f = 1;
-        var width = decoder.width/downscale_f;
-        var height = decoder.height/downscale_f;
-        var img = decoder.getData(width, height, true, true);
+        let numComponents = decoder.numComponents;
+        let downscaleF = 1;
+        let width = decoder.width/downscaleF;
+        let height = decoder.height/downscaleF;
+        let img = decoder.getData(width, height, true, true);
         callback(width, height, numComponents, img);
     }
 
@@ -66,7 +69,7 @@ SpTransport.prototype.handleMessageBinary = (function() {
         switch (messageType) {
             case MSG_RGB:
                 this.lastColorData = message;
-                //console.log("Received RGB data");
+                // console.log('Received RGB data');
                 let dv2 = new DataView(message.data, 0, 16);
                 let width2 = dv2.getUint16(2, true);
                 let height2 = dv2.getUint16(4, true);
@@ -76,12 +79,12 @@ SpTransport.prototype.handleMessageBinary = (function() {
                 let imageData2 = new Uint8Array(message.data, 16);
                 this.ackMessage(messageType);
 
-                //console.timeStamp('MSG_RGB');
+                // console.timeStamp('MSG_RGB');
                 if (format2 === FrameFormat.Jpeg) {
-                    let tss = ts2/1000 | 0;
-                    //console.time('decodeJpeg'+ ts2);
+                    let tss = ts2/1000 | 0; // eslint-disable-line
+                    // console.time('decodeJpeg'+ ts2);
                     decodeJpeg(imageData2, (width2, height2, numComponents, decodedImageData2) => {
-                        //console.timeEnd('decodeJpeg'+ts2);
+                        // console.timeEnd('decodeJpeg'+ts2);
 
                         this.onColorFrame(width2, height2, decodedImageData2);
                     });
@@ -91,7 +94,7 @@ SpTransport.prototype.handleMessageBinary = (function() {
                 }
                 break;
             default:
-                console.info("SpTransport: unhandled message type="+messageType);
+                console.info('SpTransport: unhandled message type='+messageType);
                 break;
         }
     };
@@ -103,8 +106,8 @@ SpTransport.prototype.handleMessageString = function(message) {
         if (msg instanceof Object) {
             let type = (msg.hasOwnProperty('type')) ? msg.type : undefined;
             switch (type) {
-                case "person_tracking":
-                    //console.log("Received PT data: ", msg);
+                case 'person_tracking':
+                    console.log('Received PT data: ', msg);
                     this.onPTDataUpdate(new Date(), msg);
                     break;
                 default:
@@ -113,16 +116,16 @@ SpTransport.prototype.handleMessageString = function(message) {
             }
         }
     } catch (e) {
-        console.error("error parsing message: ", e);
+        console.error('error parsing message: ', e);
     }
 };
 
 SpTransport.prototype.open = function() {
-    console.log("Calling SpTransport open");
-    //if (this._ws) return;
+    console.log('Calling SpTransport open');
+    // if (this._ws) return;
 
     let ws = new WebSocket(this._url);
-	ws.binaryType = "arraybuffer";
+	ws.binaryType = 'arraybuffer';
 	ws.onclose = () => {
         this.onClose(this);
 	};
@@ -142,7 +145,7 @@ SpTransport.prototype.open = function() {
 };
 
 SpTransport.prototype.close = function() {
-    console.log("Calling SpTransport close");
+    console.log('Calling SpTransport close');
     if (!this._ws) return;
     this._ws.close();
 };

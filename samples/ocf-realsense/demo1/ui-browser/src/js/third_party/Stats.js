@@ -2,6 +2,7 @@
  * @author mrdoob / http://mrdoob.com/
  * modified by msteinx
  */
+/* eslint-disable */
 
 var Stats = function () {
 

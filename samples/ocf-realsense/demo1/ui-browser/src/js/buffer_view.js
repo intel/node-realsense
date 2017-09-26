@@ -1,46 +1,49 @@
-// License: Apache 2.0. See LICENSE file in root directory.
-// Copyright(c) 2016 Intel Corporation. All Rights Reserved.
+// Copyright (c) 2016 Intel Corporation. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
+
 /**
- * @param {THREE.Scene} scene 
+ * @param {THREE.Scene} scene
  */
-class BufferViewer {
+
+class BufferViewer { // eslint-disable-line
     constructor() {
         this.uniforms = {};
     }
 
     /** @param {HTMLCanvasElement} canvas */
     init(canvas) {
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.Camera();
+        this.scene = new THREE.Scene(); // eslint-disable-line
+        this.camera = new THREE.Camera(); // eslint-disable-line
         this.camera.position.z = 1;
-    
-        this.texture = new THREE.DataTexture(new Uint8Array(4), 1, 1, 
-            THREE.RGBAFormat, THREE.UnsignedByteType);
+
+        this.texture = new THREE.DataTexture(new Uint8Array(4), 1, 1, // eslint-disable-line
+            THREE.RGBAFormat, THREE.UnsignedByteType); // eslint-disable-line
         this.texture.flipY = true;
 
         this.uniforms = {
-            resolution: {type: "v2", value: new THREE.Vector2()},
-            image: {type: "t", value: this.texture}
+            resolution: {type: 'v2', value: new THREE.Vector2()}, // eslint-disable-line
+            image: {type: 't', value: this.texture} // eslint-disable-line
         };
 
-        let material = new THREE.ShaderMaterial({
+        let material = new THREE.ShaderMaterial({ // eslint-disable-line
             uniforms: this.uniforms,
             vertexShader: BufferViewerShader.VERTEX,
-            fragmentShader: BufferViewerShader.FRAGMENT_YUV
+            fragmentShader: BufferViewerShader.FRAGMENT_YUV // eslint-disable-line
         });
 
-        let mesh = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(2,2), material);
-        
+        let mesh = new THREE.Mesh( // eslint-disable-line
+            new THREE.PlaneBufferGeometry(2, 2), material); // eslint-disable-line
+
         this.scene.add(mesh);
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: canvas
+        this.renderer = new THREE.WebGLRenderer({ // eslint-disable-line
+            canvas: canvas // eslint-disable-line
         });
         this.renderer.setSize(canvas.width, canvas.height);
         this.uniforms.resolution.value.x = canvas.width;
         this.uniforms.resolution.value.y = canvas.height;
     }
-    
+
     updateBuffer(buffer, width, height, format) {
         this.texture.image.data = buffer;
         this.texture.image.width = width;

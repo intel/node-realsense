@@ -1,39 +1,28 @@
-// Copyright 2017 Intel Corporation
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
+// Copyright (c) 2016 Intel Corporation. All rights reserved.
+// Use of this source code is governed by a MIT-style license that can be
+// found in the LICENSE file.
 // limitations under the License.
 
-var debuglog = require('util').debuglog('rgb_led'),
-    rgbLEDResource,
-    sensorPin,
-    sensorState = false,
-    exitId,
-    observerCount = 0,
-    resourceTypeName = 'oic.r.colour.rgb',
-    resourceInterfaceName = '/a/rgbled',
-    range = [0,255],
-    rgbValue = [0,0,0],
-    clockPin,
-    dataPin,
-    simulationMode = false,
-    secureMode = true;
+let debuglog = require('util').debuglog('rgb_led');
+let rgbLEDResource;
+let exitId;
+let observerCount = 0;
+let resourceTypeName = 'oic.r.colour.rgb';
+let resourceInterfaceName = '/a/rgbled';
+let range = [0, 255];
+let rgbValue = [0, 0, 0];
+let clockPin;
+let dataPin;
+let simulationMode = false;
+let secureMode = true;
 
 // Parse command-line arguments
-var args = process.argv.slice(2);
+let args = process.argv.slice(2);
 args.forEach(function(entry) {
-    if (entry === "--simulation" || entry === "-s") {
+    if (entry === '--simulation' || entry === '-s') {
         simulationMode = true;
         debuglog('Running in simulation mode');
-    } else if (entry === "--no-secure") {
+    } else if (entry === '--no-secure') {
         secureMode = false;
     }
 });
@@ -42,22 +31,21 @@ args.forEach(function(entry) {
 if (secureMode) {
     debuglog('Running in secure mode');
     require('./config/json-to-cbor')(__filename, [{
-        href: resourceInterfaceName,
-        rel: '',
-        rt: [resourceTypeName],
-        'if': ['oic.if.baseline']
+        href: resourceInterfaceName, // eslint-disable-line
+        rel: '', // eslint-disable-line
+        rt: [resourceTypeName], // eslint-disable-line
+        'if': ['oic.if.baseline'] // eslint-disable-line
     }], true);
 }
 
-var device = require('iotivity-node');
+let device = require('iotivity-node');
 
 // Require the MRAA library
-var mraa = '';
+let mraa = '';
 if (!simulationMode) {
     try {
         mraa = require('mraa');
-    }
-    catch (e) {
+    } catch (e) {
         debuglog('No mraa module: ', e.message);
         debuglog('Automatically switching to simulation mode');
         simulationMode = true;
@@ -90,7 +78,7 @@ function sendByte(b) {
         return;
 
     // send one bit at a time
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
         if ((b & 0x80) != 0)
             dataPin.write(1);
         else
@@ -102,8 +90,8 @@ function sendByte(b) {
 }
 
 function sendColour(red, green, blue) {
-    // start by sending a byte with the format "1 1 /B7 /B6 /G7 /G6 /R7 /R6"
-    var prefix = 0xC0;
+    // start by sending a byte with the format '1 1 /B7 /B6 /G7 /G6 /R7 /R6'
+    let prefix = 0xC0;
 
     if ((blue & 0x80) == 0) prefix |= 0x20;
     if ((blue & 0x40) == 0) prefix |= 0x10;
@@ -121,7 +109,7 @@ function sendColour(red, green, blue) {
 
 // Set the RGB colour
 function setColourRGB(red, green, blue) {
-    // send prefix 32 x "0"
+    // send prefix 32 x '0'
     sendByte(0x00);
     sendByte(0x00);
     sendByte(0x00);
@@ -137,8 +125,8 @@ function setColourRGB(red, green, blue) {
 }
 
 function checkColour(colour) {
-    var min = range[0];
-    var max = range[1];
+    let min = range[0];
+    let max = range[1];
 
     if (colour >= min && colour <= max)
         return true;
@@ -149,13 +137,13 @@ function checkColour(colour) {
 // This function parce the incoming Resource properties
 // and change the sensor state.
 function updateProperties(properties) {
-    var input = properties.rgbValue;
+    let input = properties.rgbValue;
     if (!input)
         return;
 
-    var r = parseInt(input[0]);
-    var g = parseInt(input[1]);
-    var b = parseInt(input[2]);
+    let r = parseInt(input[0]);
+    let g = parseInt(input[1]);
+    let b = parseInt(input[2]);
     if (!checkColour(r) || !checkColour(g) || !checkColour(b))
         return;
 
@@ -170,11 +158,11 @@ function updateProperties(properties) {
 // the GET request received from the client.
 function getProperties() {
     // Format the payload.
-    var properties = {
+    let properties = {
         rt: resourceTypeName,
         id: 'rgbled',
         rgbValue: rgbValue,
-        range: range
+        range: range // eslint-disable-line
     };
 
     debuglog('Send the response. value: ', rgbValue);
@@ -215,7 +203,7 @@ function updateHandler(request) {
 device.device = Object.assign(device.device, {
     name: 'Smart Home RGB LED',
     coreSpecVersion: 'core.1.1.0',
-    dataModels: ['res.1.1.0']
+    dataModels: ['res.1.1.0'] // eslint-disable-line
 });
 
 function handleError(error) {
@@ -226,7 +214,7 @@ device.platform = Object.assign(device.platform, {
     manufacturerName: 'Intel',
     manufactureDate: new Date('Fri Oct 30 10:04:17 (EET) 2015'),
     platformVersion: '1.1.0',
-    firmwareVersion: '0.0.1'
+    firmwareVersion: '0.0.1' // eslint-disable-line
 });
 
 if (device.device.uuid) {
@@ -242,7 +230,7 @@ if (device.device.uuid) {
         interfaces: ['oic.if.baseline'],
         discoverable: true,
         observable: true,
-        properties: getProperties()
+        properties: getProperties() // eslint-disable-line
     }).then(
         function(resource) {
             debuglog('register() resource successful');
@@ -266,7 +254,7 @@ function exitHandler() {
 
     // Turn off led before we tear down the resource.
     if (mraa) {
-        rgbValue = [0,0,0];
+        rgbValue = [0, 0, 0];
         setColourRGB(0, 0, 0);
     }
 
@@ -280,7 +268,9 @@ function exitHandler() {
         });
 
     // Exit
-    exitId = setTimeout(function() { process.exit(0); }, 1000);
+    exitId = setTimeout(function() {
+        process.exit(0);
+    }, 1000);
 }
 
 // Exit gracefully

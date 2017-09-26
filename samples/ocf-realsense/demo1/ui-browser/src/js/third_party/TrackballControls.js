@@ -4,6 +4,7 @@
  * @author Simone Manini / http://daron1337.github.io
  * @author Luca Antiga 	/ http://lantiga.github.io
  */
+/* eslint-disable */
 
 THREE.TrackballControls = function ( object, domElement ) {
 
